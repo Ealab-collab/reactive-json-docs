@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import DevApp from './hull/DevApp';
-import AppRoot from "./hull/AppRoot";
+import ReactiveJsonRoot from "./engine/ReactiveJsonRoot";
 
 const appRootElements = document.querySelectorAll("reactive-json");
 
@@ -53,7 +53,7 @@ appRootElements.forEach(
 
         root.render(
             <React.StrictMode>
-                <AppRoot
+                <ReactiveJsonRoot
                     dataFetchMethod={maybeMethod}
                     dataUrl={element.dataset.url}
                     headersForData={headersForData}

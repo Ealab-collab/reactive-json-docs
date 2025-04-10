@@ -23,4 +23,3 @@ function DevApp({dataFetchMethod}) {
 }
 
 export default DevApp;
-

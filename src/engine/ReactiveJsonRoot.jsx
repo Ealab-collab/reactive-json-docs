@@ -1,13 +1,11 @@
-import EventDispatcherProvider from "../engine/EventDispatcherProvider";
-import GlobalDataContextProvider from "../engine/GlobalDataContextProvider";
-import Layout from "./Layout";
-import TemplateContext from "../engine/TemplateContext";
-import View from "../engine/View";
+import EventDispatcherProvider from "./EventDispatcherProvider";
+import GlobalDataContextProvider from "./GlobalDataContextProvider";
+import TemplateContext from "./TemplateContext";
+import View from "./View";
 import axios from "axios";
 import {load} from 'js-yaml';
 import {isEqual} from "lodash";
 import {useEffect, useReducer, useState} from 'react';
-import {Col, Row} from "react-bootstrap";
 
 /**
  * Production ready app root.
@@ -17,12 +15,23 @@ import {Col, Row} from "react-bootstrap";
  * @param {string} dataUrl The URL of the document containing the build data. Either JSON or YAML.
  * @param {{}} headersForData Headers for the data request, such as authentication info.
  * @param {boolean} debugMode Set to true to show the data structure and debug info.
+ * @param {React.Element|null} DebugModeContentWrapper Wrapper around the main reactive-json content when in debug mode.
+ * @param {React.Element|null} DebugModeDataWrapper Wrapper around the reactive-json debug data when in debug mode.
+ * @param {React.Element|null} DebugModeMainWrapper Wrapper around the reactive-json root when in debug mode.
  *
  * @returns {JSX.Element}
  *
  * @constructor
  */
-function AppRoot({dataFetchMethod, dataUrl, headersForData, debugMode}) {
+function ReactiveJsonRoot({
+                              dataFetchMethod,
+                              dataUrl,
+                              headersForData,
+                              debugMode,
+                              DebugModeContentWrapper,
+                              DebugModeDataWrapper,
+                              DebugModeRootWrapper,
+                          }) {
     // Dev note: on PhpStorm, disregard the Function signatures inspection errors of reducers.
     // See: https://youtrack.jetbrains.com/issue/WEB-53963.
     // noinspection JSCheckFunctionSignatures
@@ -285,18 +294,22 @@ function AppRoot({dataFetchMethod, dataUrl, headersForData, debugMode}) {
                     updateData
                 }}>
                 <TemplateContext.Provider value={{templateData: currentData.realCurrentData, templatePath: "data"}}>
-                    {debugMode_bool ? <Col xs={9}>{rootViews}</Col> : rootViews}
+                    {(debugMode_bool && DebugModeContentWrapper)
+                        ? <DebugModeContentWrapper>{rootViews}</DebugModeContentWrapper>
+                        : rootViews}
                 </TemplateContext.Provider>
                 {debugMode_bool
-                    ? <Col xs={3}>
-                        <pre>{JSON.stringify(currentData.realCurrentData, null, '  ')}</pre>
-                    </Col>
+                    ? (DebugModeDataWrapper && <DebugModeDataWrapper>
+                        {JSON.stringify(currentData.realCurrentData, null, '  ')}
+                    </DebugModeDataWrapper>)
                     : null}
             </GlobalDataContextProvider>
         </EventDispatcherProvider>
     );
 
-    return debugMode_bool ? <Layout><Row>{mainBuild}</Row></Layout> : mainBuild;
+    return (debugMode_bool && DebugModeContentWrapper)
+        ? <DebugModeRootWrapper>{mainBuild}</DebugModeRootWrapper>
+        : mainBuild;
 }
 
-export default AppRoot;
+export default ReactiveJsonRoot;
