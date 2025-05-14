@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@ea-lab/reactive-json": "^0.0.24",
     "@ea-lab/reactive-json-chartjs": "^0.0.20",
     "@npmcli/fs": "^4.0.0",
@@ -21,10 +22,10 @@
     "web-vitals": "^4.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
