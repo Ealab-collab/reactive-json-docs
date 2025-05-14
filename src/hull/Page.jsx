@@ -1,10 +1,8 @@
-import DemoReactiveJsonRoot from "./DemoReactiveJsonRoot";
+import {CustomReactiveJsonRoot} from "./CustomReactiveJsonRoot";
 
-function Page({buildSourcePath, dataFetchMethod}) {
+export function Page({buildSourcePath, dataFetchMethod}) {
     const filePath = buildSourcePath ?? new URL(window.location).searchParams.get("file_path") ?? "/pages/home.yaml";
     const debugMode = new URL(window.location).searchParams.get("debug") ?? true;
 
-    return <DemoReactiveJsonRoot dataFetchMethod={dataFetchMethod} dataUrl={filePath} debugMode={debugMode}/>;
+    return <CustomReactiveJsonRoot dataFetchMethod={dataFetchMethod} dataUrl={filePath} debugMode={debugMode}/>;
 }
-
-export default Page;

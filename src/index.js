@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import DevApp from './hull/DevApp';
-import ReactiveJsonRoot from "./engine/ReactiveJsonRoot";
+import {ReactiveJsonRoot} from "@ea-lab/reactive-json/dist/engine/ReactiveJsonRoot";
 
 const appRootElements = document.querySelectorAll("reactive-json");
 

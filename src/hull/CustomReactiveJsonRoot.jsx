@@ -1,8 +1,10 @@
-import ReactiveJsonRoot from "../engine/ReactiveJsonRoot";
+import {ReactiveJsonRoot} from "@ea-lab/reactive-json";
+import {mergeComponentCollections} from "@ea-lab/reactive-json";
+import {chartjsComponents} from "@ea-lab/reactive-json-chartjs";
 import Layout from "./Layout";
 import {Col, Row} from "react-bootstrap";
 
-const DemoReactiveJsonRoot = (props) => {
+export const CustomReactiveJsonRoot = (props) => {
     const additionalProps = {};
 
     additionalProps.DebugModeContentWrapper = ({children}) => {
@@ -17,7 +19,9 @@ const DemoReactiveJsonRoot = (props) => {
         return <Layout><Row>{children}</Row></Layout>
     };
 
-    return <ReactiveJsonRoot {...props} {...additionalProps}/>
-};
+    additionalProps.plugins = mergeComponentCollections([chartjsComponents]);
 
-export default DemoReactiveJsonRoot;
+    const finalProps = {...props, ...additionalProps};
+
+    return <ReactiveJsonRoot {...finalProps}/>
+};
