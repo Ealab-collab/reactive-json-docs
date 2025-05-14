@@ -6,6 +6,11 @@ a React-based lib that transforms JSON (or YAML) into HTML markup.
 This project shows how to use *reactive-json*, and also serves as the
 standalone release of reactive-json.
 
+## The gist
+
+The standalone released files can be found in the "Download" section
+of the Bitbucket repository: [Download section](https://bitbucket.org/ea-lab/reactive-json-standalone/downloads/).
+
 Run the demo app with `npm start`.
 
 Build the standalone assets (JS and CSS) with `npm run build`. The files
