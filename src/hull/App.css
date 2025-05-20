@@ -1,2 +1,11 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 
+[role="alert"] {
+    & p:last-of-type {
+        /*
+         * Remove the margin of the last paragraph in alerts.
+         * Paragraphs are added when using the Markdown component.
+         */
+        margin-bottom: 0;
+    }
+}

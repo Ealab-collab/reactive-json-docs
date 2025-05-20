@@ -1,0 +1,83 @@
+renderView:
+  - type: RjBuildDescriber
+    title: HTML
+    description:
+      - type: p
+        content: All the HTML tags can be added to an RjBuild.
+      - type: p
+        content:
+          - "Add an object to an RjBuild with the HTML tag as the "
+          - type: code
+            content: type
+          - " property, in lowercase."
+      - type: p
+        content:
+          - "To set the content of the tag, set the value into the "
+          - type: code
+            content: content
+          - " property."
+    toDescribe:
+      renderView:
+        - type: p
+          content: This is a paragraph using the HTML component.
+      templates:
+      data: { }
+
+  - type: RjBuildDescriber
+    title: Nesting content
+    description:
+      - type: p
+        content: "Of course, you can nest HTML into HTML."
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - "This is a text value. "
+            - type: strong
+              content:
+                - "This text is strong. "
+                - type: em
+                  content: "This text is strong and slanted/italic."
+      templates:
+      data: { }
+
+  - type: RjBuildDescriber
+    title: HTML attributes
+    description:
+      - type: Markdown
+        content: |
+          HTML attributes are also supported.
+          
+          Attributes may be added through the `attributes` property. Assign a string
+          value to each attribute.
+      - type: BsAlert
+        attributes:
+          variant: warning
+        content:
+          type: Markdown
+          content:
+            Inline styles have a specific structure. Instead of the string value, you must
+            specify an object with the CSS property as the key, and CSS value as the value.
+            Each key must be using **camelCase** instead of the usual hyphen-based CSS casing.
+            
+            In the following example, `backgroundColor` is used for the `background-color`
+            CSS property.
+    toDescribe:
+      renderView:
+        - type: div
+          attributes:
+            data-attr: Hello!
+            style:
+              backgroundColor: rgb(250,242,0)
+              padding: 0.5em
+          content:
+            - "This is a "
+            - type: code
+              content: div
+            - " with a yellow background and padding set as style attributes."
+      templates:
+      data: { }
+
+templates:
+
+data: { }

@@ -1,0 +1,64 @@
+renderView:
+  - type: RjBuildDescriber
+    title: HTML
+    description:
+      - type: div
+        content: Accordions are managed by Bootstrap.
+    toDescribe:
+      renderView:
+        - type: BsAccordion
+          attributes:
+            defaultActiveKey: [ 0 ]
+          content:
+            - type: AccordionItem
+              header:
+                type: div
+                content: First accordion item
+              body:
+                type: div
+                content: Content of the first accordion item.
+            - type: AccordionItem
+              header:
+                type: div
+                content: Second accordion item
+              body:
+                - type: div
+                  attributes:
+                    class: p-2 text-center
+                  content: Content of the second accordion item.
+                - type: div
+                  attributes:
+                    class: row
+                  content:
+                    - type: div
+                      attributes:
+                        class: col
+                      content: Of course, you can put any component you want in it. This is a column...
+                    - type: div
+                      attributes:
+                        class: col
+                      content:
+                        ...and this is another column, made with bootstrap's columns. Please note we have the bootstrap CSS
+                        used here, but our tool is compatible with any CSS system.
+            - type: AccordionItem
+              header:
+                type: div
+                content:
+                  - "Third "
+                  - type: span
+                    attributes:
+                      class: fw-bold
+                    content: accordion
+                  - " item "
+              body:
+                type: div
+                content: Demonstrates that you can customize in the accordion item heading, as you could in any other place.
+
+      templates:
+
+      data: { }
+
+
+templates:
+
+data: {}
