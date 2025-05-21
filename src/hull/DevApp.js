@@ -10,8 +10,8 @@ export function DevApp({dataFetchMethod}) {
                 <Route path="/">
                     <Route index
                            element={<Page dataFetchMethod={dataFetchMethod}/>}/>
-                    <Route path="demo/*"
-                           element={<Page buildSourcePath={"/rjbuild/pages/demo.yaml"}
+                    <Route path="docs/*"
+                           element={<Page buildSourcePath={"/rjbuild/pages/docs.yaml"}
                                           dataFetchMethod={dataFetchMethod}/>}
                     />
                     <Route path="charts/"

@@ -1,4 +1,4 @@
-import {demoPageNavigation} from "../index";
+import {docsPageNavigation} from "../index";
 import "./Sidebar.css";
 import {useState} from "react";
 import {Accordion, Button, Nav, Offcanvas} from "react-bootstrap";
@@ -51,7 +51,7 @@ export const Sidebar = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const DemoSidebar = () => <SidebarItems items={demoPageNavigation}/>;
+    const DemoSidebar = () => <SidebarItems items={docsPageNavigation}/>;
 
     return (<>
         {/* Burger button.*/}

@@ -1,5 +1,5 @@
 /**
- * Plugin definition for the demo components.
+ * Plugin definition for the docs components.
  *
  * This file exposes the referenced components so that
  * we can use them in the rjbuilds.
@@ -20,31 +20,31 @@ export const demoPlugins = {
     }
 }
 
-export const demoPageNavigation = {
-    "/demo": {
+export const docsPageNavigation = {
+    "/docs": {
         title: "Introduction",
     },
-    "/demo/core": {
+    "/docs/core": {
         title: "Core components",
         items: {
-            "/demo/core/html": {
+            "/docs/core/html": {
                 title: "HTML",
             },
-            "/demo/core/accordion": {
+            "/docs/core/accordion": {
                 title: "Accordion",
             },
-            "/demo/core/dynamic-content": {
+            "/docs/core/dynamic-content": {
                 title: "Dynamic content",
             },
         }
     },
-    "/demo/chartjs": {
+    "/docs/chartjs": {
         title: "ChartJS integration",
         items: {
-            "/demo/chartjs/overview": {
+            "/docs/chartjs/overview": {
                 title: "Overview",
             },
-            "/demo/chartjs/components": {
+            "/docs/chartjs/components": {
                 title: "ChartJS components",
             },
         }
