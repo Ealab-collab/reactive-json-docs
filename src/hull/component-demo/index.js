@@ -39,13 +39,13 @@ export const docsPageNavigation = {
         }
     },
     "/docs/chartjs": {
-        title: "ChartJS integration",
+        title: "Chart.js integration",
         items: {
             "/docs/chartjs/overview": {
                 title: "Overview",
             },
             "/docs/chartjs/components": {
-                title: "ChartJS components",
+                title: "Chart.js components",
             },
         }
     }

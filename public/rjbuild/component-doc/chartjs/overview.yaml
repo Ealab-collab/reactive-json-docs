@@ -1,14 +1,14 @@
 renderView:
   - type: h1
-    content: ChartJS integration overview
+    content: Chart.js integration overview
 
   - type: Markdown
     content: |
-      Reactive-JSON has ChartJS integration through the `@ea-lab/reactive-json-chartjs` plugin.
+      Reactive-JSON has Chart.js integration through the `@ea-lab/reactive-json-chartjs` plugin.
       
-      The ChartJS integration adds components such as: `BarChart`, `LineChart`, `PolarAreaChart`.
+      The Chart.js integration adds components such as: `BarChart`, `LineChart`, `PolarAreaChart`.
       
-      The ChartJS components use a config structure similar to the ChartJS library, so the official documentation
+      The Chart.js components use a config structure similar to the Chart.js library, so the official documentation
       also applies here (as long the versions match).
       
       ## Install
@@ -18,7 +18,7 @@ renderView:
       To enable the integration on your own project that uses Reactive-JSON, make sure
       that the integration is installed and loaded.
 
-      ChartJS is available through the `@ea-lab/reactive-json-chartjs` plugin. To get it:
+      Chart.js is available through the `@ea-lab/reactive-json-chartjs` plugin. To get it:
 
       ```shell
       npm i @ea-lab/reactive-json-chartjs
