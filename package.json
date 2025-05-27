@@ -4,8 +4,8 @@
   "private": false,
   "dependencies": {
     "@craco/craco": "^7.1.0",
-    "@ea-lab/reactive-json": "^0.0.26",
-    "@ea-lab/reactive-json-chartjs": "^0.0.20",
+    "@ea-lab/reactive-json": "^0.0.28",
+    "@ea-lab/reactive-json-chartjs": "^0.0.23",
     "@npmcli/fs": "^4.0.0",
     "@reduxjs/toolkit": "^2.6.1",
     "@testing-library/jest-dom": "^6.6.3",
