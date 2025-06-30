@@ -1,0 +1,90 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Tooltip
+
+      **Description**: Displays a Bootstrap tooltip when hovering over the element.
+
+      ## Properties
+      - `content`: tooltip content (text or component)
+      - `placement` (optional): tooltip position (`top`, `bottom`, `left`, `right`)
+
+  - type: RjBuildDescriber
+    title: "Tooltip Action Example"
+    description:
+      - type: Markdown
+        content: |
+          This example shows different tooltip configurations. Hover over the buttons to see the tooltips in action.
+          
+          **Note**: Tooltips require Bootstrap CSS to display properly.
+
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: button
+              content: "Hover me (top)"
+              actions:
+                - what: tooltip
+                  content: "This is a tooltip on top."
+                  placement: top
+
+            - " "
+
+            - type: button
+              content: "Hover me (bottom)"
+              actions:
+                - what: tooltip
+                  content: "This is a tooltip on bottom."
+                  placement: bottom
+
+            - " "
+
+            - type: button
+              content: "Hover me (left)"
+              actions:
+                - what: tooltip
+                  content: "This is a tooltip on left."
+                  placement: left
+
+            - " "
+
+            - type: button
+              content: "Hover me (right)"
+              actions:
+                - what: tooltip
+                  content: "This is a tooltip on right."
+                  placement: right
+
+            - type: br
+
+            - type: br
+
+            - type: button
+              content: "Dynamic tooltip"
+              actions:
+                - what: tooltip
+                  content: ["Current time: ", ~.currentTime]
+                  placement: top
+
+            - " "
+
+            - type: button
+              content: "Update time"
+              actions:
+                - what: setData
+                  on: click
+                  path: "currentTime"
+                  value: "Updated!"
+
+            - type: div
+              content: ["Tooltip content: ", ~.currentTime]
+
+      data:
+        currentTime: "Not set"
+
+  - type: Markdown
+    content: |
+      ## Limitation
+      - Requires Bootstrap CSS.
+      - The child component must be able to accept a React reference. 

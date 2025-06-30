@@ -43,7 +43,7 @@ export const RjBuildDescriber = ({props}) => {
             <Col className={"mb-2"} xxl={6}>
                 <div className={"fw-bold mb-2"}>Reactive-JSON build</div>
                 <div>
-                    <Accordion defaultActiveKey={"0"}>
+                    <Accordion defaultActiveKey={[]} alwaysOpen={true}>
                         <Accordion.Item eventKey={"0"}>
                             <Accordion.Header>renderView</Accordion.Header>
                             <Accordion.Body>
@@ -52,7 +52,7 @@ export const RjBuildDescriber = ({props}) => {
                         </Accordion.Item>
                         <Accordion.Item eventKey={"1"}>
                             <Accordion.Header>templates</Accordion.Header>
-                            <Accordion.Body>{toDescribe.templates ? JSON.stringify(toDescribe.templates) :
+                            <Accordion.Body>{toDescribe.templates ? <TabbedSerializer rawContentToSerialize={toDescribe.templates}/> :
                                 <em>(unset)</em>}</Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey={"2"}>

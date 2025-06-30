@@ -1,0 +1,51 @@
+# DelayedActions
+
+## Introduction
+
+The `DelayedActions` component allows you to execute one or more actions after a delay or at regular intervals. It is useful for implementing polling, periodic updates, or delayed reactions in your Reactive-JSON applications.
+
+## Properties
+- `delayedActions` (array, required): Array of action objects to execute after the delay or at each interval
+- `interval` (number, required): The delay or interval in milliseconds between executions
+- `once` (boolean, optional): If true, actions are executed only once after the delay; if false (default), actions repeat at each interval
+- `content` (object/array, optional): Content to render inside the component
+
+## Behavior
+- Executes all actions in `delayedActions` after the specified delay or at each interval
+- If `once` is true, actions are executed only once; otherwise, they repeat at each interval
+- Actions are executed without requiring a user event (time is the trigger)
+- The component can render content, but the main purpose is to trigger actions
+- If `interval` is not provided, no actions are executed
+
+## Example
+```yaml
+renderView:
+  - type: Phantom
+    actions:
+      - # This will prevent infinite add.
+        what: hide
+        andConditions:
+          - whenDataCountOf: $.tick[*]
+            ">": 1000
+    content:
+      - type: DelayedActions
+        interval: 2000
+        delayedActions:
+          - what: addData
+            path: ~~.tick
+            value: "Ticked!"
+        content:
+          - type: p
+            content:
+              - "Tick count: "
+              - type: Count
+                jsonPathPattern: "$.tick[*]"
+
+data: {}
+```
+
+## Limitations
+- Only supports time-based triggering (no event-based delay)
+- All actions are executed in the order provided
+- No built-in error handling for action execution
+- If `interval` is missing or invalid, nothing happens 

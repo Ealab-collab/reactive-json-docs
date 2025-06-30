@@ -1,0 +1,54 @@
+renderView:
+  - type: Markdown
+    content: |
+      # LabelFromValue
+
+      The `LabelFromValue` component displays the label associated with a value, using an option-like structure. It is useful for showing the display label of a value selected in a SelectField or any value/label mapping.
+
+      ## Properties
+      - `dataLocation` (string, required): Path to the value
+      - `options` (array, optional): Array of `{label, value}` objects
+      - `dynamicOptions` (any, optional): Template value for dynamic options
+      - `defaultFieldValue` (any, optional): Default value if none is set
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Display label from value"
+    description:
+      - type: Markdown
+        content: |
+          Select a status to see the corresponding label displayed below.
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.status
+          label: "Status"
+          options:
+            - label: "Active"
+              value: 1
+            - label: "Inactive"
+              value: 2
+            - label: "Pending"
+              value: 3
+        - type: div
+          content:
+            - type: strong
+              content: "Label: "
+            - type: LabelFromValue
+              dataLocation: ~.status
+              options:
+                - label: "Active"
+                  value: 1
+                - label: "Inactive"
+                  value: 2
+                - label: "Pending"
+                  value: 3
+      data:
+        status: 3
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - Only the first matching label is displayed; duplicate values in options are not supported
+      - No support for grouped options or nested structures
+      - No built-in formatting for the label (use a wrapper if needed)
+      - If no options are provided, the raw value is shown

@@ -1,0 +1,96 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Form Elements
+
+      Interactive demonstration of Reactive-JSON form components with real-time data binding.
+
+  - type: RjBuildDescriber
+    title: "Complete Form Example"
+    description: "All form components working together with data binding"
+    toDescribe:
+      renderView:
+        - type: div
+          attributes:
+            style:
+              display: grid
+              gridTemplateColumns: "1fr 1fr"
+              gap: "20px"
+          content:
+            - type: div
+              content:
+                - type: TextField
+                  dataLocation: ~.name
+                  label: "Full Name:"
+                  placeholder: "Enter your full name"
+                - type: NumberField
+                  dataLocation: ~.age
+                  label: "Age:"
+                  placeholder: "Enter your age"
+                - type: SelectField
+                  dataLocation: ~.country
+                  label: "Country:"
+                  options:
+                    - label: "Select a country"
+                      value: ""
+                    - label: "France"
+                      value: "fr"
+                    - label: "United States"
+                      value: "us"
+                    - label: "Canada"
+                      value: "ca"
+                - type: CheckBoxField
+                  dataLocation: ~.interests
+                  label: "Interests:"
+                  options:
+                    - label: "Technology"
+                      value: "tech"
+                    - label: "Sports"
+                      value: "sports"
+                    - label: "Music"
+                      value: "music"
+                - type: TextAreaField
+                  dataLocation: ~.comments
+                  label: "Comments:"
+                  placeholder: "Additional comments..."
+                  rows: 4
+            - type: div
+              content:
+                - type: strong
+                  content: "Live Data Preview:"
+                - type: PreformattedMarkup
+                  content: ["<pre>", ~.formData, "</pre>"]
+                  actions:
+                    - what: setData
+                      when: ~.formData
+                      is: undefined
+                      key: formData
+                      value: "{}"
+                - type: div
+                  content:
+                    - "Name: "
+                    - ~.name
+                - type: div
+                  content:
+                    - "Age: "
+                    - ~.age
+                - type: div
+                  content:
+                    - "Country: "
+                    - ~.country
+                - type: div
+                  content: "Interests selected in checkbox above"
+                - type: div
+                  content:
+                    - "Comments: "
+                    - ~.comments
+      data:
+        name: ""
+        age: ""
+        country: ""
+        interests: []
+        comments: ""
+        formData: ""
+
+templates: {}
+data: {} 

@@ -1,0 +1,100 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Popover
+
+      **Description**: Displays a Bootstrap popover on click or hover of the element.
+
+      ## Properties
+      - `header` (optional): content of the popover header
+      - `body`: content of the popover body
+      - `placement` (optional): position (`top`, `bottom`, `left`, `right`)
+      - `trigger` (optional): trigger event (`click`, `hover`, etc.)
+
+  - type: RjBuildDescriber
+    title: "Popover Action Example"
+    description:
+      - type: Markdown
+        content: |
+          This example shows different popover configurations with various triggers and placements.
+          
+          **Note**: Popovers require Bootstrap CSS to display properly.
+
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: button
+              content: "Click me (popover right)"
+              actions:
+                - what: popover
+                  header: "Popover Title"
+                  body: "This is the popover content on the right."
+                  placement: right
+                  trigger: click
+
+            - " "
+
+            - type: button
+              content: "Hover me (popover top)"
+              actions:
+                - what: popover
+                  header: "Hover Popover"
+                  body: "This popover appears on hover."
+                  placement: top
+                  trigger: hover
+
+            - type: br
+
+            - type: br
+
+            - type: button
+              content: "Click me (popover bottom)"
+              actions:
+                - what: popover
+                  body: "This popover has no header and appears at the bottom."
+                  placement: bottom
+                  trigger: click
+
+            - " "
+
+            - type: button
+              content: "Dynamic popover content"
+              actions:
+                - what: popover
+                  header: "Dynamic Content"
+                  body: ["Counter value: ", ~.counter]
+                  placement: left
+                  trigger: click
+
+            - type: br
+
+            - type: br
+
+            - type: button
+              content: "Increment counter"
+              actions:
+                - what: setData
+                  on: click
+                  path: "counter"
+                  value: 1
+                  when: ~.counter
+                  isEmpty: true
+                - what: setData
+                  on: click
+                  path: "counter" 
+                  value: ~.counter
+                  isNot: ""
+                  # Note: This would need arithmetic operation, simplified for demo
+
+            - type: div
+              content: ["Current counter: ", ~.counter]
+
+      data:
+        counter: 0
+
+  - type: Markdown
+    content: |
+      ## Limitation
+      - Requires Bootstrap CSS.
+      - The child component must be able to accept a React reference. 

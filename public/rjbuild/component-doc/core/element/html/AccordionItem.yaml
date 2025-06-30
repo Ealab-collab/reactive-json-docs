@@ -1,0 +1,47 @@
+renderView:
+  - type: Markdown
+    content: |
+      # AccordionItem
+
+      The `AccordionItem` component is used inside a parent `BsAccordion` component. This parent is a React-Bootstrap Accordion adapted for Reactive-JSON, supporting templates and actions via the `BootstrapElement` system.
+
+      **Important:** `AccordionItem` must be a direct child of `BsAccordion`.
+
+      ## Properties
+      - `header` (object, optional): Content for the accordion header
+      - `body` (object, optional): Content for the accordion body
+      - `attributes` (object, optional): Additional attributes for the Accordion.Item
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Accordion with multiple sections"
+    description:
+      - type: Markdown
+        content: |
+          Click the headers to expand/collapse each section. Each section is an AccordionItem with its own header and body. The parent BsAccordion supports templates and actions.
+    toDescribe:
+      renderView:
+        - type: BsAccordion
+          content:
+            - type: AccordionItem
+              header: General Info
+              body:
+                type: Markdown
+                content: "This section contains general information."
+            - type: AccordionItem
+              header:
+                type: div
+                content:
+                  - type: strong
+                    content: Important!
+                  - " Details"
+              body:
+                type: Markdown
+                content: "This section contains more details."
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - Only works inside a parent BsAccordion component
+      - No built-in support for nested accordions
+      - The eventKey is set automatically; custom keys are not supported directly
+      - No animation customization beyond what react-bootstrap provides

@@ -1,0 +1,153 @@
+renderView:
+  - type: Markdown
+    content: |
+      # MessageListener
+
+      **Description**: Executes a reaction when receiving a message via `window.postMessage`. This is an internal action component that is automatically used when you specify `on: "message"` in your actions.
+
+      ## Usage
+
+      MessageListener is **not** used directly as an element type. Instead, it is automatically triggered when you use `on: "message"` in any action. The system automatically adds this component to listen for messages globally on the window object.
+
+      ## Properties
+
+      When using `on: "message"` in actions, you can specify:
+
+      - `what` (required): name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`, etc.)
+      - `whenMessageIs` (optional): message value to react to (deep comparison with the received message data)
+      - All other properties are passed as arguments to the reaction function
+
+  - type: RjBuildDescriber
+    title: "MessageListener Example"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates message listening. The buttons below will send messages to the same window to demonstrate the functionality.
+          
+          **Note**: In real usage, messages would typically come from parent windows, iframes, or other origins.
+
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: div
+              content: "Message listener is active. Send messages:"
+
+            - type: button
+              content: "Send 'hello' message"
+              actions:
+                - what: postMessage
+                  on: click
+                  message:
+                    type: "greeting"
+                    text: "hello"
+                  messageTarget: self
+
+            - " "
+
+            - type: button
+              content: "Send 'update' message"
+              actions:
+                - what: postMessage
+                  on: click
+                  message:
+                    type: "action"
+                    command: "update"
+                  messageTarget: self
+
+            - " "
+
+            - type: button
+              content: "Send custom message"
+              actions:
+                - what: postMessage
+                  on: click
+                  message:
+                    type: "custom"
+                    data: ~.customData
+                  messageTarget: self
+
+            - type: div
+              content: "Message receiver:"
+              actions:
+                - what: setData
+                  on: message
+                  whenMessageIs:
+                    type: "greeting"
+                    text: "hello"
+                  path: "receivedMessage"
+                  value: "Received hello greeting!"
+                - what: setData
+                  on: message
+                  whenMessageIs:
+                    type: "action"
+                    command: "update"
+                  path: "receivedMessage"
+                  value: "Received update command!"
+                - what: setData
+                  on: message
+                  path: "lastMessage"
+                  value: "Any message received"
+
+            - type: div
+              content: ["Last received: ", ~.receivedMessage]
+
+            - type: div
+              content: ["Message indicator: ", ~.lastMessage]
+
+            - type: div
+              content: "Custom data for next message:"
+
+            - type: input
+              attributes:
+                type: text
+                value: ~.customData
+                placeholder: "Enter custom data"
+              actions:
+                - what: setData
+                  on: change
+                  path: "customData"
+                  value: ~.event.target.value
+
+            - type: button
+              content: "Clear messages"
+              actions:
+                - what: setData
+                  on: click
+                  path: "receivedMessage"
+                  value: ""
+                - what: setData
+                  on: click
+                  path: "lastMessage"
+                  value: ""
+
+      data:
+        receivedMessage: ""
+        lastMessage: ""
+        customData: "test data"
+
+  - type: Markdown
+    content: |
+      ## System Integration
+
+      - **EventDispatcherContext**: Uses the global event system to optimize performance
+      - **TemplateSystem**: The `whenMessageIs` value is evaluated through the template system
+      - **GlobalDataContext**: Provides context for reaction execution
+      - **Actions.jsx**: Automatically instantiated when `on: "message"` is detected
+
+      ## Limitations
+
+      - Only works with `on: "message"` in actions (not as a standalone element)
+      - Only messages from the same `origin` are accepted (security measure)
+      - Depends on ReactiveJSON's global event system
+      - Uses deep comparison with lodash's `isEqual` for message matching
+      - One reaction per action definition (use multiple actions for multiple reactions)
+
+      ## Technical Details
+
+      - Automatically instantiated by the Actions system when `on: "message"` is used
+      - Uses `useEffect` to subscribe/unsubscribe to events
+      - Reaction functions are imported from `ReactOnEvent.jsx`
+      - Optimized to avoid too many real DOM listeners through the context system
+      - Automatically cleans up listeners when component unmounts
+      - Security: Only accepts messages from the same origin as the current window 

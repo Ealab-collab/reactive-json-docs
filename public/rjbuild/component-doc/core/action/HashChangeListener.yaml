@@ -1,0 +1,124 @@
+renderView:
+  - type: Markdown
+    content: |
+      # HashChangeListener
+
+      **Description**: Listens to hash changes (URL fragment) in the window and executes a reaction function in response. This is an internal action component that is automatically used when you specify `on: "hashchange"` in your actions.
+
+      ## Usage
+
+      HashChangeListener is **not** used directly as an element type. Instead, it is automatically triggered when you use `on: "hashchange"` in any action. The system automatically adds this component to listen for hash changes globally.
+
+      ## Properties
+
+      When using `on: "hashchange"` in actions, you can specify:
+
+      - `what` (required): name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`, etc.)
+      - `whenHashIs` (optional): hash value that should trigger the reaction (includes the '#' character)
+      - `whenHashWas` (optional): previous hash value that should trigger the reaction (includes the '#' character)
+      - All other properties are passed as arguments to the reaction function
+
+  - type: RjBuildDescriber
+    title: "HashChangeListener Example"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates hash change listening. Try changing the URL hash manually or use the buttons below.
+          
+          **Note**: Hash changes are detected automatically when you use `on: "hashchange"` in actions.
+
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: div
+              content: "Hash change detector is active. Try:"
+              
+            - type: button
+              content: "Set hash to #section1"
+              actions:
+                - what: redirectNow
+                  on: click
+                  to: "#section1"
+
+            - " "
+
+            - type: button
+              content: "Set hash to #section2"
+              actions:
+                - what: redirectNow
+                  on: click
+                  to: "#section2"
+
+            - " "
+
+            - type: button
+              content: "Clear hash"
+              actions:
+                - what: redirectNow
+                  on: click
+                  to: "#"
+
+            - type: div
+              content: "Current section from hash:"
+              actions:
+                - what: setData
+                  on: hashchange
+                  whenHashIs: "#section1"
+                  path: "currentSection"
+                  value: "Section 1"
+                - what: setData
+                  on: hashchange
+                  whenHashIs: "#section2"
+                  path: "currentSection"
+                  value: "Section 2"
+                - what: setData
+                  on: hashchange
+                  whenHashIs: "#"
+                  path: "currentSection"
+                  value: "Home"
+
+            - type: div
+              content: ["→ ", ~.currentSection]
+
+            - type: div
+              content: "Hash change history:"
+              actions:
+                - what: setData
+                  on: hashchange
+                  path: "hashChangeCount"
+                  value: 1
+                  when: ~.hashChangeCount
+                  isEmpty: true
+
+            - type: div
+              content: ["Changes detected: ", ~.hashChangeCount]
+
+      data:
+        currentSection: "Home"
+        hashChangeCount: 0
+
+  - type: Markdown
+    content: |
+      ## System Integration
+
+      - **EventDispatcherContext**: Uses the global event system to optimize performance
+      - **TemplateSystem**: The `whenHashIs` and `whenHashWas` values are evaluated through the template system
+      - **GlobalDataContext**: Provides context for reaction execution
+      - **Actions.jsx**: Automatically instantiated when `on: "hashchange"` is detected
+
+      ## Limitations
+
+      - Only works with `on: "hashchange"` in actions (not as a standalone element)
+      - Only works on hash changes (URL fragment)
+      - Depends on ReactiveJSON's global event system
+      - Hashes must include the '#' character (e.g., "#section1", not "section1")
+      - One reaction per action definition (use multiple actions for multiple reactions)
+
+      ## Technical Details
+
+      - Automatically instantiated by the Actions system when `on: "hashchange"` is used
+      - Uses `useEffect` to subscribe/unsubscribe to events
+      - Reaction functions are imported from `ReactOnEvent.jsx`
+      - Optimized to avoid too many real DOM listeners through the context system
+      - Automatically cleans up listeners when component unmounts 

@@ -1,0 +1,156 @@
+renderView:
+  - type: Markdown
+    content: |
+      # fetchData
+
+      fetchData is a reaction that allows making HTTP GET requests to a server. It operates in two distinct modes:
+
+      The behavior depends on `refreshAppOnResponse`:
+      - If `true` (default): Response must be a valid rjbuild (with renderView/templates/data) as it will be used to re-render the application
+      - If `false`: Response is completely ignored - useful for webhook-like calls or server notifications
+
+      **Important**: Dynamic URLs are not supported. URLs must be static strings.
+
+      ## Properties
+      - `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
+      - `refreshAppOnResponse` (boolean, optional): If true (default), the response must be a valid rjbuild and will replace the application state. If false, the response is ignored (webhook mode).
+
+      ## Behavior
+      - Only GET requests are supported
+      - Only one request can be active at a time
+      - The URL is evaluated via the template system before sending, but must resolve to a static string
+      - If `refreshAppOnResponse` is true, the response must be a valid rjbuild and will replace the application state
+      - If `refreshAppOnResponse` is false, the response is ignored (webhook mode)
+      - Errors are only logged to the console
+      - The triggering element is visually disabled during the request
+
+  - type: RjBuildDescriber
+    title: Basic Structure
+    description:
+      - type: Markdown
+        content: |
+          The basic structure of a fetchData reaction requires a URL and can include the refreshAppOnResponse option.
+
+          The URL can be a template value that resolves to a static string.
+    toDescribe:
+      renderView:
+        - type: button
+          content: Basic Example
+          actions:
+            - what: fetchData
+              on: click
+              url: "/mockup-api/fetchData/example.json"
+              refreshAppOnResponse: true  # Response will replace the application state
+        - type: div
+          content:
+            - "URL: "
+            - "/mockup-api/fetchData/example.json"
+        - type: div
+          content:
+            - "Fetch status: "
+            - ~.fetch_status
+      data:
+        fetch_status: "Waiting for click"
+
+  - type: RjBuildDescriber
+    title: Webhook Mode
+    description:
+      - type: Markdown
+        content: |
+          With `refreshAppOnResponse: false`, fetchData behaves like a webhook:
+          - Response is completely ignored
+          - Only the HTTP call is made
+          - Useful for:
+            * Server notifications
+            * Triggering server-side actions
+            * API pinging
+            * Sending webhooks
+    toDescribe:
+      renderView:
+        - type: button
+          content: Notify Server
+          actions:
+            - what: fetchData
+              on: click
+              url: "/mockup-api/fetchData/status.json"
+              refreshAppOnResponse: false  # Response is ignored, like a webhook
+        - type: div
+          content:
+            - "Last call: "
+            - ~.last_status
+      data:
+        last_status: "Not made"
+
+  - type: RjBuildDescriber
+    title: Error Handling
+    description:
+      - type: Markdown
+        content: |
+          Errors are logged to the console but don't trigger a reload.
+
+          The triggering element is visually disabled during the request.
+
+          **Limitation**: No built-in error handling beyond console logging.
+    toDescribe:
+      renderView:
+        - type: button
+          content: Test Error
+          actions:
+            - what: fetchData
+              on: click
+              url: "/mockup-api/fetchData/error.json"
+        - type: div
+          content:
+            - "Status: "
+            - ~.error_state
+      data:
+        error_state: "Pending"
+
+  - type: Markdown
+    content: |
+      ## Limitations
+
+      - Only one request can be active at a time
+      - Only GET requests are supported
+      - Response must be a valid rjbuild **only** if refreshAppOnResponse is true
+      - No built-in error handling beyond console logging
+      - No support for request cancellation
+      - No support for timeouts
+      - **No support for dynamic URLs** - URLs must be static strings
+      - No support for query parameters in URL templates
+      - No support for complex URL routing or path generation
+
+  - type: Markdown
+    content: |
+      ## Styling Fetching State (CSS)
+      You can visually disable form controls during a fetchData request using CSS. The system is the same as for submitData:
+
+      ### 1. Target only the fetching control (button, input, etc.)
+      The element that triggered the fetch receives `data-is-submitting="true"` during the request:
+
+      ```css
+      input[data-is-submitting="true"],
+      button[data-is-submitting="true"],
+      select[data-is-submitting="true"],
+      textarea[data-is-submitting="true"] {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+      ```
+
+      ### 2. Target all controls globally during fetch
+      While a fetch is in progress, the `<body>` receives `data-html-builder-is-submitting="true"`. You can use this to disable all form controls:
+
+      ```css
+      body[data-html-builder-is-submitting="true"] input,
+      body[data-html-builder-is-submitting="true"] button,
+      body[data-html-builder-is-submitting="true"] select,
+      body[data-html-builder-is-submitting="true"] textarea {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+      ```
+
+      Choose the approach that best fits your UX needs. 

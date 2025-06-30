@@ -1,0 +1,147 @@
+renderView:
+  - type: Markdown
+    content: |
+      # TextField
+
+      The `TextField` component renders a single-line text input field using React Bootstrap. It supports various input types, template evaluation for dynamic content, and automatic data binding to the global data context.
+
+      ## Properties
+
+      - `dataLocation` (string, optional): Path to bind the field value in the data context
+      - `defaultFieldValue` (string, optional): Default value when no data is present
+      - `label` (string, optional): Field label text (supports template evaluation)
+      - `placeholder` (string, optional): Placeholder text (supports template evaluation)
+      - `inputType` (string, optional): HTML input type (default: "text", supports template evaluation)
+      - `attributes` (object, optional): Attributes applied to the Form.Group container
+      - `inputAttributes` (object, optional): Attributes applied directly to the input element
+      - `actions` (array, optional): Actions to execute based on field state
+
+      ## Data Management
+
+      The component automatically synchronizes its value with the global data context. When using `dataLocation`, the value is stored at the specified path. Without `dataLocation`, the value is stored in the template context using the component's `datafield`.
+
+      ## Input Types
+
+      The `inputType` property supports all HTML5 input types:
+      - `text` (default): Standard text input
+      - `email`: Email validation
+      - `password`: Masked password input
+      - `url`: URL validation
+      - `tel`: Telephone number input
+      - `search`: Search input with clear button
+
+  - type: RjBuildDescriber
+    title: "Basic TextField Usage"
+    description: "Simple text input with label and placeholder"
+    toDescribe:
+      renderView:
+        - type: TextField
+          dataLocation: ~.username
+          label: "Username:"
+          placeholder: "Enter your username"
+        - type: div
+          content:
+            - "Current value: "
+            - type: strong
+              content: ~.username
+      data:
+        username: ""
+
+  - type: RjBuildDescriber
+    title: "Different Input Types"
+    description: "TextField with various HTML5 input types"
+    toDescribe:
+      renderView:
+        - type: TextField
+          dataLocation: ~.email
+          label: "Email:"
+          placeholder: "user@example.com"
+          inputType: "email"
+        - type: TextField
+          dataLocation: ~.password
+          label: "Password:"
+          placeholder: "Enter password"
+          inputType: "password"
+        - type: TextField
+          dataLocation: ~.website
+          label: "Website:"
+          placeholder: "https://example.com"
+          inputType: "url"
+        - type: div
+          attributes:
+            style:
+              marginTop: "20px"
+              padding: "10px"
+              backgroundColor: "#f8f9fa"
+              borderRadius: "5px"
+          content:
+            - type: strong
+              content: "Current Values:"
+            - type: div
+              content:
+                - "Email: "
+                - ~.email
+            - type: div
+              content:
+                - "Password: "
+                - ~.password
+            - type: div
+              content:
+                - "Website: "
+                - ~.website
+      data:
+        email: ""
+        password: ""
+        website: ""
+
+  - type: RjBuildDescriber
+    title: "Input Attributes"
+    description: "TextField with custom input attributes and validation styling (pattern: ABC-123 format)"
+    toDescribe:
+      renderView:
+        - type: BsAlert
+          attributes:
+            variant: warning
+          content:
+            - type: strong
+              content: "Note: "
+            - "CSS styles are defined inline in this example for demonstration purposes. In practice, it is recommended to define these styles in an external CSS file for better maintainability."
+        - type: style
+          content: |
+            input[pattern]:valid {
+              border-color: #28a745;
+              box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            }
+            input[pattern]:invalid {
+              border-color: #dc3545;
+              box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+            }
+        - type: TextField
+          dataLocation: ~.productCode
+          label: "Product Code:"
+          placeholder: "ABC-123"
+          inputAttributes:
+            pattern: "[A-Z]{3}-[0-9]{3}"
+            title: "Format: ABC-123 (3 letters, dash, 3 numbers)"
+            maxLength: 7
+            style:
+              textTransform: "uppercase"
+        - type: div
+          content:
+            - "Product Code: "
+            - ~.productCode
+      data:
+        productCode: ""
+
+  - type: Markdown
+    content: |
+      ## Limitations
+
+      - No built-in validation beyond HTML5 input type validation
+      - No support for input masking or formatting
+      - No built-in error message display
+      - Template evaluation for `inputType` should return valid HTML input types
+      - No support for complex input patterns beyond HTML5 pattern attribute
+
+templates: {}
+data: {} 

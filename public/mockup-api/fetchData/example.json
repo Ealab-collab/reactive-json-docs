@@ -1,0 +1,33 @@
+{
+  "renderView": [
+    {
+      "type": "button",
+      "content": "Basic Example",
+      "actions": [
+        {
+          "what": "fetchData",
+          "on": "click",
+          "url": "/mockup-api/fetchData/example.json",
+          "refreshAppOnResponse": true
+        }
+      ]
+    },
+    {
+      "type": "div",
+      "content": [
+        "URL: ",
+        "/mockup-api/fetchData/example.json"
+      ]
+    },
+    {
+      "type": "div",
+      "content": [
+        "Fetch status: ",
+        "~.fetch_status"
+      ]
+    }
+  ],
+  "data": {
+    "fetch_status": "Updated from server!"
+  }
+}

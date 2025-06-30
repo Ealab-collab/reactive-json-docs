@@ -1,0 +1,44 @@
+# Reaction: setClipboardData
+
+## Introduction
+
+The `setClipboardData` reaction copies a specified value to the user's clipboard. This is useful for creating "Copy to clipboard" buttons for sharing information like referral codes, URLs, or any text-based data.
+
+## Properties
+
+- `what` (string, required): The name of the reaction, which must be `setClipboardData`.
+- `on` (string, required): The name of the event that triggers the reaction (e.g., `click`).
+- `value` (any, required): The value to be copied to the clipboard. The value is evaluated, so it can be a literal string or a path to data.
+
+## Behavior
+
+- When triggered, the reaction evaluates the `value` property.
+- If the evaluated value is a string, it uses the `navigator.clipboard.writeText()` API to copy it to the clipboard.
+- If the evaluated value is not a string, the reaction does nothing.
+- An error is logged to the console if the clipboard operation fails (e.g., due to browser permissions).
+
+## Example
+
+### Copying text to the clipboard
+
+This example shows a button that, when clicked, copies the value of `~.shareable_code` to the clipboard.
+
+```yaml
+renderView:
+  - type: div
+    content: "Your code: ~.shareable_code"
+  - type: button
+    content: "Copy Code"
+    actions:
+      - what: setClipboardData
+        on: click
+        value: ~.shareable_code
+data:
+  shareable_code: "ABC-123-XYZ"
+```
+
+## Limitations
+
+- This reaction relies on the Clipboard API, which requires a secure context (HTTPS) to function in most modern browsers.
+- The user may be prompted for permission to access the clipboard, depending on browser settings.
+- The reaction only supports copying string values. Numbers and other types will be converted to strings, but objects and arrays will not be copied. 

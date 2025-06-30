@@ -1,0 +1,58 @@
+renderView:
+  - type: Markdown
+    content: |
+      # FormatNumeral
+
+      The `FormatNumeral` component displays a number as a Roman numeral or Latin letter. Useful for sections, lists, or any context where a non-Arabic numeral is needed.
+
+      ## Properties
+      - `content` (number, required): The number to format
+      - `format` (string, required): One of `roman-upper`, `roman-lower`, `latin-upper`, `latin-lower`
+      - `attributes` (object, optional): Additional attributes for the root element
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Format a number"
+    description:
+      - type: Markdown
+        content: |
+          Change the number and format to see the result. Only positive integers are supported.
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: NumberField
+              label: "Number:"
+              dataLocation: ~.num
+              inputAttributes:
+                min: 1
+                max: 3999
+            - type: SelectField
+              label: "Format:"
+              dataLocation: ~.fmt
+              options:
+                - label: "Roman Upper (I, II, III)"
+                  value: roman-upper
+                - label: "Roman Lower (i, ii, iii)"
+                  value: roman-lower
+                - label: "Latin Upper (A, B, C)"
+                  value: latin-upper
+                - label: "Latin Lower (a, b, c)"
+                  value: latin-lower
+        - type: div
+          content:
+            - type: strong
+              content: "Result: "
+            - type: FormatNumeral
+              content: ~.num
+              format: ~.fmt
+      data:
+        num: 3
+        fmt: roman-upper
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - Only positive integers are supported (no zero, negative, or fractional numbers)
+      - No support for custom numeral systems
+      - No localization or language-specific formatting
+      - No error message for invalid input; nothing is rendered if the input is invalid

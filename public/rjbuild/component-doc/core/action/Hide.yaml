@@ -1,0 +1,60 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Hide
+
+      **Description**: Completely hides the element and cancels any subsequent actions.
+
+      ## Properties
+      - None
+
+      ## Behavior
+      - The element and its children are not rendered in the DOM.
+      - Subsequent actions are not executed.
+
+  - type: RjBuildDescriber
+    title: "Hide Action Example"
+    description:
+      - type: Markdown
+        content: |
+          This example shows how the `hide` action completely removes an element from the DOM based on a condition.
+          
+          Try toggling the visibility to see how the `hide` action works differently from just making something invisible.
+
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: button
+              content: "Toggle visibility"
+              actions:
+                - what: setData
+                  on: click
+                  path: "shouldHide"
+                  value: ~.shouldHide
+                  is: false
+                - what: setData
+                  on: click
+                  path: "shouldHide"
+                  value: ~.shouldHide
+                  is: true
+                  when: ~.shouldHide
+                  is: false
+
+            - type: div
+              content: "This text will be hidden when shouldHide is true."
+              actions:
+                - what: hide
+                  when: ~.shouldHide
+                  is: true
+
+            - type: div
+              content: ["Current state: shouldHide = ", ~.shouldHide]
+
+      data:
+        shouldHide: false
+
+  - type: Markdown
+    content: |
+      ## Limitation
+      - The element no longer exists in the DOM, so no events can be attached to it. 

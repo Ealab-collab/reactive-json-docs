@@ -1,0 +1,62 @@
+renderView:
+  - type: Markdown
+    content: |
+      # VisuallyHide
+
+      **Description**: Visually hides the element but keeps it in the DOM (useful for accessibility or to keep the element reactive to events).
+
+      ## Properties
+      - None
+
+      ## Behavior
+      - The element is rendered in the DOM but with `display: none`.
+
+  - type: RjBuildDescriber
+    title: "VisuallyHide Action Example"
+    description:
+      - type: Markdown
+        content: |
+          This example shows how the `visuallyHide` action makes an element invisible while keeping it in the DOM.
+          
+          Compare with the `hide` action: visually hidden elements can still respond to events and maintain their place in the DOM structure.
+
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: button
+              content: "Toggle visual hiding"
+              actions:
+                - what: setData
+                  on: click
+                  path: "shouldVisuallyHide"
+                  value: ~.shouldVisuallyHide
+                  is: false
+                - what: setData
+                  on: click
+                  path: "shouldVisuallyHide"
+                  value: ~.shouldVisuallyHide
+                  is: true
+                  when: ~.shouldVisuallyHide
+                  is: false
+
+            - type: div
+              content: "This text will be visually hidden but remains in the DOM."
+              actions:
+                - what: visuallyHide
+                  when: ~.shouldVisuallyHide
+                  is: true
+
+            - type: div
+              content: ["Current state: shouldVisuallyHide = ", ~.shouldVisuallyHide]
+
+            - type: div
+              content: "↑ Notice the space is preserved even when hidden"
+
+      data:
+        shouldVisuallyHide: false
+
+  - type: Markdown
+    content: |
+      ## Limitation
+      - The element remains in the DOM, which can impact accessibility or performance if overused. 

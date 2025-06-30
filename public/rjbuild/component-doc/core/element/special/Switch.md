@@ -1,0 +1,132 @@
+# Switch
+
+## Introduction
+
+The `Switch` component allows you to render a list or collection of items using a template, with support for dynamic data, options, and pagination. It is useful for displaying arrays, lists, or collections where each item can be rendered with a specific template or configuration.
+
+## Properties
+- `content` (array/object, required): The data or path to the data to iterate over
+- `options` (object, optional): Mapping of keys to templates for rendering each item (referenced by `load`)
+- `singleOption` (object, optional): Template to use for each item when all items share the same structure (referenced by `load`)
+- `cardinality` (number, optional): Maximum number of items to render (default: unlimited)
+- `paginated` (boolean, optional): Whether to enable pagination (default: false)
+- `paginationProps` (object, optional): Pagination configuration (page size, etc.)
+- `before` (object, optional): Content to render before the list
+- `after` (object, optional): Content to render after the list
+- `templates` (object, optional): Named templates referenced by `load` in `singleOption` or `options`
+
+## Behavior
+- Iterates over the provided data and renders each item using the specified template(s)
+- If `options` is provided, uses the corresponding template for each key (with `load`)
+- If `singleOption` is provided, uses the template referenced by `load` for all items
+- Supports limiting the number of items with `cardinality`
+- Supports pagination if `paginated` is true
+- Renders optional `before` and `after` content
+- Templates are defined in the `templates` object and referenced by name
+
+## Examples
+
+### 1. Simple usage with `singleOption` (no pagination)
+```yaml
+renderView:
+  - type: Switch
+    content: ~.users
+    singleOption:
+      load: opt
+    templates:
+      opt:
+        type: div
+        content: ~.name
+
+data:
+  users:
+    - name: "Alice"
+    - name: "Bob"
+    - name: "Charlie"
+```
+
+### 2. Usage with `options` (different templates per key)
+```yaml
+renderView:
+  - type: Switch
+    content: ~.items
+    options:
+      name:
+        load: name
+      age:
+        load: age
+    templates:
+      name:
+        type: div
+        content: ["Name: ", ~.value]
+      age:
+        type: div
+        content: ["Age: ", ~.value]
+data:
+  items:
+    - name:
+        value: "Alice"
+    - age:
+        value: 30
+    - name:
+        value: "Bob"
+    - age:
+        value: 25
+```
+
+### 3. Usage with `singleOption`, pagination, before/after, and PageControls
+```yaml
+renderView:
+  - type: Switch
+    content: ~.numbers
+    singleOption:
+      load: opt
+    paginated: true
+    paginationProps:
+      pageMaxItemCount: 4
+    before:
+      type: div
+      content: "User list:"
+    after:
+      type: PageControls
+    templates:
+      opt:
+        type: div
+        content: ["Number: ", ~.value]
+data:
+  numbers:
+    - value: 1
+    - value: 2
+    - value: 3
+    - value: 4
+    - value: 5
+    - value: 6
+    - value: 7
+    - value: 8
+    - value: 9
+    - value: 10
+```
+
+## Limitations
+- The data must be an array or object; strings and numbers are not supported
+- If both `options` and `singleOption` are provided, `singleOption` takes precedence
+- No built-in support for filtering or sorting (use DataFilter or custom logic)
+- Pagination requires the `paginated` property to be set to true
+- Templates must be defined in the `templates` object and referenced by `load`
+
+### Data Structure Requirements
+Switch requires each item in the data to be an object, not a primitive value:
+
+```yaml
+# ❌ This will NOT work:
+data:
+  items: ["string1", "string2", "string3"]
+
+# ✅ This will work:
+data:
+  items: 
+    - name: "string1"
+    - name: "string2"
+    - name: "string3"
+```
+ 
