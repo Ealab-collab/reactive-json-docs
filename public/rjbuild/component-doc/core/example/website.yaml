@@ -605,6 +605,245 @@ renderView:
                                     fontFamily: "'Crimson Text', serif"
                                 content: "Sagesse Préservée"
 
+              # Section Catalogue d'ouvrages
+              - type: section
+                attributes:
+                  id: catalogue
+                  style:
+                    marginBottom: 6rem
+                    padding: 5rem 3rem
+                    background: "linear-gradient(135deg, rgba(184, 134, 11, 0.08) 0%, rgba(45, 27, 20, 0.05) 50%, rgba(184, 134, 11, 0.08) 100%)"
+                    borderRadius: 20px
+                    border: "2px solid rgba(184, 134, 11, 0.2)"
+                    position: relative
+                content:
+                  # Titre de section
+                  - type: div
+                    attributes:
+                      style:
+                        textAlign: center
+                        marginBottom: 1rem
+                        fontSize: 1rem
+                        color: "#8b4513"
+                        letterSpacing: 2px
+                        textTransform: uppercase
+                    content: "Catalogue Littéraire"
+
+                  - type: h3
+                    attributes:
+                      style:
+                        fontSize: 3rem
+                        textAlign: center
+                        marginBottom: 4rem
+                        color: "#2d1b14"
+                        fontFamily: "'Playfair Display', serif"
+                        fontWeight: 300
+                        letterSpacing: 2px
+                    content: "Trésors Bibliographiques"
+
+                  # Interface de filtrage
+                  - type: div
+                    attributes:
+                      style:
+                        backgroundColor: "rgba(255, 255, 255, 0.7)"
+                        padding: 2rem
+                        borderRadius: 15px
+                        marginBottom: 3rem
+                        border: "1px solid rgba(184, 134, 11, 0.3)"
+                        boxShadow: "0 4px 8px rgba(45, 27, 20, 0.1)"
+                    content:
+                      - type: h4
+                        attributes:
+                          style:
+                            fontSize: 1.4rem
+                            marginBottom: 1.5rem
+                            color: "#2d1b14"
+                            fontFamily: "'Playfair Display', serif"
+                            fontWeight: 400
+                            letterSpacing: 1px
+                        content: "Filtres de Recherche"
+
+                      - type: div
+                        attributes:
+                          style:
+                            display: grid
+                            gridTemplateColumns: "1fr 1fr 1fr"
+                            gap: 1.5rem
+                            marginBottom: 1.5rem
+                        content:
+                          # Recherche textuelle
+                          - type: TextField
+                            dataLocation: ~.livre_filters.recherche
+                            label: "Recherche :"
+                            placeholder: "Titre, auteur, résumé..."
+                            inputAttributes:
+                              style:
+                                fontFamily: "'Crimson Text', serif"
+                                border: "2px solid rgba(184, 134, 11, 0.3)"
+                                borderRadius: 8px
+                                padding: 0.7rem
+
+                          # Date de début
+                          - type: TextField
+                            dataLocation: ~.livre_filters.publie_apres
+                            label: "Publié après :"
+                            inputType: "date"
+                            inputAttributes:
+                              style:
+                                fontFamily: "'Crimson Text', serif"
+                                border: "2px solid rgba(184, 134, 11, 0.3)"
+                                borderRadius: 8px
+                                padding: 0.7rem
+
+                          # Date de fin
+                          - type: TextField
+                            dataLocation: ~.livre_filters.publie_avant
+                            label: "Publié avant :"
+                            inputType: "date"
+                            inputAttributes:
+                              style:
+                                fontFamily: "'Crimson Text', serif"
+                                border: "2px solid rgba(184, 134, 11, 0.3)"
+                                borderRadius: 8px
+                                padding: 0.7rem
+
+                      # Filtres par statut (checkboxes)
+                      - type: div
+                        content:
+                          - type: div
+                            attributes:
+                              style:
+                                fontSize: 1rem
+                                marginBottom: 1rem
+                                color: "#8b4513"
+                                fontFamily: "'Crimson Text', serif"
+                                fontWeight: 500
+                            content: "Statut de publication :"
+
+                          - type: div
+                            attributes:
+                              style:
+                                display: flex
+                                gap: 2rem
+                                flexWrap: wrap
+                            content:
+                              - type: CheckBoxField
+                                dataLocation: ~.livre_filters.statuts.precommande
+                                options:
+                                  - value: true
+                                    label: "Précommande"
+                                attributes:
+                                  style:
+                                    fontFamily: "'Crimson Text', serif"
+
+                              - type: CheckBoxField
+                                dataLocation: ~.livre_filters.statuts.disponible
+                                options:
+                                  - value: true
+                                    label: "Disponible"
+                                attributes:
+                                  style:
+                                    fontFamily: "'Crimson Text', serif"
+
+                              - type: CheckBoxField
+                                dataLocation: ~.livre_filters.statuts.fin_commercialisation
+                                options:
+                                  - value: true
+                                    label: "Fin de commercialisation"
+                                attributes:
+                                  style:
+                                    fontFamily: "'Crimson Text', serif"
+
+                  # Liste filtrée des ouvrages
+                  - type: DataFilter
+                    context: global
+                    filters:
+                      - subjectsWithProperty: ouvrage
+                        andConditions:
+                          # Filtre recherche textuelle
+                          - orConditions:
+                              - when: ~.livre_filters.recherche
+                                isEmpty: true
+                              - whenFilterableData: ouvrage.contenu_recherchable
+                                contains: ~.livre_filters.recherche
+
+                          # Filtre date après
+                          - orConditions:
+                              - when: ~.livre_filters.publie_apres
+                                isEmpty: true
+                              - whenFilterableData: ouvrage.date_publication
+                                ">=": ~.livre_filters.publie_apres
+                                compareAsDates: true
+
+                          # Filtre date avant
+                          - orConditions:
+                              - when: ~.livre_filters.publie_avant
+                                isEmpty: true
+                              - whenFilterableData: ouvrage.date_publication
+                                "<=": ~.livre_filters.publie_avant
+                                compareAsDates: true
+
+                          # Filtre statuts (logique OR entre les statuts cochés)
+                          - orConditions:
+                              # Si aucun statut n'est coché, on affiche tout
+                              - andConditions:
+                                  - when: ~.livre_filters.statuts.precommande
+                                    isNot: true
+                                  - when: ~.livre_filters.statuts.disponible
+                                    isNot: true
+                                  - when: ~.livre_filters.statuts.fin_commercialisation
+                                    isNot: true
+
+                              # Si précommande est coché
+                              - andConditions:
+                                  - when: ~.livre_filters.statuts.precommande
+                                    is: true
+                                  - whenFilterableData: ouvrage.statut
+                                    is: "precommande"
+
+                              # Si disponible est coché
+                              - andConditions:
+                                  - when: ~.livre_filters.statuts.disponible
+                                    is: true
+                                  - whenFilterableData: ouvrage.statut
+                                    is: "disponible"
+
+                              # Si fin de commercialisation est coché
+                              - andConditions:
+                                  - when: ~.livre_filters.statuts.fin_commercialisation
+                                    is: true
+                                  - whenFilterableData: ouvrage.statut
+                                    is: "fin_commercialisation"
+
+                    content:
+                      - type: Switch
+                        contentWrapper:
+                          tag: section
+                          attributes:
+                            style:
+                              display: grid
+                              gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))"
+                              gap: 2rem
+                        content: ~~.ouvrages
+                        singleOption:
+                          load: carte-ouvrage
+                        paginated: true
+                        paginationProps:
+                          pageMaxItemCount: 4
+                          maxPageButtonsCount: 5
+                        after:
+                          type: div
+                          attributes:
+                            style:
+                              display: flex
+                              justifyContent: center
+                              marginTop: 2rem
+                              padding: 1rem
+                              backgroundColor: "rgba(255, 255, 255, 0.5)"
+                              borderRadius: 10px
+                              border: "1px solid rgba(184, 134, 11, 0.2)"
+                          content:
+                            type: PageControls
       # Footer élégant
       - type: footer
         attributes:
@@ -677,6 +916,12 @@ renderView:
                         value: true
                         when: ~.message_sent
                         isEmpty: true
+                      - what: setData
+                        on: click
+                        path: ~.contact_form_step
+                        value: 1
+                        when: ~.message_sent
+                        isEmpty: true
                       - what: hide
                         when: ~.message_sent
                         is: true
@@ -744,79 +989,216 @@ renderView:
                   fontStyle: italic
               content: "Adressez-nous votre missive avec déférence"
 
-            # Formulaire de contact
+            # Indicateur d'étape
+            - type: div
+              attributes:
+                style:
+                  display: flex
+                  justifyContent: center
+                  alignItems: center
+                  marginBottom: 2rem
+                  gap: 1rem
+              content:
+                - type: div
+                  attributes:
+                    style:
+                      display: flex
+                      alignItems: center
+                      gap: 0.5rem
+                      padding: 0.5rem 1rem
+                      borderRadius: 20px
+                      backgroundColor: "#b8860b"
+                      color: "#f4ead5"
+                      fontSize: 0.9rem
+                      fontFamily: "'Crimson Text', serif"
+                      fontWeight: 500
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 2
+                  content:
+                    - "1"
+                    - type: span
+                      attributes:
+                        style:
+                          marginLeft: 0.5rem
+                      content: "Informations"
+
+                - type: div
+                  attributes:
+                    style:
+                      display: flex
+                      alignItems: center
+                      gap: 0.5rem
+                      padding: 0.5rem 1rem
+                      borderRadius: 20px
+                      backgroundColor: "rgba(184, 134, 11, 0.3)"
+                      color: "#8b4513"
+                      fontSize: 0.9rem
+                      fontFamily: "'Crimson Text', serif"
+                      fontWeight: 500
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 1
+                  content:
+                    - "1"
+                    - type: span
+                      attributes:
+                        style:
+                          marginLeft: 0.5rem
+                      content: "Informations ✓"
+
+                - type: div
+                  attributes:
+                    style:
+                      fontSize: 1.5rem
+                      color: "#b8860b"
+                  content: "→"
+
+                - type: div
+                  attributes:
+                    style:
+                      display: flex
+                      alignItems: center
+                      gap: 0.5rem
+                      padding: 0.5rem 1rem
+                      borderRadius: 20px
+                      backgroundColor: "rgba(184, 134, 11, 0.3)"
+                      color: "#8b4513"
+                      fontSize: 0.9rem
+                      fontFamily: "'Crimson Text', serif"
+                      fontWeight: 500
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 2
+                  content:
+                    - "2"
+                    - type: span
+                      attributes:
+                        style:
+                          marginLeft: 0.5rem
+                      content: "Message"
+
+                - type: div
+                  attributes:
+                    style:
+                      display: flex
+                      alignItems: center
+                      gap: 0.5rem
+                      padding: 0.5rem 1rem
+                      borderRadius: 20px
+                      backgroundColor: "#b8860b"
+                      color: "#f4ead5"
+                      fontSize: 0.9rem
+                      fontFamily: "'Crimson Text', serif"
+                      fontWeight: 500
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 1
+                  content:
+                    - "2"
+                    - type: span
+                      attributes:
+                        style:
+                          marginLeft: 0.5rem
+                      content: "Message"
+
+            # Formulaire de contact multistep
             - type: div
               attributes:
                 style:
                   maxWidth: 500px
                   margin: 0 auto
               content:
-                - type: TextField
-                  dataLocation: ~.contact_form.nom
-                  label: "Nom & Titre :"
-                  placeholder: "Monsieur le Comte de..."
-                  inputAttributes:
+                # ÉTAPE 1 : Informations personnelles
+                - type: div
+                  attributes:
                     style:
-                      fontFamily: "'Crimson Text', serif"
-                      border: "2px solid rgba(184, 134, 11, 0.3)"
-                      borderRadius: 8px
-                      padding: 0.8rem
+                      display: block
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 2
+                  content:
+                    - type: TextField
+                      dataLocation: ~.contact_form.nom
+                      label: "Nom & Titre :"
+                      placeholder: "Monsieur le Comte de..."
+                      inputAttributes:
+                        style:
+                          fontFamily: "'Crimson Text', serif"
+                          border: "2px solid rgba(184, 134, 11, 0.3)"
+                          borderRadius: 8px
+                          padding: 0.8rem
 
-                - type: TextField
-                  dataLocation: ~.contact_form.email
-                  label: "Missive électronique :"
-                  placeholder: "votre.missive@domaine.fr"
-                  inputType: "email"
-                  inputAttributes:
+                    - type: TextField
+                      dataLocation: ~.contact_form.email
+                      label: "Missive électronique :"
+                      placeholder: "votre.missive@domaine.fr"
+                      inputType: "email"
+                      inputAttributes:
+                        style:
+                          fontFamily: "'Crimson Text', serif"
+                          border: "2px solid rgba(184, 134, 11, 0.3)"
+                          borderRadius: 8px
+                          padding: 0.8rem
+
+                    - type: SelectField
+                      dataLocation: ~.contact_form.sujet
+                      label: "Objet de la correspondance :"
+                      options:
+                        - label: "Veuillez choisir l'objet de votre missive..."
+                          value: ""
+                        - label: "Consultation littéraire & expertise"
+                          value: "consultation"
+                        - label: "Acquisition d'ouvrages précieux"
+                          value: "acquisition"
+                        - label: "Restauration de manuscrits"
+                          value: "restauration"
+                        - label: "Reliure d'exception"
+                          value: "reliure"
+                        - label: "Évaluation & estimation"
+                          value: "evaluation"
+                        - label: "Donation & legs littéraires"
+                          value: "donation"
+                        - label: "Visite privée de la bibliothèque"
+                          value: "visite"
+                        - label: "Autre correspondance"
+                          value: "autre"
+                      inputAttributes:
+                        style:
+                          fontFamily: "'Crimson Text', serif"
+                          border: "2px solid rgba(184, 134, 11, 0.3)"
+                          borderRadius: 8px
+                          padding: 0.8rem
+
+                # ÉTAPE 2 : Message
+                - type: div
+                  attributes:
                     style:
-                      fontFamily: "'Crimson Text', serif"
-                      border: "2px solid rgba(184, 134, 11, 0.3)"
-                      borderRadius: 8px
-                      padding: 0.8rem
+                      display: block
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 1
+                  content:
+                    - type: TextAreaField
+                      dataLocation: ~.contact_form.message
+                      label: "Votre message :"
+                      placeholder: "Honoré Bibliothécaire,\n\nJ'ai l'honneur de vous écrire concernant..."
+                      rows: 8
+                      inputAttributes:
+                        style:
+                          fontFamily: "'Crimson Text', serif"
+                          border: "2px solid rgba(184, 134, 11, 0.3)"
+                          borderRadius: 8px
+                          padding: 0.8rem
+                          resize: "vertical"
 
-                - type: SelectField
-                  dataLocation: ~.contact_form.sujet
-                  label: "Objet de la correspondance :"
-                  options:
-                    - label: "Veuillez choisir l'objet de votre missive..."
-                      value: ""
-                    - label: "Consultation littéraire & expertise"
-                      value: "consultation"
-                    - label: "Acquisition d'ouvrages précieux"
-                      value: "acquisition"
-                    - label: "Restauration de manuscrits"
-                      value: "restauration"
-                    - label: "Reliure d'exception"
-                      value: "reliure"
-                    - label: "Évaluation & estimation"
-                      value: "evaluation"
-                    - label: "Donation & legs littéraires"
-                      value: "donation"
-                    - label: "Visite privée de la bibliothèque"
-                      value: "visite"
-                    - label: "Autre correspondance"
-                      value: "autre"
-                  inputAttributes:
-                    style:
-                      fontFamily: "'Crimson Text', serif"
-                      border: "2px solid rgba(184, 134, 11, 0.3)"
-                      borderRadius: 8px
-                      padding: 0.8rem
-
-                - type: TextAreaField
-                  dataLocation: ~.contact_form.message
-                  label: "Votre message :"
-                  placeholder: "Honoré Bibliothécaire,\n\nJ'ai l'honneur de vous écrire concernant..."
-                  rows: 6
-                  inputAttributes:
-                    style:
-                      fontFamily: "'Crimson Text', serif"
-                      border: "2px solid rgba(184, 134, 11, 0.3)"
-                      borderRadius: 8px
-                      padding: 0.8rem
-                      resize: "vertical"
-
-                # Boutons d'action
+                # Boutons de navigation - ÉTAPE 1
                 - type: div
                   attributes:
                     style:
@@ -824,6 +1206,10 @@ renderView:
                       justifyContent: space-between
                       marginTop: 2rem
                       gap: 1rem
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 2
                   content:
                     - type: button
                       attributes:
@@ -842,9 +1228,13 @@ renderView:
                           on: click
                           path: ~.show_contact_modal
                           value: false
+                        - what: setData
+                          on: click
+                          path: ~.contact_form_step
+                          value: 1
                       content: "Annuler"
 
-                    # Bouton désactivé si des champs sont vides
+                    # Bouton Suivant désactivé si champs étape 1 vides
                     - type: button
                       attributes:
                         style:
@@ -867,11 +1257,9 @@ renderView:
                               isEmpty: "not"
                             - when: ~.contact_form.sujet
                               isEmpty: "not"
-                            - when: ~.contact_form.message
-                              isEmpty: "not"
-                      content: "Veuillez remplir tous les champs"
+                      content: "Complétez tous les champs"
 
-                    # Bouton actif quand tous les champs sont remplis
+                    # Bouton Suivant actif
                     - type: button
                       attributes:
                         style:
@@ -895,6 +1283,86 @@ renderView:
                         - what: hide
                           when: ~.contact_form.sujet
                           isEmpty: true
+                        - what: setData
+                          on: click
+                          path: ~.contact_form_step
+                          value: 2
+                          andConditions:
+                            - when: ~.contact_form.nom
+                              isEmpty: "not"
+                            - when: ~.contact_form.email
+                              isEmpty: "not"
+                            - when: ~.contact_form.sujet
+                              isEmpty: "not"
+                      content: "Suivant →"
+
+                # Boutons de navigation - ÉTAPE 2
+                - type: div
+                  attributes:
+                    style:
+                      display: flex
+                      justifyContent: space-between
+                      marginTop: 2rem
+                      gap: 1rem
+                  actions:
+                    - what: hide
+                      when: ~.contact_form_step
+                      is: 1
+                  content:
+                    - type: button
+                      attributes:
+                        style:
+                          backgroundColor: "transparent"
+                          color: "#8b4513"
+                          border: "2px solid #8b4513"
+                          padding: 0.8rem 2rem
+                          borderRadius: 25px
+                          cursor: pointer
+                          fontFamily: "'Crimson Text', serif"
+                          fontSize: 1rem
+                          transition: "all 0.3s ease"
+                      actions:
+                        - what: setData
+                          on: click
+                          path: ~.contact_form_step
+                          value: 1
+                      content: "← Précédent"
+
+                    # Bouton Envoyer désactivé si message vide
+                    - type: button
+                      attributes:
+                        style:
+                          backgroundColor: "#8b7355"
+                          color: "#d3c7b8"
+                          border: "2px solid #8b7355"
+                          padding: 0.8rem 2rem
+                          borderRadius: 25px
+                          cursor: "not-allowed"
+                          fontFamily: "'Crimson Text', serif"
+                          fontSize: 1rem
+                          transition: "all 0.3s ease"
+                          opacity: 0.6
+                      actions:
+                        - what: hide
+                          when: ~.contact_form.message
+                          isEmpty: "not"
+                      content: "Veuillez saisir votre message"
+
+                    # Bouton Envoyer actif
+                    - type: button
+                      attributes:
+                        style:
+                          backgroundColor: "#b8860b"
+                          color: "#f4ead5"
+                          border: "2px solid #b8860b"
+                          padding: 0.8rem 2rem
+                          borderRadius: 25px
+                          cursor: pointer
+                          fontFamily: "'Crimson Text', serif"
+                          fontSize: 1rem
+                          boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
+                          transition: "all 0.3s ease"
+                      actions:
                         - what: hide
                           when: ~.contact_form.message
                           isEmpty: true
@@ -902,13 +1370,19 @@ renderView:
                           on: click
                           path: ~.show_contact_modal
                           value: false
-                          when: ~.contact_form.nom
+                          when: ~.contact_form.message
                           isEmpty: "not"
                         - what: setData
                           on: click
                           path: ~.message_sent
                           value: true
-                          when: ~.contact_form.nom
+                          when: ~.contact_form.message
+                          isEmpty: "not"
+                        - what: setData
+                          on: click
+                          path: ~.contact_form_step
+                          value: 1
+                          when: ~.contact_form.message
                           isEmpty: "not"
                       content: "Envoyer la Missive"
 
@@ -967,14 +1441,156 @@ templates:
             fontStyle: italic
         content: ~.description
 
+  carte-ouvrage:
+    type: div
+    attributes:
+      style:
+        backgroundColor: "rgba(255, 255, 255, 0.95)"
+        borderRadius: 15px
+        overflow: hidden
+        boxShadow: "0 6px 12px rgba(45, 27, 20, 0.15)"
+        border: "1px solid rgba(184, 134, 11, 0.2)"
+        transition: "all 0.3s ease"
+        cursor: pointer
+    content:
+      # Image de couverture
+      - type: img
+        attributes:
+          src: ~.ouvrage.couverture
+          alt: ~.ouvrage.titre
+          style:
+            width: 100%
+            height: 200px
+            objectFit: cover
+            borderBottom: "2px solid rgba(184, 134, 11, 0.3)"
+
+      # Contenu de la carte
+      - type: div
+        attributes:
+          style:
+            padding: 1.5rem
+        content:
+          # Badge de statut
+          - type: div
+            attributes:
+              style:
+                marginBottom: 1rem
+                display: flex
+                justifyContent: flex-start
+            content:
+              # Badge Précommande
+              - type: span
+                attributes:
+                  style:
+                    backgroundColor: "#ffc107"
+                    color: "#000"
+                    padding: 0.3rem 0.8rem
+                    borderRadius: 12px
+                    fontSize: 0.8rem
+                    fontWeight: 500
+                    fontFamily: "'Crimson Text', serif"
+                    textTransform: uppercase
+                    letterSpacing: 0.5px
+                actions:
+                  - what: hide
+                    when: ~.ouvrage.statut
+                    isNot: "precommande"
+                content: "Précommande"
+
+              # Badge Disponible
+              - type: span
+                attributes:
+                  style:
+                    backgroundColor: "#28a745"
+                    color: "#fff"
+                    padding: 0.3rem 0.8rem
+                    borderRadius: 12px
+                    fontSize: 0.8rem
+                    fontWeight: 500
+                    fontFamily: "'Crimson Text', serif"
+                    textTransform: uppercase
+                    letterSpacing: 0.5px
+                actions:
+                  - what: hide
+                    when: ~.ouvrage.statut
+                    isNot: "disponible"
+                content: "Disponible"
+
+              # Badge Fin de commercialisation
+              - type: span
+                attributes:
+                  style:
+                    backgroundColor: "#dc3545"
+                    color: "#fff"
+                    padding: 0.3rem 0.8rem
+                    borderRadius: 12px
+                    fontSize: 0.8rem
+                    fontWeight: 500
+                    fontFamily: "'Crimson Text', serif"
+                    textTransform: uppercase
+                    letterSpacing: 0.5px
+                actions:
+                  - what: hide
+                    when: ~.ouvrage.statut
+                    isNot: "fin_commercialisation"
+                content: "Fin de commercialisation"
+
+          # Titre
+          - type: h5
+            attributes:
+              style:
+                fontSize: 1.3rem
+                marginBottom: 0.5rem
+                color: "#2d1b14"
+                fontFamily: "'Playfair Display', serif"
+                fontWeight: 500
+                letterSpacing: 0.5px
+                lineHeight: 1.3
+            content: ~.ouvrage.titre
+
+          # Auteur
+          - type: p
+            attributes:
+              style:
+                fontSize: 1rem
+                marginBottom: 0.8rem
+                color: "#8b4513"
+                fontFamily: "'Crimson Text', serif"
+                fontStyle: italic
+                fontWeight: 400
+            content: ~.ouvrage.auteur
+
+          # Date de publication formatée
+          - type: div
+            attributes:
+              style:
+                fontSize: 0.9rem
+                color: "#6c5ce7"
+                fontFamily: "'Crimson Text', serif"
+                marginBottom: 0.5rem
+                fontWeight: 400
+            content:
+              - "Publié le "
+              # Format personnalisé de la date (approximatif pour l'instant)
+              - ~.ouvrage.date_publication_formatee
+
 data:
   show_contact_modal: false
   message_sent: false
+  contact_form_step: 1
   contact_form:
     nom: ""
     email: ""
     sujet: ""
     message: ""
+  livre_filters:
+    recherche: ""
+    publie_apres: ""
+    publie_avant: ""
+    statuts:
+      precommande: false
+      disponible: false
+      fin_commercialisation: false
   services:
     - title: "Écriture & Style"
       description: "L'art subtil de manier la plume avec élégance, où chaque phrase devient une symphonie de mots soigneusement orchestrée."
@@ -984,4 +1600,64 @@ data:
       image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop&crop=center"
     - title: "Manuscrits Rares"
       description: "Conservation et restauration de documents précieux, préservant l'héritage culturel pour les générations futures."
-      image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&h=200&fit=crop&crop=center" 
+      image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&h=200&fit=crop&crop=center"
+  ouvrages:
+    - ouvrage:
+        couverture: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop&crop=center"
+        titre: "Les Mystères de la Rose Noire"
+        auteur: "Marguerite de Beaumont"
+        date_publication: "2023-03-15"
+        date_publication_formatee: "15 Mars 2023"
+        statut: "disponible"
+        resume_court: "Un roman gothique plein de mystères et de passion, situé dans un château du XVIII siècle."
+        contenu_recherchable: "Les Mystères de la Rose Noire Marguerite de Beaumont roman gothique mystères passion château XVIII siècle"
+
+    - ouvrage:
+        couverture: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop&crop=center"
+        titre: "Chroniques des Temps Perdus"
+        auteur: "Alexandre Dufresne"
+        date_publication: "2024-01-20"
+        date_publication_formatee: "20 Janvier 2024"
+        statut: "precommande"
+        resume_court: "Une épopée fantastique retraçant les légendes oubliées d'un royaume perdu."
+        contenu_recherchable: "Chroniques des Temps Perdus Alexandre Dufresne épopée fantastique légendes oubliées royaume perdu"
+
+    - ouvrage:
+        couverture: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=400&fit=crop&crop=center"
+        titre: "L'Art de la Calligraphie Ancienne"
+        auteur: "Professeur Henri Lavoisier"
+        date_publication: "2022-09-10"
+        date_publication_formatee: "10 Septembre 2022"
+        statut: "fin_commercialisation"
+        resume_court: "Guide pratique sur les techniques ancestrales de calligraphie européenne."
+        contenu_recherchable: "L'Art de la Calligraphie Ancienne Professeur Henri Lavoisier guide pratique techniques ancestrales calligraphie européenne"
+
+    - ouvrage:
+        couverture: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=300&h=400&fit=crop&crop=center"
+        titre: "Mémoires d'un Bibliothécaire"
+        auteur: "Jean-Baptiste Rousseau"
+        date_publication: "2023-11-05"
+        date_publication_formatee: "5 Novembre 2023"
+        statut: "disponible"
+        resume_court: "Récit autobiographique d'un garde des manuscrits parisien."
+        contenu_recherchable: "Mémoires d'un Bibliothécaire Jean-Baptiste Rousseau récit autobiographique garde manuscrits parisien"
+
+    - ouvrage:
+        couverture: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300&h=400&fit=crop&crop=center"
+        titre: "La Poésie de l'Âme"
+        auteur: "Céleste de Montclair"
+        date_publication: "2024-06-30"
+        date_publication_formatee: "30 Juin 2024"
+        statut: "precommande"
+        resume_court: "Recueil de vers romantiques inspirés par la nature et l'amour."
+        contenu_recherchable: "La Poésie de l'Âme Céleste de Montclair recueil vers romantiques inspirés nature amour"
+
+    - ouvrage:
+        couverture: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=300&h=400&fit=crop&crop=center"
+        titre: "Histoire des Manuscrits Enluminés"
+        auteur: "Dr. Marie-Claire Dubois"
+        date_publication: "2021-12-03"
+        date_publication_formatee: "3 Décembre 2021"
+        statut: "fin_commercialisation"
+        resume_court: "Étude approfondie de l'art de l'enluminure du Moyen Âge."
+        contenu_recherchable: "Histoire des Manuscrits Enluminés Dr. Marie-Claire Dubois étude approfondie art enluminure Moyen Âge"

@@ -13,6 +13,9 @@ The `Switch` component allows you to render a list or collection of items using 
 - `paginationProps` (object, optional): Pagination configuration (page size, etc.)
 - `before` (object, optional): Content to render before the list
 - `after` (object, optional): Content to render after the list
+- `contentWrapper` (object, optional): HTML element configuration to wrap the main content (items only, not before/after)
+  - `tag` (string, optional): HTML tag name (default: "div")
+  - `attributes` (object, optional): HTML attributes to apply to the wrapper element (supports template evaluation)
 - `templates` (object, optional): Named templates referenced by `load` in `singleOption` or `options`
 
 ## Behavior
@@ -22,7 +25,24 @@ The `Switch` component allows you to render a list or collection of items using 
 - Supports limiting the number of items with `cardinality`
 - Supports pagination if `paginated` is true
 - Renders optional `before` and `after` content
+- Can wrap the main content (items) with a custom HTML element using `contentWrapper`
 - Templates are defined in the `templates` object and referenced by name
+
+## Content Wrapper Feature
+
+The `contentWrapper` property allows you to wrap the rendered items in a custom HTML element without affecting the `before` and `after` content. This is particularly useful for applying CSS layouts like Grid or Flexbox to the items.
+
+**Note**: The `attributes` property of `contentWrapper` supports template evaluation, allowing you to create dynamic wrapper configurations based on your data.
+
+### Structure
+```
+before (optional)
+└── contentWrapper (optional)
+    └── rendered items
+after (optional)
+```
+
+The wrapper only affects the main content items and does not interfere with pagination or other Switch features.
 
 ## Examples
 
@@ -105,6 +125,116 @@ data:
     - value: 8
     - value: 9
     - value: 10
+```
+
+### 4. Usage with `contentWrapper` for CSS Grid Layout
+```yaml
+renderView:
+  - type: Switch
+    content: ~.products
+    singleOption:
+      load: productCard
+    contentWrapper:
+      tag: div
+      attributes:
+        style:
+          display: grid
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))"
+          gap: 1rem
+          padding: 1rem
+    after:
+      type: div
+      content: "End of products"
+    templates:
+      productCard:
+        type: div
+        attributes:
+          style:
+            border: "1px solid #ccc"
+            borderRadius: 8px
+            padding: 1rem
+        content:
+          - type: h3
+            content: ~.name
+          - type: p
+            content: ~.description
+data:
+  products:
+    - name: "Product A"
+      description: "Description of product A"
+    - name: "Product B"
+      description: "Description of product B"
+    - name: "Product C"
+      description: "Description of product C"
+```
+
+### 5. Usage with `contentWrapper` for Flexbox Layout
+```yaml
+renderView:
+  - type: Switch
+    content: ~.items
+    singleOption:
+      load: flexItem
+    contentWrapper:
+      tag: section
+      attributes:
+        class: "flex-container"
+        style:
+          display: flex
+          flexWrap: wrap
+          justifyContent: space-between
+          alignItems: center
+    templates:
+      flexItem:
+        type: div
+        attributes:
+          style:
+            flex: "1 1 200px"
+            margin: 0.5rem
+            padding: 1rem
+            backgroundColor: "#f0f0f0"
+        content: ~.text
+data:
+  items:
+    - text: "Item 1"
+    - text: "Item 2"
+    - text: "Item 3"
+```
+
+### 6. Dynamic `contentWrapper` with Template Evaluation
+```yaml
+renderView:
+  - type: Switch
+    content: ~.galleries
+    singleOption:
+      load: imageItem
+    contentWrapper:
+      tag: div
+      attributes:
+        class: ~.layoutClass
+        style:
+          display: grid
+          gridTemplateColumns: ~.gridColumns
+          gap: ~.spacing
+          backgroundColor: ~.theme.backgroundColor
+    templates:
+      imageItem:
+        type: div
+        attributes:
+          style:
+            padding: 1rem
+            border: "1px solid #ddd"
+        content: ~.title
+data:
+  layoutClass: "photo-gallery"
+  gridColumns: "repeat(3, 1fr)"
+  spacing: "2rem"
+  theme:
+    backgroundColor: "#f5f5f5"
+  galleries:
+    - title: "Photo 1"
+    - title: "Photo 2"
+    - title: "Photo 3"
 ```
 
 ## Limitations

@@ -193,6 +193,9 @@ export const docsPageNavigation = {
                     "/docs/core/example/dynamic-content": {
                         title: "Dynamic content",
                     },
+                    "/docs/core/example/website": {
+                        title: "Website example",
+                    },
                 }
             },
         }

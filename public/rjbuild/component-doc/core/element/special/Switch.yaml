@@ -14,6 +14,9 @@ renderView:
       - `paginationProps` (object, optional): Pagination configuration (page size, etc.)
       - `before` (object, optional): Content to render before the list
       - `after` (object, optional): Content to render after the list
+      - `contentWrapper` (object, optional): HTML element configuration to wrap the main content (items only, not before/after)
+        - `tag` (string, optional): HTML tag name (default: "div")
+        - `attributes` (object, optional): HTML attributes to apply to the wrapper element (supports template evaluation)
 
       ## Behavior
       - Iterates over the provided data and renders each item using the specified template(s)
@@ -22,6 +25,23 @@ renderView:
       - Supports limiting the number of items with `cardinality`
       - Supports pagination if `paginated` is true
       - Renders optional `before` and `after` content
+      - Can wrap the main content (items) with a custom HTML element using `contentWrapper`
+
+      ## Content Wrapper Feature
+
+      The `contentWrapper` property allows you to wrap the rendered items in a custom HTML element without affecting the `before` and `after` content. This is particularly useful for applying CSS layouts like Grid or Flexbox to the items.
+
+      **Note**: The `attributes` property of `contentWrapper` supports template evaluation, allowing you to create dynamic wrapper configurations based on your data.
+
+      ### Structure
+      ```
+      before (optional)
+      └── contentWrapper (optional)
+          └── rendered items
+      after (optional)
+      ```
+
+      The wrapper only affects the main content items and does not interfere with pagination or other Switch features.
 
       ## Example
       ```yaml
@@ -151,3 +171,178 @@ renderView:
           - value: 8
           - value: 9
           - value: 10
+
+  - type: RjBuildDescriber
+    title: "4. Usage with `contentWrapper` for CSS Grid Layout"
+    description: |
+      This example demonstrates how to use contentWrapper to apply a CSS Grid layout to the Switch items.
+    toDescribe:
+      renderView:
+        - type: Switch
+          content: ~.products
+          singleOption:
+            load: productCard
+          contentWrapper:
+            tag: div
+            attributes:
+              style:
+                display: grid
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))"
+                gap: 1rem
+                padding: 1rem
+                backgroundColor: "#f8f9fa"
+                borderRadius: 8px
+          before:
+            type: h3
+            content: "Our Products"
+          after:
+            type: div
+            attributes:
+              style:
+                textAlign: center
+                marginTop: 1rem
+                color: "#666"
+            content: "End of product list"
+      templates:
+        productCard:
+          type: div
+          attributes:
+            style:
+              border: "1px solid #ddd"
+              borderRadius: 8px
+              padding: 1rem
+              backgroundColor: white
+              textAlign: center
+          content:
+            - type: h4
+              attributes:
+                style:
+                  margin: "0 0 0.5rem 0"
+                  color: "#333"
+              content: ~.name
+            - type: p
+              attributes:
+                style:
+                  margin: 0
+                  color: "#666"
+                  fontSize: "0.9rem"
+              content: ~.description
+      data:
+        products:
+          - name: "Product A"
+            description: "High-quality product A"
+          - name: "Product B"
+            description: "Reliable product B"
+          - name: "Product C"
+            description: "Premium product C"
+          - name: "Product D"
+            description: "Affordable product D"
+
+  - type: RjBuildDescriber
+    title: "5. Usage with `contentWrapper` and Pagination"
+    description: |
+      This example shows how contentWrapper works seamlessly with pagination.
+    toDescribe:
+      renderView:
+        - type: Switch
+          content: ~.cards
+          singleOption:
+            load: card
+          paginated: true
+          paginationProps:
+            pageMaxItemCount: 3
+          contentWrapper:
+            tag: section
+            attributes:
+              class: "card-grid"
+              style:
+                display: flex
+                flexWrap: wrap
+                gap: 1rem
+                justifyContent: center
+                padding: 1rem
+                border: "2px dashed #ccc"
+                borderRadius: 8px
+          after:
+            type: PageControls
+      templates:
+        card:
+          type: div
+          attributes:
+            style:
+              flex: "0 1 150px"
+              padding: 1rem
+              backgroundColor: "#e3f2fd"
+              borderRadius: 8px
+              textAlign: center
+              border: "1px solid #90caf9"
+          content: ~.title
+      data:
+        cards:
+          - title: "Card 1"
+          - title: "Card 2"
+          - title: "Card 3"
+          - title: "Card 4"
+          - title: "Card 5"
+          - title: "Card 6"
+          - title: "Card 7"
+
+  - type: RjBuildDescriber
+    title: "6. Dynamic `contentWrapper` with Template Evaluation"
+    description: |
+      This example demonstrates how contentWrapper attributes can use template evaluation to create dynamic layouts.
+    toDescribe:
+      renderView:
+        - type: Switch
+          content: ~.items
+          singleOption:
+            load: dynamicCard
+          contentWrapper:
+            tag: section
+            attributes:
+              class: ~.wrapperConfig.cssClass
+              style:
+                display: grid
+                gridTemplateColumns: ~.wrapperConfig.columns
+                gap: ~.wrapperConfig.spacing
+                padding: ~.wrapperConfig.padding
+                backgroundColor: ~.theme.background
+                border: ~.theme.border
+                borderRadius: ~.theme.borderRadius
+          before:
+            type: h3
+            attributes:
+              style:
+                color: ~.theme.titleColor
+                textAlign: center
+            content: ~.title
+      templates:
+        dynamicCard:
+          type: div
+          attributes:
+            style:
+              padding: 1rem
+              backgroundColor: ~.theme.cardBackground
+              borderRadius: 6px
+              textAlign: center
+              color: ~.theme.textColor
+          content: ~.name
+      data:
+        title: "Dynamic Gallery"
+        wrapperConfig:
+          cssClass: "dynamic-gallery"
+          columns: "repeat(auto-fit, minmax(150px, 1fr))"
+          spacing: "1.5rem"
+          padding: "2rem"
+        theme:
+          background: "#e8f4fd"
+          border: "2px solid #2196f3"
+          borderRadius: "12px"
+          titleColor: "#1976d2"
+          cardBackground: "#ffffff"
+          textColor: "#333333"
+        items:
+          - name: "Element A"
+          - name: "Element B"
+          - name: "Element C"
+          - name: "Element D"
