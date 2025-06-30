@@ -1,0 +1,56 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Reaction: removeData
+
+      The `removeData` reaction deletes data from a specific location in the global data context. It can operate in two modes: `path` mode or `target` mode.
+
+  - type: RjBuildDescriber
+    title: "1. Using `path` to remove a specific key"
+    description: "This example shows how to delete a specific user profile field by clicking a button."
+    toDescribe:
+      renderView:
+        - type: div
+          content: ["User email: ", ~.user.email]
+        - type: button
+          content: "Remove Email"
+          actions:
+            - what: removeData
+              on: click
+              path: ~.user.email
+      data:
+        user:
+          name: "John Doe"
+          email: "john.doe@example.com"
+
+  - type: RjBuildDescriber
+    title: "2. Using `target` to remove an item from a list"
+    description: |
+      This example shows a list of users where each user can be removed by clicking a "Remove" button next to their name.
+      The reaction uses `target: currentTemplateData` to identify which item to remove from the list.
+    toDescribe:
+      renderView:
+        - type: Switch
+          content: ~.users
+          singleOption:
+            load: user_item
+      templates:
+        user_item:
+          type: div
+          content:
+            - ~.name
+            - type: button
+              content: "Remove"
+              attributes:
+                style:
+                  marginLeft: 10px
+              actions:
+                - what: removeData
+                  on: click
+                  target: currentTemplateData
+                  parentLevel: 0
+      data:
+        users:
+          - name: "Alice"
+          - name: "Bob"
+          - name: "Charlie" 

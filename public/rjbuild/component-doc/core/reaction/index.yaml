@@ -1,0 +1,254 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Reactive-JSON Reactions System Documentation
+
+      ## Introduction
+
+      Reactions are a fundamental part of Reactive-JSON's interactivity system. They allow you to respond to user events and perform operations like data updates, network requests, and browser interactions. In the RjBuild, reactions are defined under the `actions` key, just like regular actions, but are distinguished by the presence of the `on` property.
+
+      Reactions enable you to create interactive interfaces that respond to user input, modify application state, communicate with servers, and control browser behavior - all through JSON configuration.
+
+  - type: RjBuildDescriber
+    title: "Basic Reaction Structure"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates the fundamental structure of reactions in Reactive-JSON.
+          
+          Reactions are defined as part of the `actions` array on any element and consist of:
+          - `what`: The name of the reaction to execute
+          - `on`: The event that triggers the reaction
+          - **Reaction-specific properties**: Vary depending on the reaction type
+          - **Optional conditions**: Same conditional system as actions
+
+    toDescribe:
+      renderView:
+        - type: TextField
+          label: "Enter some text:"
+          dataLocation: ~.user_input
+          placeholder: "Type something..."
+
+        - type: button
+          content: "Save Text"
+          actions:
+            - what: setData              # Reaction type
+              on: click                  # Triggering event
+              path: ~.saved_text         # Reaction-specific property
+              value: ~.user_input        # Reaction-specific property
+              when: ~.user_input         # Optional condition
+              isEmpty: "not"             # Condition value
+
+        - type: div
+          content: ["Saved text: ", ~.saved_text]
+          actions:
+            - what: hide                 # Action (no 'on' property)
+              when: ~.saved_text         # Condition
+              isEmpty: true
+
+      data:
+        user_input: ""
+        saved_text: ""
+
+  - type: Markdown
+    content: |
+      ## Reaction Types
+
+      Reactive-JSON provides several built-in reactions:
+
+      ### Data Management
+      - **[setData](setData)**: Sets data at the specified path
+      - **[addData](addData)**: Adds new data to the specified path
+      - **[removeData](removeData)**: Removes data from the specified path
+      - **[moveData](moveData)**: Moves data from one path to another
+
+      ### Network Operations
+      - **[fetchData](fetchData)**: Fetches data from a URL using GET requests
+      - **[submitData](submitData)**: Submits data to a server endpoint using POST/PUT/DELETE
+
+      ### Browser Operations
+      - **[setClipboardData](setClipboardData)**: Copies data to the clipboard
+      - **[redirectNow](redirectNow)**: Performs an immediate redirect
+      - **[triggerEvent](triggerEvent)**: Triggers a custom event
+      - **[postMessage](postMessage)**: Sends a message to another window/frame
+
+      For detailed documentation of each reaction, including properties and examples, see their respective documentation pages.
+
+  - type: RjBuildDescriber
+    title: "Event Types and Conditional Reactions"
+    description:
+      - type: Markdown
+        content: |
+          This example shows different event types and conditional reactions.
+          
+          Common event types:
+          - `click`: Mouse click (works on any element)
+          - `change`: Form input change (works on form elements only)
+          - `submit`: Form submission (works on form elements only)
+          - `keydown`/`keyup`: Keyboard events (works on focusable elements)
+
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Toggle Mode (Click)"
+          actions:
+            - what: setData
+              on: click
+              path: ~.mode
+              value: "editing"
+              when: ~.mode
+              isNot: "editing"
+            - what: setData
+              on: click
+              path: ~.mode
+              value: "viewing"
+              when: ~.mode
+              is: "editing"
+
+        - type: TextField
+          label: "Text field (onChange):"
+          dataLocation: ~.text_value
+          actions:
+            - what: setData
+              on: change
+              path: ~.last_change
+              value: ~.text_value
+              when: ~.mode
+              is: "editing"
+
+        - type: div
+          content: ["Current mode: ", ~.mode]
+
+        - type: div
+          content: ["Last change: ", ~.last_change]
+          actions:
+            - what: hide
+              when: ~.last_change
+              isEmpty: true
+
+      data:
+        mode: "viewing"
+        text_value: ""
+        last_change: ""
+
+  - type: RjBuildDescriber
+    title: "Data Management Example"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates the core data management reactions: setData, addData, and removeData.
+
+    toDescribe:
+      renderView:
+        - type: TextField
+          label: "Add item:"
+          dataLocation: ~.new_item
+          placeholder: "Enter item name"
+
+        - type: button
+          content: "Add Item"
+          actions:
+            - what: addData
+              on: click
+              path: ~.items
+              value:
+                name: ~.new_item
+              when: ~.new_item
+              isEmpty: "not"
+            - what: setData
+              on: click
+              path: ~.new_item
+              value: ""
+              when: ~.new_item
+              isEmpty: "not"
+
+        - type: div
+          content: "Items:"
+          attributes:
+            style:
+              fontWeight: "bold"
+              margin: "10px 0 5px 0"
+
+        - type: Switch
+          content: ~.items
+          singleOption:
+            load: itemTemplate
+
+      templates:
+        itemTemplate:
+          type: div
+          content:
+            - "• "
+            - ~.name
+            - type: button
+              content: " [Remove]"
+              attributes:
+                style:
+                  marginLeft: "10px"
+                  background: "red"
+                  color: "white"
+                  border: "none"
+                  padding: "2px 8px"
+                  fontSize: "12px"
+              actions:
+                - what: removeData
+                  on: click
+                  target: currentTemplateData
+                  parentLevel: 0
+
+      data:
+        new_item: ""
+        items:
+          - name: "Sample item 1"
+          - name: "Sample item 2"
+
+  - type: Markdown
+    content: |
+      ## Advanced Features
+
+      ### Conditional Logic
+      Reactions support the same conditional operators as actions:
+      - `when` + `is`/`isNot`: Value equality checks
+      - `when` + `isEmpty`: Empty value tests  
+      - `when` + `contains`/`containsNot`: Content search
+      - `when` + `>`, `<`, `>=`, `<=`: Numeric/date comparisons
+      - `andConditions`/`orConditions`: Complex condition logic
+
+      ### Event Control
+      Use `stopPropagation: true` to:
+      1. Prevent event bubbling to parent elements
+      2. Stop execution of subsequent actions for the same event
+
+      ### Execution Order
+      - Multiple reactions on the same event execute in the order they are defined
+      - Reactions with unmet conditions are skipped
+      - Actions (without `on` property) are evaluated separately from reactions
+
+  - type: Markdown
+    content: |
+      ## Technical Details
+
+      - Reactions are triggered by DOM events
+      - Multiple reactions can be defined for the same event
+      - Reactions are executed in the order they appear in the YAML
+      - Reactions can be chained together by modifying data that other reactions depend on
+      - Conditional reactions only execute when their conditions evaluate to true
+      - The `stopPropagation` property affects both event bubbling and subsequent action execution
+
+      ## Limitations
+
+      - Event availability depends on the HTML element type (e.g., `change` only works on form elements)
+      - Network operations require proper CORS configuration
+      - Browser operations require appropriate permissions
+      - No built-in error handling beyond console logging for network operations
+      - Only one network request (fetch/submit) can be active at a time
+      - URLs in network operations must be static strings (dynamic URLs not supported)
+
+      ## Best Practices
+
+      1. **Use descriptive conditions**: Make your conditional logic clear and readable
+      2. **Handle empty states**: Always consider what happens when data is empty or undefined
+      3. **Order matters**: Place more specific conditions before general ones
+      4. **Use stopPropagation wisely**: Only use it when you specifically need to prevent event bubbling or stop action execution
+      5. **Test network operations**: Ensure your API endpoints return the expected format
+      6. **Provide user feedback**: Use visual indicators during loading states (see individual reaction documentation for CSS examples) 

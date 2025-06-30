@@ -1,0 +1,13 @@
+renderView:
+#  - type: div
+#    content: index de la doc
+
+  - type: h1
+    content: Demo pages
+
+  - type: p
+    content: Please have a look on the sidebar to access our live examples.
+
+templates:
+
+data: {}

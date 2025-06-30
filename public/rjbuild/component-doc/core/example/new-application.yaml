@@ -1,0 +1,987 @@
+renderView:
+  - type: div
+    attributes:
+      style:
+        minHeight: 100vh
+        display: flex
+        flexDirection: column
+        backgroundColor: "#faf7f0"
+        fontFamily: "'Crimson Text', 'Times New Roman', serif"
+    content:
+      # Header élégant avec logo centré
+      - type: header
+        attributes:
+          style:
+            background: "linear-gradient(135deg, #1a0f0a 0%, #2d1b14 50%, #3d2818 100%)"
+            color: "#f4ead5"
+            padding: 1.5rem 0
+            position: relative
+            boxShadow: "0 4px 20px rgba(45, 27, 20, 0.5), inset 0 1px 0 rgba(184, 134, 11, 0.3)"
+            borderBottom: "1px solid #b8860b"
+        content:
+          # Ornement décoratif supérieur
+          - type: div
+            attributes:
+              style:
+                position: absolute
+                top: 0
+                left: 0
+                right: 0
+                height: 4px
+                background: "linear-gradient(90deg, transparent 0%, #b8860b 20%, #d4af37 50%, #b8860b 80%, transparent 100%)"
+
+          # Motif décoratif de fond
+          - type: div
+            attributes:
+              style:
+                position: absolute
+                top: 0
+                left: 0
+                right: 0
+                bottom: 0
+                opacity: 0.05
+                backgroundImage: "radial-gradient(circle at 20% 50%, #b8860b 2px, transparent 2px), radial-gradient(circle at 80% 50%, #b8860b 1px, transparent 1px)"
+                backgroundSize: "60px 30px, 40px 20px"
+
+          - type: div
+            attributes:
+              style:
+                maxWidth: 1200px
+                margin: 0 auto
+                padding: 0 2rem
+                display: flex
+                justifyContent: space-between
+                alignItems: center
+                position: relative
+                zIndex: 2
+            content:
+              # Navigation gauche
+              - type: nav
+                attributes:
+                  style:
+                    display: flex
+                    gap: 2.5rem
+                    alignItems: center
+                content:
+                  - type: a
+                    attributes:
+                      href: "#accueil"
+                      style:
+                        color: "#f4ead5"
+                        textDecoration: none
+                        fontWeight: 300
+                        fontSize: 1.1rem
+                        fontFamily: "'Crimson Text', serif"
+                        letterSpacing: 1px
+                        padding: 0.5rem 1rem
+                        borderRadius: 3px
+                        transition: "all 0.3s ease"
+                    content: "Accueil"
+
+                  - type: div
+                    attributes:
+                      style:
+                        color: "#b8860b"
+                        fontSize: 0.8rem
+                    content: "❖"
+
+                  - type: a
+                    attributes:
+                      href: "#services"
+                      style:
+                        color: "#f4ead5"
+                        textDecoration: none
+                        fontWeight: 300
+                        fontSize: 1.1rem
+                        fontFamily: "'Crimson Text', serif"
+                        letterSpacing: 1px
+                        padding: 0.5rem 1rem
+                        borderRadius: 3px
+                        transition: "all 0.3s ease"
+                    content: "Collections"
+
+              # Logo central
+              - type: div
+                attributes:
+                  style:
+                    display: flex
+                    flexDirection: column
+                    alignItems: center
+                    textAlign: center
+                content:
+                  # Ornement supérieur
+                  - type: div
+                    attributes:
+                      style:
+                        fontSize: 0.6rem
+                        color: "#b8860b"
+                        marginBottom: 0.2rem
+                        fontFamily: "'Crimson Text', serif"
+                        letterSpacing: 2px
+                    content: "◊ ◊ ◊"
+
+                  # Titre principal
+                  - type: h1
+                    attributes:
+                      style:
+                        margin: 0
+                        fontSize: 1.4rem
+                        fontWeight: 300
+                        fontFamily: "'Playfair Display', 'Times New Roman', serif"
+                        color: "#f4ead5"
+                        letterSpacing: 2px
+                        textShadow: "2px 2px 4px rgba(0,0,0,0.5)"
+                        lineHeight: 1
+                    content: "Bibliothèque"
+
+                  # Sous-titre doré
+                  - type: div
+                    attributes:
+                      style:
+                        fontSize: 0.8rem
+                        color: "#b8860b"
+                        fontFamily: "'Playfair Display', serif"
+                        fontWeight: 400
+                        letterSpacing: 3px
+                        marginTop: 0.1rem
+                        textShadow: "1px 1px 2px rgba(0,0,0,0.3)"
+                    content: "DORÉE"
+
+              # Navigation droite
+              - type: nav
+                attributes:
+                  style:
+                    display: flex
+                    gap: 2.5rem
+                    alignItems: center
+                content:
+                  - type: a
+                    attributes:
+                      href: "#about"
+                      style:
+                        color: "#f4ead5"
+                        textDecoration: none
+                        fontWeight: 300
+                        fontSize: 1.1rem
+                        fontFamily: "'Crimson Text', serif"
+                        letterSpacing: 1px
+                        padding: 0.5rem 1rem
+                        borderRadius: 3px
+                        transition: "all 0.3s ease"
+                    content: "À Propos"
+
+                  - type: div
+                    attributes:
+                      style:
+                        color: "#b8860b"
+                        fontSize: 0.8rem
+                    content: "❖"
+
+                  - type: a
+                    attributes:
+                      href: "#correspondance"
+                      style:
+                        color: "#f4ead5"
+                        textDecoration: none
+                        fontWeight: 300
+                        fontSize: 1.1rem
+                        fontFamily: "'Crimson Text', serif"
+                        letterSpacing: 1px
+                        padding: 0.5rem 1rem
+                        borderRadius: 3px
+                        transition: "all 0.3s ease"
+                    content: "Correspondance"
+
+      # Corps principal élégant
+      - type: main
+        attributes:
+          style:
+            flex: 1
+            padding: 4rem 0 4rem 0
+            position: relative
+            zIndex: 1
+        content:
+          - type: div
+            attributes:
+              style:
+                maxWidth: 1000px
+                margin: 0 auto
+                padding: 0 2rem
+            content:
+              # Section héro littéraire avec vidéo
+              - type: section
+                attributes:
+                  id: accueil
+                  style:
+                    textAlign: center
+                    marginBottom: 6rem
+                    position: relative
+                    padding: 8rem 3rem
+                    overflow: hidden
+                    borderRadius: 20px
+                    border: "4px solid #b8860b"
+                    boxShadow: "0 12px 24px rgba(45, 27, 20, 0.4)"
+                content:
+                  # Vidéo d'arrière-plan
+                  - type: video
+                    attributes:
+                      autoPlay: true
+                      muted: true
+                      loop: true
+                      playsInline: true
+                      style:
+                        position: absolute
+                        top: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        objectFit: cover
+                        zIndex: 1
+                    content:
+                      - type: source
+                        attributes:
+                          src: "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4"
+                          type: "video/mp4"
+
+                  # Overlay littéraire
+                  - type: div
+                    attributes:
+                      style:
+                        position: absolute
+                        top: 0
+                        left: 0
+                        width: 100%
+                        height: 100%
+                        background: "linear-gradient(135deg, rgba(45, 27, 20, 0.8), rgba(139, 69, 19, 0.7))"
+                        zIndex: 2
+
+                  # Contenu héro raffiné
+                  - type: div
+                    attributes:
+                      style:
+                        position: relative
+                        zIndex: 3
+                        color: "#f4ead5"
+                    content:
+                      - type: div
+                        attributes:
+                          style:
+                            fontSize: 1.5rem
+                            marginBottom: 1rem
+                            color: "#b8860b"
+                            fontStyle: italic
+                        content: "« L'art de l'écriture »"
+                      - type: h2
+                        attributes:
+                          style:
+                            fontSize: 4rem
+                            marginBottom: 1.5rem
+                            color: "#f4ead5"
+                            textShadow: "3px 3px 6px rgba(0,0,0,0.8)"
+                            fontWeight: 300
+                            fontFamily: "'Playfair Display', serif"
+                            letterSpacing: 3px
+                            lineHeight: 1.2
+                        content: "Bibliothèque Dorée"
+                      - type: p
+                        attributes:
+                          style:
+                            fontSize: 1.3rem
+                            color: "#f4ead5"
+                            maxWidth: 600px
+                            margin: 0 auto 2.5rem
+                            lineHeight: 1.8
+                            textShadow: "1px 1px 3px rgba(0,0,0,0.8)"
+                            fontStyle: italic
+                        content: "Découvrez un univers littéraire raffiné où chaque mot résonne comme une mélodie, où chaque page révèle les secrets de l'art d'écrire."
+                      - type: button
+                        attributes:
+                          style:
+                            backgroundColor: "rgba(184, 134, 11, 0.9)"
+                            color: "#f4ead5"
+                            border: "2px solid #b8860b"
+                            padding: 1.5rem 3rem
+                            fontSize: 1.1rem
+                            borderRadius: 50px
+                            cursor: pointer
+                            fontWeight: 400
+                            fontFamily: "'Crimson Text', serif"
+                            letterSpacing: 1px
+                            boxShadow: "0 6px 12px rgba(0,0,0,0.4)"
+                            transition: "all 0.3s ease"
+                            textTransform: uppercase
+                        content: "Explorer nos Trésors"
+
+              # Section collections raffinée
+              - type: section
+                attributes:
+                  id: services
+                  style:
+                    marginBottom: 6rem
+                    backgroundColor: "rgba(244, 234, 213, 0.3)"
+                    padding: 4rem 3rem
+                    borderRadius: 15px
+                    border: "1px solid rgba(184, 134, 11, 0.3)"
+                content:
+                  - type: div
+                    attributes:
+                      style:
+                        textAlign: center
+                        marginBottom: 1rem
+                        fontSize: 1rem
+                        color: "#8b4513"
+                        letterSpacing: 2px
+                        textTransform: uppercase
+                    content: "Nos Collections"
+                  - type: h3
+                    attributes:
+                      style:
+                        fontSize: 3rem
+                        textAlign: center
+                        marginBottom: 3rem
+                        color: "#2d1b14"
+                        fontFamily: "'Playfair Display', serif"
+                        fontWeight: 300
+                        letterSpacing: 2px
+                    content: "Œuvres d'Exception"
+                  - type: div
+                    attributes:
+                      style:
+                        display: grid
+                        gridTemplateColumns: repeat(auto-fit, minmax(320px, 1fr))
+                        gap: 2.5rem
+                    content:
+                      # Utilisation du composant Switch pour itérer sur les services
+                      - type: Switch
+                        content: ~.services
+                        singleOption:
+                          load: service-card
+
+              # Section À Propos littéraire
+              - type: section
+                attributes:
+                  id: about
+                  style:
+                    marginBottom: 6rem
+                    padding: 5rem 3rem
+                    background: "linear-gradient(135deg, rgba(45, 27, 20, 0.05) 0%, rgba(184, 134, 11, 0.1) 50%, rgba(45, 27, 20, 0.05) 100%)"
+                    borderRadius: 20px
+                    border: "2px solid rgba(184, 134, 11, 0.3)"
+                    position: relative
+                    overflow: hidden
+                content:
+                  # Ornement décoratif
+                  - type: div
+                    attributes:
+                      style:
+                        position: absolute
+                        top: -50px
+                        right: -50px
+                        width: 200px
+                        height: 200px
+                        background: "radial-gradient(circle, rgba(184, 134, 11, 0.1) 0%, transparent 70%)"
+                        borderRadius: 50%
+
+                  - type: div
+                    attributes:
+                      style:
+                        position: relative
+                        zIndex: 2
+                        maxWidth: 800px
+                        margin: 0 auto
+                        textAlign: center
+                    content:
+                      # En-tête de section
+                      - type: div
+                        attributes:
+                          style:
+                            marginBottom: 1.5rem
+                            fontSize: 1rem
+                            color: "#8b4513"
+                            letterSpacing: 3px
+                            textTransform: uppercase
+                            fontFamily: "'Crimson Text', serif"
+                        content: "Notre Histoire"
+
+                      - type: h3
+                        attributes:
+                          style:
+                            fontSize: 3.5rem
+                            marginBottom: 3rem
+                            color: "#2d1b14"
+                            fontFamily: "'Playfair Display', serif"
+                            fontWeight: 300
+                            letterSpacing: 2px
+                            lineHeight: 1.2
+                        content: "L'Art des Lettres"
+
+                      # Contenu principal en deux colonnes
+                      - type: div
+                        attributes:
+                          style:
+                            display: grid
+                            gridTemplateColumns: "1fr 1fr"
+                            gap: 4rem
+                            marginBottom: 3rem
+                            textAlign: left
+                        content:
+                          # Première colonne
+                          - type: div
+                            content:
+                              - type: p
+                                attributes:
+                                  style:
+                                    fontSize: 1.2rem
+                                    lineHeight: 1.8
+                                    color: "#2d1b14"
+                                    marginBottom: 2rem
+                                    fontFamily: "'Crimson Text', serif"
+                                    fontStyle: italic
+                                content: "Depuis les premiers manuscrits enluminés jusqu'aux éditions contemporaines les plus raffinées, la Bibliothèque Dorée perpétue une tradition millénaire de préservation et de transmission du savoir littéraire."
+
+                              - type: p
+                                attributes:
+                                  style:
+                                    fontSize: 1.1rem
+                                    lineHeight: 1.7
+                                    color: "#3d2818"
+                                    fontFamily: "'Crimson Text', serif"
+                                content: "Notre collection, constituée au fil des siècles par des bibliophiles passionnés, rassemble des trésors uniques : manuscrits médiévaux, éditions princeps, reliures précieuses et correspondances d'auteurs illustres."
+
+                          # Deuxième colonne
+                          - type: div
+                            content:
+                              - type: p
+                                attributes:
+                                  style:
+                                    fontSize: 1.1rem
+                                    lineHeight: 1.7
+                                    color: "#3d2818"
+                                    marginBottom: 2rem
+                                    fontFamily: "'Crimson Text', serif"
+                                content: "Chaque ouvrage qui compose notre fonds témoigne d'un art consommé de l'écriture et de l'édition. Nos artisans relieurs perpétuent des techniques ancestrales, créant des écrins dignes des plus beaux textes."
+
+                              - type: p
+                                attributes:
+                                  style:
+                                    fontSize: 1.2rem
+                                    lineHeight: 1.8
+                                    color: "#2d1b14"
+                                    fontFamily: "'Crimson Text', serif"
+                                    fontStyle: italic
+                                content: "« Dans chaque livre réside une âme, dans chaque page bat un cœur, dans chaque mot vibre l'éternité de la pensée humaine. »"
+
+                      # Citation ornementée
+                      - type: div
+                        attributes:
+                          style:
+                            backgroundColor: "rgba(184, 134, 11, 0.1)"
+                            padding: 2.5rem
+                            borderRadius: 15px
+                            border: "1px solid rgba(184, 134, 11, 0.3)"
+                            marginBottom: 3rem
+                            position: relative
+                        content:
+                          # Guillemets décoratifs
+                          - type: div
+                            attributes:
+                              style:
+                                position: absolute
+                                top: -10px
+                                left: 20px
+                                fontSize: 4rem
+                                color: "#b8860b"
+                                fontFamily: "'Playfair Display', serif"
+                                lineHeight: 1
+                                opacity: 0.7
+                            content: "\""
+
+                          - type: blockquote
+                            attributes:
+                              style:
+                                fontSize: 1.3rem
+                                fontStyle: italic
+                                color: "#2d1b14"
+                                textAlign: center
+                                margin: 0
+                                fontFamily: "'Playfair Display', serif"
+                                letterSpacing: 1px
+                                lineHeight: 1.6
+                            content: "La vraie bibliothèque n'est pas un simple dépôt de livres, mais un temple où l'esprit humain dialogue avec l'éternité."
+
+                          - type: cite
+                            attributes:
+                              style:
+                                display: block
+                                marginTop: 1.5rem
+                                fontSize: 1rem
+                                color: "#8b4513"
+                                fontFamily: "'Crimson Text', serif"
+                                letterSpacing: 2px
+                                textTransform: uppercase
+                            content: "— Fondateur de la Bibliothèque, MDCCCXII"
+
+                      # Statistiques élégantes
+                      - type: div
+                        attributes:
+                          style:
+                            display: grid
+                            gridTemplateColumns: repeat(3, 1fr)
+                            gap: 2rem
+                            marginTop: 2rem
+                        content:
+                          - type: div
+                            attributes:
+                              style:
+                                textAlign: center
+                                padding: 1.5rem
+                            content:
+                              - type: div
+                                attributes:
+                                  style:
+                                    fontSize: 2.5rem
+                                    fontWeight: bold
+                                    color: "#b8860b"
+                                    fontFamily: "'Playfair Display', serif"
+                                    marginBottom: 0.5rem
+                                content: "12,847"
+                              - type: div
+                                attributes:
+                                  style:
+                                    fontSize: 0.9rem
+                                    color: "#8b4513"
+                                    letterSpacing: 1px
+                                    textTransform: uppercase
+                                    fontFamily: "'Crimson Text', serif"
+                                content: "Manuscrits Précieux"
+
+                          - type: div
+                            attributes:
+                              style:
+                                textAlign: center
+                                padding: 1.5rem
+                            content:
+                              - type: div
+                                attributes:
+                                  style:
+                                    fontSize: 2.5rem
+                                    fontWeight: bold
+                                    color: "#b8860b"
+                                    fontFamily: "'Playfair Display', serif"
+                                    marginBottom: 0.5rem
+                                content: "214"
+                              - type: div
+                                attributes:
+                                  style:
+                                    fontSize: 0.9rem
+                                    color: "#8b4513"
+                                    letterSpacing: 1px
+                                    textTransform: uppercase
+                                    fontFamily: "'Crimson Text', serif"
+                                content: "Années d'Histoire"
+
+                          - type: div
+                            attributes:
+                              style:
+                                textAlign: center
+                                padding: 1.5rem
+                            content:
+                              - type: div
+                                attributes:
+                                  style:
+                                    fontSize: 2.5rem
+                                    fontWeight: bold
+                                    color: "#b8860b"
+                                    fontFamily: "'Playfair Display', serif"
+                                    marginBottom: 0.5rem
+                                content: "∞"
+                              - type: div
+                                attributes:
+                                  style:
+                                    fontSize: 0.9rem
+                                    color: "#8b4513"
+                                    letterSpacing: 1px
+                                    textTransform: uppercase
+                                    fontFamily: "'Crimson Text', serif"
+                                content: "Sagesse Préservée"
+
+      # Footer élégant
+      - type: footer
+        attributes:
+          id: correspondance
+          style:
+            backgroundColor: "#2d1b14"
+            color: "#f4ead5"
+            padding: 3rem 0
+            marginTop: auto
+            borderTop: "3px solid #b8860b"
+        content:
+          - type: div
+            attributes:
+              style:
+                maxWidth: 1000px
+                margin: 0 auto
+                padding: 0 2rem
+                textAlign: center
+            content:
+              - type: div
+                attributes:
+                  style:
+                    marginBottom: 2rem
+                content:
+                  - type: h4
+                    attributes:
+                      style:
+                        marginBottom: 1.5rem
+                        fontSize: 1.8rem
+                        fontFamily: "'Playfair Display', serif"
+                        color: "#b8860b"
+                        letterSpacing: 1px
+                    content: "Correspondance"
+                  - type: p
+                    attributes:
+                      style:
+                        margin: 0.8rem 0
+                        fontSize: 1.1rem
+                        fontFamily: "'Crimson Text', serif"
+                    content: "Missive : contact@bibliotheque-doree.fr"
+                  - type: p
+                    attributes:
+                      style:
+                        margin: 0.8rem 0
+                        fontSize: 1.1rem
+                        fontFamily: "'Crimson Text', serif"
+                    content: "Télégraphe : 01 23 45 67 89"
+
+                    # Bouton pour ouvrir le modal de contact
+                  - type: button
+                    attributes:
+                      style:
+                        backgroundColor: "#b8860b"
+                        color: "#f4ead5"
+                        border: "2px solid #d4af37"
+                        padding: 1rem 2.5rem
+                        fontSize: 1.1rem
+                        borderRadius: 50px
+                        cursor: pointer
+                        fontWeight: 400
+                        fontFamily: "'Crimson Text', serif"
+                        letterSpacing: 1px
+                        marginTop: 1.5rem
+                        boxShadow: "0 4px 8px rgba(0,0,0,0.3)"
+                        transition: "all 0.3s ease"
+                    actions:
+                      - what: setData
+                        on: click
+                        path: ~.show_contact_modal
+                        value: true
+                        when: ~.message_sent
+                        isEmpty: true
+                      - what: hide
+                        when: ~.message_sent
+                        is: true
+                    content: "Contactez-nous"
+
+                  # Message de confirmation après envoi
+                  - type: div
+                    attributes:
+                      style:
+                        marginTop: 2.5rem
+                        padding: 1rem 1.5rem
+                        backgroundColor: "rgba(184, 134, 11, 0.1)"
+                        border: "1px solid rgba(184, 134, 11, 0.3)"
+                        borderRadius: 8px
+                        textAlign: center
+                        fontFamily: "'Crimson Text', serif"
+                        fontSize: 1rem
+                        color: "#8b4513"
+                        fontStyle: italic
+                    actions:
+                      - what: hide
+                        when: ~.message_sent
+                        isEmpty: true
+                    content: "✉️ Merci pour votre envoi, nous allons regarder bientôt votre missive avec attention."
+
+                  - type: div
+                    attributes:
+                      style:
+                        borderTop: "1px solid rgba(184, 134, 11, 0.5)"
+                        marginTop: 3rem
+                        paddingTop: 2rem
+                        fontSize: 0.95rem
+                        color: "rgba(244, 234, 213, 0.8)"
+                        fontStyle: italic
+                    content: "© MMXXIV Bibliothèque Dorée • Tous droits réservés avec déférence"
+
+      # Modal de contact
+      - type: Modal
+        showBoolPath: ~.show_contact_modal
+        closeButton: true
+        headerTitle:
+          type: div
+          attributes:
+            style:
+              textAlign: center
+              color: "#2d1b14"
+              fontFamily: "'Playfair Display', serif"
+              fontSize: 1.8rem
+              fontWeight: 300
+              letterSpacing: 1px
+          content: "Correspondance Distinguée"
+        body:
+          type: div
+          attributes:
+            style:
+              padding: 2rem
+              fontFamily: "'Crimson Text', serif"
+          content:
+            - type: div
+              attributes:
+                style:
+                  marginBottom: 2rem
+                  textAlign: center
+                  color: "#8b4513"
+                  fontStyle: italic
+              content: "Adressez-nous votre missive avec déférence"
+
+            # Formulaire de contact
+            - type: div
+              attributes:
+                style:
+                  maxWidth: 500px
+                  margin: 0 auto
+              content:
+                - type: TextField
+                  dataLocation: ~.contact_form.nom
+                  label: "Nom & Titre :"
+                  placeholder: "Monsieur le Comte de..."
+                  inputAttributes:
+                    style:
+                      fontFamily: "'Crimson Text', serif"
+                      border: "2px solid rgba(184, 134, 11, 0.3)"
+                      borderRadius: 8px
+                      padding: 0.8rem
+
+                - type: TextField
+                  dataLocation: ~.contact_form.email
+                  label: "Missive électronique :"
+                  placeholder: "votre.missive@domaine.fr"
+                  inputType: "email"
+                  inputAttributes:
+                    style:
+                      fontFamily: "'Crimson Text', serif"
+                      border: "2px solid rgba(184, 134, 11, 0.3)"
+                      borderRadius: 8px
+                      padding: 0.8rem
+
+                - type: SelectField
+                  dataLocation: ~.contact_form.sujet
+                  label: "Objet de la correspondance :"
+                  options:
+                    - label: "Veuillez choisir l'objet de votre missive..."
+                      value: ""
+                    - label: "Consultation littéraire & expertise"
+                      value: "consultation"
+                    - label: "Acquisition d'ouvrages précieux"
+                      value: "acquisition"
+                    - label: "Restauration de manuscrits"
+                      value: "restauration"
+                    - label: "Reliure d'exception"
+                      value: "reliure"
+                    - label: "Évaluation & estimation"
+                      value: "evaluation"
+                    - label: "Donation & legs littéraires"
+                      value: "donation"
+                    - label: "Visite privée de la bibliothèque"
+                      value: "visite"
+                    - label: "Autre correspondance"
+                      value: "autre"
+                  inputAttributes:
+                    style:
+                      fontFamily: "'Crimson Text', serif"
+                      border: "2px solid rgba(184, 134, 11, 0.3)"
+                      borderRadius: 8px
+                      padding: 0.8rem
+
+                - type: TextAreaField
+                  dataLocation: ~.contact_form.message
+                  label: "Votre message :"
+                  placeholder: "Honoré Bibliothécaire,\n\nJ'ai l'honneur de vous écrire concernant..."
+                  rows: 6
+                  inputAttributes:
+                    style:
+                      fontFamily: "'Crimson Text', serif"
+                      border: "2px solid rgba(184, 134, 11, 0.3)"
+                      borderRadius: 8px
+                      padding: 0.8rem
+                      resize: "vertical"
+
+                # Boutons d'action
+                - type: div
+                  attributes:
+                    style:
+                      display: flex
+                      justifyContent: space-between
+                      marginTop: 2rem
+                      gap: 1rem
+                  content:
+                    - type: button
+                      attributes:
+                        style:
+                          backgroundColor: "transparent"
+                          color: "#8b4513"
+                          border: "2px solid #8b4513"
+                          padding: 0.8rem 2rem
+                          borderRadius: 25px
+                          cursor: pointer
+                          fontFamily: "'Crimson Text', serif"
+                          fontSize: 1rem
+                          transition: "all 0.3s ease"
+                      actions:
+                        - what: setData
+                          on: click
+                          path: ~.show_contact_modal
+                          value: false
+                      content: "Annuler"
+
+                    # Bouton désactivé si des champs sont vides
+                    - type: button
+                      attributes:
+                        style:
+                          backgroundColor: "#8b7355"
+                          color: "#d3c7b8"
+                          border: "2px solid #8b7355"
+                          padding: 0.8rem 2rem
+                          borderRadius: 25px
+                          cursor: "not-allowed"
+                          fontFamily: "'Crimson Text', serif"
+                          fontSize: 1rem
+                          transition: "all 0.3s ease"
+                          opacity: 0.6
+                      actions:
+                        - what: hide
+                          andConditions:
+                            - when: ~.contact_form.nom
+                              isEmpty: "not"
+                            - when: ~.contact_form.email
+                              isEmpty: "not"
+                            - when: ~.contact_form.sujet
+                              isEmpty: "not"
+                            - when: ~.contact_form.message
+                              isEmpty: "not"
+                      content: "Veuillez remplir tous les champs"
+
+                    # Bouton actif quand tous les champs sont remplis
+                    - type: button
+                      attributes:
+                        style:
+                          backgroundColor: "#b8860b"
+                          color: "#f4ead5"
+                          border: "2px solid #b8860b"
+                          padding: 0.8rem 2rem
+                          borderRadius: 25px
+                          cursor: pointer
+                          fontFamily: "'Crimson Text', serif"
+                          fontSize: 1rem
+                          boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
+                          transition: "all 0.3s ease"
+                      actions:
+                        - what: hide
+                          when: ~.contact_form.nom
+                          isEmpty: true
+                        - what: hide
+                          when: ~.contact_form.email
+                          isEmpty: true
+                        - what: hide
+                          when: ~.contact_form.sujet
+                          isEmpty: true
+                        - what: hide
+                          when: ~.contact_form.message
+                          isEmpty: true
+                        - what: setData
+                          on: click
+                          path: ~.show_contact_modal
+                          value: false
+                          when: ~.contact_form.nom
+                          isEmpty: "not"
+                        - what: setData
+                          on: click
+                          path: ~.message_sent
+                          value: true
+                          when: ~.contact_form.nom
+                          isEmpty: "not"
+                      content: "Envoyer la Missive"
+
+templates:
+  service-card:
+    type: div
+    attributes:
+      style:
+        padding: 2.5rem
+        backgroundColor: "rgba(255, 255, 255, 0.9)"
+        borderRadius: 15px
+        textAlign: center
+        boxShadow: "0 8px 16px rgba(45, 27, 20, 0.2)"
+        border: "1px solid rgba(184, 134, 11, 0.3)"
+        transition: "all 0.3s ease"
+        position: relative
+    content:
+      # Image d'illustration
+      - type: img
+        attributes:
+          src: ~.image
+          alt: ~.title
+          style:
+            width: 80px
+            height: 80px
+            objectFit: cover
+            borderRadius: 50%
+            margin: 0 auto 1.5rem
+            border: "3px solid #b8860b"
+            filter: "sepia(20%) saturate(1.2)"
+
+      - type: div
+        attributes:
+          style:
+            width: 60px
+            height: 2px
+            backgroundColor: "#b8860b"
+            margin: 0 auto 1.5rem
+      - type: h4
+        attributes:
+          style:
+            marginBottom: 1.5rem
+            color: "#2d1b14"
+            fontSize: 1.6rem
+            fontFamily: "'Playfair Display', serif"
+            fontWeight: 400
+            letterSpacing: 1px
+        content: ~.title
+      - type: p
+        attributes:
+          style:
+            color: "#8b4513"
+            lineHeight: 1.7
+            fontSize: 1.05rem
+            fontFamily: "'Crimson Text', serif"
+            fontStyle: italic
+        content: ~.description
+
+data:
+  show_contact_modal: false
+  message_sent: false
+  contact_form:
+    nom: ""
+    email: ""
+    sujet: ""
+    message: ""
+  services:
+    - title: "Écriture & Style"
+      description: "L'art subtil de manier la plume avec élégance, où chaque phrase devient une symphonie de mots soigneusement orchestrée."
+      image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=200&h=200&fit=crop&crop=center"
+    - title: "Reliure Précieuse"
+      description: "Des ouvrages magnifiquement reliés, témoins d'un savoir-faire ancestral et gardiens de la beauté littéraire."
+      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=200&h=200&fit=crop&crop=center"
+    - title: "Manuscrits Rares"
+      description: "Conservation et restauration de documents précieux, préservant l'héritage culturel pour les générations futures."
+      image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=200&h=200&fit=crop&crop=center" 

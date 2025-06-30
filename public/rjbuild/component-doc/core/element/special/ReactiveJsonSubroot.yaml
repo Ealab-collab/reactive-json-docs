@@ -1,0 +1,51 @@
+renderView:
+  - type: Markdown
+    content: |
+      # ReactiveJsonSubroot
+
+      The `ReactiveJsonSubroot` component allows you to render a new Reactive-JSON root inside an existing application. It is useful for embedding a sub-application, isolating a part of the data tree, or rendering a separate rjbuild with its own options.
+
+      ## Properties
+      - `rjOptions` (object, required): Options to pass to the subroot (such as `dataUrl`, `data`, `renderView`, etc.)
+      - Other properties are passed to the underlying `ReactiveJsonRoot`
+
+      ## Behavior
+      - Renders a new `ReactiveJsonRoot` with the provided options
+      - The subroot is isolated from the parent for data, templates, and rendering
+      - Plugins from the parent are reused in the subroot
+      - If `rjOptions` is not a valid object, nothing is rendered
+
+  - type: RjBuildDescriber
+    title: Example
+    description: This example demonstrates how to embed a separate Reactive-JSON application using ReactiveJsonSubroot. The component loads and renders an independent rjbuild file, creating an isolated sub-application within the current view.
+    toDescribe:
+      renderView:
+        - type: ReactiveJsonSubroot
+          rjOptions:
+            dataUrl: "/rjbuild/component/message.yaml"
+
+  - type: RjBuildDescriber
+    title: Example with inline JSON data
+    description: This example demonstrates two approaches for using ReactiveJsonSubroot with inline data. The first shows passing JSON data directly as a string via maybeRawAppData. The second shows loading subroot options dynamically from the main RjBuild's data using template interpolation. Both approaches are useful for embedding sub-applications without external files.
+    toDescribe:
+      renderView:
+        - type: ReactiveJsonSubroot
+          rjOptions:
+            maybeRawAppData: '{"data":{"userName":"Alice","messageCount":3},"renderView":[{"type":"div","attributes":{"style":{"padding":"1rem","border":"1px solid #ddd","borderRadius":"8px","backgroundColor":"#f9f9f9"}},"content":[{"type":"h3","content":"~~.userName"},{"type":"p","content":["You have ","~~.messageCount"," new messages."]},{"type":"button","content":"Mark as read","attributes":{"style":{"backgroundColor":"#007bff","color":"white","border":"none","padding":"0.5rem 1rem","borderRadius":"4px"}}}]}]}'
+
+        - type: hr
+
+        - type: ReactiveJsonSubroot
+          rjOptions: ~~.subrootToLoad
+      data:
+        subrootToLoad:
+          maybeRawAppData:
+            renderView:
+              - type: div
+                content: This second subroot is loaded from the "data" key of the main root.
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - The subroot is isolated from the parent; data and state are not shared
+      - No built-in communication between parent and subroot (except via plugins or explicit data passing) 

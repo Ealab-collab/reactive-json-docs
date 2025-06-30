@@ -1,0 +1,15 @@
+renderView:
+  - type: BsAlert
+    attributes:
+      variant: info
+    content:
+      - "Thanks for visiting this Reactive-JSON documentation! We gladly welcome any
+        feedback on our open source products. "
+      - type: a
+        attributes:
+          href: https://ea-lab.io
+        content: Leave a feedback
+
+templates:
+
+data: {}

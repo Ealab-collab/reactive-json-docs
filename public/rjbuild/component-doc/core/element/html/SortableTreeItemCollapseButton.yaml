@@ -1,0 +1,92 @@
+renderView:
+  - type: Markdown
+    content: |
+      # SortableTreeItemCollapseButton
+
+      The `SortableTreeItemCollapseButton` component provides a collapse/expand button for tree items in a `FolderSortableTree`.
+
+      Use this component when you want to customize the location of this button in the tree item.
+
+      It's especially useful when the `manualDrag` option of the parent SortableTree is `true`, which causes the
+      disappearance of the default collapse button.
+
+      ## Properties
+      No properties.
+
+      ## Technical Details
+      - Renders a button with CSS classes for styling
+      - Only appears when the tree item has children and supports collapsing
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Tree with a right aligned collapse button"
+    description:
+      - type: Markdown
+        content: |
+          This example shows a `FolderSortableTree` with `SortableTreeItemCollapseButton` components in each item
+          template. Click the collapse buttons to expand/collapse tree nodes.
+    toDescribe:
+      renderView:
+        - # Inline style, because we want to style an element that is internally handled by the SortableTree lib.
+          # It's better to put this in a CSS file or in the <head> though.
+          # This code simply makes the item grow, and is needed only for a nicer presentation of the collapse button.
+          type: style
+          content: ".dnd-sortable-tree_folder_tree-item { flex-grow: 1; }"
+        - type: FolderSortableTree
+          sortableTreeOptions:
+            disableCollapseOnItemClick: true
+            manualDrag: true
+            showDragHandle: true
+          dataLocation: ~.tree
+          itemTemplate:
+            type: div
+            attributes:
+              class: align-items-center d-flex flex-grow-1 gap-2
+            content:
+              - type: div
+                content:
+                  - type: span
+                    content: ~.name
+              - type: div
+                attributes:
+                  class: d-grid flex-grow-1 justify-content-end
+                  style:
+                    gridTemplateColumns: 1fr 8em 2em
+                content:
+                  - # Takes the remaining space (1fr).
+                    type: div
+                  - type: div
+                    attributes:
+                      class: text-end
+                    content: [" (", ~.count, " items)"]
+                  - type: SortableTreeItemCollapseButton
+      data:
+        tree:
+          - id: 1
+            value:
+              name: "Root Folder"
+              count: 3
+            children:
+              - id: 2
+                value:
+                  name: "Subfolder 1"
+                  count: 1
+                children:
+                  - id: 3
+                    value:
+                      name: "File 1"
+                      count: 0
+                    children: []
+              - id: 4
+                value:
+                  name: "Subfolder 2"
+                  count: 0
+                children: []
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - Only works within the template context of a `FolderSortableTree` item
+      - The button only appears when the tree item has children (`childCount > 0`)
+      - No customization of the collapse/expand behavior beyond what the underlying SortableTree provides
+      - The styling is controlled by the dnd-kit-sortable-tree CSS classes. You will need to provide CSS to override
+        the default styling.

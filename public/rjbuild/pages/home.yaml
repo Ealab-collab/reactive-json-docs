@@ -1,0 +1,44 @@
+renderView:
+  - type: div
+    attributes:
+      class: container-md mt-5 mb-5
+    content:
+      type: Markdown
+      content: |
+        # Reactive-JSON
+  
+        Welcome to the official documentation for **Reactive-JSON**, a powerful HTML builder library designed to create HTML with minimal JavaScript code and JSON (or YAML). This documentation will guide you through the installation, usage, and extension of Reactive-JSON.
+  
+        ## Overview
+  
+        **Reactive-JSON** is a React library developed by [EA Lab](https://ea-lab.io). It allows you to build websites or parts of websites using JSON (or YAML) configurations, which are processed by the Reactive-JSON engine. This approach significantly reduces the amount of JavaScript code needed to create complex HTML structures.
+  
+        ### Key Concepts
+  
+        - **HTML Builder**: Reactive-JSON acts as an HTML builder, enabling you to create HTML with minimal JavaScript code.
+        - **JSON/YAML Processing**: The core of Reactive-JSON processes JSON (or YAML) to generate HTML, making it easier to manage and update your web content.
+        - **Extensibility**: The engine can be extended with plugins, allowing you to add your own React components or integrate existing libraries like Chart.js.
+  
+        ## Getting Started
+  
+        To get started with Reactive-JSON, visit our [documentation site](https://reactive-json.ea-lab.io/docs). Here you will find detailed guides on how to install, configure, and use Reactive-JSON in your projects.
+  
+        ## Project Links
+  
+        - **Core Project Repository**: [Bitbucket - Reactive-JSON](https://bitbucket.org/ea-lab/reactive-json)
+        - **Documentation Site Repository**: [Bitbucket - Reactive-JSON Standalone](https://bitbucket.org/ea-lab/reactive-json-standalone)
+        - **Official Website**: [Reactive-JSON](https://reactive-json.ea-lab.io)
+  
+        ## Did You Know?
+  
+        The Reactive-JSON documentation site itself is built using Reactive-JSON! It leverages the core project, Chart.js, and custom components to demonstrate the capabilities and flexibility of the library.
+  
+        ## Support and Community
+  
+        For support and to connect with the community, visit the [EA Lab website](https://ea-lab.io).
+  
+        Happy coding with Reactive-JSON!
+
+templates:
+
+data: []

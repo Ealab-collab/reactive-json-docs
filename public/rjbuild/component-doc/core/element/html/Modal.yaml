@@ -1,0 +1,93 @@
+# Example usage of Modal component in Reactive-JSON
+renderView:
+  - type: Markdown
+    content: |
+      # Modal
+
+      The `Modal` component displays a dialog that can be controlled by local state or by a boolean in the global data context. It is useful for confirmations, information, or any overlay content.
+
+      ## Properties
+      - `headerTitle` (object, optional): Content for the modal header (any Reactive-JSON view)
+      - `body` (object, optional): Content for the modal body (any Reactive-JSON view)
+      - `closeButton` (boolean, optional): Show a close button in the header (default: false)
+      - `showBoolPath` (string or boolean, optional): If a string, path to a boolean in data controlling visibility; otherwise, local state is used
+      - `attributes` (object, optional): Additional attributes for the modal (size, centered, etc.)
+      - `className` (string, optional): Additional CSS classes (always includes `reactive-json`)
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Modal controlled by data path"
+    description:
+      - type: Markdown
+        content: |
+          Click the button to open the modal. The modal's visibility is controlled by the `show_modal` value in the data context. Closing the modal sets `show_modal` to false.
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Open Modal"
+          actions:
+            - what: setData
+              on: click
+              path: ~.show_modal
+              value: true
+        - type: Modal
+          showBoolPath: ~.show_modal
+          headerTitle:
+            type: Markdown
+            content: "Modal Title"
+          body:
+            type: Markdown
+            content: "This modal is controlled by global data."
+          closeButton: true
+      data:
+        show_modal: false
+
+  - type: RjBuildDescriber
+    title: "Multiple Modals Example"
+    description: This example demonstrates how to have multiple modals open simultaneously. Each modal is controlled by a different data path, allowing independent visibility control.
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: button
+              content: "Open First Modal"
+              actions:
+                - what: setData
+                  on: click
+                  path: ~.modal_one
+                  value: true
+        - type: Modal
+          showBoolPath: ~.modal_one
+          headerTitle: "First Modal"
+          body:
+            - type: Markdown
+              content: "This is the first modal. You can open another one!"
+            - type: button
+              content: "Open Second Modal"
+              actions:
+                - what: setData
+                  on: click
+                  path: ~.modal_two
+                  value: true
+          closeButton: true
+        - type: Modal
+          showBoolPath: ~.modal_two
+          headerTitle: "Second Modal"
+          body:
+            type: Markdown
+            content: "This is the second modal. Both can be open at the same time!"
+          closeButton: true
+      data:
+        modal_one: false
+        modal_two: false
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - No built-in async or loading state
+      - No advanced accessibility beyond react-bootstrap
+      - If `showBoolPath` is a data path, it must resolve to a boolean
+      - No animation customization beyond react-bootstrap
+
+      ## Notes
+      - Multiple modals can be displayed simultaneously by using different `showBoolPath` values or state-controlled modals
+      - Each modal is independently controlled and managed

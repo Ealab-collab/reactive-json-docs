@@ -1,0 +1,360 @@
+renderView:
+  - type: Markdown
+    content: |
+      # SelectField
+
+      The `SelectField` component renders a dropdown selection field using React Bootstrap. It supports both static and dynamic options, automatic data binding, and intelligent value type handling for different data types including strings, booleans, numbers, and null values.
+
+      ## Properties
+
+      - `dataLocation` (string, optional): Path to bind the field value in the data context
+      - `defaultFieldValue` (any, optional): Default value when no data is present
+      - `label` (string, optional): Field label text (supports template evaluation)
+      - `options` (array, optional): Static array of option objects with `label` and `value` properties
+      - `dynamicOptions` (string, optional): Template path to dynamic options array
+      - `allowEmptyStringAsValue` (boolean, optional): Preserve empty strings as `""` instead of converting to `undefined` (default: false)
+      - `attributes` (object, optional): Attributes applied to the Form.Group container
+      - `inputAttributes` (object, optional): Attributes applied directly to the select element
+      - `actions` (array, optional): Actions to execute based on field state
+
+      ## Option Format
+
+      Each option object must have:
+      - `label` (string): Display text for the option
+      - `value` (any): The actual value to store when selected
+
+      ## Data Management
+
+      The component automatically synchronizes its value with the global data context. It handles different value types intelligently:
+
+      ### Value Type Conversion
+      - **Empty strings**: Become `undefined` by default, or preserved as `""` if `allowEmptyStringAsValue: true`
+      - **Boolean strings**: "true" becomes boolean `true`, "false" becomes boolean `false`
+      - **Null string**: "null" becomes `null`
+      - **Other values**: Matched by string comparison and converted to their original type
+
+      ### Key Feature: Empty String Handling
+
+      SelectField makes an important distinction between "no selection made" and "explicit selection of empty value":
+
+      - **Default behavior**: `value: ""` → stored as `undefined`
+        - Semantic meaning: "User hasn't made a selection yet"
+        - Useful for validation and conditional logic
+      - **With `allowEmptyStringAsValue: true`**: `value: ""` → stored as `""`
+        - Semantic meaning: "User explicitly selected the empty option"
+        - Useful when empty string is a legitimate business value
+
+      This distinction is crucial for validation logic and conditional actions in reactive-json.
+
+      ```yaml
+      # Example: Default behavior (recommended for most cases)
+      options:
+        - label: "Choose category..."  # Placeholder option
+          value: ""                   # → undefined = "not selected"
+        - label: "Technology"  
+          value: "tech"              # → "tech"
+        - label: "No category"        # Business choice
+          value: "none"              # → "none" = explicit empty choice
+
+      # Example: When empty string is a business value
+      allowEmptyStringAsValue: true
+      options:
+        - label: "No description"     # Legitimate business choice
+          value: ""                  # → "" = valid empty value
+        - label: "Brief description"
+          value: "brief"             # → "brief"
+      ```
+
+      ### Data Storage
+      - Single value selection only (for multiple selection, use CheckBoxField)
+      - Automatically updates the data context when selection changes
+      - Preserves the original data type of the selected option value
+
+  - type: RjBuildDescriber
+    title: "Basic SelectField Usage"
+    description: "Simple dropdown with static options and different value types"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.priority
+          label: "Priority:"
+          options:
+            - label: "Select priority"
+              value: ""
+            - label: "Low"
+              value: "low"
+            - label: "Medium"
+              value: "medium"
+            - label: "High"
+              value: "high"
+        - type: div
+          content:
+            - "Selected value: "
+            - type: strong
+              content: ~.priority
+          actions:
+            - what: hide
+              when: ~.priority
+              isEmpty: true
+      data:
+        priority: ""
+
+  - type: RjBuildDescriber
+    title: "Boolean and Special Values"
+    description: "SelectField with boolean and string values affecting interface behavior"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.isPublic
+          label: "Visibility:"
+          options:
+            - label: "Select visibility"
+              value: ""
+            - label: "Public"
+              value: true
+            - label: "Private"
+              value: false
+            - label: "Draft"
+              value: "draft"
+        - type: div
+          content: "🌍 This content is public"
+          attributes:
+            style:
+              color: "green"
+              fontWeight: "bold"
+          actions:
+            - what: hide
+              when: ~.isPublic
+              isNot: true
+        - type: div
+          content: "🔒 This content is private"
+          attributes:
+            style:
+              color: "red"
+              fontWeight: "bold"
+          actions:
+            - what: hide
+              when: ~.isPublic
+              isNot: false
+        - type: div
+          content: "📝 This content is in draft mode"
+          attributes:
+            style:
+              color: "orange"
+              fontWeight: "bold"
+          actions:
+            - what: hide
+              when: ~.isPublic
+              isNot: "draft"
+      data:
+        isPublic: ""
+
+  - type: RjBuildDescriber
+    title: "Dynamic Options"
+    description: "SelectField with options loaded from data using dynamicOptions"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.country
+          label: "Country:"
+          dynamicOptions: ~.availableCountries
+        - type: div
+          content:
+            - "Selected: "
+            - type: strong
+              content: ~.country
+          actions:
+            - what: hide
+              when: ~.country
+              isEmpty: true
+      data:
+        country: ""
+        availableCountries:
+          - label: "Select country"
+            value: ""
+          - label: "France"
+            value: "fr"
+          - label: "United States"
+            value: "us"
+          - label: "Canada"
+            value: "ca"
+
+  - type: RjBuildDescriber
+    title: "Conditional Display"
+    description: "Hiding SelectField based on another field's value using hide action"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.userRole
+          label: "Role:"
+          options:
+            - label: "Select role"
+              value: ""
+            - label: "Administrator"
+              value: "admin"
+            - label: "User"
+              value: "user"
+        - type: SelectField
+          dataLocation: ~.permissions
+          label: "Permissions:"
+          dynamicOptions: ~.rolePermissions
+          actions:
+            - what: hide
+              when: ~.userRole
+              isEmpty: true
+        - type: div
+          content:
+            - "Role: "
+            - type: strong
+              content: ~.userRole
+            - " | Permissions: "
+            - type: strong
+              content: ~.permissions
+          actions:
+            - what: hide
+              when: ~.userRole
+              isEmpty: true
+      data:
+        userRole: ""
+        permissions: ""
+        rolePermissions:
+          - label: "Select permissions"
+            value: ""
+          - label: "Read only"
+            value: "read"
+          - label: "Read/Write"
+            value: "write"
+
+  - type: RjBuildDescriber
+    title: "Empty String Handling"
+    description: "Demonstrates the difference between default behavior ('' → undefined) and allowEmptyStringAsValue: true ('' → '')"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.category
+          label: "Category (default behavior):"
+          options:
+            - label: "Select category..."
+              value: ""
+            - label: "Technology"
+              value: "tech"
+            - label: "No category"
+              value: "none"
+        - type: SelectField
+          dataLocation: ~.description
+          label: "Description (allowEmptyStringAsValue: true):"
+          allowEmptyStringAsValue: true
+          options:
+            - label: "No description"
+              value: ""
+            - label: "Brief"
+              value: "brief"
+            - label: "Detailed"
+              value: "detailed"
+        - type: div
+          attributes:
+            style:
+              marginTop: "15px"
+              padding: "10px"
+              backgroundColor: "#f8f9fa"
+              borderRadius: "5px"
+          content:
+            - type: div
+              content:
+                - type: strong
+                  content: "Category behavior:"
+                - " When you select 'Select category...', the value becomes "
+                - type: code
+                  content: "undefined"
+                - " (empty test: "
+                - type: span
+                  content: "✓ isEmpty"
+                  attributes:
+                    style:
+                      color: "green"
+                  actions:
+                    - what: hide
+                      when: ~.category
+                      isEmpty: "not"
+                - type: span
+                  content: "✗ not empty"
+                  attributes:
+                    style:
+                      color: "red"
+                  actions:
+                    - what: hide
+                      when: ~.category
+                      isEmpty: true
+                - ")"
+            - type: div
+              content:
+                - type: strong
+                  content: "Description behavior:"
+                - " When you select 'No description', the value stays "
+                - type: code
+                  content: '""'
+                - " (empty test: "
+                - type: span
+                  content: "✗ not isEmpty"
+                  attributes:
+                    style:
+                      color: "red"
+                  actions:
+                    - what: hide
+                      when: ~.description
+                      isEmpty: true
+                - type: span
+                  content: "✓ has value"
+                  attributes:
+                    style:
+                      color: "green"
+                  actions:
+                    - what: hide
+                      when: ~.description
+                      isEmpty: "not"
+                - ")"
+      data:
+        category: ""
+        description: ""
+
+  - type: Markdown
+    content: |
+      ## Limitations
+
+      ### Technical Limitations
+      - **Single selection only**: For multiple selection, use CheckBoxField
+      - **Value conversion**: Option values are converted to strings for HTML compatibility, then back to original types
+      - **Complex values**: Objects cannot be used as option values
+      - **No option groups**: `<optgroup>` is not supported
+      - **Simple labels only**: Template evaluation in labels is limited to simple string values
+      - **No built-in validation**: Beyond basic required field checking
+      - **No search/filtering**: Built-in search capabilities are not available
+      - **Bug with null values**: Options with `value: null` don't display as selected correctly (implementation issue)
+
+      ### Input Attributes Support
+      
+      The component supports custom attributes via `inputAttributes`:
+
+      ```yaml
+      renderView:
+        - type: SelectField
+          dataLocation: ~.category
+          label: "Category:"
+          options:
+            - label: "Select category"
+              value: ""
+            - label: "Category A"
+              value: "a"
+            - label: "Category B"
+              value: "b"
+          inputAttributes:
+            required: true
+            style:
+              fontSize: "16px"
+
+      data:
+        category: ""
+      ```
+
+templates: {}
+data: {} 

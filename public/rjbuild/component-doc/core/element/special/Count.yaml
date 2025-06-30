@@ -1,0 +1,325 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Count
+
+      The `Count` component returns the number of items matching a JSONPath pattern in the data context. It is useful for displaying counts of elements, such as the number of items in a list, matching a filter, or present in a subtree.
+
+      ## Properties
+      - `jsonPathPattern` (string, required): The JSONPath pattern to evaluate for counting
+      - `context` (string, optional): The context to use for evaluation (`global`, `template`, or `root`). Default is `global`.
+
+      ## Behavior
+      - Evaluates the given JSONPath pattern on the selected data context
+      - Returns the number of matches found
+      - If `context` is `global`, uses the global data context; if `template`, uses the template context; if `root`, uses the root context
+      - If `jsonPathPattern` is not provided, renders nothing
+
+  - type: RjBuildDescriber
+    title: "Example"
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: strong
+              content: "Number of users: "
+            - type: Count
+              jsonPathPattern: "$.users[*]"
+
+      data:
+        users:
+          - name: "Alice"
+          - name: "Bob"
+          - name: "Charlie"
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Dynamic Count with User Management"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates the Count component with different JSONPath patterns. Add or remove users and change their status to see how the counts update in real-time.
+    toDescribe:
+      renderView:
+        - type: div
+          attributes:
+            class: "container-fluid"
+          content:
+            - type: div
+              attributes:
+                class: "row mb-4"
+              content:
+                - type: div
+                  attributes:
+                    class: "col-md-6"
+                  content:
+                    - type: div
+                      attributes:
+                        class: "card"
+                      content:
+                        - type: div
+                          attributes:
+                            class: "card-header bg-primary text-white"
+                          content:
+                            - type: h5
+                              attributes:
+                                class: "card-title mb-0"
+                              content: "📊 Count Statistics"
+                        - type: div
+                          attributes:
+                            class: "card-body"
+                          content:
+                            - type: div
+                              attributes:
+                                class: "d-flex justify-content-between mb-2"
+                              content:
+                                - type: span
+                                  content: "Total users:"
+                                - type: span
+                                  attributes:
+                                    class: "badge bg-secondary"
+                                  content:
+                                    type: Count
+                                    jsonPathPattern: "$.users[*]"
+                            - type: div
+                              attributes:
+                                class: "d-flex justify-content-between mb-2"
+                              content:
+                                - type: span
+                                  content: "Active users:"
+                                - type: span
+                                  attributes:
+                                    class: "badge bg-success"
+                                  content:
+                                    type: Count
+                                    jsonPathPattern: "$.users[?(@.status == 'active')]"
+                            - type: div
+                              attributes:
+                                class: "d-flex justify-content-between mb-2"
+                              content:
+                                - type: span
+                                  content: "Inactive users:"
+                                - type: span
+                                  attributes:
+                                    class: "badge bg-warning"
+                                  content:
+                                    type: Count
+                                    jsonPathPattern: "$.users[?(@.status == 'inactive')]"
+                            - type: div
+                              attributes:
+                                class: "d-flex justify-content-between mb-2"
+                              content:
+                                - type: span
+                                  content: "Admins:"
+                                - type: span
+                                  attributes:
+                                    class: "badge bg-danger"
+                                  content:
+                                    type: Count
+                                    jsonPathPattern: "$.users[?(@.role == 'admin')]"
+                - type: div
+                  attributes:
+                    class: "col-md-6"
+                  content:
+                    - type: div
+                      attributes:
+                        class: "card"
+                      content:
+                        - type: div
+                          attributes:
+                            class: "card-header bg-info text-white"
+                          content:
+                            - type: h5
+                              attributes:
+                                class: "card-title mb-0"
+                              content: "➕ Add New User"
+                        - type: div
+                          attributes:
+                            class: "card-body"
+                          content:
+                            - type: div
+                              attributes:
+                                class: "mb-3"
+                              content:
+                                - type: TextField
+                                  label: "Name:"
+                                  dataLocation: ~.newUser.name
+                                  placeholder: "Enter user name"
+                            - type: div
+                              attributes:
+                                class: "mb-3"
+                              content:
+                                - type: SelectField
+                                  label: "Status:"
+                                  dataLocation: ~.newUser.status
+                                  options:
+                                    - label: "Active"
+                                      value: "active"
+                                    - label: "Inactive"
+                                      value: "inactive"
+                            - type: div
+                              attributes:
+                                class: "mb-3"
+                              content:
+                                - type: SelectField
+                                  label: "Role:"
+                                  dataLocation: ~.newUser.role
+                                  options:
+                                    - label: "User"
+                                      value: "user"
+                                    - label: "Admin"
+                                      value: "admin"
+                            - type: button
+                              attributes:
+                                class: "btn btn-primary"
+                              content: "Add User"
+                              actions:
+                                - what: addData
+                                  on: click
+                                  path: ~.users
+                                  value:
+                                    name: ~.newUser.name
+                                    status: ~.newUser.status
+                                    role: ~.newUser.role
+                                  when: ~.newUser.name
+                                  isEmpty: not
+                                - what: setData
+                                  on: click
+                                  path: ~.newUser
+                                  value:
+                                    name: ""
+                                    status: "active"
+                                    role: "user"
+                                  when: ~.newUser.name
+                                  isEmpty: not
+            - type: div
+              attributes:
+                class: "row"
+              content:
+                - type: div
+                  attributes:
+                    class: "col-12"
+                  content:
+                    - type: div
+                      attributes:
+                        class: "card"
+                      content:
+                        - type: div
+                          attributes:
+                            class: "card-header bg-secondary text-white"
+                          content:
+                            - type: h5
+                              attributes:
+                                class: "card-title mb-0"
+                              content: "👥 User List"
+                        - type: div
+                          attributes:
+                            class: "card-body"
+                          content:
+                            - type: Switch
+                              content: ~.users
+                              singleOption:
+                                load: userItem
+
+      templates:
+        userItem:
+          type: div
+          attributes:
+            class: "list-group-item d-flex justify-content-between align-items-center mb-2 border rounded"
+          content:
+            - type: div
+              content:
+                - type: strong
+                  content: ~.name
+                - type: span
+                  attributes:
+                    class: "ms-2 badge rounded-pill"
+                    style:
+                      backgroundColor: "#198754"
+                      color: "white"
+                  content: ~.status
+                  actions:
+                    - what: hide
+                      when: ~.status
+                      isNot: "active"
+                - type: span
+                  attributes:
+                    class: "ms-2 badge rounded-pill"
+                    style:
+                      backgroundColor: "#ffc107"
+                      color: "black"
+                  content: ~.status
+                  actions:
+                    - what: hide
+                      when: ~.status
+                      isNot: "inactive"
+                - type: span
+                  attributes:
+                    class: "ms-2 badge rounded-pill bg-danger"
+                  content: ~.role
+                  actions:
+                    - what: hide
+                      when: ~.role
+                      isNot: "admin"
+            - type: div
+              content:
+                - type: button
+                  attributes:
+                    class: "btn btn-sm btn-outline-primary me-2"
+                  content: "Toggle Status"
+                  actions:
+                    - what: setData
+                      on: click
+                      path: ~.status
+                      value: "inactive"
+                      when: ~.status
+                      is: "active"
+                    - what: setData
+                      on: click
+                      path: ~.status
+                      value: "active"
+                      when: ~.status
+                      is: "inactive"
+                - type: button
+                  attributes:
+                    class: "btn btn-sm btn-outline-danger"
+                  content: "Remove"
+                  actions:
+                    - what: removeData
+                      on: click
+                      target: currentTemplateData
+                      parentLevel: 0
+
+      data:
+        newUser:
+          name: ""
+          status: "active"
+          role: "user"
+        users:
+          - name: "Alice Johnson"
+            status: "active"
+            role: "admin"
+          - name: "Bob Smith"
+            status: "active"
+            role: "user"
+          - name: "Charlie Brown"
+            status: "inactive"
+            role: "user"
+          - name: "Diana Prince"
+            status: "active"
+            role: "admin"
+
+  - type: Markdown
+    content: |
+      ## Common JSONPath Patterns for Count
+
+      - `$.users[*]` - Count all users
+      - `$.users[?(@.status == 'active')]` - Count users with specific status
+      - `$.users[?(@.role == 'admin')]` - Count users with specific role
+      - `$.users[?(@.age > 25)]` - Count users older than 25
+      - `$.categories[*].items[*]` - Count all items across all categories
+      - `$..products` - Count all products at any level (recursive)
+
+      ## Limitations
+      - Only supports JSONPath patterns
+      - Returns 0 if no match or if the pattern is invalid
+      - Does not support advanced filtering or custom functions in JSONPath 

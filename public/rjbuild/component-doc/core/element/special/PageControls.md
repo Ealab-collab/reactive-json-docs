@@ -1,0 +1,126 @@
+# PageControls
+
+## Introduction
+
+The `PageControls` component displays the pagination controls provided by the current `PaginationContext`. It is useful for rendering navigation controls (such as next/previous buttons or page numbers) in paginated lists or tables.
+
+## Properties
+- (none)
+
+## Behavior
+- Renders the pagination controls from the current `PaginationContext` if available
+- If no pagination controls are present in the context, renders nothing
+- Intended to be used inside paginated views or lists
+
+## Pagination Context
+The pagination context is provided by components like `Switch` when the `paginated` property is set to `true`.
+
+## Interactive Example with Switch
+
+This example shows how PageControls works with a paginated Switch component to display a list of users.
+
+```yaml
+renderView:
+  - type: div
+    attributes:
+      class: container-fluid p-3
+    content:
+      - type: h3
+        content: Paginated User List
+      
+      - type: div
+        attributes:
+          class: mb-3
+        content:
+          - type: strong
+            content: "Total number of users: "
+          - type: Count
+            context: global
+            count: ~.users
+            
+      - type: Switch
+        content: ~.users
+        singleOption:
+          load: userItem
+        paginated: true
+        paginationProps:
+          pageMaxItemCount: 3
+          maxPageButtonsCount: 5
+        before:
+          type: div
+          attributes:
+            class: alert alert-info
+          content: "Here are the users (3 per page):"
+        after:
+          - type: div
+            attributes:
+              class: d-flex justify-content-center mt-3
+            content:
+              type: PageControls
+          - type: div
+            attributes:
+              class: text-center mt-2 text-muted
+            content: "Use the controls above to navigate between pages"
+
+templates:
+  userItem:
+    type: div
+    attributes:
+      class: card mb-2
+    content:
+      type: div
+      attributes:
+        class: card-body
+      content:
+        - type: h5
+          attributes:
+            class: card-title
+          content: ~.name
+        - type: div
+          attributes:
+            class: card-text
+          content:
+            - type: div
+              content: ["Email: ", ~.email]
+            - type: div
+              content: ["Department: ", ~.department]
+
+data:
+  users:
+    - name: "Alice Martin"
+      email: "alice.martin@example.com"
+      department: "Development"
+    - name: "Bob Dupont"
+      email: "bob.dupont@example.com"
+      department: "Design"
+    - name: "Claire Bernard"
+      email: "claire.bernard@example.com"
+      department: "Marketing"
+    - name: "David Rousseau"
+      email: "david.rousseau@example.com"
+      department: "Development"
+    - name: "Emma Leroy"
+      email: "emma.leroy@example.com"
+      department: "Support"
+    - name: "François Moreau"
+      email: "francois.moreau@example.com"
+      department: "Design"
+    - name: "Gabrielle Petit"
+      email: "gabrielle.petit@example.com"
+      department: "Marketing"
+    - name: "Henri Blanc"
+      email: "henri.blanc@example.com"
+      department: "Development"
+    - name: "Isabelle Roux"
+      email: "isabelle.roux@example.com"
+      department: "Support"
+    - name: "Julien Vincent"
+      email: "julien.vincent@example.com"
+      department: "Design"
+```
+
+## Limitations
+- Only works if a `PaginationContext` is present and provides controls
+- Does not manage pagination state itself; only renders controls from the context
+- No customization of the controls via props
+- Entirely depends on the parent component (like Switch) for pagination logic 

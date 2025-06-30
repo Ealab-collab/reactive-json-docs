@@ -1,0 +1,68 @@
+# Reaction: moveData
+
+## Introduction
+
+The `moveData` reaction changes the position of an element within an array in the global data context. This is particularly useful for reordering items in a list, for example, moving an item up or down. Like `removeData`, it can operate in `path` mode or `target` mode.
+
+## Properties
+
+- `what` (string, required): The name of the reaction, which must be `moveData`.
+- `on` (string, required): The name of the event that triggers the reaction.
+- `path` (string, optional): The path to the array element to move. Required if `target` is not used.
+- `target` (string, optional): If set to `currentTemplateData`, the reaction will target the data associated with the current template item.
+- `parentLevel` (number, optional): Used with `target: 'currentTemplateData'`. Specifies how many levels to go up from the current data path to find the element to move.
+- `increment` (integer, required): The number of positions to move the element. A positive integer moves it down (towards the end of the array), and a negative integer moves it up (towards the beginning).
+
+## Behavior
+
+- When triggered, `moveData` repositions an element within an array.
+- **Path Mode**: Identifies the element to move using its full `path`.
+- **Target Mode**: Identifies the element using `target: 'currentTemplateData'`, typically within a `Switch`.
+- The `increment` value determines the direction and magnitude of the move. For example, `increment: 1` moves the item one position down, and `increment: -1` moves it one position up.
+- The reaction has no effect if the target is not an array or if the move is out of bounds.
+
+## Example
+
+### Moving an item in a list
+
+This example demonstrates how to move items up and down in a to-do list. Each item has "Up" and "Down" buttons that trigger the `moveData` reaction.
+
+```yaml
+renderView:
+  - type: Switch
+    content: ~.todos
+    singleOption:
+      load: todo_item
+templates:
+  todo_item:
+    type: div
+    content:
+      - ~.text
+      - type: button
+        content: "Up"
+        attributes: { style: "margin-left: 10px;" }
+        actions:
+          - what: moveData
+            on: click
+            target: currentTemplateData
+            increment: -1
+      - type: button
+        content: "Down"
+        attributes: { style: "margin-left: 5px;" }
+        actions:
+          - what: moveData
+            on: click
+            target: currentTemplateData
+            increment: 1
+data:
+  todos:
+    - text: "Buy milk"
+    - text: "Learn Reactive-JSON"
+    - text: "Build an app"
+```
+
+## Limitations
+
+- The target data must be an element within an array. The reaction will not work on objects.
+- An `increment` must be provided.
+- Moving an element past the beginning or end of the array has no effect (e.g., moving the first item up). 

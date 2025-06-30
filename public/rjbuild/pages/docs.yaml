@@ -1,0 +1,25 @@
+renderView:
+  - type: div
+    attributes:
+      class: d-xl-flex
+    content:
+      - type: Sidebar
+
+      - type: div
+        attributes:
+          class: container-md
+        content:
+
+          - type: div
+            attributes:
+              class: mt-4
+            content:
+              type: ReactiveJsonSubroot
+              rjOptions:
+                dataUrl: /rjbuild/component/message.yaml
+
+          - type: DemoContentMapper
+
+templates:
+
+data:

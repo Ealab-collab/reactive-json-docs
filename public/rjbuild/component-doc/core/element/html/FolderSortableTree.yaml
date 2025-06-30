@@ -1,0 +1,81 @@
+renderView:
+  - type: Markdown
+    content: |
+      # FolderSortableTree
+
+      The `FolderSortableTree` component displays a drag-and-drop tree for hierarchical data. Each node is rendered using a template, and the structure is fully editable by the user.
+
+      This component is based on the [dnd-kit-sortable-tree](https://github.com/shaddix/dnd-kit-sortable-tree) library. For advanced configuration and available options, see the library documentation.
+
+      **Note:** For each node, all properties to display in the template (like `name`, `age`, etc.) must be placed inside a `value` object. The itemTemplate only has access to the fields inside `value` for each node. Children are listed in the `children` array.
+
+      ## Properties
+      - `dataLocation` (string, required): Path to the tree data
+      - `itemTemplate` (object, required): Template for each tree item
+      - `maxDepth` (number, optional): Maximum allowed depth
+      - `maxDepthIsAbsolute` (boolean, optional): If true, maxDepth is absolute from the root (default: true)
+      - `treeRootPath` (string, optional): Path to a subtree to display as the root
+      - `keepBaseItem` (boolean, optional): If true, keeps the base item when using treeRootPath
+      - `sortableTreeOptions` (object, optional): Additional options for SortableTree
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Editable family tree"
+    description:
+      - type: Markdown
+        content: |
+          Drag and drop nodes to reorder or nest them. Each node is rendered using the template below, showing both name and age.
+    toDescribe:
+      renderView:
+        - type: FolderSortableTree
+          dataLocation: ~.tree
+          itemTemplate:
+            - type: div
+              content:
+                - type: strong
+                  content: "Name: "
+                - ~.name
+                - ", "
+                - type: strong
+                  content: "Age: "
+                - ~.age
+      data:
+        tree:
+          - id: 1
+            value:
+              name: "Alice (grandmother)"
+              age: 78
+            children:
+              - id: 2
+                value:
+                  name: "Bob (son)"
+                  age: 50
+                children:
+                  - id: 4
+                    value:
+                      name: "Diana (granddaughter)"
+                      age: 20
+                    children: []
+                  - id: 5
+                    value:
+                      name: "Eve (grandson)"
+                      age: 18
+                    children: []
+              - id: 3
+                value:
+                  name: "Carol (daughter)"
+                  age: 48
+                children:
+                  - id: 6
+                    value:
+                      name: "Frank (grandson)"
+                      age: 22
+                    children: []
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - Tree data must be an array of objects with `id`, `children`, and `value` keys
+      - No built-in async loading of children
+      - No built-in search/filter UI
+      - Only one tree can be edited at a time per component instance
+      - No animation customization beyond what dnd-kit-sortable-tree provides

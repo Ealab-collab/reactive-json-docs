@@ -1,0 +1,138 @@
+# Reactive-JSON submitData Documentation
+
+## Introduction
+`submitData` is a reaction that allows sending data to a server via HTTP requests (usually POST). It's especially useful for form submissions and API interactions.
+
+- The payload can be customized with the `data` property.
+- Only one submission can be active at a time (global lock).
+- The response can refresh the app (default) or be ignored.
+
+## Properties
+- `url` (string, required): The destination URL for the request
+- `httpMethod` (string, optional): The HTTP method to use (default: "post")
+- `data` (object, optional): The data to send. If not specified, data is sent in an object with the structure `{ data: globalDataContext.templateData }`. If `__state` exists in the context, it is automatically added.
+- `refreshAppOnResponse` (boolean, optional): If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`).
+- `submitSilently` (boolean, optional): If true, doesn't apply visual disabling styles during submission
+
+## Behavior
+- Only one submission can be active at a time (global lock)
+- The default HTTP method is POST, but can be customized
+- The payload is either the provided `data` object or the full data context
+- Only the first level of the `data` object is evaluated as templates
+- The server response must be a valid rjbuild if `refreshAppOnResponse` is true
+- If `refreshAppOnResponse` is false, the response is ignored (webhook mode)
+- In case of an error, the submission is cancelled and logged to the console
+- Interface elements are visually disabled during submission (unless `submitSilently` is enabled)
+
+## Submission States & Styling
+The system uses a global locking mechanism to handle submissions:
+- Only one submission can be active at a time for all application roots
+- New submissions are ignored while another is in progress
+- Interface elements are visually disabled (unless `submitSilently` is enabled)
+- The lock is released once the response is received
+
+This limitation is intentional to avoid data consistency issues but may be restrictive in some use cases.
+
+### Styling Submitting State (CSS)
+You can visually disable form controls during submission using CSS. There are two main approaches:
+
+#### 1. Target only the submitting control (button, input, etc.)
+The element that triggered the submission receives `data-is-submitting="true"` during the request:
+
+```css
+input[data-is-submitting="true"],
+button[data-is-submitting="true"],
+select[data-is-submitting="true"],
+textarea[data-is-submitting="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+```
+
+#### 2. Target all controls globally during submission
+While a submission is in progress, the `<body>` receives `data-html-builder-is-submitting="true"`. You can use this to disable all form controls:
+
+```css
+body[data-html-builder-is-submitting="true"] input,
+body[data-html-builder-is-submitting="true"] button,
+body[data-html-builder-is-submitting="true"] select,
+body[data-html-builder-is-submitting="true"] textarea {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+```
+
+Choose the approach that best fits your UX needs.
+
+## Example
+```yaml
+actions:
+  - what: submitData
+    on: click
+    url: "/mockup-api/submitData/example.json"
+    data:
+      username: ~.form_data.username
+    refreshAppOnResponse: true
+```
+
+## Data Management
+Only the first level of the `data` object is evaluated as templates. For nested objects, you must specify the full path explicitly.
+
+Example:
+```yaml
+data:
+  username: ~.form_data.username  # Evaluated
+  profile:
+    name: ~.user.name            # Not evaluated (static)
+    email: ~.user.email          # Not evaluated (static)
+```
+
+If `data` is not specified, the entire `data` context is sent as `{ data: ... }`.
+
+### __state Property
+`__state` is a special property that is automatically added to the payload when sending data if it exists in the global context. It allows transmitting the application state to the server.
+
+Example usage in a multi-screen form:
+```yaml
+# State sent to server
+data:
+  form_data:
+    username: "john"
+    email: "john@example.com"
+  __state:
+    current_screen: "step2"
+    previous_screen: "step1"
+    form_progress: 50
+
+# Server response
+data:
+  form_data:
+    username: "john"
+    email: "john@example.com"
+  __state:
+    current_screen: "step3"
+    previous_screen: "step2"
+    form_progress: 75
+    validation_status: "success"
+```
+
+This bidirectional state synchronization allows to:
+- Validate that the progression is consistent
+- Adapt the response based on the current screen
+- Manage navigation between screens
+- Save progression state
+- Maintain consistency between client and server
+
+## Limitations
+- Only one submission can be active at a time (global lock)
+- Only the first level of the `data` object is evaluated as templates
+- Only POST (or custom method) requests are supported
+- The server response must be a valid rjbuild if `refreshAppOnResponse` is true
+- No built-in error handling beyond console logging
+- No support for request cancellation
+- No support for timeouts
+- No support for dynamic URLs (URLs must be static strings)
+- No support for query parameters in URL templates
+- No support for complex URL routing or path generation 

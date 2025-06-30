@@ -1,0 +1,264 @@
+renderView:
+  - type: Markdown
+    content: |
+      # DateField
+
+      The `DateField` component renders a date and time input field using React Bootstrap. It provides a datetime-local input type for selecting both date and time values with automatic data binding to the global data context.
+
+      > **Warning**
+      > This component has limited support and is marked as TODO in the codebase. Currently only supports `datetime-local` input type.
+
+      ## Properties
+
+      - `dataLocation` (string, optional): Path to bind the field value in the data context
+      - `defaultFieldValue` (string, optional): Default value when no data is present
+      - `label` (string, optional): Field label text
+      - `attributes` (object, optional): Attributes applied to the Form.Group container
+      - `actions` (array, optional): Actions to execute based on field state. Supports both actions (hide, tooltip, etc.) and conditional reactions (setData, fetchData, etc.) with full conditional logic support
+
+      ## Data Management
+
+      The component automatically synchronizes its value with the global data context as an ISO 8601 datetime string format (YYYY-MM-DDTHH:mm). When using `dataLocation`, the value is stored at the specified path. Without `dataLocation`, the value is stored in the template context using the component's `datafield`.
+
+      ## Date Format
+
+      The component uses the HTML5 `datetime-local` input type which:
+      - Displays a date and time picker in the browser
+      - Returns values in ISO 8601 format: `YYYY-MM-DDTHH:mm`
+      - Does not include timezone information
+      - Appearance varies by browser and operating system
+
+  - type: RjBuildDescriber
+    title: "Basic DateField Usage"
+    description: "Simple date and time input with current datetime"
+    toDescribe:
+      renderView:
+        - type: DateField
+          dataLocation: ~.eventDate
+          label: "Event Date and Time:"
+        - type: div
+          content:
+            - "Selected date: "
+            - type: strong
+              content: ~.eventDate
+          actions:
+            - what: hide
+              when: ~.eventDate
+              isEmpty: true
+      data:
+        eventDate: null
+
+  - type: RjBuildDescriber
+    title: "DateField with Default Value"
+    description: "DateField with pre-set default date and time"
+    toDescribe:
+      renderView:
+        - type: DateField
+          dataLocation: ~.deadline
+          label: "Project Deadline:"
+          defaultFieldValue: "2024-12-31T17:00"
+        - type: div
+          content:
+            - "Deadline: "
+            - ~.deadline
+        - type: div
+          attributes:
+            style:
+              fontSize: "14px"
+              color: "#666"
+              marginTop: "10px"
+          content: "Default value: 2024-12-31T17:00 (December 31, 2024 at 5:00 PM)"
+      data:
+        deadline: null
+
+  - type: RjBuildDescriber
+    title: "Multiple DateFields"
+    description: "Multiple date inputs for different purposes"
+    toDescribe:
+      renderView:
+        - type: DateField
+          dataLocation: ~.startDate
+          label: "Start Date:"
+        - type: DateField
+          dataLocation: ~.endDate
+          label: "End Date:"
+        - type: DateField
+          dataLocation: ~.reminderDate
+          label: "Reminder Date:"
+        - type: div
+          attributes:
+            style:
+              marginTop: "20px"
+              padding: "10px"
+              backgroundColor: "#f8f9fa"
+              borderRadius: "5px"
+          content:
+            - type: strong
+              content: "Schedule Summary:"
+            - type: div
+              content:
+                - "Start: "
+                - ~.startDate
+              actions:
+                - what: hide
+                  when: ~.startDate
+                  isEmpty: true
+            - type: div
+              content:
+                - "End: "
+                - ~.endDate
+              actions:
+                - what: hide
+                  when: ~.endDate
+                  isEmpty: true
+            - type: div
+              content:
+                - "Reminder: "
+                - ~.reminderDate
+              actions:
+                - what: hide
+                  when: ~.reminderDate
+                  isEmpty: true
+            - type: div
+              content: "No dates selected yet"
+              actions:
+                - what: hide
+                  when: ~.startDate
+                  isEmpty: "not"
+                - what: hide
+                  when: ~.endDate
+                  isEmpty: "not"
+                - what: hide
+                  when: ~.reminderDate
+                  isEmpty: "not"
+      data:
+        startDate: null
+        endDate: null
+        reminderDate: null
+
+  - type: RjBuildDescriber
+    title: "Interactive Date Management"
+    description: "Advanced example with conditional reactions and dynamic messaging"
+    toDescribe:
+      renderView:
+        - type: DateField
+          dataLocation: ~.meetingDate
+          label: "Meeting Date:"
+        - type: button
+          content: "Set to Tomorrow"
+          actions:
+            - what: setData
+              on: click
+              path: ~.meetingDate
+              value: "2024-12-25T14:00"
+        - type: button
+          content: "Clear Date"
+          attributes:
+            style:
+              marginLeft: "10px"
+          actions:
+            - what: setData
+              on: click
+              path: ~.meetingDate
+              value: null
+            - what: setData
+              on: click
+              path: ~.message
+              value: null
+        - type: button
+          content: "Validate Meeting"
+          attributes:
+            style:
+              marginLeft: "10px"
+          actions:
+            - what: setData
+              on: click
+              path: ~.message
+              value: "✓ Meeting date is set!"
+              when: ~.meetingDate
+              isEmpty: "not"
+            - what: setData
+              on: click
+              path: ~.message
+              value: "⚠ Please select a meeting date first"
+              when: ~.meetingDate
+              isEmpty: true
+        - type: div
+          attributes:
+            style:
+              marginTop: "15px"
+              padding: "10px"
+              borderRadius: "4px"
+              backgroundColor: "#d4edda"
+              color: "#155724"
+          content: ~.message
+          actions:
+            - what: hide
+              when: ~.message
+              isEmpty: true
+        - type: div
+          attributes:
+            style:
+              marginTop: "10px"
+              fontSize: "14px"
+              color: "#6c757d"
+          content: ["Selected: ", ~.meetingDate]
+          actions:
+            - what: hide
+              when: ~.meetingDate
+              isEmpty: true
+      data:
+        meetingDate: null
+        message: null
+
+  - type: Markdown
+    content: |
+      ## Current Limitations
+
+      > **Development Status**
+      > The DateField component is currently limited and marked as TODO in the codebase. However, it integrates fully with reactive-json's action and reaction system for rich interactivity.
+
+      ### Component Limitations
+      - Only supports `datetime-local` input type (hardcoded)
+      - No support for `date` input type (date only)
+      - No support for `time` input type (time only)
+      - No support for `month` or `week` input types
+      - No built-in date formatting or localization
+      - No timezone handling or conversion
+      - No support for inputAttributes property (not implemented)
+      - No template evaluation support for label property
+
+      ### Browser and Validation Limitations
+      - No date validation beyond browser defaults
+      - No support for date ranges or multiple date selection
+      - No support for custom date picker libraries
+      - Limited browser compatibility for datetime-local input
+
+      ### Workarounds Available
+      - ✅ **Date validation**: Use conditional reactions with `isEmpty`, `andConditions`, `orConditions`
+      - ✅ **Interactive behavior**: Full support for conditional actions and reactions
+      - ✅ **Dynamic messaging**: Use setData reactions to provide user feedback
+      - ✅ **Complex logic**: Combine multiple DateFields with sophisticated conditional logic
+
+      ## Browser Compatibility
+
+      The `datetime-local` input type has varying support across browsers:
+      - Modern browsers provide native date/time pickers
+      - Older browsers may fall back to text input
+      - Mobile browsers typically provide optimized date/time selection interfaces
+      - Appearance and behavior can vary significantly between browsers
+
+      ## Future Improvements
+
+      The component is marked for future enhancement to support:
+      - Dedicated `date` input type for date-only selection
+      - Dedicated `time` input type for time-only selection
+      - Better validation and error handling
+      - Custom date formatting options
+      - Timezone support
+      - Integration with date picker libraries
+      - Support for inputAttributes property
+      - Template evaluation for label property
+
+templates: {}
+data: {} 

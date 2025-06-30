@@ -1,0 +1,68 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Reaction: postMessage
+
+      The `postMessage` reaction sends a message to another window or frame using the standard `window.postMessage` Web API.
+
+  - type: BsAlert
+    attributes:
+      variant: warning
+    content:
+      - type: Markdown
+        content: |
+          **Security warning:**
+          The `postMessage` API requires special attention to security. Always set a precise `targetOrigin` and validate the origin and content of received messages. See the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage#security_concerns) for best practices.
+
+  - type: Markdown
+    content: |
+      ## Properties
+      - `what` (string, required): The name of the reaction, must be `postMessage`.
+      - `on` (string, required): The event that triggers the reaction (e.g., `click`, `change`).
+      - `message` (any, required): The data to send as the message. This value is evaluated and can be any serializable type (string, number, object, array).
+      - `messageTarget` (string, optional): The target window for the message. Can be `'parent'` (the default) or `'self'`.
+      - `targetOrigin` (string, optional): Specifies the origin of the target window for security. Defaults to the current window's origin (`window.location.origin`). Use `"*"` for any origin, but be aware of the security implications.
+      - `includeChangedValue` (boolean, optional): If the trigger event is `change` on an input element, setting this to `true` will add the input's new value to the message payload under the key `changedValue`. Currently, this is only supported for checkboxes.
+
+      ## Behavior
+      - When triggered, the reaction evaluates the `message` content.
+      - It identifies the target window based on `messageTarget` and the target origin from `targetOrigin`.
+      - It sends the evaluated message to the target window using `postMessage`.
+      - If `includeChangedValue` is true and the event is a `change` on a supported input, the input's value is added to the message.
+
+      ## Limitations
+      - The receiving window must implement an event listener for the `"message"` event to handle the incoming data.
+      - For security, you should always specify a precise `targetOrigin` rather than using `*` when possible.
+      - `includeChangedValue` currently only supports checkboxes. Other input types are not yet implemented.
+
+  - type: RjBuildDescriber
+    title: "Sending a message to the same window"
+    description:
+      - type: Markdown
+        content: |
+          This example shows how to send a message to the same window when a button is clicked.
+          The current window would need to set up a `message` event listener to receive this data.
+
+          To verify that messages are being sent correctly, you can open your browser's console and paste this code:
+          ```javascript
+          window.addEventListener("message", (evt) => {
+              console.log("Event data:", JSON.stringify(evt.data));
+          });
+          ```
+          Then try the example below and watch the console for messages.
+
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Send Data"
+          actions:
+            - what: postMessage
+              on: click
+              message:
+                type: "userAction"
+                payload:
+                  user: "Alice"
+                  action: "confirm"
+              # targetOrigin: "https://parent.example.com" # Should be set for security
+              messageTarget: self # For demo purposes, we target self
+ 

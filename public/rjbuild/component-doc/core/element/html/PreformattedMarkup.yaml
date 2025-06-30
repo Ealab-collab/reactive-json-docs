@@ -1,0 +1,37 @@
+renderView:
+  - type: Markdown
+    content: |
+      # PreformattedMarkup
+
+      The `PreformattedMarkup` component renders HTML content with a strict allowlist of tags for safety. Use it to display rich text or HTML snippets, with filtering to prevent unwanted markup.
+
+      ## Properties
+      - `content` (string, required): The HTML string to render (can use template values)
+      - `htmlTagAllowList` (array, optional): List of allowed tags (overrides default)
+      - `additionalAllowedTags` (array, optional): Tags to add to the allowlist
+
+      **Default allowed tags:** abbr, acronym, b, blockquote, br, caption, code, div, em, h1-h6, i, li, ol, p, span, sup, strong, table, tbody, td, tfoot, th, thead, tr, ul
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Filtered HTML rendering"
+    description:
+      - type: Markdown
+        content: |
+          Only allowed tags are rendered. Try editing the content to add disallowed tags (like `<script>`, `<u>`, or `<img>`): they will be stripped.
+    toDescribe:
+      renderView:
+        - type: TextField
+          label: "HTML Content"
+          dataLocation: ~.html_content
+        - type: PreformattedMarkup
+          content: ~.html_content
+      data:
+        html_content: "<h2>Welcome</h2><p>This <b>component</b> only allows certain tags.<br><u>Underline</u> <img src='x' /></p>"
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - Only allowed tags are rendered; all others are stripped
+      - No support for custom attributes or inline styles
+      - No script, style, or event attributes are executed
+      - Not suitable for rendering untrusted HTML with complex requirements

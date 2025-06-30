@@ -1,0 +1,67 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Html
+
+      The `Html` component renders any HTML tag with static attributes and content. Use it to create custom wrappers, sections, or inject arbitrary tags with full template support.
+
+      **Note:** The `tag` property must be a static string. It cannot be set dynamically via template or data.
+
+      ## Properties
+      - `tag` (string, required): The HTML tag to render (e.g., div, span, section)
+      - `attributes` (object, optional): Attributes for the tag (class, id, etc.)
+      - `content` (object/array, optional): Content to render inside the tag (any Reactive-JSON view or array)
+      - `extra` (object, optional): Additional content rendered after the main tag
+
+  - type: BsAlert
+    attributes:
+      variant: info
+    content:
+      - "In most cases, you do not need to use the Html component directly. It is more convenient to use 'type: tagName' (e.g., 'type: div', 'type: span') instead of 'type: Html, tag: tagName'. The Html component is used internally by the engine as a fallback when no specific component is found for a given type."
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Custom HTML tag (static tag only)"
+    description:
+      - type: Markdown
+        content: |
+          Change the priority and content to see how the Html component renders dynamic HTML.
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: SelectField
+              dataLocation: ~.class
+              label: "Priority:"
+              options:
+                - label: "Normal"
+                  value: ""
+                - label: "Important (blue)"
+                  value: "text-primary"
+                - label: "Warning (orange)"
+                  value: "text-warning"
+                - label: "Critical (red)"
+                  value: "text-danger"
+            - type: TextField
+              dataLocation: ~.txt
+              label: "Content"
+        - type: div
+          content:
+            type: strong
+            content: "Rendered:"
+        - type: Html
+          tag: div
+          attributes:
+            class: ~.class
+          content: ~.txt
+      data:
+        class: ""
+        txt: Hello world!
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - The `tag` property does not support template evaluation and must be a static string
+      - No validation of tag names; invalid tags may cause rendering errors
+      - No support for dangerouslySetInnerHTML (use PreformattedMarkup for raw HTML)
+      - No built-in support for event handlers (use actions system for interactivity)
+      - No automatic support for custom attributes beyond React's attribute normalization
