@@ -1,44 +1,1521 @@
 renderView:
+  # Style personnalisé pour surcharger Bootstrap
+  - type: style
+    content: |
+      /* Surcharge des classes Bootstrap pour le thème turquoise */
+      .btn-primary {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: #44a08d;
+        --bs-btn-border-color: #44a08d;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #3d8b85;
+        --bs-btn-hover-border-color: #3d8b85;
+        --bs-btn-focus-shadow-rgb: 68, 160, 141;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #3d8b85;
+        --bs-btn-active-border-color: #3d8b85;
+      }
+      
+      .btn-secondary {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: #3d8b85;
+        --bs-btn-border-color: #3d8b85;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #2d7a73;
+        --bs-btn-hover-border-color: #2d7a73;
+        --bs-btn-focus-shadow-rgb: 61, 139, 133;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #2d7a73;
+        --bs-btn-active-border-color: #2d7a73;
+      }
+      
+      .btn-info {
+        --bs-btn-color: #000;
+        --bs-btn-bg: #4ecdc4;
+        --bs-btn-border-color: #4ecdc4;
+        --bs-btn-hover-color: #000;
+        --bs-btn-hover-bg: #44a08d;
+        --bs-btn-hover-border-color: #44a08d;
+        --bs-btn-focus-shadow-rgb: 78, 205, 196;
+        --bs-btn-active-color: #000;
+        --bs-btn-active-bg: #44a08d;
+        --bs-btn-active-border-color: #44a08d;
+      }
+      
+      .btn-outline-primary {
+        --bs-btn-color: #44a08d;
+        --bs-btn-border-color: #44a08d;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #44a08d;
+        --bs-btn-hover-border-color: #44a08d;
+        --bs-btn-focus-shadow-rgb: 68, 160, 141;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #44a08d;
+        --bs-btn-active-border-color: #44a08d;
+      }
+      
+      .btn-outline-secondary {
+        --bs-btn-color: #3d8b85;
+        --bs-btn-border-color: #3d8b85;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #3d8b85;
+        --bs-btn-hover-border-color: #3d8b85;
+        --bs-btn-focus-shadow-rgb: 61, 139, 133;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #3d8b85;
+        --bs-btn-active-border-color: #3d8b85;
+      }
+      
+      .btn-outline-info {
+        --bs-btn-color: #4ecdc4;
+        --bs-btn-border-color: #4ecdc4;
+        --bs-btn-hover-color: #000;
+        --bs-btn-hover-bg: #4ecdc4;
+        --bs-btn-hover-border-color: #4ecdc4;
+        --bs-btn-focus-shadow-rgb: 78, 205, 196;
+        --bs-btn-active-color: #000;
+        --bs-btn-active-bg: #4ecdc4;
+        --bs-btn-active-border-color: #4ecdc4;
+      }
+      
+      /* Couleurs de liens */
+      a {
+        color: #2d7a73;
+      }
+      
+      a:hover {
+        color: #44a08d;
+      }
+      
+      /* Couleurs de texte */
+      .text-primary {
+        color: #44a08d;
+      }
+      
+      .text-secondary {
+        color: #3d8b85;
+      }
+      
+      .text-info {
+        color: #4ecdc4;
+      }
+      
+      /* Backgrounds */
+      .bg-primary {
+        background-color: #44a08d;
+      }
+      
+      .bg-secondary {
+        background-color: #3d8b85;
+      }
+      
+      .bg-info {
+        background-color: #4ecdc4;
+      }
+      
+      /* Bordures */
+      .border-primary {
+        border-color: #44a08d;
+      }
+      
+      .border-secondary {
+        border-color: #3d8b85;
+      }
+      
+      .border-info {
+        border-color: #4ecdc4;
+      }
+      
+      /* DARK MODE SUPPORT - Compatible système et Bootstrap 5.3 */
+      @media (prefers-color-scheme: dark) {
+        /* Redéfinition des couleurs pour le mode sombre */
+        :root {
+          /* Backgrounds adaptés au mode sombre */
+          --bs-body-bg: #1a1a1a;
+          --bs-body-color: #e9ecef;
+      
+          /* Light devient sombre en dark mode */
+          --bs-light: #2d3338;
+          --bs-light-rgb: 45, 51, 56;
+      
+          /* Dark devient plus clair en dark mode */
+          --bs-dark: #f8f9fa;
+          --bs-dark-rgb: 248, 249, 250;
+      
+          /* Couleurs de texte adaptées */
+          --bs-emphasis-color: #fff;
+          --bs-secondary-color: #adb5bd;
+          --bs-tertiary-color: #6c757d;
+      
+          /* Bordures et séparateurs */
+          --bs-border-color: #495057;
+          --bs-border-color-translucent: rgba(255, 255, 255, 0.15);
+      
+          /* Maintenir notre palette turquoise mais l'adapter */
+          --bs-primary: #4ecdc4;              /* Plus clair en dark mode */
+          --bs-primary-bg-subtle: #1a3330;    /* Version sombre */
+          --bs-primary-border-subtle: #2d5a54; /* Bordure sombre */
+          --bs-primary-text-emphasis: #66e0d7; /* Texte plus lumineux */
+      
+          --bs-secondary: #44a08d;             /* Ajusté pour dark mode */
+          --bs-secondary-bg-subtle: #1a2f2c;  /* Version sombre */
+          --bs-secondary-border-subtle: #2d4d47; /* Bordure sombre */
+          --bs-secondary-text-emphasis: #5fb3a0; /* Texte plus lumineux */
+      
+          --bs-info: #66e0d7;                  /* Plus lumineux en dark */
+          --bs-info-bg-subtle: #1a3330;       /* Version sombre */
+          --bs-info-border-subtle: #2d5a54;   /* Bordure sombre */
+          --bs-info-text-emphasis: #80e6dd;   /* Texte plus lumineux */
+      
+                     /* Liens adaptés au mode sombre */
+           --bs-link-color: #5fb3a0;            /* Plus clair pour dark mode */
+           --bs-link-hover-color: #66e0d7;      /* Hover plus lumineux */
+           --bs-nav-link-color: #adb5bd;        /* Liens navigation clairs */
+           --bs-nav-link-hover-color: #66e0d7;  /* Hover navigation turquoise */
+           --bs-nav-link-disabled-color: #6c757d; /* Liens désactivés visibles */
+        }
+      
+        /* Sections avec bg-light deviennent sombres */
+        .bg-light {
+          background-color: var(--bs-light) !important;
+          color: var(--bs-body-color) !important;
+        }
+      
+        /* Texte sur fond sombre adapté */
+        .bg-light .text-muted {
+          color: var(--bs-secondary-color) !important;
+        }
+      
+        /* Cards et conteneurs */
+        .bg-light .card {
+          background-color: #2d3338;
+          border-color: var(--bs-border-color);
+        }
+      
+        /* Hero section reste avec le gradient mais adapté */
+        .hero-section {
+          background: linear-gradient(135deg, #2d5a54 0%, #1a3330 50%, #1a2f2c 100%) !important;
+        }
+      
+                 /* Terminal/code blocks plus contrastés */
+         .bg-dark {
+           background-color: #0d1117 !important;
+           border-color: #30363d !important;
+         }
+      
+         /* FIX: Code dans le hero - le texte reste clair sur fond sombre */
+         .bg-dark .text-light,
+         .bg-dark pre.text-light {
+           color: #f8f9fa !important;              /* Force le texte à rester clair */
+         }
+      
+         /* FIX: Éléments avec bg-dark ET text-light sur le même élément */
+         pre.bg-dark.text-light,
+         .bg-dark.text-light {
+           color: #f8f9fa !important;              /* Force le texte à rester clair */
+           background-color: #0d1117 !important;   /* Assure fond très sombre */
+         }
+      
+         /* Titre du fichier dans le terminal */
+         .bg-dark .text-muted {
+           color: #8b949e !important;              /* Gris GitHub pour titre fichier */
+         }
+      }
+      
+      /* Détection automatique et application du thème Bootstrap */
+      @media (prefers-color-scheme: dark) {
+        html {
+          color-scheme: dark;
+        }
+      
+        html[data-bs-theme="dark"],
+        [data-bs-theme="dark"] {
+          color-scheme: dark;
+        }
+      }
+
+  # Container principal avec thème complet redéfini
   - type: div
     attributes:
-      class: container-md mt-5 mb-5
+      style:
+        # Palette principale basée sur le gradient turquoise
+        "--bs-primary": "#44a08d"           # Turquoise-vert (couleur principale)
+        "--bs-primary-rgb": "68, 160, 141"
+        "--bs-primary-bg-subtle": "#d4f0ec"   # Arrière-plan subtil primary
+        "--bs-primary-border-subtle": "#a8ddd5" # Bordure subtile primary
+        "--bs-primary-text-emphasis": "#2b6b5a" # Texte emphasis primary
+
+        "--bs-secondary": "#3d8b85"         # Teal profond (du gradient)
+        "--bs-secondary-rgb": "61, 139, 133"
+        "--bs-secondary-bg-subtle": "#d0e6e4" # Arrière-plan subtil secondary
+        "--bs-secondary-border-subtle": "#9cccc7" # Bordure subtile secondary
+        "--bs-secondary-text-emphasis": "#275852" # Texte emphasis secondary
+
+        "--bs-info": "#4ecdc4"              # Turquoise clair (du gradient)
+        "--bs-info-rgb": "78, 205, 196"
+        "--bs-info-bg-subtle": "#d7f3f1"     # Arrière-plan subtil info
+        "--bs-info-border-subtle": "#aeeae6" # Bordure subtile info
+        "--bs-info-text-emphasis": "#328a82" # Texte emphasis info
+
+        # Couleurs de liens harmonieuses
+        "--bs-link-color": "#2d7a73"        # Turquoise foncé pour lisibilité
+        "--bs-link-hover-color": "#44a08d"  # Primary au hover
+
+        # Couleurs d'état complètes (Bootstrap 5.3)
+        "--bs-success": "#198754"           # Vert Bootstrap (inchangé)
+        "--bs-success-rgb": "25, 135, 84"
+        "--bs-success-bg-subtle": "#d1e7dd"
+        "--bs-success-border-subtle": "#a3cfbb"
+        "--bs-success-text-emphasis": "#0f5132"
+
+        "--bs-warning": "#fd7e14"           # Orange plus doux que Bootstrap
+        "--bs-warning-rgb": "253, 126, 20"
+        "--bs-warning-bg-subtle": "#fff3cd"
+        "--bs-warning-border-subtle": "#ffda6a"
+        "--bs-warning-text-emphasis": "#984c0c"
+
+        "--bs-danger": "#dc3545"            # Rouge Bootstrap (inchangé)
+        "--bs-danger-rgb": "220, 53, 69"
+        "--bs-danger-bg-subtle": "#f8d7da"
+        "--bs-danger-border-subtle": "#f1aeb5"
+        "--bs-danger-text-emphasis": "#842029"
     content:
-      type: Markdown
-      content: |
-        # Reactive-JSON
-  
-        Welcome to the official documentation for **Reactive-JSON**, a powerful HTML builder library designed to create HTML with minimal JavaScript code and JSON (or YAML). This documentation will guide you through the installation, usage, and extension of Reactive-JSON.
-  
-        ## Overview
-  
-        **Reactive-JSON** is a React library developed by [EA Lab](https://ea-lab.io). It allows you to build websites or parts of websites using JSON (or YAML) configurations, which are processed by the Reactive-JSON engine. This approach significantly reduces the amount of JavaScript code needed to create complex HTML structures.
-  
-        ### Key Concepts
-  
-        - **HTML Builder**: Reactive-JSON acts as an HTML builder, enabling you to create HTML with minimal JavaScript code.
-        - **JSON/YAML Processing**: The core of Reactive-JSON processes JSON (or YAML) to generate HTML, making it easier to manage and update your web content.
-        - **Extensibility**: The engine can be extended with plugins, allowing you to add your own React components or integrate existing libraries like Chart.js.
-  
-        ## Getting Started
-  
-        To get started with Reactive-JSON, visit our [documentation site](https://reactive-json.ea-lab.io/docs). Here you will find detailed guides on how to install, configure, and use Reactive-JSON in your projects.
-  
-        ## Project Links
-  
-        - **Core Project Repository**: [Bitbucket - Reactive-JSON](https://bitbucket.org/ea-lab/reactive-json)
-        - **Documentation Site Repository**: [Bitbucket - Reactive-JSON Standalone](https://bitbucket.org/ea-lab/reactive-json-standalone)
-        - **Official Website**: [Reactive-JSON](https://reactive-json.ea-lab.io)
-  
-        ## Did You Know?
-  
-        The Reactive-JSON documentation site itself is built using Reactive-JSON! It leverages the core project, Chart.js, and custom components to demonstrate the capabilities and flexibility of the library.
-  
-        ## Support and Community
-  
-        For support and to connect with the community, visit the [EA Lab website](https://ea-lab.io).
-  
-        Happy coding with Reactive-JSON!
+      # Hero Section
+      - type: div
+        attributes:
+          class: hero-section text-white py-5
+          style:
+            background: "linear-gradient(135deg, #4ecdc4 0%, #44a08d 50%, #3d8b85 100%)"
+        content:
+          - type: div
+            attributes:
+              class: container py-5
+            content:
+              - type: div
+                attributes:
+                  class: row align-items-center g-5
+                content:
+                  # Hero Content
+                  - type: div
+                    attributes:
+                      class: col-lg-6 mb-5 mb-lg-0
+                    content:
+                      - type: h1
+                        attributes:
+                          class: display-3 fw-bold mb-4
+                        content: "Build Dynamic UIs with JSON"
+
+                      - type: p
+                        attributes:
+                          class: lead mb-4 text-white-75
+                        content: "Reactive-JSON transforms JSON configurations into interactive React components. No JavaScript boilerplate, just pure declarative power."
+
+                      - type: div
+                        attributes:
+                          class: d-flex flex-wrap gap-3 mb-4
+                        content:
+                          - type: a
+                            attributes:
+                              href: "#getting-started"
+                              class: btn btn-light btn-lg px-4
+                            content: "Get Started"
+
+                          - type: a
+                            attributes:
+                              href: "#live-demo"
+                              class: btn btn-outline-light btn-lg px-4
+                            content: "Try Live Demo"
+
+                      - type: div
+                        attributes:
+                          class: d-flex flex-wrap gap-4 small text-white-75
+                        content:
+                          - type: span
+                            content: "📦 Easy install"
+                          - type: span
+                            content: "⚡ React-powered"
+                          - type: span
+                            content: "🎨 Bootstrap ready"
+
+                  # Code Preview
+                  - type: div
+                    attributes:
+                      class: col-lg-6
+                    content:
+                      - type: div
+                        attributes:
+                          class: position-relative w-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: bg-dark rounded shadow-lg p-4
+                              style:
+                                maxWidth: "500px"
+                                margin: "0 auto"
+                            content:
+                              - type: div
+                                attributes:
+                                  class: d-flex align-items-center mb-3
+                                content:
+                                  - type: div
+                                    attributes:
+                                      class: d-flex gap-2
+                                    content:
+                                      - type: div
+                                        attributes:
+                                          class: bg-danger rounded-circle
+                                          style:
+                                            width: "12px"
+                                            height: "12px"
+                                      - type: div
+                                        attributes:
+                                          class: bg-warning rounded-circle
+                                          style:
+                                            width: "12px"
+                                            height: "12px"
+                                      - type: div
+                                        attributes:
+                                          class: bg-success rounded-circle
+                                          style:
+                                            width: "12px"
+                                            height: "12px"
+                                  - type: span
+                                    attributes:
+                                      class: ms-3 text-muted small
+                                    content: "config.yaml"
+
+                              - type: pre
+                                attributes:
+                                  class: text-light small mb-0
+                                content: |
+                                  renderView:
+                                    - type: TextField
+                                      label: "Username"
+                                      dataLocation: ~.username
+                                    - type: button
+                                      content: "Submit"
+                                      actions:
+                                        - what: submitData
+                                          on: click
+
+      # Value Proposition Section
+      - type: div
+        attributes:
+          class: py-5 bg-light
+        content:
+          - type: div
+            attributes:
+              class: container
+            content:
+              - type: div
+                attributes:
+                  class: text-center mb-5
+                content:
+                  - type: h2
+                    attributes:
+                      class: h1 fw-bold mb-3
+                    content: "Why Choose Reactive-JSON?"
+
+                  - type: p
+                    attributes:
+                      class: lead text-muted
+                    content: "Transform the way you build frontend applications"
+
+              - type: div
+                attributes:
+                  class: row g-4
+                content:
+                  # Before/After Comparison
+                  - type: div
+                    attributes:
+                      class: col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-1 text-danger mb-3
+                            content: "❌"
+                          - type: h4
+                            attributes:
+                              class: fw-bold mb-3 text-danger
+                            content: "Traditional Way"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Write JavaScript components, manage state, handle events, style with CSS. Hundreds of lines for simple forms."
+
+                  - type: div
+                    attributes:
+                      class: col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-1 text-success mb-3
+                            content: "✅"
+                          - type: h4
+                            attributes:
+                              class: fw-bold mb-3 text-success
+                            content: "Reactive-JSON Way"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Define your UI in JSON/YAML. Built-in state management, actions, and styling. 10x less code."
+
+                  - type: div
+                    attributes:
+                      class: col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-1 text-primary mb-3
+                            content: "🚀"
+                          - type: h4
+                            attributes:
+                              class: fw-bold mb-3 text-primary
+                            content: "Production Ready"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Used in production by EA Lab. Extensible, maintainable, and developer-friendly."
+
+      # Live Demo Section
+      - type: div
+        attributes:
+          id: live-demo
+          class: py-5
+        content:
+          - type: div
+            attributes:
+              class: container
+            content:
+              - type: div
+                attributes:
+                  class: text-center mb-5
+                content:
+                  - type: h2
+                    attributes:
+                      class: h1 fw-bold mb-3
+                    content: "See It In Action"
+                  - type: p
+                    attributes:
+                      class: lead text-muted
+                    content: "Interactive examples you can try right now"
+
+              - type: Tabs
+                tabs:
+                  - attributes:
+                      eventKey: crud
+                      title: "CRUD Table"
+                    content:
+                      - type: DataFilter
+                        context: global
+                        filters:
+                          - subjectsWithProperty: demoRow
+                            andConditions:
+                              - orConditions:
+                                  - when: ~~._search
+                                    isEmpty:
+                                  - whenFilterableData: demoRow.title
+                                    contains: ~~._search
+                        content:
+                          - type: div
+                            attributes:
+                              class: mb-3
+                            content:
+                              - type: h5
+                                attributes:
+                                  class: mb-3
+                                content: "Advanced Data Management"
+
+                              - type: div
+                                attributes:
+                                  class: row g-3 mb-3
+                                content:
+                                  - type: div
+                                    attributes:
+                                      class: col-md-6
+                                    content:
+                                      - type: TextField
+                                        placeholder: "Search items..."
+                                        dataLocation: ~~._search
+                                        label: "Filter Table"
+
+                                  - type: div
+                                    attributes:
+                                      class: col-md-6 d-flex align-items-end gap-2
+                                    content:
+                                      - type: button
+                                        attributes:
+                                          class: btn btn-outline-primary btn-sm
+                                        content: "Select All"
+                                        actions:
+                                          - what: postMessage
+                                            on: click
+                                            message:
+                                              actor: select_all
+
+                                      - type: button
+                                        attributes:
+                                          class: btn btn-outline-secondary btn-sm
+                                        content: "Unselect All"
+                                        actions:
+                                          - what: postMessage
+                                            on: click
+                                            message:
+                                              actor: unselect_all
+
+                                      - type: button
+                                        attributes:
+                                          class: btn btn-danger btn-sm
+                                        content: "Delete Selected"
+                                        actions:
+                                          - what: hide
+                                            whenDataCountOf: $.demo_rows[*][?(@.demoRow.selected == true)]
+                                            inContext: global
+                                            is: 0
+                                          - what: postMessage
+                                            on: click
+                                            message:
+                                              actor: bulk_delete_selected
+
+                          - type: div
+                            attributes:
+                              class: table-responsive
+                            content:
+                              - type: table
+                                attributes:
+                                  class: table table-hover
+                                content:
+                                  - type: thead
+                                    attributes:
+                                      class: table-light
+                                    content:
+                                      - type: tr
+                                        content:
+                                          - type: th
+                                            attributes:
+                                              style:
+                                                width: "50px"
+                                            content: "Select"
+                                          - type: th
+                                            content: "Item Name"
+                                          - type: th
+                                            attributes:
+                                              style:
+                                                width: "120px"
+                                            content: "Actions"
+
+                                  - type: tbody
+                                    content:
+                                      - type: Switch
+                                        content: ~~.demo_rows
+                                        paginated: true
+                                        paginationProps:
+                                          maxPageButtonsCount: 5
+                                          pageMaxItemCount: 5
+                                        options:
+                                          demoRow:
+                                            load: demoRowTemplate
+                                        after:
+                                          - type: tr
+                                            content:
+                                              - type: td
+                                                attributes:
+                                                  colSpan: 3
+                                                  class: text-center py-3
+                                                content:
+                                                  - type: PageControls
+
+                          - type: div
+                            attributes:
+                              class: mt-3 d-flex justify-content-between align-items-center
+                            content:
+                              - type: button
+                                attributes:
+                                  class: btn btn-success
+                                content: "Add New Item"
+                                actions:
+                                  - what: addData
+                                    on: click
+                                    path: ~~.demo_rows
+                                    value:
+                                      demoRow:
+                                        selected: false
+                                        title: "New Item"
+                                        description: "Click edit to customize"
+
+                              - type: div
+                                attributes:
+                                  class: text-muted small
+                                content:
+                                  - "Total items: "
+                                  - type: Count
+                                    jsonPathPattern: "$.demo_rows[*]"
+
+                  - attributes:
+                      eventKey: dashboard
+                      title: "Dashboard"
+                    content:
+                      - type: div
+                        attributes:
+                          class: row g-3
+                        content:
+                          - type: div
+                            attributes:
+                              class: col-md-4
+                            content:
+                              - type: div
+                                attributes:
+                                  class: bg-primary text-white p-4 rounded text-center
+                                content:
+                                  - type: h3
+                                    attributes:
+                                      class: mb-1
+                                    content: "1,234"
+                                  - type: p
+                                    attributes:
+                                      class: mb-0 small
+                                    content: "Active Users"
+
+                          - type: div
+                            attributes:
+                              class: col-md-4
+                            content:
+                              - type: div
+                                attributes:
+                                  class: bg-success text-white p-4 rounded text-center
+                                content:
+                                  - type: h3
+                                    attributes:
+                                      class: mb-1
+                                    content: "56"
+                                  - type: p
+                                    attributes:
+                                      class: mb-0 small
+                                    content: "Projects"
+
+                          - type: div
+                            attributes:
+                              class: col-md-4
+                            content:
+                              - type: div
+                                attributes:
+                                  class: bg-warning text-white p-4 rounded text-center
+                                content:
+                                  - type: h3
+                                    attributes:
+                                      class: mb-1
+                                    content: "98%"
+                                  - type: p
+                                    attributes:
+                                      class: mb-0 small
+                                    content: "Uptime"
+
+                  - attributes:
+                      eventKey: interactions
+                      title: "Actions & Reactions"
+                    content:
+                      - type: div
+                        attributes:
+                          class: row align-items-center
+                        content:
+                          - type: div
+                            attributes:
+                              class: col-md-6
+                            content:
+                              - type: p
+                                content: "Click the button to see dynamic content:"
+
+                              - type: div
+                                attributes:
+                                  class: d-flex flex-wrap gap-2 mb-3
+                                content:
+                                  - type: button
+                                    attributes:
+                                      class: btn btn-outline-primary
+                                    content: "Toggle Message"
+                                    actions:
+                                      - what: setData
+                                        on: click
+                                        path: ~.show_message
+                                        value: true
+                                        when: ~.show_message
+                                        isNot: true
+                                      - what: setData
+                                        on: click
+                                        path: ~.show_message
+                                        value: false
+                                        when: ~.show_message
+                                        is: true
+
+                                  - type: button
+                                    attributes:
+                                      class: btn btn-info btn-sm
+                                    content: "Info"
+                                    actions:
+                                      - what: setData
+                                        on: click
+                                        path: ~.demo_info
+                                        value: "Additional info displayed!"
+
+                                  - type: button
+                                    attributes:
+                                      class: btn btn-outline-secondary btn-sm
+                                    content: "Reset"
+                                    actions:
+                                      - what: setData
+                                        on: click
+                                        path: ~.show_message
+                                        value: false
+                                      - what: setData
+                                        on: click
+                                        path: ~.demo_info
+                                        value: ""
+
+                              - type: BsAlert
+                                attributes:
+                                  variant: info
+                                  class: mt-3
+                                content: "🎉 This message appeared dynamically!"
+                                actions:
+                                  - what: hide
+                                    when: ~.show_message
+                                    isNot: true
+
+                              - type: div
+                                attributes:
+                                  class: alert alert-info mt-2
+                                content:
+                                  - "ℹ️ "
+                                  - ~.demo_info
+                                actions:
+                                  - what: hide
+                                    when: ~.demo_info
+                                    isEmpty: true
+
+                      - type: div
+                        attributes:
+                          class: col-md-6
+                        content:
+                          - type: div
+                            attributes:
+                              class: bg-light p-3 rounded
+                            content:
+                              - type: small
+                                attributes:
+                                  class: text-muted
+                                content: "Current state:"
+                              - type: p
+                                attributes:
+                                  class: mb-0 font-monospace small
+                                content:
+                                  - "show_message: "
+                                  - type: span
+                                    content: "true"
+                                    actions:
+                                      - what: hide
+                                        when: ~.show_message
+                                        isNot: true
+                                  - type: span
+                                    content: "false"
+                                    actions:
+                                      - what: hide
+                                        when: ~.show_message
+                                        is: true
+                              - type: p
+                                attributes:
+                                  class: mb-0 font-monospace small
+                                content:
+                                  - "demo_info: "
+                                  - ~.demo_info
+
+                  - attributes:
+                      eventKey: charts
+                      title: "Chart.js Test"
+                    content:
+                      - type: div
+                        attributes:
+                          class: row align-items-center
+                        content:
+                          - type: div
+                            attributes:
+                              class: col-md-6
+                            content:
+                              - type: h5
+                                attributes:
+                                  class: mb-3
+                                content: "Chart.js Integration"
+
+                              - type: p
+                                attributes:
+                                  class: mb-3
+                                content: "This demonstrates the Chart.js integration with Reactive-JSON. The chart below shows sample data rendered in real-time."
+
+                              - type: div
+                                attributes:
+                                  class: mb-3
+                                content:
+                                  - type: strong
+                                    content: "Chart Features:"
+                                  - type: ul
+                                    attributes:
+                                      class: mt-2
+                                    content:
+                                      - type: li
+                                        content: "Interactive tooltips"
+                                      - type: li
+                                        content: "Responsive design"
+                                      - type: li
+                                        content: "Smooth animations"
+                                      - type: li
+                                        content: "Dynamic data binding"
+
+                          - type: div
+                            attributes:
+                              class: col-md-6
+                            content:
+                              - type: div
+                                attributes:
+                                  class: bg-white p-3 rounded shadow-sm
+                                  style:
+                                    height: "400px"
+                                content:
+                                  - type: div
+                                    content:
+                                      - type: LineChart
+                                        data:
+                                          labels:
+                                            - January
+                                            - February
+                                            - March
+                                            - April
+                                            - May
+                                          datasets:
+                                            - label: Sales
+                                              options:
+                                                plugins:
+                                                  legend:
+                                                    position: bottom
+                                              data:
+                                                - 30
+                                                - 45
+                                                - 28
+                                                - 50
+                                                - 75
+                                              backgroundColor: rgba(54, 162, 235, 0.2)
+                                              borderColor: rgba(54, 162, 235, 1)
+                                              borderWidth: 2
+#                                      - type: LineChart
+#                                        data: ~~.sample_chart_data
+#                                        options: ~~.sample_chart_options
+#                                        data:
+#                                        attributes:
+#                                          style:
+#                                            width: "100%"
+#                                            height: "350px"
+
+
+
+      # Features Grid
+      - type: div
+        attributes:
+          class: py-5 bg-light
+        content:
+          - type: div
+            attributes:
+              class: container
+            content:
+              - type: div
+                attributes:
+                  class: text-center mb-5
+                content:
+                  - type: h2
+                    attributes:
+                      class: h1 fw-bold mb-3
+                    content: "Powerful Features"
+                  - type: p
+                    attributes:
+                      class: lead text-muted
+                    content: "Everything you need to build modern web applications"
+
+              - type: div
+                attributes:
+                  class: row g-4
+                content:
+                  - type: div
+                    attributes:
+                      class: col-md-6 col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center p-4 h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-4 mb-3
+                            content: "📝"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Rich Form Components"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Text fields, selects, checkboxes, date pickers, and more with built-in validation and styling."
+
+                  - type: div
+                    attributes:
+                      class: col-md-6 col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center p-4 h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-4 mb-3
+                            content: "⚡"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Actions & Reactions"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Declarative event handling, data manipulation, and UI updates without writing JavaScript."
+
+                  - type: div
+                    attributes:
+                      class: col-md-6 col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center p-4 h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-4 mb-3
+                            content: "🎨"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Bootstrap Integration"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Native React-Bootstrap components with full theming and responsive design support."
+
+                  - type: div
+                    attributes:
+                      class: col-md-6 col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center p-4 h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-4 mb-3
+                            content: "📊"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Chart.js Ready"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Create beautiful charts and visualizations with the official Chart.js plugin integration."
+
+                  - type: div
+                    attributes:
+                      class: col-md-6 col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center p-4 h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-4 mb-3
+                            content: "🧩"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Template System"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Powerful templating with data binding, conditionals, and dynamic content generation."
+
+                  - type: div
+                    attributes:
+                      class: col-md-6 col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center p-4 h-100
+                        content:
+                          - type: div
+                            attributes:
+                              class: display-4 mb-3
+                            content: "🔧"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Plugin Architecture"
+                          - type: p
+                            attributes:
+                              class: text-muted
+                            content: "Extend with custom components and integrate existing React libraries seamlessly."
+
+      # Getting Started Section
+      - type: div
+        attributes:
+          id: getting-started
+          class: py-5
+        content:
+          - type: div
+            attributes:
+              class: container
+            content:
+              - type: div
+                attributes:
+                  class: text-center mb-5
+                content:
+                  - type: h2
+                    attributes:
+                      class: h1 fw-bold mb-3
+                    content: "Get Started in Minutes"
+                  - type: p
+                    attributes:
+                      class: lead text-muted
+                    content: "Three simple steps to your first Reactive-JSON application"
+
+              - type: div
+                attributes:
+                  class: row g-4
+                content:
+                  - type: div
+                    attributes:
+                      class: col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center
+                        content:
+                          - type: div
+                            attributes:
+                              class: bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3
+                              style:
+                                width: "60px"
+                                height: "60px"
+                                fontSize: "24px"
+                                fontWeight: "bold"
+                            content: "1"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Install"
+                          - type: pre
+                            attributes:
+                              class: bg-dark text-light p-3 rounded small
+                            content: "npm install @ea-lab/reactive-json"
+
+                  - type: div
+                    attributes:
+                      class: col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center
+                        content:
+                          - type: div
+                            attributes:
+                              class: bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3
+                              style:
+                                width: "60px"
+                                height: "60px"
+                                fontSize: "24px"
+                                fontWeight: "bold"
+                            content: "2"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Import"
+                          - type: pre
+                            attributes:
+                              class: bg-dark text-light p-3 rounded small
+                            content: |
+                              import {ReactiveJsonRoot} 
+                              from "@ea-lab/reactive-json";
+
+                  - type: div
+                    attributes:
+                      class: col-lg-4
+                    content:
+                      - type: div
+                        attributes:
+                          class: text-center
+                        content:
+                          - type: div
+                            attributes:
+                              class: bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3
+                              style:
+                                width: "60px"
+                                height: "60px"
+                                fontSize: "24px"
+                                fontWeight: "bold"
+                            content: "3"
+                          - type: h5
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "Use"
+                          - type: pre
+                            attributes:
+                              class: bg-dark text-light p-3 rounded small
+                            content: |
+                              <ReactiveJsonRoot 
+                                dataUrl="/config.yaml" />
+
+              - type: div
+                attributes:
+                  class: text-center mt-5
+                content:
+                  - type: a
+                    attributes:
+                      href: "/docs"
+                      class: btn btn-primary btn-lg px-5
+                    content: "View Full Documentation"
+
+      # Resources & Community Section
+      - type: div
+        attributes:
+          class: py-5 bg-dark text-white
+        content:
+          - type: div
+            attributes:
+              class: container
+            content:
+              - type: div
+                attributes:
+                  class: row g-4
+                content:
+                  - type: div
+                    attributes:
+                      class: col-lg-8
+                    content:
+                      - type: h2
+                        attributes:
+                          class: h1 fw-bold mb-4
+                        content: "Ready to Transform Your Development?"
+                      - type: p
+                        attributes:
+                          class: lead mb-4 text-white-75
+                        content: "Join developers who are building faster, more maintainable applications with Reactive-JSON."
+
+                      - type: div
+                        attributes:
+                          class: row g-3
+                        content:
+                          - type: div
+                            attributes:
+                              class: col-sm-6
+                            content:
+                              - type: a
+                                attributes:
+                                  href: "/docs"
+                                  class: text-decoration-none text-white d-flex align-items-center
+                                content:
+                                  - type: span
+                                    attributes:
+                                      class: me-3 fs-4
+                                    content: "📚"
+                                  - type: div
+                                    content:
+                                      - type: div
+                                        attributes:
+                                          class: fw-bold
+                                        content: "Documentation"
+                                      - type: small
+                                        attributes:
+                                          class: text-white-75
+                                        content: "Complete guides and API reference"
+
+                          - type: div
+                            attributes:
+                              class: col-sm-6
+                            content:
+                              - type: a
+                                attributes:
+                                  href: "https://bitbucket.org/ea-lab/reactive-json"
+                                  class: text-decoration-none text-white d-flex align-items-center
+                                content:
+                                  - type: span
+                                    attributes:
+                                      class: me-3 fs-4
+                                    content: "💻"
+                                  - type: div
+                                    content:
+                                      - type: div
+                                        attributes:
+                                          class: fw-bold
+                                        content: "Source Code"
+                                      - type: small
+                                        attributes:
+                                          class: text-white-75
+                                        content: "Open source on Bitbucket"
+
+                          - type: div
+                            attributes:
+                              class: col-sm-6
+                            content:
+                              - type: a
+                                attributes:
+                                  href: "https://ea-lab.io"
+                                  class: text-decoration-none text-white d-flex align-items-center
+                                content:
+                                  - type: span
+                                    attributes:
+                                      class: me-3 fs-4
+                                    content: "🏢"
+                                  - type: div
+                                    content:
+                                      - type: div
+                                        attributes:
+                                          class: fw-bold
+                                        content: "EA Lab"
+                                      - type: small
+                                        attributes:
+                                          class: text-white-75
+                                        content: "Created and maintained by EA Lab"
+
+                          - type: div
+                            attributes:
+                              class: col-sm-6
+                            content:
+                              - type: a
+                                attributes:
+                                  href: "https://npmjs.com/package/@ea-lab/reactive-json"
+                                  class: text-decoration-none text-white d-flex align-items-center
+                                content:
+                                  - type: span
+                                    attributes:
+                                      class: me-3 fs-4
+                                    content: "📦"
+                                  - type: div
+                                    content:
+                                      - type: div
+                                        attributes:
+                                          class: fw-bold
+                                        content: "NPM Package"
+                                      - type: small
+                                        attributes:
+                                          class: text-white-75
+                                        content: "Install from npm registry"
+
+                  - type: div
+                    attributes:
+                      class: col-lg-4 text-center
+                    content:
+                      - type: div
+                        attributes:
+                          class: bg-primary rounded p-4
+                        content:
+                          - type: h4
+                            attributes:
+                              class: fw-bold mb-3
+                            content: "This Site is Built with Reactive-JSON!"
+                          - type: p
+                            attributes:
+                              class: mb-3 small
+                            content: "Everything you see here is generated from YAML configuration files using the same library you'll be using."
+                          - type: a
+                            attributes:
+                              href: "https://bitbucket.org/ea-lab/reactive-json-standalone"
+                              class: text-white text-decoration-none small fw-bold
+                            content: "View this site's source →"
 
 templates:
+  demoRowTemplate:
+    type: tr
+    actions:
+      - what: removeData
+        on: message
+        whenMessageIs:
+          actor: bulk_delete_selected
+        when: ~.selected
+        is: true
+        target: currentTemplateData
+        parentLevel: 1
+    content:
+      - type: td
+        content:
+          - type: CheckBoxField
+            dataLocation: ~.selected
+            options:
+              - value: true
+            actions:
+              - what: setData
+                path: ~.selected
+                value: true
+                on: message
+                whenMessageIs:
+                  actor: select_all
+              - what: setData
+                path: ~.selected
+                value: false
+                on: message
+                whenMessageIs:
+                  actor: unselect_all
 
-data: []
+      - type: td
+        content:
+          - type: div
+            attributes:
+              class: fw-bold
+            content: ~.title
+          - type: small
+            attributes:
+              class: text-muted
+            content: ~.description
+
+      - type: td
+        content:
+          - type: div
+            attributes:
+              class: d-flex gap-1
+            content:
+              - type: button
+                attributes:
+                  class: btn btn-outline-primary btn-sm
+                content: "Edit"
+                actions:
+                  - what: setData
+                    on: click
+                    path: ~._openEditModal
+                    value: true
+
+              - type: button
+                attributes:
+                  class: btn btn-outline-danger btn-sm
+                content: "Delete"
+                actions:
+                  - what: removeData
+                    on: click
+                    target: currentTemplateData
+                    parentLevel: 1
+
+              - type: Modal
+                showBoolPath: ~._openEditModal
+                headerTitle:
+                  - "Edit Item: "
+                  - type: em
+                    content: ~.title
+                body:
+                  - type: TextField
+                    dataLocation: ~.title
+                    label: "Item Name"
+                  - type: TextField
+                    dataLocation: ~.description
+                    label: "Description"
+                  - type: div
+                    attributes:
+                      class: d-flex gap-2 mt-3
+                    content:
+                      - type: button
+                        attributes:
+                          class: btn btn-primary
+                        content: "Save"
+                        actions:
+                          - what: setData
+                            on: click
+                            path: ~._openEditModal
+                            value: false
+                      - type: button
+                        attributes:
+                          class: btn btn-secondary
+                        content: "Cancel"
+                        actions:
+                          - what: setData
+                            on: click
+                            path: ~._openEditModal
+                            value: false
+
+data:
+  demo_rows:
+    - demoRow:
+        selected: false
+        title: "Product A"
+        description: "High-quality product with excellent features"
+    - demoRow:
+        selected: false
+        title: "Service B"
+        description: "Professional service offering great value"
+    - demoRow:
+        selected: false
+        title: "Solution C"
+        description: "Complete solution for all your needs"
+    - demoRow:
+        selected: false
+        title: "Package D"
+        description: "Comprehensive package with everything included"
+    - demoRow:
+        selected: false
+        title: "Plan E"
+        description: "Flexible plan designed for modern businesses"
+  show_message: false
+  demo_info: ""
+  sample_chart_data:
+    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+    datasets:
+      - label: "Sales"
+        data: [65, 89, 120, 81, 96, 112]
+        fill: false
+        borderColor: "#44a08d"
+        backgroundColor: "#44a08d"
+        tension: 0.4
+        borderWidth: 3
+      - label: "Revenue"
+        data: [45, 67, 95, 73, 85, 98]
+        fill: false
+        borderColor: "#4ecdc4"
+        backgroundColor: "#4ecdc4"
+        tension: 0.4
+        borderWidth: 3
+  sample_chart_options:
+    responsive: true
+    maintainAspectRatio: false
+    plugins:
+      legend:
+        position: "top"
+      title:
+        display: true
+        text: "Monthly Performance"
+        font:
+          size: 16
+          weight: "bold"
+    scales:
+      y:
+        beginAtZero: true
+        grid:
+          color: "#e9ecef"
+        ticks:
+          font:
+            size: 12
+      x:
+        grid:
+          color: "#e9ecef"
+        ticks:
+          font:
+            size: 12
