@@ -1,0 +1,405 @@
+# Palette de Couleurs - Reactive-JSON Homepage
+# Thème complet avec CSS Custom Properties
+
+## Variables CSS Bootstrap Redéfinies - Palette Complète
+css_variables:
+  # Couleurs principales basées sur le gradient turquoise
+  primary_colors:
+    "--bs-primary": "#44a08d"           # Turquoise-vert (couleur principale)
+    "--bs-primary-rgb": "68, 160, 141"
+    "--bs-primary-bg-subtle": "#d4f0ec"   # Arrière-plan subtil primary
+    "--bs-primary-border-subtle": "#a8ddd5" # Bordure subtile primary
+    "--bs-primary-text-emphasis": "#2b6b5a" # Texte emphasis primary
+    
+    "--bs-secondary": "#3d8b85"         # Teal profond (du gradient)
+    "--bs-secondary-rgb": "61, 139, 133"
+    "--bs-secondary-bg-subtle": "#d0e6e4" # Arrière-plan subtil secondary
+    "--bs-secondary-border-subtle": "#9cccc7" # Bordure subtile secondary
+    "--bs-secondary-text-emphasis": "#275852" # Texte emphasis secondary
+    
+    "--bs-info": "#4ecdc4"              # Turquoise clair (du gradient)
+    "--bs-info-rgb": "78, 205, 196"
+    "--bs-info-bg-subtle": "#d7f3f1"     # Arrière-plan subtil info
+    "--bs-info-border-subtle": "#aeeae6" # Bordure subtile info
+    "--bs-info-text-emphasis": "#328a82" # Texte emphasis info
+  
+  # Couleurs de liens harmonieuses
+  link_colors:
+    "--bs-link-color": "#2d7a73"        # Turquoise foncé pour lisibilité
+    "--bs-link-hover-color": "#44a08d"  # Primary au hover
+  
+  # Support Dark Mode - Variables adaptées
+  dark_mode_colors:
+    "--bs-body-bg": "#1a1a1a"           # Background principal sombre
+    "--bs-body-color": "#e9ecef"         # Texte principal clair
+    "--bs-light": "#2d3338"              # bg-light devient sombre
+    "--bs-light-rgb": "45, 51, 56"
+    "--bs-dark": "#f8f9fa"               # bg-dark devient clair (inversion)
+    "--bs-dark-rgb": "248, 249, 250"
+    "--bs-emphasis-color": "#fff"        # Texte haute emphase
+    "--bs-secondary-color": "#adb5bd"    # Texte secondaire
+    "--bs-border-color": "#495057"       # Bordures sombres
+  
+  # Palette turquoise adaptée dark mode
+  dark_mode_theme:
+    "--bs-primary": "#4ecdc4"              # Plus lumineux pour dark mode
+    "--bs-primary-bg-subtle": "#1a3330"    # Arrière-plan turquoise sombre
+    "--bs-primary-border-subtle": "#2d5a54" # Bordure turquoise sombre
+    "--bs-primary-text-emphasis": "#66e0d7" # Texte turquoise lumineux
+    
+    "--bs-secondary": "#44a08d"             # Ajusté pour dark mode
+    "--bs-secondary-bg-subtle": "#1a2f2c"   # Arrière-plan teal sombre
+    "--bs-secondary-border-subtle": "#2d4d47" # Bordure teal sombre
+    "--bs-secondary-text-emphasis": "#5fb3a0" # Texte teal lumineux
+    
+    "--bs-info": "#66e0d7"                  # Plus lumineux et contrasté
+    "--bs-info-bg-subtle": "#1a3330"        # Arrière-plan info sombre
+    "--bs-info-border-subtle": "#2d5a54"    # Bordure info sombre
+    "--bs-info-text-emphasis": "#80e6dd"    # Texte info très lumineux
+    
+    "--bs-link-color": "#5fb3a0"            # Liens visibles sur fond sombre
+    "--bs-link-hover-color": "#66e0d7"      # Hover plus lumineux
+
+  # Couleurs d'état (harmonisées) - Bootstrap 5.3 complet
+  state_colors:
+    "--bs-success": "#198754"           # Vert Bootstrap (inchangé)
+    "--bs-success-rgb": "25, 135, 84"
+    "--bs-success-bg-subtle": "#d1e7dd"
+    "--bs-success-border-subtle": "#a3cfbb"
+    "--bs-success-text-emphasis": "#0f5132"
+    
+    "--bs-warning": "#fd7e14"           # Orange plus doux que Bootstrap
+    "--bs-warning-rgb": "253, 126, 20"
+    "--bs-warning-bg-subtle": "#fff3cd"
+    "--bs-warning-border-subtle": "#ffda6a"
+    "--bs-warning-text-emphasis": "#984c0c"
+    
+    "--bs-danger": "#dc3545"            # Rouge Bootstrap (inchangé)
+    "--bs-danger-rgb": "220, 53, 69"
+    "--bs-danger-bg-subtle": "#f8d7da"
+    "--bs-danger-border-subtle": "#f1aeb5"
+    "--bs-danger-text-emphasis": "#842029"
+
+palette:
+  # Gradient Principal (Hero Section)
+  hero_gradient:
+    start: "#4ecdc4"    # Turquoise clair - utilisé pour btn-info
+    middle: "#44a08d"   # Turquoise-vert - couleur principale (primary)
+    end: "#3d8b85"      # Teal profond - utilisé pour secondary
+    css: "linear-gradient(135deg, #4ecdc4 0%, #44a08d 50%, #3d8b85 100%)"
+
+  # Couleurs thématiques par usage
+  theme_colors:
+    primary: "#44a08d"      # Boutons CTA, liens principaux, éléments importants
+    secondary: "#3d8b85"    # Boutons secondaires, éléments de support
+    info: "#4ecdc4"         # Informations, notifications, tips
+    links: "#2d7a73"        # Liens dans le texte courant (plus foncé pour lisibilité)
+    link_hover: "#44a08d"   # Liens au hover (reprend la couleur primary)
+
+  # Couleurs Bootstrap Standard (mode clair)
+  bootstrap_standard:
+    white: "#ffffff"
+    light: "#f8f9fa"
+    muted: "#6c757d"
+    success: "#198754"
+    warning: "#fd7e14"      # Modifié : plus doux que #ffc107
+    danger: "#dc3545"
+    dark: "#212529"
+
+  # Couleurs Bootstrap en Dark Mode (auto-adaptées)
+  bootstrap_dark_mode:
+    body_bg: "#1a1a1a"      # Background principal très sombre
+    body_color: "#e9ecef"   # Texte principal blanc cassé
+    light: "#2d3338"        # bg-light devient gris sombre
+    dark: "#f8f9fa"         # bg-dark devient clair (inversion logique)
+    muted: "#adb5bd"        # text-muted adapté pour visibilité
+    borders: "#495057"      # Bordures visibles sur fond sombre
+    emphasis: "#ffffff"     # Texte haute emphase blanc pur
+
+  # Couleurs de Texte
+  text:
+    primary_on_gradient: "#ffffff"
+    secondary: "#6c757d"
+    muted: "#6c757d"
+    white_75: "rgba(255, 255, 255, 0.75)"
+
+## Classes CSS - Palette Complète Disponible
+css_classes:
+  # Structure principale
+  theme_container: "style avec toutes les variables CSS redéfinies"
+  hero_section: "text-white py-5"
+  
+  # Boutons - Toutes les variantes disponibles
+  buttons:
+    primary: "btn btn-primary"                    # Turquoise principal
+    primary_outline: "btn btn-outline-primary"    # Outline turquoise
+    secondary: "btn btn-secondary"                # Teal profond
+    secondary_outline: "btn btn-outline-secondary" # Outline teal
+    info: "btn btn-info"                          # Turquoise clair
+    info_outline: "btn btn-outline-info"          # Outline turquoise clair
+    success: "btn btn-success"                    # Vert (inchangé)
+    warning: "btn btn-warning"                    # Orange doux
+    danger: "btn btn-danger"                      # Rouge (inchangé)
+    light: "btn btn-light"                        # Blanc/gris clair
+    dark: "btn btn-dark"                          # Sombre
+  
+  # Backgrounds
+  backgrounds:
+    primary: "bg-primary"              # Turquoise principal
+    secondary: "bg-secondary"          # Teal profond
+    info: "bg-info"                    # Turquoise clair
+    success: "bg-success"              # Vert
+    warning: "bg-warning"              # Orange doux
+    danger: "bg-danger"                # Rouge
+  
+  # Textes colorés
+  text_colors:
+    primary: "text-primary"            # Turquoise principal
+    secondary: "text-secondary"        # Teal profond
+    info: "text-info"                  # Turquoise clair
+    success: "text-success"            # Vert
+    warning: "text-warning"            # Orange doux
+    danger: "text-danger"              # Rouge
+  
+  # Autres composants
+  numbered_circle: "bg-primary text-white rounded-circle"
+  code_terminal: "bg-dark rounded shadow-lg p-4"
+  feature_card: "text-center p-4 h-100"
+
+## Structure YAML Hybride Recommandée (Nouvelle Approche)
+yaml_structure: |
+  # 1. Bloc style de surcharge pour garantir le fonctionnement
+  - type: style
+    content: |
+      /* Surcharge Bootstrap pour thème turquoise */
+      .btn-primary {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: #44a08d;
+        --bs-btn-border-color: #44a08d;
+        --bs-btn-hover-bg: #3d8b85;
+        --bs-btn-hover-border-color: #3d8b85;
+        --bs-btn-focus-shadow-rgb: 68, 160, 141;
+        --bs-btn-active-bg: #3d8b85;
+        --bs-btn-active-border-color: #3d8b85;
+      }
+      
+      .btn-secondary {
+        --bs-btn-color: #fff;
+        --bs-btn-bg: #3d8b85;
+        --bs-btn-hover-bg: #2d7a73;
+        /* ... tous les états */
+      }
+      
+      .btn-info {
+        --bs-btn-color: #000;
+        --bs-btn-bg: #4ecdc4;
+        --bs-btn-hover-bg: #44a08d;
+        /* ... tous les états */
+      }
+      
+      /* + outline, links, backgrounds, borders */
+      
+      /* Note: Pas de !important nécessaire car le CSS interne 
+         a naturellement plus de spécificité que Bootstrap externe */
+
+  # 2. Container avec variables CSS (complément)
+  - type: div
+    attributes:
+      style:
+        # Palette principale Bootstrap 5.3
+        "--bs-primary": "#44a08d"
+        "--bs-primary-rgb": "68, 160, 141"
+        "--bs-primary-bg-subtle": "#d4f0ec"
+        "--bs-primary-border-subtle": "#a8ddd5"
+        "--bs-primary-text-emphasis": "#2b6b5a"
+        
+        "--bs-secondary": "#3d8b85"
+        "--bs-info": "#4ecdc4"
+        # ... toutes les variables subtiles
+        
+        # Liens
+        "--bs-link-color": "#2d7a73"
+        "--bs-link-hover-color": "#44a08d"
+    content:
+      # Tous les composants Bootstrap fonctionnent PARFAITEMENT
+      - type: button
+        attributes:
+          class: btn btn-primary     # Turquoise avec hover
+      - type: button
+        attributes:
+          class: btn btn-secondary   # Teal avec hover
+      - type: button
+        attributes:
+          class: btn btn-info        # Turquoise clair avec hover
+
+## Cas d'Usage Recommandés
+usage_guidelines:
+  primary: "Actions principales, CTA importants, navigation active"
+  secondary: "Actions secondaires, boutons Cancel, éléments de support"
+  info: "Messages informatifs, tips, notifications positives"
+  links: "Liens dans le contenu textuel (couleur foncée pour lisibilité)"
+  success: "Confirmations, états positifs, validation"
+  warning: "Alertes, états d'attention, informations importantes"
+  danger: "Erreurs, suppressions, actions destructives"
+
+## Dimensions Standards
+dimensions:
+  hero_padding: "py-5 (80px vertical)"
+  terminal_max_width: "500px"
+  circle_size: "60px x 60px"
+  macos_dot_size: "12px x 12px"
+  button_gap: "gap-2 (8px entre boutons)"
+
+## Typography Scale
+typography:
+  hero_title: "display-3 fw-bold"
+  section_title: "h1 fw-bold" 
+  feature_title: "fw-bold"
+  lead_text: "lead text-muted"
+  code_text: "font-monospace"
+
+## Bootstrap 5.3 - Nouvelles Variables Supportées
+bootstrap_53_features:
+  subtle_backgrounds:
+    description: "Arrière-plans subtils pour des composants discrets"
+    classes: "bg-primary-subtle, bg-secondary-subtle, bg-info-subtle"
+    variables: "--bs-primary-bg-subtle, --bs-secondary-bg-subtle"
+    
+  subtle_borders:
+    description: "Bordures harmonisées pour délimiter sans contraste fort"
+    classes: "border-primary-subtle, border-secondary-subtle"
+    variables: "--bs-primary-border-subtle, --bs-secondary-border-subtle"
+    
+  text_emphasis:
+    description: "Texte haute emphase pour une hiérarchie claire"
+    classes: "text-primary-emphasis, text-secondary-emphasis"
+    variables: "--bs-primary-text-emphasis, --bs-secondary-text-emphasis"
+    
+  automatic_inheritance:
+    description: "Les boutons héritent automatiquement des nouvelles variables"
+    components: "btn-primary, btn-secondary, btn-info utilisent maintenant le système complet"
+    compatibility: "Compatible avec alertes, badges, dropdowns, etc."
+
+## Composants Mis à Jour Automatiquement
+updated_components:
+  buttons: "btn-primary, btn-secondary, btn-info - styles complets"
+  alerts: "alert-primary, alert-secondary, alert-info - avec nouvelles variables"
+  badges: "badge-primary, badge-secondary, badge-info - harmonisés"
+  utilities: "Toutes les utilities bg-*, text-*, border-* - système complet"
+  form_elements: "États focus, validation - couleurs harmonisées"
+
+## Avantages de l'Approche Hybride
+benefits:
+  guaranteed_functionality: "Boutons garantis fonctionnels sur toutes versions Bootstrap"
+  comprehensive: "Toutes les couleurs Bootstrap redéfinies de manière cohérente"
+  bootstrap_53_compliant: "Support complet des nouvelles variables Bootstrap 5.3"
+  css_override: "CSS explicite pour surcharger les classes Bootstrap natives"
+  natural_specificity: "Spécificité CSS naturelle, pas de !important nécessaire"
+  native_bootstrap_vars: "Utilise les vraies variables Bootstrap (--bs-btn-*)"
+  complete_states: "Tous les états (hover, focus, active, disabled) définis"
+  outline_support: "Boutons outline parfaitement stylés avec transitions"
+  maximum_compatibility: "Fonctionne même sans support variables CSS"
+  maintenance: "Une seule modification change toute la palette"
+  performance: "CSS optimisé et propre, pas de styles inline"
+  consistency: "Impossible d'avoir des couleurs non harmonisées"
+  bootstrap_compatibility: "Toutes les classes Bootstrap standard fonctionnent"
+  future_proof: "Facilite l'ajout de thèmes alternatifs complets"
+  accessibility: "Couleurs choisies avec des contrastes appropriés"
+  developer_friendly: "Classes Bootstrap standards, approche familière"
+  dark_mode_automatic: "Support dark mode automatique avec prefers-color-scheme"
+  contrast_optimized: "Contrastes optimisés pour mode sombre et clair"
+
+## 🌙 Dark Mode Support Complet
+
+### Détection Automatique
+detection:
+  system_preference: "Utilise prefers-color-scheme pour détecter les préférences système"
+  bootstrap_native: "Compatible avec data-bs-theme='dark' de Bootstrap 5.3"
+  css_media_query: "@media (prefers-color-scheme: dark) pour activation automatique"
+  no_javascript: "Fonctionne sans JavaScript, pure CSS"
+
+### Problème Résolu - bg-light en Dark Mode
+problem_solution:
+  classic_issue: "bg-light reste clair + text-muted devient clair = invisible"
+  our_solution: "bg-light devient sombre automatiquement en dark mode"
+  technical_fix: "Redéfinition de --bs-light vers #2d3338 (gris sombre)"
+  text_adaptation: "text-muted adapté vers --bs-secondary-color (#adb5bd)"
+
+### Variables Dark Mode CSS
+dark_mode_css: |
+  @media (prefers-color-scheme: dark) {
+    :root {
+      /* Couleurs de base adaptées */
+      --bs-body-bg: #1a1a1a;
+      --bs-body-color: #e9ecef;
+      --bs-light: #2d3338;           /* bg-light devient sombre */
+      --bs-dark: #f8f9fa;            /* bg-dark devient clair */
+      
+      /* Notre palette turquoise adaptée */
+      --bs-primary: #4ecdc4;         /* Plus lumineux */
+      --bs-secondary: #44a08d;       /* Ajusté */
+      --bs-info: #66e0d7;            /* Plus contrasté */
+      
+      /* Arrière-plans subtils sombres */
+      --bs-primary-bg-subtle: #1a3330;
+      --bs-secondary-bg-subtle: #1a2f2c;
+      --bs-info-bg-subtle: #1a3330;
+      
+      /* Liens visibles sur fond sombre */
+      --bs-link-color: #5fb3a0;
+      --bs-link-hover-color: #66e0d7;
+    }
+    
+    /* Classes spécifiques adaptées */
+    .bg-light {
+      background-color: var(--bs-light) !important;
+      color: var(--bs-body-color) !important;
+    }
+    
+    .bg-light .text-muted {
+      color: var(--bs-secondary-color) !important;
+    }
+  }
+
+### Test du Dark Mode
+testing:
+  browser_devtools: "F12 > Rendering > Emulate CSS prefers-color-scheme: dark"
+  system_settings: "Paramètres OS > Apparence > Mode sombre"
+  bootstrap_attribute: "Ajouter data-bs-theme='dark' à html"
+  automatic_switch: "Switch automatique selon l'heure système (certains OS)"
+
+### Composants Supportés
+  supported_components:
+    all_backgrounds: "bg-light, bg-dark, bg-primary, bg-secondary, bg-info"
+    all_text: "text-muted, text-primary, text-secondary, text-emphasis"
+    all_buttons: "btn-primary, btn-secondary, btn-info + outline variants"
+    all_utilities: "border-*, text-*, bg-* + subtle variants"
+    cards_containers: "card, container, sections avec backgrounds"
+    hero_gradient: "Gradient adapté pour mode sombre"
+    terminal_code: "Blocs code/terminal avec contraste optimisé"
+    
+  special_fixes:
+    terminal_text: "text-light dans bg-dark reste clair (fix spécifique)"
+    terminal_titles: "text-muted dans bg-dark devient gris GitHub visible"
+    code_blocks: "Tous les blocs code restent lisibles quel que soit le mode"
+
+### ⚠️ Cas Spéciaux - Containers Sombres
+special_cases:
+  problem: "text-light dans bg-dark devient invisible en dark mode"
+  principle: "Si container reste sombre, contenu texte doit rester clair"
+  
+  case_1_container_child:
+    description: "Container bg-dark avec enfant text-light"
+    solution: ".bg-dark .text-light { color: #f8f9fa !important; }"
+    example: "Hero terminal config.yaml"
+    
+  case_2_same_element:
+    description: "Élément avec bg-dark ET text-light sur même élément"
+    solution: ".bg-dark.text-light { color: #f8f9fa !important; }"
+    example: "Section Get Started - blocs code npm install, import, usage"
+    
+  examples:
+    hero_terminal: "Container bg-dark + enfant pre.text-light (Cas 1)"
+    get_started_code: "pre.bg-dark.text-light pour npm/import/usage (Cas 2)"
+    live_demo_data: "Affichage données dynamiques dans démos (Cas 2)"
+    file_titles: "Noms de fichiers style GitHub (#8b949e)" 
