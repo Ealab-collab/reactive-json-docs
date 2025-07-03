@@ -1,4 +1,6 @@
 .rj-demo-sidebar {
+    background-color: var(--bs-light) !important;
+
     &.offcanvas-start {
         @media (min-width: 1200px) {
             border-right: 1px solid currentColor;
@@ -33,6 +35,18 @@
         &.active {
             font-weight: bolder;
         }
+    }
+}
+
+/* Mode sombre spécifique à la sidebar */
+@media (prefers-color-scheme: dark) {
+    .rj-demo-sidebar .accordion-button {
+        color: currentColor !important;
+    }
+    
+    .rj-demo-sidebar .accordion-button:not(.collapsed) {
+        color: currentColor !important;
+        background-color: unset !important;
     }
 }
 

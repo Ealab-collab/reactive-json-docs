@@ -1,0 +1,74 @@
+/* Styles pour Layout.jsx - Compatible dark mode Bootstrap */
+
+/* Couleurs de base pour la navbar */
+.navbar {
+  /* Garder les couleurs par défaut en mode clair */
+}
+
+.navbar-brand {
+  font-weight: 600;
+  margin-left: 1rem;
+}
+
+/* DARK MODE SUPPORT - Compatible système et Bootstrap 5.3 */
+@media (prefers-color-scheme: dark) {
+  /* Variables CSS pour la navbar en mode sombre */
+  .navbar-light {
+    /* Redéfinir les couleurs de la navbar light en mode sombre */
+    --bs-navbar-color: #adb5bd;
+    --bs-navbar-hover-color: #66e0d7;
+    --bs-navbar-disabled-color: #6c757d;
+    --bs-navbar-active-color: #66e0d7;
+    --bs-navbar-brand-color: #e9ecef;
+    --bs-navbar-brand-hover-color: #66e0d7;
+    --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.15);
+    --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
+
+  /* Background de la navbar adapté au mode sombre */
+  /* !important nécessaire ici car Bootstrap utilise !important pour .bg-light */
+  .navbar.bg-light {
+    background-color: #2d3338 !important;
+    border-bottom: 1px solid #495057;
+  }
+
+  /* Les variables CSS Bootstrap gèrent automatiquement les couleurs */
+  /* Plus besoin de !important pour la plupart des éléments */
+  .navbar-nav .nav-link {
+    transition: color 0.15s ease-in-out;
+  }
+
+  /* Toggler button pour mobile en mode sombre */
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.25rem rgba(102, 224, 215, 0.25);
+  }
+
+  /* Dropdown si utilisé dans la navbar */
+  .navbar-nav .dropdown-menu {
+    background-color: #2d3338;
+    border-color: #495057;
+  }
+
+  .navbar-nav .dropdown-item {
+    color: #adb5bd;
+  }
+
+  .navbar-nav .dropdown-item:hover,
+  .navbar-nav .dropdown-item:focus {
+    color: #66e0d7;
+    background-color: #495057;
+  }
+
+
+}
+
+/* Transition douce pour le changement de thème */
+.navbar,
+.navbar-brand,
+.navbar-nav .nav-link {
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+} 

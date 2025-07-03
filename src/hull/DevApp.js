@@ -1,4 +1,5 @@
 import './App.css';
+import './DevApp.css';
 import {Page} from "./Page";
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';

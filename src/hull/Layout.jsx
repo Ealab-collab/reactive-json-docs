@@ -1,5 +1,6 @@
 import React from 'react';
 import {Navbar, Nav} from "react-bootstrap";
+import './Layout.css';
 
 export const Layout = ({children}) => {
     return (
