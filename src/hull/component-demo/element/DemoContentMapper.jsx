@@ -14,7 +14,7 @@ export const DemoContentMapper = () => {
 
     const subpath = _.trim(pathname.substring(docsPagesBasePath.length), "/");
 
-    let finalDataUrl = "/rjbuild/component-doc/";
+    let finalDataUrl = "/rjbuild/docs/";
 
     if (subpath === "" || subpath === "index") {
         finalDataUrl += "index.yaml";

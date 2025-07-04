@@ -4,15 +4,15 @@ echo "🚀 Publishing @ea-lab/reactive-json-docs to npm"
 echo ""
 
 # Check if documentation folder exists
-if [ ! -d "public/rjbuild/component-doc" ]; then
-    echo "❌ Error: Directory public/rjbuild/component-doc does not exist"
+if [ ! -d "public/rjbuild/docs" ]; then
+  echo "❌ Error: Directory public/rjbuild/docs does not exist"
     exit 1
 fi
 
 echo "✅ Documentation folder found"
 
 # Check if index.yaml exists
-if [ ! -f "public/rjbuild/component-doc/index.yaml" ]; then
+if [ ! -f "public/rjbuild/docs/index.yaml" ]; then
     echo "❌ Error: index.yaml file does not exist"
     exit 1
 fi
@@ -22,7 +22,7 @@ echo "✅ index.yaml file found"
 # Display files that will be published
 echo ""
 echo "📦 Files to be published:"
-echo "   - public/rjbuild/component-doc/ (complete documentation)"
+echo "   - public/rjbuild/docs/ (complete documentation)"
 echo "   - README-npm.md (usage guide)"
 echo ""
 

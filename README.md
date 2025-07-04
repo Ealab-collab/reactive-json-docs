@@ -40,7 +40,7 @@ The following is the specific documentation for the *reactive-json-docs* project
 
 This directory contains the structured documentation files for *reactive-json*.
 
-The `/public/rjbuild/component-doc` directory contains the main documentation in YAML format:
+The `/public/rjbuild/docs` directory contains the main documentation in YAML format:
 - **Core components**: Actions, form elements, HTML elements, special components
 - **Integrations**: Chart.js and other plugin documentation  
 - **Examples**: Complete use cases and implementation demos
@@ -82,5 +82,5 @@ Build the documentation website:
 npm run build
 ```
 
-The documentation files in `/public/rjbuild/component-doc` are the source of truth
+The documentation files in `/public/rjbuild/docs` are the source of truth
 for all reactive-json component documentation.

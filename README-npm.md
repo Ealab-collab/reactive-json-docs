@@ -22,12 +22,12 @@ npm install @ea-lab/reactive-json-docs
 
 Tell your LLM about this package:
 
-> "I have the npm package `@ea-lab/reactive-json-docs` installed, which contains complete documentation for @ea-lab/reactive-json and plugins. The documentation is located in `node_modules/@ea-lab/reactive-json-docs/public/rjbuild/component-doc/`. Can you help me understand how to use Reactive-JSON components?"
+> "I have the npm package `@ea-lab/reactive-json-docs` installed, which contains complete documentation for @ea-lab/reactive-json and plugins. The documentation is located in `node_modules/@ea-lab/reactive-json-docs/public/rjbuild/docs/`. Can you help me understand how to use Reactive-JSON components?"
 
 ### Structure
 
 ```
-component-doc/
+docs/
 ├── index.yaml              # Main index
 ├── core/
 │   ├── action/            # Actions (Hide, Show, Redirect...)

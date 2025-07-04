@@ -327,7 +327,7 @@ import './Sidebar.css';
 - [Guide de Style Thème Complet](home-style-guide.md) - Architecture CSS complète et tous les composants
 - [Palette Technique Complète](color-palette.yaml) - Toutes les variables et cas d'usage
 - [Page d'Accueil](home.yaml) - Implémentation de référence avec exemples
-- [Documentation Principale](../component-doc/index.yaml) - Composants Reactive-JSON
+- [Documentation Principale](../docs/index.yaml) - Composants Reactive-JSON
 
 ## 🔧 Migration et Évolution
 
