@@ -1,21 +1,30 @@
-# reactive-json-standalone
+# reactive-json-docs
 
-Standalone project for *[reactive-json](https://bitbucket.org/ea-lab/reactive-json)*,
-a React-based lib that transforms JSON (or YAML) into HTML markup.
+Documentation project for *[reactive-json](https://github.com/Ealab-collab/reactive-json)* (`@ea-lab/reactive-json`),
+a React-based library that transforms JSON (or YAML) into HTML markup.
 
-This project shows how to use *reactive-json*, and also serves as the
-standalone release of reactive-json.
+This project serves as the complete documentation hub for *reactive-json* and its ecosystem,
+providing structured YAML documentation files optimized for LLM parsing and developer reference.
 
 ## The gist
 
-The standalone released files can be found in the "Download" section
-of the Bitbucket repository: [Download section](https://bitbucket.org/ea-lab/reactive-json-standalone/downloads/).
+Two npm packages are available:
 
-Run the demo app with `npm start`.
+**📚 Documentation Package** (this project):
+```bash
+npm install @ea-lab/reactive-json-docs
+```
 
-Build the standalone assets (JS and CSS) with `npm run build`. The files
-will then be available in `/build/static/{css,js}`; copy those files into
-your own website project and load them in the appropriate web pages.
+**⚛️ Main Library Package**:
+```bash
+npm install @ea-lab/reactive-json
+```
+
+The documentation package is optimized for LLMs and development tools, while the main library package is what you use in your React applications.
+
+The complete documentation repository can be found at: [reactive-json-docs](https://github.com/Ealab-collab/reactive-json-docs).
+
+You can also run the documentation website locally with `npm start` to browse the interactive documentation.
 
 ## Project structure
 
@@ -23,44 +32,55 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 The usual commands can be found in the annex [README-CRA.md](README-CRA.md).
 
-The following is the specific documentation for the *reactive-json-standalone* project.
+> 💡 **Community contribution welcome**: We'd love to migrate this project to [Vite](https://vitejs.dev) for better performance and developer experience!
 
-### Build directory `/build`
+The following is the specific documentation for the *reactive-json-docs* project.
 
-When you build this project with `npm run build`, a demo website is created
-in `/build`.
+### Documentation directory `/public/rjbuild`
 
-The JS and CSS assets are located in `/build/static`. Copy those files into
-your website project and load them. The JS file will work over `<reactive-json>`
-HTML tags on the rendered page.
+This directory contains the structured documentation files for *reactive-json*.
 
-### Public directory `/public`
+The `/public/rjbuild/component-doc` directory contains the main documentation in YAML format:
+- **Core components**: Actions, form elements, HTML elements, special components
+- **Integrations**: Chart.js and other plugin documentation  
+- **Examples**: Complete use cases and implementation demos
+- **Reactions**: Reactivity system and event handling
 
-This directory contains the *reactive-json* demo website files.
+These YAML files are the structured documentation that powers both the web interface
+and the npm package for LLM consumption.
 
-In the `index.html` file, you will get a basic implementation of what is expected
-in the HTML page to have *reactive-json* loaded in it (especially the `<reactive-json>` tag).
+### Pages directory `/public/rjbuild/pages`
 
-In the `/public/pages` directory, you will find YAML files. Those files are the real
-structure and content that *reactive-json* consumes to build the HTML markup. Yes!
-*reactive-json* can also read YAML files, because it's way easier for a human to write
-and read than JSON.
-
-Regarding the `/public` directory overall, you can use this directory if you want to
-experiment on this lib. The files in this directory will be available in a simple
-web app accessible after launching the server with the `npm start` command.
-You will have to edit the routing in the `/src/DevApp.js` file
-to use your own page definitions.
-
-Otherwise—that is if you don't need those demo pages, e.g. because you want to use
-*reactive-json* as a lib in your own website—simply omit to copy them to your website
-assets. You will only need the built CSS and JS files in the `/build/static/[css|js]` directory then.
+Contains the website pages:
+- `home.yaml` - Website homepage
+- `docs.yaml` - Documentation browser index page
+- `home-docs/` - Styling guides for this documentation project only
 
 ### Hull `/src/hull`
 
-Contains the code that wraps around the engine of *reactive-json*.
+Contains the code that powers the documentation website interface.
 
-This is what will be executed first right after the `index.js` execution.
+This includes the React components that render the documentation browser,
+component demos, and interactive examples.
 
-Depending on scenarios, the `index.js` will decide what part of the *hull*
-will be executed.
+The documentation website provides a user-friendly interface to browse
+all available reactive-json components and their usage examples.
+
+## Publishing Documentation
+
+This project can publish its documentation as an npm package. See [PUBLICATION-GUIDE.md](PUBLICATION-GUIDE.md) for details.
+
+## Development
+
+Run the documentation website locally:
+```bash
+npm start
+```
+
+Build the documentation website:
+```bash
+npm run build
+```
+
+The documentation files in `/public/rjbuild/component-doc` are the source of truth
+for all reactive-json component documentation.

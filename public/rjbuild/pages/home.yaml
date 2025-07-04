@@ -979,7 +979,7 @@ renderView:
                             content:
                               - type: a
                                 attributes:
-                                  href: "https://bitbucket.org/ea-lab/reactive-json"
+                                  href: "https://github.com/Ealab-collab/reactive-json"
                                   class: text-decoration-none text-white d-flex align-items-center
                                 content:
                                   - type: span
@@ -995,7 +995,7 @@ renderView:
                                       - type: small
                                         attributes:
                                           class: text-white-75
-                                        content: "Open source on Bitbucket"
+                                        content: "Open source on GitHub"
 
                           - type: div
                             attributes:
@@ -1039,11 +1039,15 @@ renderView:
                                       - type: div
                                         attributes:
                                           class: fw-bold
-                                        content: "NPM Package"
+                                        content: "NPM Packages"
                                       - type: small
                                         attributes:
                                           class: text-white-75
-                                        content: "Install from npm registry"
+                                        content: "@ea-lab/reactive-json (library)"
+                                      - type: small
+                                        attributes:
+                                          class: text-white-75 d-block
+                                        content: "@ea-lab/reactive-json-docs (docs)"
 
                   - type: div
                     attributes:
@@ -1063,7 +1067,7 @@ renderView:
                             content: "Everything you see here is generated from YAML configuration files using the same library you'll be using."
                           - type: a
                             attributes:
-                              href: "https://bitbucket.org/ea-lab/reactive-json-standalone"
+                              href: "https://github.com/Ealab-collab/reactive-json-docs"
                               class: text-white text-decoration-none small fw-bold
                             content: "View this site's source →"
 

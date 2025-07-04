@@ -1,6 +1,28 @@
 {
-  "name": "reactive-json-standalone",
+  "name": "@ea-lab/reactive-json-docs",
   "version": "0.1.1",
+  "description": "Complete documentation for Reactive-JSON - Components, examples and LLM-parsable guides",
+  "main": "public/rjbuild/component-doc/index.yaml",
+  "files": [
+    "public/rjbuild/component-doc/**/*",
+    "README-npm.md"
+  ],
+  "keywords": [
+    "reactive-json",
+    "documentation",
+    "components",
+    "yaml",
+    "llm-parsable",
+    "react",
+    "json-forms"
+  ],
+  "author": "EA-Lab",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/reactive-json-standalone.git"
+  },
+  "homepage": "https://github.com/your-username/reactive-json-standalone#readme",
   "private": false,
   "dependencies": {
     "@craco/craco": "^7.1.0",
@@ -28,7 +50,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject"
+    "eject": "craco eject",
+    "publish-docs": "npm publish --access public"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +75,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "homepage": "./"
+  }
 }
