@@ -1,0 +1,49 @@
+# Instructions for Cursor AI - Reactive-JSON
+
+## Reference Documentation
+- `public/rjbuild/docs/index.yaml`: Main documentation entry point with demos
+- `public/rjbuild/docs/core/`: Detailed technical documentation by category
+  - `action/`: Action components documentation (Hide, Tooltip, Popover, etc.)
+  - `element/`: Element components documentation (form fields, HTML elements, etc.) 
+  - `reaction/`: Reaction components documentation (data operations)
+  - `example/`: Complete examples and use cases
+- `public/rjbuild/docs/chartjs/overview.yaml`: Chart.js integration overview
+- `public/rjbuild/docs/pages/`: Documentation pages configuration
+
+## Main Instructions
+1. **ALWAYS consult the documentation in `public/rjbuild/docs/`** before proposing solutions
+2. Start with `public/rjbuild/docs/index.yaml` or relevant category documentation
+3. Follow the patterns and examples shown in the .yaml and .md files
+4. Refer to the comprehensive examples in `public/rjbuild/docs/core/example/`
+
+## Component Validation Rules
+
+1. For each component, STRICTLY verify:
+   - The structure of properties in the documentation
+   - The type of each property (array, object, string, etc.)
+   - The examples provided in .md and .yaml files
+
+2. For array-type properties:
+   - ✅ Allow multiple distinct elements
+   - ❌ Never duplicate properties within the same element
+   - ✅ Respect the unitary structure of each element
+
+3. Documentation conventions:
+   - If a property is an array, it accepts multiple DISTINCT elements
+   - Each array element must strictly follow the documented schema
+   - Multiple conditions must be distributed across separate elements
+
+4. When in doubt:
+   - Always refer to the documentation examples
+   - Do not extrapolate undocumented functionalities
+   - Prioritize simplicity and clarity
+
+## Language Rules
+- Respond in the language of the user's question or as specified by the user in the conversation
+- Always write documentation content in English, regardless of the conversation language
+
+## Response Process
+1. First consult the relevant documentation in `public/rjbuild/docs/`
+2. Verify existing examples in the appropriate category
+3. Apply validation rules
+4. Propose a solution compliant with standards 

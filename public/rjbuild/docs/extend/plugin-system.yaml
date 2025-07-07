@@ -1,0 +1,147 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Plugin System Guide
+
+      ## Overview
+
+      The Reactive-JSON plugin system provides a structured way to organize, distribute, and integrate custom components. Plugins allow you to package related components together and make them available to Reactive-JSON applications through a simple registration mechanism.
+
+      ## Plugin Structure
+
+      A plugin is a JavaScript object that exports components organized by type. The standard plugin structure includes:
+
+      - **element**: Display components, form fields, and interactive elements
+      - **action**: Components that perform side effects or modify behavior
+      - **reaction**: Event-driven components that respond to user interactions
+      - **hook**: React hooks that provide additional functionality
+
+      ## Plugin Registration
+
+      Plugins are registered with the ReactiveJsonRoot component to make components available throughout the application.
+
+      First, regroup your components in a plugin object.
+
+      ```jsx
+      // myPlugin.js
+      import { MyButton } from "./components/MyButton.jsx";
+      import { MyForm } from "./components/MyForm.jsx";
+      import { MyAction } from "./components/MyAction.jsx";
+
+      export const myPlugin = {
+          element: {
+              MyButton,
+              MyForm,
+          },
+          action: {
+              MyAction,
+          }
+      };
+      ```
+
+      Then, register the plugin with the ReactiveJsonRoot component:
+
+      ```jsx
+      import { ReactiveJsonRoot } from "@ea-lab/reactive-json";
+      import { myPlugin } from "./plugins/myPlugin.js";
+
+      const App = () => {
+          return (
+              <ReactiveJsonRoot
+                  plugins={[myPlugin]}
+              />
+          );
+      };
+      ```
+
+      The plugin is now available throughout the application.
+
+      You can now use the components in your RjBuild configuration:
+
+      ```jsx
+        import React from 'react';
+        import { ReactiveJsonRoot } from "@ea-lab/reactive-json";
+        import { myPlugin } from "./plugins/myPlugin.js";
+
+        const App = () => {
+            const rjBuildConfig = {
+                renderView: [
+                    {
+                        type: "MyButton",
+                        content: "Click me!",
+                        customProperty: "some value"
+                    }
+                ],
+                data: {}
+            };
+
+            return (
+                <ReactiveJsonRoot
+                    rjBuild={rjBuildConfig}
+                    plugins={[myPlugin]}
+                />
+            );
+        };
+        ```
+
+      The plugin is now available throughout the application.
+
+      ## Multi-Plugin Application
+      
+      Applications can use multiple plugins, allowing for modular component organization.
+
+      ```jsx
+      import { uiPlugin } from "./plugins/uiPlugin.js";
+      import { formPlugin } from "./plugins/formPlugin.js";
+      import { chartsPlugin } from "./plugins/chartsPlugin.js";
+
+      const App = () => {
+          return (
+              <ReactiveJsonRoot
+                  rjBuild={rjBuildConfig}
+                  plugins={[
+                      uiPlugin,
+                      formPlugin,
+                      chartsPlugin
+                  ]}
+              />
+          );
+      };
+      ```
+
+      ## Plugin Development Patterns
+
+      ### Standalone Plugin
+
+      For single-purpose plugins with a few related components:
+
+      ```javascript
+      export const simplePlugin = {
+          element: {
+              Alert: AlertComponent,
+              Badge: BadgeComponent,
+          }
+      };
+      ```
+
+      ## Best Practices
+
+      ### Plugin Organization
+      1. **Group related components** in the same plugin
+      2. **Use descriptive names** for components and plugins
+      3. **Document component props** and usage patterns
+      4. **Provide examples** for complex components
+
+      ### Distribution
+      1. **Package as npm modules** for easy distribution
+      2. **Include TypeScript definitions** if using TypeScript
+      3. **Provide clear documentation** and examples
+      4. **Follow semantic versioning** for releases
+
+      ### Performance
+      1. **Lazy load large plugins** when possible
+      2. **Avoid global state** in plugin components
+      3. **Use React best practices** for component implementation
+      4. **Test plugin compatibility** with different Reactive-JSON versions
+
+templates:

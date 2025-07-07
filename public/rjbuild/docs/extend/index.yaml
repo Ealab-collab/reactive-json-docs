@@ -1,0 +1,29 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Extending Reactive-JSON
+
+      ## Overview
+
+      Reactive-JSON is designed to be extensible through custom React components and plugins. This section provides comprehensive documentation on how to extend the library with your own components and integrate them using the plugin system.
+
+      The extension system allows you to:
+      - Create custom React components that integrate seamlessly with Reactive-JSON
+      - Define plugins to organize and distribute your components
+      - Use existing React libraries and wrap them for Reactive-JSON compatibility
+      - Build reusable component libraries for your organization
+
+  - type: Markdown
+    content: |
+      ## Getting Started
+
+      To start extending Reactive-JSON:
+
+      1. **[Component Development](component-development)**: Learn how to create custom React components that integrate with Reactive-JSON
+      2. **[Plugin System](plugin-system)**: Understand how to organize and distribute your components using the plugin system
+
+      Each section provides detailed examples, best practices, and common patterns to help you build robust extensions.
+
+templates:
+
+data: {} 

@@ -1,4 +1,4 @@
-/* Surcharge des classes Bootstrap pour le thème turquoise */
+/* Override Bootstrap classes for turquoise theme */
 .btn-primary {
   --bs-btn-color: #fff;
   --bs-btn-bg: #44a08d;
@@ -74,7 +74,7 @@
   --bs-btn-active-border-color: #4ecdc4;
 }
 
-/* Couleurs de liens */
+/* Link colors */
 a {
   color: #2d7a73;
 }
@@ -83,7 +83,7 @@ a:hover {
   color: #44a08d;
 }
 
-/* Couleurs de texte */
+/* Text colors */
 .text-primary {
   color: #44a08d;
 }
@@ -109,7 +109,7 @@ a:hover {
   background-color: #4ecdc4;
 }
 
-/* Bordures */
+/* Borders */
 .border-primary {
   border-color: #44a08d;
 }
@@ -127,103 +127,103 @@ a:hover {
   background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 50%, #3d8b85 100%);
 }
 
-/* DARK MODE SUPPORT - Compatible système et Bootstrap 5.3 */
+/* DARK MODE SUPPORT - System and Bootstrap 5.3 compatible */
 @media (prefers-color-scheme: dark) {
-  /* Redéfinition des couleurs pour le mode sombre */
+  /* Color redefinition for dark mode */
   :root {
-    /* Backgrounds adaptés au mode sombre */
+    /* Backgrounds adapted for dark mode */
     --bs-body-bg: #1a1a1a;
     --bs-body-color: #e9ecef;
 
-    /* Light devient sombre en dark mode */
+    /* Light becomes dark in dark mode */
     --bs-light: #2d3338;
     --bs-light-rgb: 45, 51, 56;
 
-    /* Dark devient plus clair en dark mode */
+    /* Dark becomes lighter in dark mode */
     --bs-dark: #f8f9fa;
     --bs-dark-rgb: 248, 249, 250;
 
-    /* Couleurs de texte adaptées */
+    /* Adapted text colors */
     --bs-emphasis-color: #fff;
     --bs-secondary-color: #adb5bd;
     --bs-tertiary-color: #6c757d;
 
-    /* Bordures et séparateurs */
+    /* Borders and separators */
     --bs-border-color: #495057;
     --bs-border-color-translucent: rgba(255, 255, 255, 0.15);
 
-    /* Maintenir notre palette turquoise mais l'adapter */
-    --bs-primary: #4ecdc4;              /* Plus clair en dark mode */
-    --bs-primary-bg-subtle: #1a3330;    /* Version sombre */
-    --bs-primary-border-subtle: #2d5a54; /* Bordure sombre */
-    --bs-primary-text-emphasis: #66e0d7; /* Texte plus lumineux */
+    /* Maintain our turquoise palette but adapt it */
+    --bs-primary: #4ecdc4;              /* Lighter in dark mode */
+    --bs-primary-bg-subtle: #1a3330;    /* Dark version */
+    --bs-primary-border-subtle: #2d5a54; /* Dark border */
+    --bs-primary-text-emphasis: #66e0d7; /* Brighter text */
 
-    --bs-secondary: #44a08d;             /* Ajusté pour dark mode */
-    --bs-secondary-bg-subtle: #1a2f2c;  /* Version sombre */
-    --bs-secondary-border-subtle: #2d4d47; /* Bordure sombre */
-    --bs-secondary-text-emphasis: #5fb3a0; /* Texte plus lumineux */
+    --bs-secondary: #44a08d;             /* Adjusted for dark mode */
+    --bs-secondary-bg-subtle: #1a2f2c;  /* Dark version */
+    --bs-secondary-border-subtle: #2d4d47; /* Dark border */
+    --bs-secondary-text-emphasis: #5fb3a0; /* Brighter text */
 
-    --bs-info: #66e0d7;                  /* Plus lumineux en dark */
-    --bs-info-bg-subtle: #1a3330;       /* Version sombre */
-    --bs-info-border-subtle: #2d5a54;   /* Bordure sombre */
-    --bs-info-text-emphasis: #80e6dd;   /* Texte plus lumineux */
+    --bs-info: #66e0d7;                  /* Brighter in dark mode */
+    --bs-info-bg-subtle: #1a3330;       /* Dark version */
+    --bs-info-border-subtle: #2d5a54;   /* Dark border */
+    --bs-info-text-emphasis: #80e6dd;   /* Brighter text */
 
-    /* Liens adaptés au mode sombre */
-    --bs-link-color: #5fb3a0;            /* Plus clair pour dark mode */
-    --bs-link-hover-color: #66e0d7;      /* Hover plus lumineux */
-    --bs-nav-link-color: #adb5bd;        /* Liens navigation clairs */
-    --bs-nav-link-hover-color: #66e0d7;  /* Hover navigation turquoise */
-    --bs-nav-link-disabled-color: #6c757d; /* Liens désactivés visibles */
+    /* Links adapted for dark mode */
+    --bs-link-color: #5fb3a0;            /* Lighter for dark mode */
+    --bs-link-hover-color: #66e0d7;      /* Brighter hover */
+    --bs-nav-link-color: #adb5bd;        /* Light navigation links */
+    --bs-nav-link-hover-color: #66e0d7;  /* Turquoise navigation hover */
+    --bs-nav-link-disabled-color: #6c757d; /* Visible disabled links */
   }
 
-  /* Sections avec bg-light deviennent sombres */
+  /* Sections with bg-light become dark */
   .bg-light {
     background-color: var(--bs-light) !important;
     color: var(--bs-body-color) !important;
   }
 
-  /* Texte sur fond sombre adapté */
+  /* Text on dark background adapted */
   .bg-light .text-muted {
     color: var(--bs-secondary-color) !important;
   }
 
-  /* Cards et conteneurs */
+  /* Cards and containers */
   .bg-light .card {
     background-color: #2d3338;
     border-color: var(--bs-border-color);
   }
 
-  /* Hero section reste avec le gradient mais adapté */
+  /* Hero section keeps gradient but adapted */
   .hero-section {
     background: linear-gradient(135deg, #2d5a54 0%, #1a3330 50%, #1a2f2c 100%) !important;
   }
 
-  /* Terminal/code blocks plus contrastés */
+  /* More contrasted terminal/code blocks */
   .bg-dark {
     background-color: #0d1117 !important;
     border-color: #30363d !important;
   }
 
-  /* FIX: Code dans le hero - le texte reste clair sur fond sombre */
+  /* FIX: Code in hero - text stays light on dark background */
   .bg-dark .text-light,
   .bg-dark pre.text-light {
-    color: #f8f9fa !important;              /* Force le texte à rester clair */
+    color: #f8f9fa !important;              /* Force text to stay light */
   }
 
-  /* FIX: Éléments avec bg-dark ET text-light sur le même élément */
+  /* FIX: Elements with bg-dark AND text-light on the same element */
   pre.bg-dark.text-light,
   .bg-dark.text-light {
-    color: #f8f9fa !important;              /* Force le texte à rester clair */
-    background-color: #0d1117 !important;   /* Assure fond très sombre */
+    color: #f8f9fa !important;              /* Force text to stay light */
+    background-color: #0d1117 !important;   /* Ensure very dark background */
   }
 
-  /* Titre du fichier dans le terminal */
+  /* File title in terminal */
   .bg-dark .text-muted {
-    color: #8b949e !important;              /* Gris GitHub pour titre fichier */
+    color: #8b949e !important;              /* GitHub gray for file title */
   }
 }
 
-/* Détection automatique et application du thème Bootstrap */
+/* Automatic detection and application of Bootstrap theme */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
@@ -235,19 +235,19 @@ a:hover {
   }
 }
 
-/* Variables CSS pour le thème personnalisé */
+/* CSS variables for custom theme */
 :root {
-  /* Palette principale basée sur le gradient turquoise */
-  --bs-primary: #44a08d;           /* Turquoise-vert (couleur principale) */
+  /* Main palette based on turquoise gradient */
+  --bs-primary: #44a08d;           /* Turquoise-green (main color) */
   --bs-primary-rgb: 68, 160, 141;
-  --bs-primary-bg-subtle: #d4f0ec;   /* Arrière-plan subtil primary */
-  --bs-primary-border-subtle: #a8ddd5; /* Bordure subtile primary */
-  --bs-primary-text-emphasis: #2b6b5a; /* Texte emphasis primary */
+  --bs-primary-bg-subtle: #d4f0ec;   /* Subtle primary background */
+  --bs-primary-border-subtle: #a8ddd5; /* Subtle primary border */
+  --bs-primary-text-emphasis: #2b6b5a; /* Primary text emphasis */
 
-  --bs-secondary: #3d8b85;         /* Teal profond (du gradient) */
+  --bs-secondary: #3d8b85;         /* Deep teal (from gradient) */
   --bs-secondary-rgb: 61, 139, 133;
-  --bs-secondary-bg-subtle: #d0e6e4; /* Arrière-plan subtil secondary */
-  --bs-secondary-border-subtle: #9cccc7; /* Bordure subtile secondary */
+  --bs-secondary-bg-subtle: #d0e6e4; /* Subtle secondary background */
+  --bs-secondary-border-subtle: #9cccc7; /* Subtle secondary border */
   --bs-secondary-text-emphasis: #275852; /* Texte emphasis secondary */
 
   --bs-info: #4ecdc4;              /* Turquoise clair (du gradient) */
@@ -280,7 +280,7 @@ a:hover {
   --bs-danger-text-emphasis: #842029;
 }
 
-/* Styles pour les accordéons généraux */
+/* Styles for general accordions */
 .accordion-button {
   color: var(--bs-body-color);
 }
@@ -331,3 +331,8 @@ a:hover {
     color: var(--bs-body-color);
   }
 } 
+
+/* Règle pour les paragraphes dans les listes suivis d'une sous-liste (composant Markdown) */
+li > p:has(+ ul) {
+  margin-bottom: 0;
+}

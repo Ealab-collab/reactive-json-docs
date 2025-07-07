@@ -1,12 +1,66 @@
 renderView:
-#  - type: div
-#    content: index de la doc
+  - type: Markdown
+    content: |
+      # Reactive-JSON Documentation
 
-  - type: h1
-    content: Demo pages
+      Welcome to the comprehensive documentation for **Reactive-JSON** - a powerful library that transforms JSON configurations into interactive React components.
 
-  - type: p
-    content: Please have a look on the sidebar to access our live examples.
+      ## What is Reactive-JSON?
+
+      Reactive-JSON is a declarative framework that allows you to build dynamic, interactive user interfaces using simple JSON or YAML configurations. No JavaScript boilerplate, no complex state management - just pure declarative power.
+
+  - type: Markdown
+    content: |
+      ## Key Features
+
+      - **🎯 Declarative**: Define your UI structure and behavior in JSON/YAML
+      - **⚡ Reactive**: Automatic state management and data binding
+      - **🔧 Extensible**: Rich set of built-in components and actions
+      - **📱 Bootstrap Ready**: Seamlessly integrates with Bootstrap styling
+      - **🎨 Flexible**: Support for custom components and styling
+      - **📊 Data-Driven**: Built-in data operations and API integration
+
+      ## Documentation Sections
+
+      ### Core Components
+
+      - **Elements** - Form fields, HTML elements, and special components
+        - Form Fields - Input fields, selects, checkboxes, etc.
+        - HTML Elements - Divs, modals, accordions, syntax highlighting, etc.
+        - Special Elements - Advanced components like data filters, pagination, etc.
+
+      - **Actions** - Interactive behaviors and UI modifications
+        - Control element visibility, tooltips, redirects, and event handling
+
+      - **Reactions** - Data operations and side effects
+        - Fetch data, submit forms, manipulate state, and trigger events
+
+      ### Examples & Tutorials
+
+      - **Complete Examples** - Real-world use cases and patterns
+        - Interactive forms, dynamic content, website layouts, and more
+
+      ### Extensions
+
+      - **Component Development** - Create custom components
+      - **Plugin System** - Extend Reactive-JSON functionality
+
+      ### Integrations
+
+      - **Chart.js Integration** - Create interactive charts and visualizations
+
+  - type: Markdown
+    content: |
+      ## Getting Started
+
+      1. **Explore the Examples** - Check out the complete examples to see Reactive-JSON in action
+      2. **Learn the Basics** - Start with form elements and actions
+      3. **Try Interactive Features** - Experiment with reactions for data operations
+      4. **Build Something** - Use the documentation as your guide to create your first Reactive-JSON application
+
+      ---
+
+      **Ready to build something amazing?** Pick a section from the sidebar and start exploring!
 
 templates:
 

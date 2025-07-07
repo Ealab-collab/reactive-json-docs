@@ -1,0 +1,167 @@
+renderView:
+  - type: Markdown
+    content: |
+      # SyntaxHighlighter
+
+      **Package**: @ea-lab/reactive-json-docs
+
+      The `SyntaxHighlighter` component provides advanced syntax highlighting for code examples with automatic dark mode support. It uses the react-syntax-highlighter library under the hood and adapts to the current theme.
+
+      ## Properties
+
+      - `content` (string, required): The code content to highlight (supports template evaluation)
+      - `language` (string, optional): Programming language for syntax highlighting (default: "text", supports template evaluation)
+      - `style` (object, optional): Custom syntax highlighting style object (supports template evaluation)
+      - `lightStyle` (object, optional): Style to use in light mode (supports template evaluation)  
+      - `darkStyle` (object, optional): Style to use in dark mode (supports template evaluation)
+      - `showLineNumbers` (boolean, optional): Whether to display line numbers (default: false)
+      - `wrapLines` (boolean, optional): Whether to wrap lines (default: false)
+      - `wrapLongLines` (boolean, optional): Whether to wrap long lines (default: false)
+      - `attributes` (object, optional): HTML attributes for the wrapper div
+
+      ## Theme Support
+
+      The component automatically adapts to dark/light mode:
+      - **Light Mode**: Uses `docco` style by default, or `lightStyle` if provided
+      - **Dark Mode**: Uses `atomOneDark` style by default, or `darkStyle` if provided
+      - **Override**: Use `style` property to force a specific style regardless of theme
+
+      ## Supported Languages
+
+      The component supports all languages available in react-syntax-highlighter, including:
+      - `javascript`, `jsx` - JavaScript and React
+      - `typescript`, `tsx` - TypeScript
+      - `python` - Python
+      - `yaml`, `yml` - YAML
+      - `json` - JSON
+      - `html`, `xml` - HTML and XML
+      - `css`, `scss` - CSS and Sass
+      - `sql` - SQL
+      - `bash`, `shell` - Shell scripts
+      - Many more...
+
+  - type: RjBuildDescriber
+    title: "Basic Code Highlighting"
+    description:
+      - type: Markdown
+        content: |
+          Simple code highlighting for JavaScript with automatic theme adaptation.
+
+    toDescribe:
+      renderView:
+        - type: SyntaxHighlighter
+          language: javascript
+          content: |
+            function greetUser(name) {
+                const message = `Hello, ${name}!`;
+                console.log(message);
+                return message;
+            }
+
+            greetUser("Developer");
+
+      data: {}
+
+  - type: RjBuildDescriber
+    title: "YAML Configuration Example"
+    description:
+      - type: Markdown
+        content: |
+          Highlighting YAML configuration with line numbers enabled.
+
+    toDescribe:
+      renderView:
+        - type: SyntaxHighlighter
+          language: yaml
+          showLineNumbers: true
+          content: |
+            renderView:
+              - type: button
+                content: "Click me"
+                actions:
+                  - what: setData
+                    on: click
+                    path: ~.clicked
+                    value: true
+
+            data:
+              clicked: false
+
+      data: {}
+
+  - type: RjBuildDescriber
+    title: "JSX Component Example"
+    description:
+      - type: Markdown
+        content: |
+          React JSX code with proper syntax highlighting.
+
+    toDescribe:
+      renderView:
+        - type: SyntaxHighlighter
+          language: jsx
+          wrapLongLines: true
+          content: |
+            import React from 'react';
+            import { ActionDependant } from "@ea-lab/reactive-json/dist/engine";
+
+            export const CustomButton = ({ props }) => {
+                const handleClick = () => {
+                    console.log('Button clicked!');
+                };
+
+                return (
+                    <ActionDependant {...props}>
+                        <button onClick={handleClick} className="custom-btn">
+                            {props.content || 'Default Text'}
+                        </button>
+                    </ActionDependant>
+                );
+            };
+
+      data: {}
+
+  - type: Markdown
+    content: |
+      ## Dynamic Content
+
+      The component supports template evaluation for dynamic content:
+
+      ```yaml
+      renderView:
+        - type: SyntaxHighlighter
+          language: ~.selectedLanguage
+          content: ~.codeSnippet
+
+      data:
+        selectedLanguage: "python"
+        codeSnippet: |
+          def hello_world():
+              print("Hello, World!")
+              return True
+      ```
+
+      ## Custom Styling
+
+      You can provide custom styles for different themes:
+
+      ```yaml
+      renderView:
+        - type: SyntaxHighlighter
+          language: javascript
+          lightStyle: ~.customLightTheme
+          darkStyle: ~.customDarkTheme
+          content: "console.log('Themed code');"
+      ```
+
+      ## Best Practices
+
+      1. **Language Specification**: Always specify the language for proper highlighting
+      2. **Content Length**: For very long code blocks, consider enabling line wrapping
+      3. **Line Numbers**: Use line numbers for code that will be referenced by line
+      4. **Theme Consistency**: Let the component handle theme switching automatically
+      5. **Template Evaluation**: Use template patterns for dynamic code examples
+
+templates:
+
+data: {} 

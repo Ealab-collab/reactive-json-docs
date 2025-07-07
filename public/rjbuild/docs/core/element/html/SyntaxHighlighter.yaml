@@ -1,0 +1,293 @@
+renderView:
+  - type: Markdown
+    content: |
+      # SyntaxHighlighter
+
+      The `SyntaxHighlighter` component provides syntax highlighting for code snippets using the react-syntax-highlighter library. It supports multiple programming languages and themes, making it perfect for displaying formatted code in documentation or tutorials.
+
+      ## Properties
+      - `content` (string, required): The code content to highlight (supports template evaluation)
+      - `language` (string, optional): Programming language for syntax highlighting (default: "text")
+      - `style` (object, optional): Custom style theme for highlighting (overrides automatic dark mode detection)
+      - `lightStyle` (object, optional): Style theme for light mode (supports template evaluation)
+      - `darkStyle` (object, optional): Style theme for dark mode (supports template evaluation)
+      - `showLineNumbers` (boolean, optional): Whether to display line numbers (default: false)
+      - `wrapLines` (boolean, optional): Whether to wrap lines (default: false)
+      - `wrapLongLines` (boolean, optional): Whether to wrap long lines (default: false)
+      - `attributes` (object, optional): HTML attributes for the wrapper div
+
+      **Automatic Dark Mode**: The component automatically detects the user's color scheme preference and uses appropriate themes:
+      - Light mode: `docco` theme by default
+      - Dark mode: `atomOneDark` theme by default
+
+      **Supported languages**: javascript, python, java, html, css, yaml, json, markdown, bash, sql, and many more.
+
+  - type: RjBuildDescriber
+    title: "Example: Basic JavaScript highlighting"
+    description:
+      - type: Markdown
+        content: |
+          Basic usage with JavaScript syntax highlighting.
+    toDescribe:
+      renderView:
+        - type: SyntaxHighlighter
+          content: |
+            function greetUser(name) {
+              if (!name) {
+                return "Hello, anonymous!";
+              }
+              return `Hello, ${name}!`;
+            }
+            
+            const user = "World";
+            console.log(greetUser(user));
+          language: "javascript"
+          showLineNumbers: true
+      data: {}
+
+  - type: RjBuildDescriber
+    title: "Example: Interactive code editor"
+    description:
+      - type: Markdown
+        content: |
+          Dynamic content with template evaluation. Try editing the code in the text area below:
+    toDescribe:
+      renderView:
+        - type: TextField
+          label: "Language"
+          dataLocation: ~.code_language
+          defaultFieldValue: "python"
+        - type: TextAreaField
+          label: "Code Content"
+          dataLocation: ~.code_content
+          inputAttributes:
+            rows: 8
+        - type: SyntaxHighlighter
+          content: ~.code_content
+          language: ~.code_language
+          showLineNumbers: true
+          wrapLongLines: true
+          attributes:
+            style:
+              marginTop: "1rem"
+      data:
+        code_language: "python"
+        code_content: |
+          def fibonacci(n):
+              """Generate Fibonacci sequence up to n terms."""
+              if n <= 0:
+                  return []
+              elif n == 1:
+                  return [0]
+              elif n == 2:
+                  return [0, 1]
+              
+              sequence = [0, 1]
+              for i in range(2, n):
+                  sequence.append(sequence[i-1] + sequence[i-2])
+              
+              return sequence
+          
+          # Generate first 10 Fibonacci numbers
+          result = fibonacci(10)
+          print(f"First 10 Fibonacci numbers: {result}")
+
+  - type: RjBuildDescriber
+    title: "Example: Multiple language support"
+    description:
+      - type: Markdown
+        content: |
+          Demonstration of different programming languages with syntax highlighting.
+    toDescribe:
+      renderView:
+        - type: h3
+          content: "HTML Example"
+        - type: SyntaxHighlighter
+          content: |
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Hello World</title>
+            </head>
+            <body>
+                <h1>Welcome to React!</h1>
+                <p class="intro">This is a sample HTML document.</p>
+            </body>
+            </html>
+          language: "html"
+          
+        - type: h3
+          content: "CSS Example"
+        - type: SyntaxHighlighter
+          content: |
+            .container {
+              max-width: 1200px;
+              margin: 0 auto;
+              padding: 2rem;
+            }
+            
+            .button {
+              background: linear-gradient(45deg, #007bff, #0056b3);
+              color: white;
+              border: none;
+              padding: 0.75rem 1.5rem;
+              border-radius: 0.375rem;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            }
+            
+            .button:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+            }
+          language: "css"
+          
+        - type: h3
+          content: "YAML Configuration"
+        - type: SyntaxHighlighter
+          content: |
+            renderView:
+              - type: SyntaxHighlighter
+                content: ~.code_snippet
+                language: ~.selected_language
+                showLineNumbers: true
+                attributes:
+                  className: "code-block"
+            
+            data:
+              code_snippet: "console.log('Hello, World!');"
+              selected_language: "javascript"
+          language: "yaml"
+      data: {}
+
+  - type: RjBuildDescriber
+    title: "Example: Dark mode support"
+    description:
+      - type: Markdown
+        content: |
+          The component automatically detects your system's color scheme preference. Try switching between light and dark mode in your system settings to see the automatic theme change. You can also specify custom themes for each mode.
+    toDescribe:
+      renderView:
+        - type: h3
+          content: "Automatic theme selection (changes with your system preference)"
+        - type: SyntaxHighlighter
+          content: |
+            // This code block automatically adapts to your theme preference
+            const greetUser = (name) => {
+              const greeting = name ? `Hello, ${name}!` : "Hello, World!";
+              console.log(greeting);
+              return greeting;
+            };
+            
+            // Try switching your system to dark mode to see the change
+            greetUser("Developer");
+          language: "javascript"
+          showLineNumbers: true
+          
+        - type: h3
+          content: "Custom themes for light and dark modes"
+        - type: SyntaxHighlighter
+          content: |
+            def fibonacci_generator(limit):
+                """Generator for Fibonacci sequence up to limit."""
+                a, b = 0, 1
+                while a < limit:
+                    yield a
+                    a, b = b, a + b
+            
+            # Use the generator
+            for number in fibonacci_generator(100):
+                print(f"Fibonacci: {number}")
+          language: "python"
+          lightStyle: "~.custom_light_theme"
+          darkStyle: "~.custom_dark_theme"
+          showLineNumbers: true
+      data:
+        custom_light_theme: null  # Will use default light theme
+        custom_dark_theme: null   # Will use default dark theme
+
+  - type: Markdown
+    content: |
+      ## Supported Languages
+      
+      The component supports all languages provided by react-syntax-highlighter, including:
+      
+      **Web Technologies**: html, css, javascript, typescript, jsx, tsx, json, xml
+      
+      **Popular Languages**: python, java, c, cpp, csharp, php, ruby, go, rust, swift, kotlin
+      
+      **Data & Config**: yaml, json, sql, markdown, ini, toml
+      
+      **Shell & Scripts**: bash, powershell, batch, dockerfile
+      
+      **And many more**: Check the react-syntax-highlighter documentation for a complete list.
+
+  - type: Markdown
+    content: |
+      ## Dark Mode Support
+      
+      The component automatically adapts to the user's system color scheme preference:
+      
+      ### Automatic Theme Detection
+      - **Light mode**: Uses the `docco` theme by default (clean, minimal highlighting)
+      - **Dark mode**: Uses the `atomOneDark` theme by default (modern dark theme with good contrast)
+      - **Real-time switching**: Themes change instantly when the user switches their system preference
+      
+      ### Custom Theme Configuration
+      
+      You can override the automatic behavior using these properties:
+      
+      ```yaml
+      - type: SyntaxHighlighter
+        content: ~.code
+        language: "javascript"
+        # Override both modes with a single theme
+        style: "~.my_custom_theme"
+        
+        # OR specify different themes for each mode
+        lightStyle: "~.my_light_theme"
+        darkStyle: "~.my_dark_theme"
+      ```
+      
+      ### Popular Themes
+      
+      **Light themes**: `docco`, `github`, `googlecode`, `idea`, `qtcreator_light`, `vs`
+      
+      **Dark themes**: `atomOneDark`, `darcula`, `vs2015`, `androidstudio`, `tomorrow-night`, `monokai`
+
+  - type: Markdown
+    content: |
+      ## Styling and Themes
+      
+      The component supports all react-syntax-highlighter themes. The style can be:
+      - A static style object imported from react-syntax-highlighter themes
+      - A template-evaluated value from your data context
+      - Any valid react-syntax-highlighter style configuration
+      - Different themes for light and dark modes using `lightStyle` and `darkStyle` properties
+
+  - type: Markdown
+    content: |
+      ## Integration with Actions
+      
+      Like all Reactive-JSON components, SyntaxHighlighter supports the action system:
+
+      ```yaml
+      - type: SyntaxHighlighter
+        content: ~.user_code
+        language: "javascript"
+        actions:
+          - what: setData
+            when: ~.user_code
+            contains: "console.log"
+            path: ~.has_console_output
+            value: true
+      ```
+
+  - type: Markdown
+    content: |
+      ## Limitations
+      - Style themes must be compatible with react-syntax-highlighter
+      - Large code blocks may impact performance
+      - Line numbers display depends on the chosen theme
+      - Custom syntax definitions are not supported through the template system 
