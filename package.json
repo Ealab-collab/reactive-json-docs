@@ -20,9 +20,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/reactive-json-standalone.git"
+    "url": "https://github.com/Ealab-collab/reactive-json-docs.git"
   },
-  "homepage": "https://github.com/your-username/reactive-json-standalone#readme",
+  "homepage": "https://github.com/Ealab-collab/reactive-json-docs#readme",
   "private": false,
   "dependencies": {
     "@craco/craco": "^7.1.0",
