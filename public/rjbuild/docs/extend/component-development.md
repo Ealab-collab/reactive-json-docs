@@ -190,4 +190,17 @@ export const MyAction = (props) => {
 ### Integration Requirements
 - Components must accept props in the standard format
 - Form components should implement proper data binding
-- Action components should not interfere with normal rendering 
+- Action components should not interfere with normal rendering
+
+## Making Your Components Available
+
+Now that you've learned how to create custom React components that integrate seamlessly with Reactive-JSON, the next step is understanding how to make them available in your applications.
+
+Your custom components need to be registered through the plugin system. For complete guidance on plugin registration, organization, and advanced management patterns, continue to the dedicated [Plugin System Guide](plugin-system).
+
+This guide will show you how to:
+- Register your components using the plugin system
+- Organize and structure your plugins effectively
+- Combine multiple plugin sources seamlessly
+- Create reusable plugin collections
+- Handle complex plugin dependencies and distribution patterns

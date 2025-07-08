@@ -39,25 +39,23 @@ export const myPlugin = {
 Then, register the plugin with the ReactiveJsonRoot component:
 
 ```jsx
-import { ReactiveJsonRoot } from "@ea-lab/reactive-json";
+import { ReactiveJsonRoot, mergeComponentCollections } from "@ea-lab/reactive-json";
 import { myPlugin } from "./plugins/myPlugin.js";
 
 const App = () => {
     return (
         <ReactiveJsonRoot
-            plugins={[myPlugin]}
+            plugins={mergeComponentCollections([myPlugin])}
         />
     );
 };
 ```
 
-The plugin is now available throughout the application.
-
 You can now use the components in your RjBuild configuration:
 
 ```jsx
 import React from 'react';
-import { ReactiveJsonRoot } from "@ea-lab/reactive-json";
+import { ReactiveJsonRoot, mergeComponentCollections } from "@ea-lab/reactive-json";
 import { myPlugin } from "./plugins/myPlugin.js";
 
 const App = () => {
@@ -75,7 +73,7 @@ const App = () => {
     return (
         <ReactiveJsonRoot
             rjBuild={rjBuildConfig}
-            plugins={[myPlugin]}
+            plugins={mergeComponentCollections([myPlugin])}
         />
     );
 };
@@ -83,60 +81,93 @@ const App = () => {
 
 The plugin is now available throughout the application.
 
-## Multi-Plugin Application
+## Multi-Plugin Application & Plugin Merging
 
-Applications can use multiple plugins, allowing for modular component organization.
+When your application needs multiple plugins from different sources, you can combine them using `mergeComponentCollections`.
+
+### Multiple Plugin Usage
 
 ```jsx
-import { uiPlugin } from "./plugins/uiPlugin.js";
-import { formPlugin } from "./plugins/formPlugin.js";
-import { chartsPlugin } from "./plugins/chartsPlugin.js";
+import { ReactiveJsonRoot, mergeComponentCollections } from "@ea-lab/reactive-json";
+import { chartjsComponents } from "@ea-lab/reactive-json-chartjs";
+import { customPlugins } from "./plugins/customPlugins.js";
+import { thirdPartyPlugin } from "third-party-reactive-json-plugin";
 
 const App = () => {
     return (
         <ReactiveJsonRoot
             rjBuild={rjBuildConfig}
-            plugins={[
-                uiPlugin,
-                formPlugin,
-                chartsPlugin
-            ]}
+            plugins={mergeComponentCollections([
+                chartjsComponents,
+                customPlugins,
+                thirdPartyPlugin
+            ])}
         />
     );
 };
 ```
 
-## Plugin Development Patterns
+### Custom ReactiveJsonRoot Wrapper
 
-### Standalone Plugin
+Creating a custom wrapper allows you to **centralize plugin inclusion** across your entire application. Instead of manually importing and merging plugins in every component that uses Reactive-JSON, you define them once in a wrapper component.
 
-For single-purpose plugins with a few related components:
+#### Benefits of Centralized Plugin Management
 
-```javascript
-export const simplePlugin = {
-    element: {
-        Alert: AlertComponent,
-        Badge: BadgeComponent,
-    }
+- **Consistency**: Ensures all parts of your application have access to the same set of components
+- **Maintainability**: Update plugin dependencies in one place
+- **Simplicity**: Other components only need to import your wrapper, not individual plugins
+- **Standardization**: Enforces a consistent plugin configuration across teams
+
+#### Implementation Example
+
+```jsx
+import { ReactiveJsonRoot, mergeComponentCollections } from "@ea-lab/reactive-json";
+import { chartjsComponents } from "@ea-lab/reactive-json-chartjs";
+import { customPlugins } from "./plugins/customPlugins.js";
+import { companyUIComponents } from "@company/reactive-json-ui";
+
+export const CustomReactiveJsonRoot = (props) => {
+    const additionalProps = {};
+
+    // Centralize all plugin dependencies for the entire application
+    additionalProps.plugins = mergeComponentCollections([
+        chartjsComponents,        // Third-party charting components
+        customPlugins,            // Application-specific components  
+        companyUIComponents       // Company-wide design system
+    ]);
+
+    const finalProps = { ...props, ...additionalProps };
+
+    return <ReactiveJsonRoot {...finalProps} />;
+};
+```
+
+#### Usage Across Your Application
+
+Once created, your wrapper simplifies usage throughout your application:
+
+```jsx
+import { CustomReactiveJsonRoot } from "./components/CustomReactiveJsonRoot";
+
+// Component A
+export const Dashboard = () => {
+    return (
+        <CustomReactiveJsonRoot rjBuild={dashboardConfig} />
+    );
+};
+
+// Component B  
+export const ReportPage = () => {
+    return (
+        <CustomReactiveJsonRoot rjBuild={reportConfig} />
+    );
 };
 ```
 
 ## Best Practices
 
-### Plugin Organization
 1. **Group related components** in the same plugin
 2. **Use descriptive names** for components and plugins
 3. **Document component props** and usage patterns
 4. **Provide examples** for complex components
-
-### Distribution
-1. **Package as npm modules** for easy distribution
-2. **Include TypeScript definitions** if using TypeScript
-3. **Provide clear documentation** and examples
-4. **Follow semantic versioning** for releases
-
-### Performance
-1. **Lazy load large plugins** when possible
-2. **Avoid global state** in plugin components
-3. **Use React best practices** for component implementation
-4. **Test plugin compatibility** with different Reactive-JSON versions 
+5. **Choose non-conflicting names** with existing components
