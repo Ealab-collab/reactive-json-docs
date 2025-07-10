@@ -1,0 +1,336 @@
+renderView:
+  - type: button
+    content: "📋 Copy initialization prompt"
+    actions:
+      - what: setClipboardData
+        on: click
+        value: |
+          # Initialization Prompt - Vite + React + @ea-lab/reactive-json Project
+
+          ## ⚠️ Important Rule
+
+          **NEVER SKIP STEPS** unless explicitly requested by the user. Each step is critical for the proper functioning of the project and must be executed in the defined chronological order.
+
+          Adapt commands according to the execution environment (Windows, Ubuntu, Mac...).
+
+          ## Table of Contents
+
+          1. [Collecting User Information](#1-collecting-user-information)
+          2. [Documentation Repositories Setup](#2-documentation-repositories-setup)
+          3. [Cursor Workspace Configuration](#3-cursor-workspace-configuration)
+          4. [Vite Project Initialization](#4-vite-project-initialization)
+          5. [Dependencies Installation](#5-dependencies-installation)
+          6. [Cursor Project Rules Creation](#6-cursor-project-rules-creation)
+          7. [Generated Project Cleanup](#7-generated-project-cleanup)
+          8. [Basic Configuration with ReactiveJsonRoot](#8-basic-configuration-with-reactivejsonroot)
+          9. [Final Verification](#9-final-verification)
+
+          ---
+
+          ## Chronological Steps
+
+          ### 1. Collecting User Information
+
+          **Action:** Ask the user for the following information:
+
+          - **Project name**: Will be used to create the project folder
+          - **TypeScript**: Ask if the user wants to use TypeScript (yes/no)
+          - **Documentation repositories location**: Absolute path where to clone reactive-json and reactive-json-docs repositories
+
+          **Variables to remember:**
+          - `<project_name>`: The name provided by the user
+          - `<use_typescript>`: true/false based on the answer
+          - `<docs_location>`: Absolute path for repositories
+
+          ### 2. Documentation Repositories Setup
+
+          **Action:** Clone the required documentation repositories
+
+          **Commands to execute:**
+
+          ```bash
+          cd <docs_location>
+          git clone https://github.com/Ealab-collab/reactive-json.git
+          git clone https://github.com/Ealab-collab/reactive-json-docs.git
+          ```
+
+          **Important:** Explain to the user that these repositories are **only** for Cursor to index the documentation and will **not** be included in the final project.
+
+          **Note:** If the user indicates that the repositories are already cloned, proceed directly to step 3 (Cursor Workspace Configuration) as it is essential to add the folders to the workspace even if they already exist.
+
+          ### 3. Cursor Workspace Configuration
+
+          **Action:** Ask the user to add repositories to the workspace
+
+          **Instructions to give to the user:**
+
+          > **IMPORTANT: Manual Action Required**
+          > 
+          > Before continuing, you must add the cloned repositories to your Cursor workspace:
+          > 
+          > 1. Go to `File > Add Folder to Workspace`
+          > 2. Add the folder `<docs_location>/reactive-json`
+          > 3. Add the folder `<docs_location>/reactive-json-docs`
+          > 
+          > **Confirm that this step is completed before continuing.**
+
+          ### 4. Vite Project Initialization
+
+          **Action:** Create the project with Vite
+
+          **Commands to execute:**
+
+          ```bash
+          # If TypeScript
+          npm create vite@latest <project_name> -- --template react-ts
+
+          # If JavaScript
+          npm create vite@latest <project_name> -- --template react
+          ```
+
+          ```bash
+          cd <project_name>
+          ```
+
+          ### 5. Dependencies Installation
+
+          **Action:** Install required packages
+
+          **Commands to execute:**
+
+          ```bash
+          npm install
+          npm install @ea-lab/reactive-json bootstrap react-bootstrap axios clsx dnd-kit-sortable-tree html-react-parser js-yaml jsonpath lodash
+          ```
+
+          ### 6. Cursor Project Rules Creation
+
+          **Action:** Copy Cursor rules from documentation repositories
+
+          **IMPORTANT:** This step must be done **immediately after installing dependencies** so that Cursor applies the rules during all subsequent code modifications.
+
+          **Instructions:**
+
+          1. Create the `.cursor/rules/` folder in your project:
+          ```bash
+          mkdir -p .cursor/rules
+          ```
+
+          2. Copy and merge rules from documentation repositories:
+          ```bash
+          # Copy rules from reactive-json
+          cp -r <docs_location>/reactive-json/.cursor/rules/* .cursor/rules/
+
+          # Copy and merge rules from reactive-json-docs
+          cp -r <docs_location>/reactive-json-docs/.cursor/rules/* .cursor/rules/
+          ```
+
+          These rules contain all the necessary directives to work effectively with reactive-json, including:
+          - Required documentation rules
+          - Component creation rules
+          - Code language rules
+          - And other project-specific rules
+
+          ### 7. Generated Project Cleanup
+
+          **Action:** Remove/clean files generated by Vite
+
+          **Files to delete:**
+          - `src/App.css`
+          - `src/index.css` (keep only base styles)
+          - `public/vite.svg`
+          - `src/assets/react.svg`
+
+          **Files to modify:**
+
+          **`src/main.tsx` (or `src/main.jsx`):**
+
+          ```typescript
+          import React from 'react'
+          import ReactDOM from 'react-dom/client'
+          import App from './App.tsx'
+          // Import Bootstrap styles for reactive-json
+          import 'bootstrap/dist/css/bootstrap.min.css'
+
+          ReactDOM.createRoot(document.getElementById('root')!).render(
+            <App />
+          )
+          ```
+
+          ### 8. Basic Configuration with ReactiveJsonRoot
+
+          **Action:** Configure the base component with an external YAML file
+
+          **IMPORTANT:** Always use an external YAML file for configuration. Never pass configuration directly in props.
+
+          **`src/App.tsx` (or `src/App.jsx`):**
+
+          ```typescript
+          import { ReactiveJsonRoot } from '@ea-lab/reactive-json'
+          import 'bootstrap/dist/css/bootstrap.min.css'
+
+          function App() {
+            return <ReactiveJsonRoot dataUrl="/config.yaml" dataFetchMethod="GET" />
+          }
+
+          export default App
+          ```
+
+          **`public/config.yaml`:**
+
+          ```yaml
+          renderView:
+            - type: h1
+              content: "Ready to start!"
+          ```
+
+          ### 9. Final Verification
+
+          **Action:** Launch development server
+
+          ```bash
+          npm run dev
+          ```
+
+          If the server starts without errors and you see the "Ready to start!" message in your browser, the installation is successful. You can start developing your application with reactive-json.
+  - type: Markdown
+    content: |
+      # Reactive-JSON Installation Guide (Vite + React)
+
+      Follow the steps below to initialize a Vite + React project using `@ea-lab/reactive-json`. Do **not** skip any steps.
+
+      > **Note:** This guide assumes the use of the **Cursor** IDE to benefit from its AI assistant and automatic rules features. However, you can adapt each step and command to your preferred editor or IDE (VS Code, WebStorm, etc.).
+
+      ## Detailed Installation Steps
+
+      The sections below walk you through each required action. Copy and paste the commands when provided.
+
+      ### 1. Collecting User Information
+      Ask the following questions:
+      1. **Project name** (`<project_name>`)
+      2. **Use TypeScript?** (`<use_typescript>`)
+      3. **Absolute path for documentation repositories** (`<docs_location>`)
+
+      ### 2. Documentation Repositories Setup
+      Execute the following commands:
+  - type: SyntaxHighlighter
+    language: bash
+    content: |
+      cd <docs_location>
+      git clone https://github.com/Ealab-collab/reactive-json.git
+      git clone https://github.com/Ealab-collab/reactive-json-docs.git
+
+  - type: Markdown
+    content: |
+      ### 3. Cursor Workspace Configuration
+      **Manually** add the two cloned folders to the workspace:
+      1. `<docs_location>/reactive-json`
+      2. `<docs_location>/reactive-json-docs`
+
+  - type: Markdown
+    content: |
+      ### 4. Vite Project Initialization
+  - type: SyntaxHighlighter
+    language: bash
+    content: |
+      # With TypeScript
+      npm create vite@latest <project_name> -- --template react-ts
+      # With JavaScript
+      npm create vite@latest <project_name> -- --template react
+      cd <project_name>
+
+  - type: Markdown
+    content: |
+      ### 5. Dependencies Installation
+  - type: SyntaxHighlighter
+    language: bash
+    content: |
+      npm install
+      npm install @ea-lab/reactive-json bootstrap react-bootstrap axios clsx dnd-kit-sortable-tree html-react-parser js-yaml jsonpath lodash
+
+  - type: Markdown
+    content: |
+      ### 6. Cursor Rules Creation
+      Copy rules from documentation repositories **before any code modification**.
+  - type: SyntaxHighlighter
+    language: bash
+    content: |
+      # Create rules directory
+      mkdir -p .cursor/rules
+
+      # Copy rules from reactive-json
+      cp -r <docs_location>/reactive-json/.cursor/rules/* .cursor/rules/
+
+      # Copy and merge rules from reactive-json-docs
+      cp -r <docs_location>/reactive-json-docs/.cursor/rules/* .cursor/rules/
+
+  - type: Markdown
+    content: |
+      These rules contain all the necessary directives to work effectively with reactive-json, including:
+      - Required documentation rules
+      - Component creation rules
+      - Code language rules
+      - And other project-specific rules
+
+  - type: Markdown
+    content: |
+      ### 7. Vite Project Cleanup
+      Remove unnecessary files (`App.css`, `index.css`, `vite.svg`, `react.svg`) and modify `src/main.tsx`:
+
+  - type: Markdown
+    content: |
+      **File: src/main.tsx**
+  - type: SyntaxHighlighter
+    language: typescript
+    content: |
+      import React from 'react'
+      import ReactDOM from 'react-dom/client'
+      import App from './App.tsx'
+      import 'bootstrap/dist/css/bootstrap.min.css'
+
+      ReactDOM.createRoot(document.getElementById('root')!).render(
+        <App />
+      )
+
+  - type: Markdown
+    content: |
+      ### 8. Basic Configuration with ReactiveJsonRoot
+
+  - type: Markdown
+    content: |
+      **File: src/App.tsx**
+  - type: SyntaxHighlighter
+    language: typescript
+    content: |
+      import { ReactiveJsonRoot } from '@ea-lab/reactive-json'
+      import 'bootstrap/dist/css/bootstrap.min.css'
+
+      function App() {
+        return <ReactiveJsonRoot dataUrl="/config.yaml" dataFetchMethod="GET" />
+      }
+
+      export default App
+
+  - type: Markdown
+    content: |
+      **File: public/config.yaml**
+  - type: SyntaxHighlighter
+    language: yaml
+    content: |
+      renderView:
+        - type: h1
+          content: "Ready to start!"
+
+  - type: Markdown
+    content: |
+      ### 9. Final Verification
+  - type: SyntaxHighlighter
+    language: bash
+    content: |
+      npm run dev
+
+      # Open http://localhost:5173 and verify that "Ready to start!" is displayed.
+
+templates:
+
+data: {} 

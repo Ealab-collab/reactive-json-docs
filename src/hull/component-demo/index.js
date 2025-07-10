@@ -26,6 +26,15 @@ export const docsPageNavigation = {
     "/docs": {
         title: "Introduction",
     },
+    "/docs/install": {
+        title: "Installation",
+    },
+    "/docs/getting-started": {
+        title: "Getting started",
+    },
+    "/docs/template": {
+        title: "Template system",
+    },
     "/docs/core": {
         title: "Core components",
         items: {

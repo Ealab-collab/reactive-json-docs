@@ -1,3 +1,7 @@
+---
+alwaysApply: true
+---
+
 # Instructions for Cursor AI - Reactive-JSON
 
 ## Reference Documentation
@@ -46,4 +50,4 @@
 1. First consult the relevant documentation in `public/rjbuild/docs/`
 2. Verify existing examples in the appropriate category
 3. Apply validation rules
-4. Propose a solution compliant with standards 
+4. Propose a solution compliant with standards

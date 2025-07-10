@@ -24,6 +24,11 @@ renderView:
 
       ### Core Components
 
+      - **Template System** - Understand data binding and context management
+        - Local Context - Using `~.` for template-scoped data
+        - Global Context - Using `~~.` for application-wide data
+        - Parent Context - Using `~>` for parent template access
+
       - **Elements** - Form fields, HTML elements, and special components
         - Form Fields - Input fields, selects, checkboxes, etc.
         - HTML Elements - Divs, modals, accordions, syntax highlighting, etc.

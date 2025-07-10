@@ -1,0 +1,220 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Reactive-JSON Getting Started Guide
+
+      ## Introduction
+
+      Reactive-JSON is a powerful library that allows you to create interactive user interfaces using only JSON/YAML configurations. No need to write complex JavaScript code - simply define your interface and its behavior declaratively.
+
+  - type: RjBuildDescriber
+    title: "Installation and Basic Structure"
+    description:
+      - type: Markdown
+        content: |
+          To get started with Reactive-JSON, install the package via npm and create your first configuration.
+          
+          The basic structure includes three main sections:
+          - `renderView`: Defines what should be rendered
+          - `templates`: Defines reusable templates (optional)
+          - `data`: Defines the data to be used (optional)
+    toDescribe:
+      renderView:
+        - type: div
+          content: "Hello World!"
+      templates:
+        myTemplate:
+          type: div
+          content: "Template content"
+      data:
+        message: "Hello!"
+
+  - type: Markdown
+    content: |
+      ## Key Concepts
+
+      ### 1. Template System
+
+      Reactive-JSON uses three main notations to access data:
+      - `~.` : Local context (relative to current template)
+      - `~~.` : Global context (access to global data)
+      - `~>field` : Access to a specific parent context
+
+  - type: RjBuildDescriber
+    title: "Template System Example"
+    description:
+      - type: Markdown
+        content: |
+          This example shows how to use different types of data access in a template.
+          The component accesses local data with `~.` and global data with `~~.`.
+    toDescribe:
+      templates:
+        userCard:
+          type: div
+          content:
+            - type: div
+              content: ["Name: ", ~.name]
+            - type: div
+              content: ["Admin: ", ~~.isAdmin]
+      data:
+        name: "John Doe"
+        isAdmin: true
+
+  - type: Markdown
+    content: |
+      ### 2. Basic Elements
+
+      Reactive-JSON provides several types of elements:
+
+      #### HTML Elements
+      - Div, Button, Modal, Accordion, etc.
+
+  - type: RjBuildDescriber
+    title: "HTML Elements Example"
+    description:
+      - type: Markdown
+        content: |
+          Basic HTML elements like buttons and divs are easy to use.
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Click me"
+
+  - type: Markdown
+    content: |
+      #### Form Fields
+      - TextField, SelectField, CheckBoxField, etc.
+
+  - type: RjBuildDescriber
+    title: "Form Fields Example"
+    description:
+      - type: Markdown
+        content: |
+          Form fields use `dataLocation` to bind data.
+    toDescribe:
+      renderView:
+        - type: TextField
+          label: "Username"
+          dataLocation: ~.username
+      data:
+        username: ""
+
+  - type: Markdown
+    content: |
+      #### Special Elements
+      - DataFilter, Switch, Count, etc.
+
+  - type: RjBuildDescriber
+    title: "Special Element Example (Switch)"
+    description:
+      - type: Markdown
+        content: |
+          The Switch component is used to iterate over data collections.
+    toDescribe:
+      renderView:
+        - type: Switch
+          content: ~.items
+          template:
+            type: div
+            content: ~.name
+      data:
+        items:
+          - name: "Item 1"
+          - name: "Item 2"
+
+  - type: Markdown
+    content: |
+      ### 3. Actions and Reactions
+
+      #### Actions
+      Actions modify element behavior.
+
+  - type: RjBuildDescriber
+    title: "Action Example"
+    description:
+      - type: Markdown
+        content: |
+          Actions can be conditional, like hiding an element based on a condition.
+    toDescribe:
+      renderView:
+        - type: div
+          content: "Hidden content"
+          actions:
+            - what: hide
+              when: ~.shouldHide
+              is: true
+      data:
+        shouldHide: true
+
+  - type: Markdown
+    content: |
+      #### Reactions
+      Reactions respond to user events.
+
+  - type: RjBuildDescriber
+    title: "Reaction Example"
+    description:
+      - type: Markdown
+        content: |
+          Reactions allow responding to events like clicks.
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Save"
+          actions:
+            - what: setData
+              on: click
+              path: ~.saved
+              value: true
+      data:
+        saved: false
+
+  - type: Markdown
+    content: |
+      ## Complete Example
+
+      Here's a simple example of an interactive form:
+
+  - type: RjBuildDescriber
+    title: "Complete Interactive Form"
+    description:
+      - type: Markdown
+        content: |
+          This example combines several concepts:
+          - Form fields with data binding
+          - User event reactions
+          - Data validation
+          - Form submission
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: TextField
+              label: "Name"
+              dataLocation: ~.form.name
+            - type: TextField
+              label: "Email"
+              dataLocation: ~.form.email
+            - type: button
+              content: "Submit"
+              actions:
+                - what: submitData
+                  on: click
+                  url: "/api/submit"
+                  data: ~.form
+                  when: ~.form.name
+                  isEmpty: not
+      data:
+        form:
+          name: ""
+          email: ""
+
+  - type: Markdown
+    content: |
+      ## Next Steps
+
+      1. Explore the [complete examples](/docs/core/example) to see Reactive-JSON in action
+      2. Check out the [elements documentation](/docs/core/element) to discover all available components
+      3. Learn how to use the [action system](/docs/core/action) to create interactive interfaces
+      4. Discover the [reaction system](/docs/core/reaction) to handle user interactions
+      5. If needed, learn how to [extend Reactive-JSON](/docs/extend) with your own components 
