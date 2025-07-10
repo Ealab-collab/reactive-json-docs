@@ -132,6 +132,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 )
 ```
 
+**IMPORTANT**: do not use <StrictMode>. Reactive-JSON doesn't work with it for now!
+
 ---
 
 ## 8. Basic Configuration with ReactiveJsonRoot

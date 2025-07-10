@@ -157,6 +157,8 @@ renderView:
           )
           ```
 
+          **IMPORTANT**: do not use `<StrictMode>`. Reactive-JSON doesn't work with it for now!
+
           ### 8. Basic Configuration with ReactiveJsonRoot
 
           **Action:** Configure the base component with an external YAML file
@@ -294,6 +296,8 @@ renderView:
 
   - type: Markdown
     content: |
+      **IMPORTANT**: do not use `<StrictMode>`. Reactive-JSON doesn't work with it for now!
+
       ### 8. Basic Configuration with ReactiveJsonRoot
 
   - type: Markdown
