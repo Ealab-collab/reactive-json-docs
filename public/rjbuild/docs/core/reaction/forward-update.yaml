@@ -1,0 +1,109 @@
+renderView:
+  # Version badge reusable component
+  - type: span
+    attributes:
+      class: "badge bg-secondary px-2 py-1"
+    content: "reactive-json@0.0.43"
+
+  - type: Markdown
+    content: |
+      # Forward Update Pattern (Event Placeholders)
+
+      > Use the special placeholder `<reactive-json:event>` to reference values coming directly from the DOM or custom event that triggered a reaction.
+
+      The **Forward Update** pattern lets you use the special placeholder `<reactive-json:event>` inside any reaction arguments. 
+      It is primarily useful with `setData`, but can be applied to any reaction.  
+      Instead of reading a value *after* the global data has been updated, you can forward the fresh value carried by the event itself.
+
+  - type: SyntaxHighlighter
+    language: yaml
+    content: |
+      # Simplified shortcut
+      value: "<reactive-json:event-new-value>"      # Auto-detects the relevant value (value or checked)
+
+      # Generic pattern
+      value: "<reactive-json:event>.target.value"   # For text inputs
+      value: "<reactive-json:event>.target.checked" # For checkboxes
+
+  - type: Markdown
+    content: |
+      `<reactive-json:event-new-value>` returns, in order of priority:
+      1. `event.target.checked` (checkboxes / toggle inputs)  
+      2. `event.target.value` (text inputs, selects, etc.)  
+      3. `undefined` if none of the above exists.
+
+      **Good practice**
+      - For standard form events (`change`, `input`, etc.), prefer the shortcut `<reactive-json:event-new-value>`.
+      - For custom events (e.g. messages via `postMessage`, `CustomEvent`), reference the payload explicitly :
+        - `<reactive-json:event>.data.foo` (MessageEvent)
+        - `<reactive-json:event>.detail.bar` (CustomEvent)
+      - The bare placeholder `<reactive-json:event>` returns `undefined` on purpose, to avoid storing large non-serializable objects.
+
+      If no property path is provided (`<reactive-json:event>` alone), nothing is forwarded (`undefined`).
+      
+      You can access any nested property (`detail`, `key`, etc.).
+
+      Typical use-cases:
+      - Real-time mirroring of form fields
+      - "Select all" checkboxes
+      - Forward arbitrary values coming from events.
+
+  # --- Interactive example: Synchronized CheckBoxes (use-case "Select all")
+  - type: RjBuildDescriber
+    title: "Synchronized CheckBoxes (Select-all pattern)"
+    description:
+      type: Markdown
+      content: |
+        Ticking the **Controller** checkbox instantly updates the **Mirror** checkbox thanks to 
+        `value: "<reactive-json:event>.target.checked"`.
+    toDescribe:
+      renderView:
+        - type: CheckBoxField
+          dataLocation: ~~.controller_checked
+          options:
+            - label: "Controller"
+              value: true
+          actions:
+            - what: setData
+              on: change
+              path: ~~.mirror_checked
+              value: "<reactive-json:event>.target.checked"
+        - type: CheckBoxField
+          dataLocation: ~~.mirror_checked
+          options:
+            - label: "Mirror (synced)"
+              value: true
+      data:
+        controller_checked: false
+        mirror_checked: false
+
+  # --- Interactive example: Synchronized TextFields ---
+  - type: RjBuildDescriber
+    title: "Synchronized TextFields"
+    description:
+      type: Markdown
+      content: |
+        Each keystroke in the **Primary** field is forwarded to the **Secondary** field via 
+        `value: "<reactive-json:event>.target.value"`.
+    toDescribe:
+      renderView:
+        - type: TextField
+          label: Primary input
+          placeholder: Type here...
+          dataLocation: ~~.primary_text
+          actions:
+            - what: setData
+              on: change
+              path: ~~.secondary_text
+              value: "<reactive-json:event>.target.value"
+        - type: TextField
+          label: Secondary input (synced)
+          placeholder: Echo...
+          dataLocation: ~~.secondary_text
+      data:
+        primary_text: ""
+        secondary_text: ""
+
+templates:
+
+data: {} 

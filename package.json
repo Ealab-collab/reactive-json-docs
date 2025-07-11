@@ -24,10 +24,9 @@
   },
   "homepage": "https://github.com/Ealab-collab/reactive-json-docs#readme",
   "private": false,
-  "dependencies": {},
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "@ea-lab/reactive-json": "^0.0.37",
+    "@ea-lab/reactive-json": "^0.0.44",
     "@ea-lab/reactive-json-chartjs": "^0.0.23",
     "@npmcli/fs": "^4.0.0",
     "@reduxjs/toolkit": "^2.6.1",

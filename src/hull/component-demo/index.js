@@ -76,6 +76,9 @@ export const docsPageNavigation = {
                     "/docs/core/reaction/index": {
                         title: "What are reactions?"
                     },
+                    "/docs/core/reaction/forward-update": {
+                        title: "Forward Update"
+                    },
                     "/docs/core/reaction/addData": {
                         title: "addData"
                     },
