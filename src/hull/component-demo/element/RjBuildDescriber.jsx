@@ -38,7 +38,7 @@ export const RjBuildDescriber = ({props}) => {
         <Row className={"mb-5"}>
             <Col className={"mb-2"} xxl={6}>
                 <div className={"fw-bold mb-2"}>Result</div>
-                <div><ReactiveJsonRoot plugins={globalDataContext?.plugins || null} maybeRawAppData={JSON.stringify(toDescribe)}/></div>
+                <div><ReactiveJsonRoot plugins={globalDataContext?.plugins || null} maybeRawAppRjBuild={JSON.stringify(toDescribe)}/></div>
             </Col>
             <Col className={"mb-2"} xxl={6}>
                 <div className={"fw-bold mb-2"}>Reactive-JSON build</div>

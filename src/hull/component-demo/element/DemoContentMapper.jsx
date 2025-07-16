@@ -14,13 +14,13 @@ export const DemoContentMapper = () => {
 
     const subpath = _.trim(pathname.substring(docsPagesBasePath.length), "/");
 
-    let finalDataUrl = "/rjbuild/docs/";
+    let finalRjBuildUrl = "/rjbuild/docs/";
 
     if (subpath === "" || subpath === "index") {
-        finalDataUrl += "index.yaml";
+        finalRjBuildUrl += "index.yaml";
     } else {
-        finalDataUrl += subpath + ".yaml";
+        finalRjBuildUrl += subpath + ".yaml";
     }
 
-    return <CustomReactiveJsonRoot dataUrl={finalDataUrl}/>
+    return <CustomReactiveJsonRoot rjBuildUrl={finalRjBuildUrl}/>
 }

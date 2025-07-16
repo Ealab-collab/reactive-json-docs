@@ -6,7 +6,7 @@ renderView:
       The `ReactiveJsonSubroot` component allows you to render a new Reactive-JSON root inside an existing application. It is useful for embedding a sub-application, isolating a part of the data tree, or rendering a separate rjbuild with its own options.
 
       ## Properties
-      - `rjOptions` (object, required): Options to pass to the subroot (such as `dataUrl`, `data`, `renderView`, etc.)
+      - `rjOptions` (object, required): Options to pass to the subroot (such as `rjBuildUrl`, `data`, `renderView`, etc.)
       - Other properties are passed to the underlying `ReactiveJsonRoot`
 
       ## Behavior
@@ -22,16 +22,16 @@ renderView:
       renderView:
         - type: ReactiveJsonSubroot
           rjOptions:
-            dataUrl: "/rjbuild/component/message.yaml"
+            rjBuildUrl: "/rjbuild/component/message.yaml"
 
   - type: RjBuildDescriber
     title: Example with inline JSON data
-    description: This example demonstrates two approaches for using ReactiveJsonSubroot with inline data. The first shows passing JSON data directly as a string via maybeRawAppData. The second shows loading subroot options dynamically from the main RjBuild's data using template interpolation. Both approaches are useful for embedding sub-applications without external files.
+    description: This example demonstrates two approaches for using ReactiveJsonSubroot with inline data. The first shows passing JSON data directly as a string via maybeRawAppRjBuild. The second shows loading subroot options dynamically from the main RjBuild's data using template interpolation. Both approaches are useful for embedding sub-applications without external files.
     toDescribe:
       renderView:
         - type: ReactiveJsonSubroot
           rjOptions:
-            maybeRawAppData: '{"data":{"userName":"Alice","messageCount":3},"renderView":[{"type":"div","attributes":{"style":{"padding":"1rem","border":"1px solid #ddd","borderRadius":"8px","backgroundColor":"#f9f9f9"}},"content":[{"type":"h3","content":"~~.userName"},{"type":"p","content":["You have ","~~.messageCount"," new messages."]},{"type":"button","content":"Mark as read","attributes":{"style":{"backgroundColor":"#007bff","color":"white","border":"none","padding":"0.5rem 1rem","borderRadius":"4px"}}}]}]}'
+            maybeRawAppRjBuild: '{"data":{"userName":"Alice","messageCount":3},"renderView":[{"type":"div","attributes":{"style":{"padding":"1rem","border":"1px solid #ddd","borderRadius":"8px","backgroundColor":"#f9f9f9"}},"content":[{"type":"h3","content":"~~.userName"},{"type":"p","content":["You have ","~~.messageCount"," new messages."]},{"type":"button","content":"Mark as read","attributes":{"style":{"backgroundColor":"#007bff","color":"white","border":"none","padding":"0.5rem 1rem","borderRadius":"4px"}}}]}]}'
 
         - type: hr
 
@@ -39,7 +39,7 @@ renderView:
           rjOptions: ~~.subrootToLoad
       data:
         subrootToLoad:
-          maybeRawAppData:
+          maybeRawAppRjBuild:
             renderView:
               - type: div
                 content: This second subroot is loaded from the "data" key of the main root.

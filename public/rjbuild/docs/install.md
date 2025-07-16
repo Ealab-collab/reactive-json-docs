@@ -243,7 +243,7 @@ import { ReactiveJsonRoot } from '@ea-lab/reactive-json'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
-  return <ReactiveJsonRoot dataUrl="/config.yaml" dataFetchMethod="GET" />
+  return <ReactiveJsonRoot rjBuildUrl="/config.yaml" rjBuildFetchMethod="GET" />
 }
 
 export default App
@@ -350,8 +350,8 @@ function App() {
                 path={route.path}
                 element={
                   <ReactiveJsonRoot
-                    dataUrl={route.rjbuild}
-                    dataFetchMethod="GET"
+                    rjBuildUrl={route.rjbuild}
+                    rjBuildFetchMethod="GET"
                   />
                 }
               />

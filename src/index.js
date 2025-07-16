@@ -27,7 +27,7 @@ appRootElements.forEach(
             //     </React.StrictMode>
             // );
             root.render(
-                <DevApp dataFetchMethod={maybeMethod}/>
+                <DevApp rjBuildFetchMethod={maybeMethod}/>
             );
 
             return;
@@ -35,10 +35,10 @@ appRootElements.forEach(
 
         // Production app.
         // Get data included in the root element.
-        const headersForData_asElements = element.querySelectorAll("data-source-request-header");
-        const headersForData = headersForData_asElements.length ? {} : undefined;
+        const headersForRjBuild_asElements = element.querySelectorAll("data-source-request-header");
+        const headersForRjBuild = headersForRjBuild_asElements.length ? {} : undefined;
 
-        headersForData_asElements.forEach((headerElement, key, parent) => {
+        headersForRjBuild_asElements.forEach((headerElement, key, parent) => {
             const headerField = headerElement?.dataset?.headerField;
             const headerValue = headerElement?.dataset?.headerValue;
 
@@ -46,7 +46,7 @@ appRootElements.forEach(
                 return;
             }
 
-            headersForData[headerField] = headerValue;
+            headersForRjBuild[headerField] = headerValue;
         })
 
         const root = ReactDOM.createRoot(element);
@@ -54,9 +54,9 @@ appRootElements.forEach(
         root.render(
             <React.StrictMode>
                 <ReactiveJsonRoot
-                    dataFetchMethod={maybeMethod}
-                    dataUrl={element.dataset.url}
-                    headersForData={headersForData}
+                    rjBuildFetchMethod={maybeMethod}
+                    rjBuildUrl={element.dataset.url}
+                    headersForRjBuild={headersForRjBuild}
                 />
             </React.StrictMode>
         );

@@ -4,20 +4,20 @@ import {Page} from "./Page";
 import React from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
-export function DevApp({dataFetchMethod}) {
+export function DevApp({rjBuildFetchMethod}) {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/">
                     <Route index
-                           element={<Page dataFetchMethod={dataFetchMethod}/>}/>
+                           element={<Page rjBuildFetchMethod={rjBuildFetchMethod}/>}/>
                     <Route path="docs/*"
                            element={<Page buildSourcePath={"/rjbuild/pages/docs.yaml"}
-                                          dataFetchMethod={dataFetchMethod}/>}
+                                          rjBuildFetchMethod={rjBuildFetchMethod}/>}
                     />
                     <Route path="charts/"
                            element={<Page buildSourcePath={"/rjbuild/pages/charts.yaml"}
-                                          dataFetchMethod={dataFetchMethod}/>}/>
+                                          rjBuildFetchMethod={rjBuildFetchMethod}/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

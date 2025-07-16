@@ -16,7 +16,7 @@ renderView:
             content:
               type: ReactiveJsonSubroot
               rjOptions:
-                dataUrl: /rjbuild/component/message.yaml
+                rjBuildUrl: /rjbuild/component/message.yaml
 
           - type: DemoContentMapper
 

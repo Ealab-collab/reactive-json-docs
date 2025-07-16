@@ -5,7 +5,7 @@
 The `ReactiveJsonSubroot` component allows you to render a new Reactive-JSON root inside an existing application. It is useful for embedding a sub-application, isolating a part of the data tree, or rendering a separate rjbuild with its own options.
 
 ## Properties
-- `rjOptions` (object, required): Options to pass to the subroot (such as `dataUrl`, `data`, `renderView`, etc.)
+- `rjOptions` (object, required): Options to pass to the subroot (such as `rjBuildUrl`, `data`, `renderView`, etc.)
 - Other properties are passed to the underlying `ReactiveJsonRoot`
 
 ## Behavior
@@ -19,7 +19,7 @@ The `ReactiveJsonSubroot` component allows you to render a new Reactive-JSON roo
 renderView:
   - type: ReactiveJsonSubroot
     rjOptions:
-      dataUrl: "/rjs-build/home.yaml"
+      rjBuildUrl: "/rjs-build/home.yaml"
 ```
 
 ## Limitations

@@ -34,7 +34,7 @@ renderView:
       export const YourComponent = () => {
 
         const rjRootProps = {
-          // Set your own props to rjRootProps such as dataUrl.
+          // Set your own props to rjRootProps such as rjBuildUrl.
           // ...
         };
 

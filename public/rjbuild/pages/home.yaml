@@ -907,7 +907,7 @@ renderView:
                               class: bg-dark text-light p-3 rounded small
                             content: |
                               <ReactiveJsonRoot 
-                                dataUrl="/config.yaml" />
+                                rjBuildUrl="/config.yaml" />
 
               - type: div
                 attributes:
