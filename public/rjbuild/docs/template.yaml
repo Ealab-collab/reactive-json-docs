@@ -7,46 +7,117 @@ renderView:
 
       The template system in reactive-json efficiently manages data contexts and their access. Understanding how templates "containerize" data is essential for properly using components, actions, and reactions.
 
+  - type: Markdown
+    content: |
+      There are four main notations for accessing data:
+      
+      - `~.` : Local context (relative to current template)
+      - `~~.` : Global context (access to global data)
+      - `~>key` : Finds the nearest "key" by going up the hierarchy (useful when multiple keys exist)
+      - `~~>key` : Finds the top-level "key" from root (useful for global settings)
+
+      Each notation is explained with examples below.
+
   - type: RjBuildDescriber
-    title: "Context Notations"
+    title: "Local Context (`~.`)"
     description:
       - type: Markdown
         content: |
-          There are three main notations for accessing data:
-          
-          - `~.` : Local context (relative to current template)
-          - `~~.` : Global context (access to global data)
-          - `~>field` : Access to a specific parent context by climbing up to a given key
+          Accesses data from the current template context.
+
+    toDescribe:
+      renderView:
+        - type: div
+          content: ["Hello ", ~.username]  # Accesses username from current context
+
+      data:
+        username: "John"
+
+  - type: RjBuildDescriber
+    title: "Global Context (`~~.`)"
+    description:
+      - type: Markdown
+        content: |
+          Accesses data from the global (root) data, regardless of current template context.
 
     toDescribe:
       templates:
-        userList:
-          type: Switch
-          content: ~~.users
-          template:
-            type: div
+        userCard:
+          - type: div
             content:
-              - type: div
-                content: ["Name: ", ~.name]  # Local access to current user data
-              - type: div
-                content: ["Admin: ", ~~.isAdmin]  # Global access to isAdmin data
-              - type: div
-                content: ["Parent: ", ~>userList.title]  # Climbs up to 'userList' template to access title
+              - "Admin: "
+              - type: LabelFromValue
+                dataLocation: ~~.isAdmin  # Accesses isAdmin from global data
+                options:
+                  - label: "Yes"
+                    value: true
+                  - label: "No"
+                    value: false
+
+      renderView:
+        - load: userCard
 
       data:
-        users:
-          - name: "John"
         isAdmin: true
-        userList:
-          title: "User List"
+
+  - type: RjBuildDescriber
+    title: "Nearest Key (`~>key`)"
+    description:
+      - type: Markdown
+        content: |
+          Searches for "key" by going up the hierarchy, finds the nearest occurrence.
+
+    toDescribe:
+      templates:
+        themeDisplay:
+          type: div
+          content: ["Theme: ", ~>config.theme]  # Gets theme from nearest config
+
+      renderView:
+        - type: Switch
+          content: ~~.config.userSection.config.items
+          singleOption:
+            load: themeDisplay
+
+      data:
+        config:
+          theme: "dark"
+          userSection:
+            config:
+              theme: "light"   # This will be found (nearest)
+              items:
+                - name: "Item 1"  # themeDisplay template runs here
+
+  - type: RjBuildDescriber
+    title: "Top-level Key (`~~>key`)"
+    description:
+      - type: Markdown
+        content: |
+          Searches for "key" starting from root, finds the top-level occurrence.
+
+    toDescribe:
+      templates:
+        themeDisplay:
+          type: div
+          content: ["Theme: ", ~~>config.theme]  # Gets theme from top-level config
+
+      renderView:
+        - type: Switch
+          content: ~~.config.userSection.config.items
+          singleOption:
+            load: themeDisplay
+
+      data:
+        config:
+          theme: "dark"      # This will be found (top-level)
+          userSection:
+            config:
+              theme: "light"
+              items:
+                - name: "Item 1"  # themeDisplay template runs here
 
   - type: Markdown
     content: |
-      In this example:
-      - `~.name` accesses the `name` property from the local context (current user)
-      - `~~.isAdmin` accesses the `isAdmin` property from the global context
-      - `~>userList.title` climbs up to the "userList" template and accesses its `title` property
-
       ## Containerization Principle
 
       Templates create context "containers". This means each template defines its own local data space.
@@ -96,13 +167,55 @@ renderView:
       2. Actions and reactions respect the context where they are defined
       3. Containerization allows isolating modifications until validation
       4. `~~.` allows "escaping" the container to access global data
-      5. `~>field` allows climbing up to a specific parent context using the template name as reference
+      5. `~>key` finds the nearest "key" by going up step by step (useful for local overrides)
+      6. `~~>key` finds the top-level "key" from root (useful for global settings)
 
       ## Best Practices
 
       1. **Context Coherence**: Ensure components that need to share data are in the same context
       2. **Global Access**: Use `~~.` for data that needs to be shared between different templates
-      3. **Hierarchical Navigation**: Use `~>field` to access specific parent template data by explicitly naming it
+      3. **Hierarchical Navigation**: Use `~>key` to find nearest occurrence or `~~>key` to find global setting
+      4. **Local vs Global**: `~>` prioritizes local overrides, `~~>` prioritizes global settings
+
+  - type: RjBuildDescriber
+    title: "Complete Practical Example"
+    description:
+      - type: Markdown
+        content: |
+          Here's a complete working example that demonstrates all four syntaxes in action with a functional renderView.
+
+    toDescribe:
+      data:
+        global_value: "Hello"
+        config:
+          theme: "dark"
+          userSection:
+            title: "User List"
+            config:
+              theme: "light"
+            level1:
+              items:
+                - name: "Item 1"
+                # userList template instances run here at: data.config.userSection.level1.items
+
+      templates:
+        userList:
+          type: div
+          content:
+            - type: div
+              content: ["Global: ", ~~.global_value]        # From root data
+            - type: div  
+              content: ["Local: ", ~.name]                  # From current template
+            - type: div
+              content: ["Theme (nearest): ", ~>config.theme]    # Get from nearest config → "light"
+            - type: div
+              content: ["Theme (global): ", ~~>config.theme]   # Get from top-level config → "dark"
+
+      renderView:
+        - type: Switch
+          content: ~~.config.userSection.level1.items
+          singleOption:
+            load: userList
 
 templates:
 

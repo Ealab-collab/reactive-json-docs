@@ -5,15 +5,88 @@ renderView:
 
       The `ReactiveJsonSubroot` component allows you to render a new Reactive-JSON root inside an existing application. It is useful for embedding a sub-application, isolating a part of the data tree, or rendering a separate rjbuild with its own options.
 
+      With the `sharedUpdates` feature, the component can also propagate data changes back to the parent, enabling seamless communication between parent and subroot when working with shared data references.
+
       ## Properties
-      - `rjOptions` (object, required): Options to pass to the subroot (such as `rjBuildUrl`, `data`, `renderView`, etc.)
-      - Other properties are passed to the underlying `ReactiveJsonRoot`
+      - `rjOptions` (object, required): Options to pass to the subroot - accepts **all** `ReactiveJsonRoot` properties.
+        - Direct properties: `rjBuildUrl`, `dataOverride`, `headersForRjBuild`, `debugMode`, etc.
+        - For inline content: use `maybeRawAppRjBuild` containing `renderView`, `templates`, `data`.
+      - `sharedUpdates` (boolean, optional): Enable upstream data propagation to parent (default: false).
+      - `dataOverrideEvaluationDepth` (number, optional): Special evaluation depth for dataOverride property.
+      - Other properties are passed to the underlying `ActionDependant` wrapper.
 
       ## Behavior
-      - Renders a new `ReactiveJsonRoot` with the provided options
-      - The subroot is isolated from the parent for data, templates, and rendering
-      - Plugins from the parent are reused in the subroot
-      - If `rjOptions` is not a valid object, nothing is rendered
+      - Renders a new `ReactiveJsonRoot` with the provided options.
+      - The subroot is typically isolated from the parent for data, templates, and rendering¹.
+      - Plugins from the parent are automatically reused in the subroot.
+      - All properties in `rjOptions` are evaluated with template values.
+      - If `rjOptions` is not a valid object, nothing is rendered.
+
+      ¹Note: Data isolation is bypassed when `sharedUpdates: true` is enabled, allowing the subroot to propagate data changes back to the parent. Templates and rendering contexts remain isolated.
+
+      ## Shared Updates Feature
+      When `sharedUpdates: true` is enabled, the component automatically detects template references in `dataOverride` and creates update callbacks to propagate changes back to the parent.
+
+      ### How it works
+      1. **Automatic analysis**: The system analyzes `dataOverride` to detect references (`~~.`, `~.`, `~>`) to parent data
+      2. **Callback creation**: For each detected reference, an update callback is created
+      3. **Update interception**: When the subroot modifies data, the system checks if it corresponds to a parent reference
+      4. **Propagation**: If so, the update is propagated to the parent instead of being applied locally
+
+      ### Advantages
+      1. **Automatic synchronization**: Data remains consistent between parent and subroot
+      2. **Simplicity**: No need to manually manage update callbacks
+      3. **Performance**: Avoids unnecessary re-renders by propagating directly to the right level
+             4. **Flexibility**: Supports different referencing patterns (~~., ~., ~>) and arrays containing references
+
+      ### Supported vs Unsupported Cases
+
+      #### ✅ Supported cases
+
+      ##### 1. Direct reference
+      ```yaml
+      dataOverride: ~~.user
+      # Modifications in the subroot propagate to "user" in the parent
+      ```
+
+      ##### 2. Object mapping with references
+      ```yaml
+      dataOverride:
+        userInfo: ~~.user
+        settings: ~~.config
+      # Modifications to "userInfo" propagate to "user" in the parent
+      # Modifications to "settings" propagate to "config" in the parent
+      ```
+
+      ##### 3. Local references
+      ```yaml
+      dataOverride: ~.localData
+      # Modifications propagate to the local template context
+      ```
+
+      ##### 4. Hierarchical references
+      ```yaml
+      dataOverride: ~>key.someData
+      # Modifications propagate up the template hierarchy
+      ```
+
+      ##### 5. Arrays in dataOverride
+      ```yaml
+      dataOverride:
+        - ~~.firstItem
+        - ~~.secondItem
+      # Array items with template references are properly handled
+      ```
+
+      #### ❌ Unsupported cases
+
+      ##### Nested references in data
+      ```yaml
+      dataOverride:
+        someProperty: ~~.user
+      data:
+        someProperty: ~~.anotherProperty  # Not supported
+      ```
 
   - type: RjBuildDescriber
     title: Example
@@ -44,8 +117,250 @@ renderView:
               - type: div
                 content: This second subroot is loaded from the "data" key of the main root.
 
+  - type: RjBuildDescriber
+    title: Example with Shared Updates
+    description: This example demonstrates the `sharedUpdates` feature where changes in the subroot automatically propagate back to the parent data. Notice how modifying the text field in the subroot will update the display in the parent above it.
+    toDescribe:
+      data:
+        user:
+          name: "John Doe"
+          email: "john@example.com"
+      renderView:
+        - type: div
+          attributes:
+            style:
+              padding: "1rem"
+              border: "2px solid #007bff"
+              borderRadius: "8px"
+              backgroundColor: "#f8f9fa"
+              marginBottom: "1rem"
+          content:
+            - type: h4
+              content: "Parent Data Display"
+            - type: p
+              content: ["Name: ", ~~.user.name]
+            - type: p
+              content: ["Email: ", ~~.user.email]
+        
+        - type: ReactiveJsonSubroot
+          sharedUpdates: true
+          rjOptions:
+            dataOverride: ~~.user
+            maybeRawAppRjBuild:
+              renderView:
+                - type: div
+                  attributes:
+                    style:
+                      padding: "1rem"
+                      border: "2px solid #28a745"
+                      borderRadius: "8px"
+                      backgroundColor: "#e8f5e9"
+                  content:
+                    - type: h4
+                      content: "Subroot Editor (with sharedUpdates)"
+                    - type: TextField
+                      label: "Name"
+                      dataLocation: ~.name
+                    - type: TextField
+                      label: "Email"
+                      dataLocation: ~.email
+                    - type: p
+                      attributes:
+                        style:
+                          fontSize: "0.9em"
+                          color: "#666"
+                          marginTop: "0.5rem"
+                      content: "Changes here automatically update the parent data above ↑"
+
+  - type: RjBuildDescriber
+    title: Example with Multi-Section Configuration
+    description: This example shows how `sharedUpdates` works with complex data mappings where different parts of the parent data are mapped to different sections in the subroot.
+    toDescribe:
+      data:
+        profile:
+          name: "Alice Smith"
+          age: 28
+        settings:
+          theme: "dark"
+          language: "en"
+      renderView:
+        - type: div
+          attributes:
+            style:
+              display: "grid"
+              gridTemplateColumns: "1fr 1fr"
+              gap: "1rem"
+              marginBottom: "1rem"
+          content:
+            - type: div
+              attributes:
+                style:
+                  padding: "1rem"
+                  border: "1px solid #ddd"
+                  borderRadius: "4px"
+                  backgroundColor: "#f5f5f5"
+              content:
+                - type: h5
+                  content: "Profile Data"
+                - type: p
+                  content: ["Name: ", ~~.profile.name]
+                - type: p
+                  content: ["Age: ", ~~.profile.age]
+            - type: div
+              attributes:
+                style:
+                  padding: "1rem"
+                  border: "1px solid #ddd"
+                  borderRadius: "4px"
+                  backgroundColor: "#f5f5f5"
+              content:
+                - type: h5
+                  content: "Settings Data"
+                - type: p
+                  content: ["Theme: ", ~~.settings.theme]
+                - type: p
+                  content: ["Language: ", ~~.settings.language]
+        
+        - type: ReactiveJsonSubroot
+          sharedUpdates: true
+          rjOptions:
+            dataOverride:
+              userProfile: ~~.profile
+              userSettings: ~~.settings
+            maybeRawAppRjBuild:
+              renderView:
+              - type: div
+                attributes:
+                  style:
+                    display: "grid"
+                    gridTemplateColumns: "1fr 1fr"
+                    gap: "1rem"
+                    padding: "1rem"
+                    border: "2px solid #17a2b8"
+                    borderRadius: "8px"
+                    backgroundColor: "#e3f2fd"
+                content:
+                  - type: div
+                    content:
+                      - type: h5
+                        content: "Edit Profile"
+                      - type: TextField
+                        label: "Name"
+                        dataLocation: ~.userProfile.name
+                      - type: NumberField
+                        label: "Age"
+                        dataLocation: ~.userProfile.age
+                  - type: div
+                    content:
+                      - type: h5
+                        content: "Edit Settings"
+                      - type: TextField
+                        label: "Theme"
+                        dataLocation: ~.userSettings.theme
+                      - type: TextField
+                        label: "Language"
+                        dataLocation: ~.userSettings.language
+
+  - type: RjBuildDescriber
+    title: Example with Array References
+    description: This example demonstrates how to work with arrays in `dataOverride` where each array item is mapped to different parts of the parent data. The subroot can edit individual array items and changes will be propagated back to their respective locations in the parent array.
+    toDescribe:
+      data:
+        items:
+          - title: "Task 1"
+            completed: false
+          - title: "Task 2"
+            completed: true
+      renderView:
+        - type: div
+          attributes:
+            style:
+              padding: "1rem"
+              border: "1px solid #ddd"
+              borderRadius: "4px"
+              backgroundColor: "#f9f9f9"
+              marginBottom: "1rem"
+          content:
+            - type: h4
+              content: "Parent Items Display"
+            - type: p
+              content: ["Item 1: ", ~~.items.0.title, " (", ~~.items.0.completed, ")"]
+            - type: p
+              content: ["Item 2: ", ~~.items.1.title, " (", ~~.items.1.completed, ")"]
+        
+        - type: ReactiveJsonSubroot
+          sharedUpdates: true
+          rjOptions:
+            dataOverride:
+              - ~~.items.0
+              - ~~.items.1
+            maybeRawAppRjBuild:
+              renderView:
+                - type: div
+                  attributes:
+                    style:
+                      padding: "1rem"
+                      border: "2px solid #ffc107"
+                      borderRadius: "8px"
+                      backgroundColor: "#fff3cd"
+                  content:
+                    - type: h4
+                      content: "Array Items Editor"
+                    - type: div
+                      content:
+                        - type: h5
+                          content: "First Item"
+                        - type: TextField
+                          label: "Title"
+                          dataLocation: ~.0.title
+                        - type: CheckBoxField
+                          label: "Completed"
+                          dataLocation: ~.0.completed
+                    - type: div
+                      content:
+                        - type: h5
+                          content: "Second Item"
+                        - type: TextField
+                          label: "Title"
+                          dataLocation: ~.1.title
+                        - type: CheckBoxField
+                          label: "Completed"
+                          dataLocation: ~.1.completed
+
   - type: Markdown
     content: |
+      ## Caveat: Data Loss Risk with sharedUpdates
+
+      **⚠️ Important Warning**: When using `sharedUpdates`, there is a risk of data loss in specific scenarios.
+
+      ### The Problem
+      If the subroot modifies data that is **not** covered by a template reference from the parent's `dataOverride`, and subsequently the parent re-renders the subroot, the local modifications will be **lost**.
+
+      ### When This Happens
+      1. **Subroot modifies local data**: The subroot changes a value that doesn't correspond to any template reference in the parent's `dataOverride`.
+      2. **Parent re-renders**: This can occur when:
+         - The parent updates itself for any reason.
+         - A subroot action triggers an upstream update that causes the parent to re-render.
+      3. **Data loss**: The parent's `dataOverride` completely overwrites the subroot's data, erasing local modifications.
+
+      ### Best Practices to Avoid Data Loss
+      1. **Map all needed data**: Ensure all data fields the subroot might modify are included in the parent's data structure.
+      2. **Use complete dataOverride**: Include all necessary data paths in your `dataOverride` mapping.
+      3. **Avoid local-only modifications**: Design your data flow so that all user inputs correspond to parent data.
+      4. **Consider alternatives**: For truly local data, consider using component state or separate data management instead of `sharedUpdates`.
+
       ## Limitations
-      - The subroot is isolated from the parent; data and state are not shared
-      - No built-in communication between parent and subroot (except via plugins or explicit data passing) 
+      - **Data loss risk**: Local modifications in subroot may be lost when parent re-renders (see Caveat section above).
+      - **Nested references in data**: References within references are not supported.
+      - **Circular references**: May cause infinite loops if data structures reference each other.
+      - **Isolation by default**: Without `sharedUpdates`, the subroot is completely isolated from the parent.
+      - **Backward compatibility**: `sharedUpdates` is disabled by default to maintain existing behavior. 
+
+  - type: Markdown
+    content: |
+      ## Changelog
+
+      ### reactive-json@0.1.0
+      - **New**: `sharedUpdates` feature - enables automatic data synchronization between subroot and parent
+      - **New**: `dataOverride` property - allows complete data replacement in subroot with support for template references
+      - **New**: Automatic analysis of template references in `dataOverride` for shared updates propagation 

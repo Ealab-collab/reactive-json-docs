@@ -188,7 +188,7 @@ Other specialized contexts are available.
 - **PaginationContext**: Used by components that integrate pagination, such as Switch.
 
 ### Key Functions
-- **evaluateTemplateValue()**: Evaluates template patterns (`~.value`, `~~.value`, `~>.value`)
+- **evaluateTemplateValue()**: Evaluates template patterns (`~.value`, `~~.value`, `~>key` for nearest, `~~>key` for global)
 - **useEvaluatedAttributes()**: Hook to evaluate dynamic attributes
 - **propsDataLocationToPathAndValue()**: Form-specific data location handling
 
@@ -351,7 +351,8 @@ data:
 renderView:
   - content: ~~.global_value        # From root data
   - content: ~.nested_value         # From current template
-  - content: ~>.nested_value        # Search up hierarchy
+  - content: ~>parent_key.nested_value    # Get from nearest parent_key
+  - content: ~~>parent_key.nested_value   # Get from top-level parent_key
 ```
 
 ### Common RjBuild Patterns

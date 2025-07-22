@@ -32,11 +32,10 @@ data:        # Defines the data to be used (optional)
 
 ### 1. Template System
 
-Reactive-JSON uses three main notations to access data:
+In Reactive-JSON, you will often find those notations to access data:
 
-- `~.` : Local context (relative to current template)
+- `~.` : Local context (relative to current template)  
 - `~~.` : Global context (access to global data)
-- `~>field` : Access to a specific parent context
 
 Example:
 ```yaml
@@ -48,7 +47,13 @@ templates:
         content: ["Name: ", ~.name]  # Local access to user data
       - type: div
         content: ["Admin: ", ~~.isAdmin]  # Global access to isAdmin
+
+data:
+  name: "John"
+  isAdmin: true
 ```
+
+> 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/template) which covers `~>key` and `~~>key` notations.
 
 ### 2. Basic Elements
 

@@ -35,10 +35,11 @@ renderView:
 
       ### 1. Template System
 
-      Reactive-JSON uses three main notations to access data:
+      In Reactive-JSON, you will often find those notations to access data:
       - `~.` : Local context (relative to current template)
       - `~~.` : Global context (access to global data)
-      - `~>field` : Access to a specific parent context
+
+      > 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/template) which covers `~>key` and `~~>key` notations.
 
   - type: RjBuildDescriber
     title: "Template System Example"

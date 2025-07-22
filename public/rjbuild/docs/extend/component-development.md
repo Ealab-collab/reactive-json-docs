@@ -130,7 +130,7 @@ export const MyWrapper = ({ props, path, currentData, datafield }) => {
 ## Key APIs and Utilities
 
 ### Template Evaluation
-- **evaluateTemplateValue()**: Evaluates template patterns like `~.value`, `~~.value`, `~>.value`
+- **evaluateTemplateValue()**: Evaluates template patterns like `~.value`, `~~.value`, `~>key` (nearest), `~~>key` (global)
 - **evaluateTemplateValueCollection()**: Evaluates collections and arrays with template patterns, supports multiple elements
 - **useEvaluatedAttributes()**: Hook to evaluate dynamic attributes object
 
