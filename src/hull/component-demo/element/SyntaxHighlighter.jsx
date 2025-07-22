@@ -5,7 +5,7 @@ import { evaluateTemplateValue } from "@ea-lab/reactive-json/dist/engine";
 import { useEvaluatedAttributes } from "@ea-lab/reactive-json/dist/engine";
 import { useContext } from "react";
 import SyntaxHighlighter_Real from "react-syntax-highlighter";
-import { docco, atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { docco as highlighterLightTheme, darcula as highlighterDarkTheme } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useDarkMode } from "../hooks/useDarkMode.js";
 
 export const SyntaxHighlighter = ({ props }) => {
@@ -59,7 +59,7 @@ export const SyntaxHighlighter = ({ props }) => {
         styleToUse = evaluatedLightStyle;
     } else {
         // Default styles based on mode.
-        styleToUse = isDarkMode ? atomOneDark : docco;
+        styleToUse = isDarkMode ? highlighterDarkTheme : highlighterLightTheme;
     }
 
     return (

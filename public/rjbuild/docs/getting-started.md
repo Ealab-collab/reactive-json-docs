@@ -30,7 +30,7 @@ data:        # Defines the data to be used (optional)
 
 ## Key Concepts
 
-### 1. Template System
+### Template System
 
 In Reactive-JSON, you will often find those notations to access data:
 
@@ -55,7 +55,7 @@ data:
 
 > 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/template) which covers `~>key` and `~~>key` notations.
 
-### 2. Basic Elements
+### Basic Elements
 
 Reactive-JSON provides several types of elements:
 
@@ -85,12 +85,15 @@ renderView:
 renderView:
   - type: Switch
     content: ~.items
-    template:
-      type: div
-      content: ~.name
+    singleOption:
+      load: itemTemplate
+templates:
+  itemTemplate:
+    type: div
+    content: ~.name
 ```
 
-### 3. Actions and Reactions
+### Actions and Reactions
 
 #### Actions
 Actions modify element behavior:

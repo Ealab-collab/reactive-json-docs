@@ -15,7 +15,9 @@ export const Layout = ({children}) => {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            {children}
+            <div className="reactive-json">
+                {children}
+            </div>
         </>
     );
 };

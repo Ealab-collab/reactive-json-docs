@@ -33,7 +33,7 @@ renderView:
     content: |
       ## Key Concepts
 
-      ### 1. Template System
+      ### Template System
 
       In Reactive-JSON, you will often find those notations to access data:
       - `~.` : Local context (relative to current template)
@@ -63,7 +63,7 @@ renderView:
 
   - type: Markdown
     content: |
-      ### 2. Basic Elements
+      ### Basic Elements
 
       Reactive-JSON provides several types of elements:
 
@@ -115,9 +115,12 @@ renderView:
       renderView:
         - type: Switch
           content: ~.items
-          template:
-            type: div
-            content: ~.name
+          singleOption:
+            load: itemTemplate
+      templates:
+        itemTemplate:
+          type: div
+          content: ~.name
       data:
         items:
           - name: "Item 1"
@@ -125,7 +128,7 @@ renderView:
 
   - type: Markdown
     content: |
-      ### 3. Actions and Reactions
+      ### Actions and Reactions
 
       #### Actions
       Actions modify element behavior.
