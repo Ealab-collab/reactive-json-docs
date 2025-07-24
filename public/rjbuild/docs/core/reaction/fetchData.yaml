@@ -3,7 +3,7 @@ renderView:
     content: |
       # fetchData
 
-      fetchData is a reaction that allows making HTTP GET requests to a server. It operates in two distinct modes:
+      fetchData is a reaction that allows making HTTP requests to a server. It operates in two distinct modes:
 
       The behavior depends on `refreshAppOnResponse`:
       - If `true` (default): Response must be a valid rjbuild (with renderView/templates/data) as it will be used to re-render the application
@@ -13,10 +13,11 @@ renderView:
 
       ## Properties
       - `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
+      - `httpMethod` (string, optional): The HTTP method to use (default: "get"). Supports: get, post, put, patch, delete, etc.
       - `refreshAppOnResponse` (boolean, optional): If true (default), the response must be a valid rjbuild and will replace the application state. If false, the response is ignored (webhook mode).
 
       ## Behavior
-      - Only GET requests are supported
+      - Supports configurable HTTP methods (GET by default for backward compatibility)
       - Only one request can be active at a time
       - The URL is evaluated via the template system before sending, but must resolve to a static string
       - If `refreshAppOnResponse` is true, the response must be a valid rjbuild and will replace the application state
@@ -25,17 +26,17 @@ renderView:
       - The triggering element is visually disabled during the request
 
   - type: RjBuildDescriber
-    title: Basic Structure
+    title: Basic Structure (GET - Default)
     description:
       - type: Markdown
         content: |
           The basic structure of a fetchData reaction requires a URL and can include the refreshAppOnResponse option.
 
-          The URL can be a template value that resolves to a static string.
+          The URL can be a template value that resolves to a static string. By default, fetchData uses GET method.
     toDescribe:
       renderView:
         - type: button
-          content: Basic Example
+          content: Basic GET Example
           actions:
             - what: fetchData
               on: click
@@ -47,10 +48,46 @@ renderView:
             - "/mockup-api/fetchData/example.json"
         - type: div
           content:
+            - "Method: GET (default)"
+        - type: div
+          content:
             - "Fetch status: "
             - ~.fetch_status
       data:
         fetch_status: "Waiting for click"
+
+  - type: RjBuildDescriber
+    title: Custom HTTP Methods
+    description:
+      - type: Markdown
+        content: |
+          You can specify different HTTP methods using the `httpMethod` property:
+          - GET (default)
+          - POST, PUT, PATCH, DELETE
+          - Any valid HTTP method
+    toDescribe:
+      renderView:
+        - type: button
+          content: PATCH Request
+          actions:
+            - what: fetchData
+              on: click
+              url: "/mockup-api/fetchData/status.json"
+              httpMethod: "patch"
+              refreshAppOnResponse: false
+        - type: button
+          content: DELETE Request
+          actions:
+            - what: fetchData
+              on: click
+              url: "/mockup-api/fetchData/status.json"
+              httpMethod: "delete"
+              refreshAppOnResponse: false
+        - type: div
+          content:
+            - "Custom methods: PATCH, DELETE, etc."
+      data:
+        method_status: "Ready to test"
 
   - type: RjBuildDescriber
     title: Webhook Mode
@@ -60,19 +97,23 @@ renderView:
           With `refreshAppOnResponse: false`, fetchData behaves like a webhook:
           - Response is completely ignored
           - Only the HTTP call is made
+          - Works with any HTTP method
           - Useful for:
             * Server notifications
             * Triggering server-side actions
             * API pinging
             * Sending webhooks
+            * Cache invalidation
+            * Remote resource cleanup
     toDescribe:
       renderView:
         - type: button
-          content: Notify Server
+          content: Notify Server (POST)
           actions:
             - what: fetchData
               on: click
               url: "/mockup-api/fetchData/status.json"
+              httpMethod: "post"
               refreshAppOnResponse: false  # Response is ignored, like a webhook
         - type: div
           content:
@@ -111,7 +152,6 @@ renderView:
       ## Limitations
 
       - Only one request can be active at a time
-      - Only GET requests are supported
       - Response must be a valid rjbuild **only** if refreshAppOnResponse is true
       - No built-in error handling beyond console logging
       - No support for request cancellation
@@ -119,6 +159,7 @@ renderView:
       - **No support for dynamic URLs** - URLs must be static strings
       - No support for query parameters in URL templates
       - No support for complex URL routing or path generation
+      - **No request body support** - Use `submitData` if you need to send data in the request body
 
   - type: Markdown
     content: |
