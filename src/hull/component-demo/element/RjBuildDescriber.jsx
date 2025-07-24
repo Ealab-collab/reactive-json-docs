@@ -22,11 +22,12 @@ export const RjBuildDescriber = ({props}) => {
 
     return (<div className={"border rounded p-3 bg-light"}>
 
-        {props?.title && <div className={"fw-bold border-bottom mb-3"}>{evaluateTemplateValue({
-            globalDataContext,
-            templateContext,
-            valueToEvaluate: props.title
-        })}</div>}
+        {props?.title && <div className={"fw-bold border-bottom mb-3"}>
+            <View props={evaluateTemplateValue({
+                globalDataContext,
+                templateContext,
+                valueToEvaluate: props.title
+            })}/></div>}
 
         {props?.description && <div className={"mb-3"}>
             <View props={evaluateTemplateValue({
