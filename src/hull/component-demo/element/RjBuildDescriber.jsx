@@ -20,7 +20,7 @@ export const RjBuildDescriber = ({props}) => {
         return;
     }
 
-    return (<div className={"border rounded p-3 bg-light"}>
+    return (<div className={"border mb-3 rounded p-3 bg-light"}>
 
         {props?.title && <div className={"fw-bold border-bottom mb-3"}>
             <View props={evaluateTemplateValue({
