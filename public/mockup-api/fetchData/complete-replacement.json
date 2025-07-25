@@ -1,0 +1,20 @@
+{
+  "userProfile": {
+    "name": "Updated User (Complete)",
+    "email": "updated-complete@example.com",
+    "lastUpdated": "2024-01-15 14:30:00"
+  },
+  "settings": {
+    "theme": "light",
+    "notifications": "false",
+    "language": "fr"
+  },
+  "status": {
+    "online": "false",
+    "lastLogin": "2024-01-15 14:25:00"
+  },
+  "newData": {
+    "source": "complete-replacement",
+    "timestamp": "2024-01-15 14:30:00"
+  }
+} 

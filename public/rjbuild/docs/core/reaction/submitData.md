@@ -13,16 +13,24 @@
 - `data` (object, optional): The data to send. If not specified, data is sent in an object with the structure `{ data: globalDataContext.templateData }`. If `__state` exists in the context, it is automatically added.
 - `refreshAppOnResponse` (boolean, optional): If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`).
 - `submitSilently` (boolean, optional): If true, doesn't apply visual disabling styles during submission
+- `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
+- `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
 
 ## Behavior
 - Only one submission can be active at a time (global lock)
 - The default HTTP method is POST, but can be customized
 - The payload is either the provided `data` object or the full data context
 - Only the first level of the `data` object is evaluated as templates
-- The server response must be a valid rjbuild if `refreshAppOnResponse` is true
-- If `refreshAppOnResponse` is false, the response is ignored (webhook mode)
 - In case of an error, the submission is cancelled and logged to the console
 - Interface elements are visually disabled during submission (unless `submitSilently` is enabled)
+- When `refreshAppOnResponse` is false, the response is ignored (webhook mode)
+- When `refreshAppOnResponse` is true and `updateOnlyData` is false, the server response must be a valid rjbuild and will replace the entire application state
+- When `refreshAppOnResponse` is true and `updateOnlyData` is true:
+  - Only the data section is updated, preserving templates and renderView
+  - Without `updateDataAtLocation`: **completely replaces** the entire data object
+  - With `updateDataAtLocation`: updates only the specified path in the data
+
+> **⚠️ Important:** When using `updateOnlyData: true`, the server response must contain **data only**, not a complete RjBuild structure. The response should be the raw data object, not wrapped in `{data: {...}, renderView: [...], templates: {...}}`.
 
 ## Submission States & Styling
 The system uses a global locking mechanism to handle submissions:
@@ -125,14 +133,141 @@ This bidirectional state synchronization allows to:
 - Save progression state
 - Maintain consistency between client and server
 
+## Data Update Behavior
+When using `updateOnlyData: true`:
+
+### Without updateDataAtLocation (Complete Data Replacement)
+```yaml
+# Before request - original data:
+data:
+  userProfile: { name: "John", email: "john@example.com" }
+  settings: { theme: "dark" }
+  notifications: { count: 5 }
+
+# Server response after submission:
+{
+  savedProfile: { name: "Jane", email: "jane@example.com" }
+  validationStatus: "success"
+}
+
+# After request - data is COMPLETELY REPLACED:
+data:
+  savedProfile: { name: "Jane", email: "jane@example.com" }
+  validationStatus: "success"
+  # ❌ userProfile, settings, notifications are LOST
+```
+
+### With updateDataAtLocation (Targeted Update)
+```yaml
+# Before request - original data:
+data:
+  userProfile: { name: "John", email: "john@example.com" }
+  settings: { theme: "dark" }
+  notifications: { count: 5 }
+
+# Request with updateDataAtLocation: "~~.userProfile"
+# Server response after submission:
+{
+  name: "Jane",
+  email: "jane@example.com",
+  lastUpdated: "2024-01-15T10:30:00Z"
+}
+
+# After request - only userProfile is updated:
+data:
+  userProfile: { name: "Jane", email: "jane@example.com", lastUpdated: "2024-01-15T10:30:00Z" }
+  settings: { theme: "dark" }         # ✅ Preserved
+  notifications: { count: 5 }        # ✅ Preserved
+```
+
+## Use Cases with updateOnlyData: true
+1. **Form submissions** that return updated record data without full page refresh
+2. **Profile updates** that preserve application state and UI structure
+3. **Configuration saves** that update specific settings sections
+4. **Partial data synchronization** after server-side processing
+5. **Status updates** that need to store results in specific data locations
+6. **Multi-step forms** where each step updates different data sections
+
+## Example use cases
+
+### Data-Only Update (Complete Replacement)
+
+In this example, the web service returns the full data that Reactive-JSON
+will load at its data root.
+
+```yaml
+actions:
+  - what: submitData
+    on: click
+    url: "/api/user/save"
+    data:
+      userProfile: ~.userProfile
+    refreshAppOnResponse: true
+    updateOnlyData: true  # Only updates data, preserves templates/renderView
+```
+
+### Targeted Data Update
+
+In this example, the web service returns data to put at a specific location.
+
+```yaml
+actions:
+  - what: submitData
+    on: click
+    url: "/api/user/profile"
+    data:
+      name: ~.form.name
+      email: ~.form.email
+    refreshAppOnResponse: true
+    updateOnlyData: true
+    updateDataAtLocation: "~~.userProfile"  # Updates only userProfile section
+```
+
+### Save Settings to Specific Location
+
+In this example, the web service returns data to put at a specific deep location.
+
+```yaml
+actions:
+  - what: submitData
+    on: click
+    url: "/api/settings/save"
+    data:
+      theme: ~.settingsForm.theme
+      notifications: ~.settingsForm.notifications
+    refreshAppOnResponse: true
+    updateOnlyData: true
+    updateDataAtLocation: "~~.config.userSettings"  # Deep update
+```
+
+### Form Submission with Response Processing
+
+In this example, the submission result returned by the web service is stored
+at a location in data; this location does not need to be initialized before,
+it will be created when needed.
+
+```yaml
+actions:
+  - what: submitData
+    on: click
+    url: "/api/form/submit"
+    data:
+      formData: ~.currentForm
+      userId: ~~.currentUser.id
+    refreshAppOnResponse: true
+    updateOnlyData: true
+    updateDataAtLocation: "~~.submissionResult"  # Store result separately
+```
+
 ## Limitations
 - Only one submission can be active at a time (global lock)
 - Only the first level of the `data` object is evaluated as templates
 - Only POST (or custom method) requests are supported
-- The server response must be a valid rjbuild if `refreshAppOnResponse` is true
+- The server response must be a valid rjbuild if `refreshAppOnResponse` is true and `updateOnlyData` is false
 - No built-in error handling beyond console logging
 - No support for request cancellation
 - No support for timeouts
 - No support for dynamic URLs (URLs must be static strings)
 - No support for query parameters in URL templates
-- No support for complex URL routing or path generation 
+- No support for complex URL routing or path generation
+- `updateDataAtLocation` paths must be valid template paths that resolve to data locations

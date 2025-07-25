@@ -14,7 +14,9 @@ renderView:
       ## Properties
       - `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
       - `httpMethod` (string, optional): The HTTP method to use (default: "get"). Supports: get, post, put, patch, delete, etc.
-      - `refreshAppOnResponse` (boolean, optional): If true (default), the response must be a valid rjbuild and will replace the application state. If false, the response is ignored (webhook mode).
+      - `refreshAppOnResponse` (boolean, optional): If true (default), the response will update the application. If false, the response is ignored (webhook mode).
+      - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
+      - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
 
       ## Behavior
       - Supports configurable HTTP methods (GET by default for backward compatibility)
@@ -65,6 +67,8 @@ renderView:
           - GET (default)
           - POST, PUT, PATCH, DELETE
           - Any valid HTTP method
+
+          > Open the console to see the request details.
     toDescribe:
       renderView:
         - type: button
@@ -147,6 +151,174 @@ renderView:
       data:
         error_state: "Pending"
 
+  - type: RjBuildDescriber
+    title:
+      type: Markdown
+      content: |
+        Data-Only Update Examples `@ea-lab/reactive-json@0.2.0`
+    description:
+      - type: Markdown
+        content: |
+          Properties `updateOnlyData` and `updateDataAtLocation` (added in @ea-lab/reactive-json@0.2.0) allow for more precise data management:
+          
+          - `updateOnlyData: true`: Only updates the data section, preserving templates and renderView
+          - `updateDataAtLocation`: Specifies exactly where to place the response data
+          
+          
+          > **⚠️ Important:** When using `updateOnlyData: true`, the server must return **data only**, not a complete RjBuild structure.
+    toDescribe:
+      additionalDataSource:
+        - src: "/mockup-api/fetchData/reset-initial-data.json"
+      renderView:
+        - type: div
+          attributes:
+            class: "row mb-3"
+          content:
+            - type: div
+              attributes:
+                class: "col-md-6"
+              content:
+                - type: BsButton
+                  content: "Complete Data Replacement"
+                  attributes:
+                    class: "btn btn-primary mb-2 w-100"
+                  actions:
+                    - what: fetchData
+                      on: click
+                      url: "/mockup-api/fetchData/complete-replacement.json"
+                      updateOnlyData: true
+                      refreshAppOnResponse: true
+                
+                - type: BsAlert
+                  attributes:
+                    variant: "info"
+                    class: "small"
+                  content: "⚠️ Replaces ALL data (userProfile + settings + status)"
+            
+            - type: div
+              attributes:
+                class: "col-md-6"
+              content:
+                - type: BsButton
+                  content: "Targeted Data Update"
+                  attributes:
+                    class: "btn btn-secondary mb-2 w-100"
+                  actions:
+                    - what: fetchData
+                      on: click
+                      url: "/mockup-api/fetchData/user-profile-update.json"
+                      updateOnlyData: true
+                      updateDataAtLocation: "~~.userProfile"
+                      refreshAppOnResponse: true
+                
+                - type: BsAlert
+                  attributes:
+                    variant: "success"
+                    class: "small"
+                  content: "✅ Updates ONLY userProfile, preserves settings"
+
+        - type: div
+          attributes:
+            class: "text-center mb-3"
+          content:
+            - type: BsButton
+              content: "🔄 Reset to Initial Data"
+              attributes:
+                class: "btn btn-secondary"
+              actions:
+                - what: fetchData
+                  on: click
+                  url: "/mockup-api/fetchData/reset-initial-data.json"
+                  updateOnlyData: true
+                  refreshAppOnResponse: true
+
+        - type: hr
+
+        - type: div
+          attributes:
+            class: "row"
+          content:
+            - type: div
+              attributes:
+                class: "col-md-4"
+              content:
+                - type: h6
+                  content: "👤 User Profile"
+                - type: div
+                  attributes:
+                    class: "border p-2 rounded bg-primary bg-opacity-10 small"
+                  content:
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Name: "
+                        - ~~.userProfile.name
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Email: "
+                        - ~~.userProfile.email
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Updated: "
+                        - ~~.userProfile.lastUpdated
+            
+            - type: div
+              attributes:
+                class: "col-md-4"
+              content:
+                - type: h6
+                  content: "⚙️ Settings"
+                - type: div
+                  attributes:
+                    class: "border p-2 rounded bg-light small"
+                  content:
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Theme: "
+                        - ~~.settings.theme
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Notifications: "
+                        - ~~.settings.notifications
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Language: "
+                        - ~~.settings.language
+            
+            - type: div
+              attributes:
+                class: "col-md-4"
+              content:
+                - type: h6
+                  content: "📊 Status"
+                - type: div
+                  attributes:
+                    class: "border p-2 rounded bg-warning bg-opacity-10 small"
+                  content:
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Online: "
+                        - ~~.status.online
+                    - type: div
+                      content:
+                        - type: strong
+                          content: "Last Login: "
+                        - ~~.status.lastLogin
+
+        - type: div
+          attributes:
+            class: "mt-3 alert alert-warning"
+          content:
+            - type: strong
+              content: "How to test:"
+            - " Click buttons and watch the data sections above. The first button will replace ALL data, the second will only update the User Profile section."
+ 
   - type: Markdown
     content: |
       ## Limitations

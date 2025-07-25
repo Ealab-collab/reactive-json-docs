@@ -15,6 +15,8 @@ renderView:
       - `data` (object, optional): The data to send. If not specified, data is sent in an object with the structure `{ data: globalDataContext.templateData }`. If `__state` exists in the context, it is automatically added.
       - `refreshAppOnResponse` (boolean, optional): If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`).
       - `submitSilently` (boolean, optional): If true, doesn't apply visual disabling styles during submission
+      - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
+      - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
 
       ## Behavior
       - Only one submission can be active at a time (global lock)
@@ -127,15 +129,61 @@ renderView:
       - Save progression state
       - Maintain consistency between client and server
 
+      ## Data-Only Update Examples (@ea-lab/reactive-json@0.2.0)
+      
+      The properties `updateOnlyData` and `updateDataAtLocation` work identically for `submitData` and `fetchData`. 
+       
+       > **⚠️ Important:** When using `updateOnlyData: true`, the server response must contain **data only**, not a complete RjBuild structure. The response should be the raw data object, not wrapped in `{data: {...}, renderView: [...], templates: {...}}`.
+       
+       > **Since this documentation site only supports GET requests**, interactive examples for `submitData` cannot be demonstrated here. However, the behavior is exactly the same as `fetchData`.
+
+      ### ➡️ **See Interactive Examples**
+
+      Please refer to the **[fetchData documentation](/docs/core/reaction/fetchData)** to see fully interactive demonstrations of:
+
+      - **Complete Data Replacement** with `updateOnlyData: true`
+      - **Targeted Data Updates** with `updateDataAtLocation`
+      - **Visual feedback** showing exactly which data sections change
+
+      ### 🔄 **For submitData, the syntax is identical:**
+
+      ```yaml
+      # Complete data replacement after form submission
+      actions:
+        - what: submitData
+          on: click
+          url: "/api/user/save"
+          data: ~~.formData
+          updateOnlyData: true
+          refreshAppOnResponse: true
+
+      # Targeted update after form submission  
+      actions:
+        - what: submitData
+          on: click
+          url: "/api/user/save"
+          data: ~~.formData
+          updateOnlyData: true
+          updateDataAtLocation: "~~.savedProfile"
+          refreshAppOnResponse: true
+      ```
+
+      ### 💡 **Common Use Cases for submitData:**
+      
+      - **Form submissions** that return updated record data
+      - **Profile updates** that preserve application state 
+      - **Configuration saves** that update specific settings sections
+      - **Multi-step forms** where each step updates different data sections
+ 
       ## Limitations
       - Only one submission can be active at a time (global lock)
       - Only the first level of the `data` object is evaluated as templates
       - Only POST (or custom method) requests are supported
-      - The server response must be a valid rjbuild if `refreshAppOnResponse` is true
+      - The server response must be a valid rjbuild if `refreshAppOnResponse` is true and `updateOnlyData` is false
+      - When `updateOnlyData` is true, the response must contain **data only** (not a complete RjBuild structure)
       - No built-in error handling beyond console logging
       - No support for request cancellation
       - No support for timeouts
       - No support for dynamic URLs (URLs must be static strings)
       - No support for query parameters in URL templates
       - No support for complex URL routing or path generation
- 
