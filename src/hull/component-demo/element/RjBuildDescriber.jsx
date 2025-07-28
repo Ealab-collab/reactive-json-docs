@@ -48,18 +48,22 @@ export const RjBuildDescriber = ({props}) => {
                         <Accordion.Item eventKey={"0"}>
                             <Accordion.Header>renderView</Accordion.Header>
                             <Accordion.Body>
-                                <TabbedSerializer rawContentToSerialize={toDescribe.renderView}/>
+                                <TabbedSerializer props={{rawContentToSerialize: toDescribe.renderView}}/>
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey={"1"}>
-                            <Accordion.Header>templates</Accordion.Header>
-                            <Accordion.Body>{toDescribe.templates ? <TabbedSerializer rawContentToSerialize={toDescribe.templates}/> :
-                                <em>(unset)</em>}</Accordion.Body>
-                        </Accordion.Item>
-                        <Accordion.Item eventKey={"2"}>
-                            <Accordion.Header>data</Accordion.Header>
-                            <Accordion.Body><TabbedSerializer rawContentToSerialize={toDescribe.data}/></Accordion.Body>
-                        </Accordion.Item>
+                        {toDescribe.templates && (
+                            <Accordion.Item eventKey={"1"}>
+                                <Accordion.Header>templates</Accordion.Header>
+                                <Accordion.Body>{toDescribe.templates ? <TabbedSerializer props={{rawContentToSerialize: toDescribe.templates}}/> :
+                                    <em>(unset)</em>}</Accordion.Body>
+                            </Accordion.Item>
+                        )}
+                        {toDescribe.data && (
+                            <Accordion.Item eventKey={"2"}>
+                                <Accordion.Header>data</Accordion.Header>
+                                <Accordion.Body><TabbedSerializer props={{rawContentToSerialize: toDescribe.data}}/></Accordion.Body>
+                            </Accordion.Item>
+                        )}
                     </Accordion>
                 </div>
             </Col>

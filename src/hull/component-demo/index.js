@@ -11,6 +11,7 @@ import {Markdown} from "./element/Markdown.jsx";
 import {RjBuildDescriber} from "./element/RjBuildDescriber.jsx";
 import {Sidebar} from "./element/Sidebar.jsx";
 import {SyntaxHighlighter} from "./element/SyntaxHighlighter.jsx";
+import {TabbedSerializer} from "./utility/TabbedSerializer.jsx";
 
 export const demoPlugins = {
     element: {
@@ -19,6 +20,7 @@ export const demoPlugins = {
         RjBuildDescriber,
         Sidebar,
         SyntaxHighlighter,
+        TabbedSerializer,
     }
 }
 
