@@ -34,6 +34,9 @@ export const docsPageNavigation = {
     "/docs/getting-started": {
         title: "Getting started",
     },
+    "/docs/rjbuild-structure": {
+        title: "RjBuild structure",
+    },
     "/docs/template": {
         title: "Template system",
     },
