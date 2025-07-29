@@ -8,6 +8,8 @@ renderView:
       - type: div
         attributes:
           class: container-md
+          style:
+            marginBottom: "10em"
         content:
 
           - type: div

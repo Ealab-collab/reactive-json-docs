@@ -6,6 +6,7 @@
  *
  * It also contains a navigation tree.
  */
+import {DefinitionList} from "./element/DefinitionList.jsx";
 import {DemoContentMapper} from "./element/DemoContentMapper.jsx";
 import {Markdown} from "./element/Markdown.jsx";
 import {RjBuildDescriber} from "./element/RjBuildDescriber.jsx";
@@ -15,6 +16,7 @@ import {TabbedSerializer} from "./utility/TabbedSerializer.jsx";
 
 export const demoPlugins = {
     element: {
+        DefinitionList,
         DemoContentMapper,
         Markdown,
         RjBuildDescriber,
@@ -35,7 +37,7 @@ export const docsPageNavigation = {
         title: "Getting started",
         items: {
             "/docs/getting-started/index": {
-                title: "Main concepts",
+                title: "Overview",
             },
             "/docs/getting-started/rjbuild-structure": {
                 title: "RjBuild structure",
@@ -43,6 +45,17 @@ export const docsPageNavigation = {
             "/docs/getting-started/template": {
                 title: "Template system",
             },
+        }
+    },
+    "/docs/advanced-concepts": {
+        title: "Advanced Concepts",
+        items: {
+            "/docs/advanced-concepts/index": {
+                title: "Overview"
+            },
+            "/docs/advanced-concepts/data-processors": {
+                title: "Data Processors"
+            }
         }
     },
     "/docs/core": {

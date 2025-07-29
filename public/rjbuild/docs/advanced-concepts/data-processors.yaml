@@ -1,0 +1,309 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Data Processors
+
+      Data Processors are a powerful feature in Reactive-JSON that allow you to intercept and modify data received via `fetchData`, `submitData`, and `additionalDataSources`. This enables you to implement data transformation, validation, security filtering, and other data processing logic in a centralized and reusable way.
+
+      ## How Data Processors Work
+
+      When Reactive-JSON receives data from HTTP requests, it automatically passes the data through all registered Data Processors in order. Each processor:
+
+      1. **Examines the request and response context** (URL, method, headers, status, etc.)
+      2. **Receives the current data** being processed
+      3. **Must return the data** - either transformed or unchanged
+      4. **Chains with other processors** (processed data flows to the next processor)
+
+  - type: Markdown
+    content: |
+      ## Basic Structure
+
+      A Data Processor is a function that receives context and data, then **must return** the processed data:
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      const myDataProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {
+          // Check if we want to process this data
+          if (!requestContext.url.includes('/api/users')) {
+              return dataToProcess; // Return unchanged data
+          }
+          
+          // Check response status
+          if (responseContext.status >= 400) {
+              return dataToProcess; // Return unchanged data
+          }
+          
+          // Transform the data
+          const processedData = {
+              ...dataToProcess,
+              timestamp: new Date().toISOString(),
+              source: requestContext.url
+          };
+          
+          return processedData; // Return transformed data
+      };
+
+  - type: Markdown
+    content: |
+      ## Function Parameters
+
+  - type: DefinitionList
+    content:
+      - term: requestContext
+        details:
+          type: Markdown
+          content: |
+            Information about the HTTP request:
+            - `url`: The URL that was called
+            - `method`: HTTP method (GET, POST, etc.)
+            - `headers`: Request headers object
+            - `body`: Request body (for POST, PUT, etc.)
+
+      - term: responseContext
+        details:
+          type: Markdown
+          content: |
+            Information about the HTTP response:
+            - `headers`: Response headers object
+            - `status`: HTTP status code (200, 404, etc.)
+            - `data`: Raw response data
+
+      - term: dataToProcess
+        details:
+          type: Markdown
+          content: |
+            The data currently being processed. This may have been modified by previous Data Processors in the chain.
+
+      - term: originalDataToProcess
+        details:
+          type: Markdown
+          content: |
+            The original data before any processing, useful for comparison or logging.
+
+  - type: Markdown
+    content: |
+      ## Plugin Registration
+
+      Data Processors are registered through the plugin system:
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      import { mergeComponentCollections } from "@ea-lab/reactive-json";
+
+      const myPlugins = {
+          element: {
+              // Your custom components
+          },
+          dataProcessor: {
+              "timestamp-processor": { 
+                  callback: timestampProcessor, 
+                  order: 0 
+              },
+              "security-filter": { 
+                  callback: securityProcessor, 
+                  order: 10 
+              }
+          }
+      };
+
+      export const MyReactiveJsonRoot = (props) => {
+          const plugins = mergeComponentCollections([myPlugins]);
+          return <ReactiveJsonRoot {...props} plugins={plugins} />;
+      };
+
+  - type: Markdown
+    content: |
+      ### Plugin Structure
+
+  - type: DefinitionList
+    content:
+      - term: Key
+        details: Unique identifier for the processor.
+      - term: callback
+        details: The processor function.
+      - term:
+          code: order
+          after: "(number)"
+        details: Execution order (lower numbers run first).
+
+  - type: Markdown
+    content: |
+      ## Common Use Cases
+
+      ### Adding Timestamps
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      const timestampProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {
+          if (typeof dataToProcess !== 'object' || dataToProcess === null) {
+              return dataToProcess; // Return unchanged for non-objects
+          }
+          
+          return {
+              ...dataToProcess,
+              __metadata: {
+                  processedAt: new Date().toISOString(),
+                  sourceUrl: requestContext.url,
+                  responseStatus: responseContext.status
+              }
+          };
+      };
+
+  - type: Markdown
+    content: |
+      ### Security Filtering
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      const securityProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {
+          // Only filter external API responses
+          if (!requestContext.url.includes('external-api')) {
+              return dataToProcess; // Return unchanged
+          }
+          
+          if (typeof dataToProcess !== 'object' || dataToProcess === null) {
+              return dataToProcess; // Return unchanged for non-objects
+          }
+          
+          // Remove sensitive fields
+          const sensitiveFields = ['password', 'secret', 'apiKey', 'token'];
+          const cleanedData = { ...dataToProcess };
+          
+          sensitiveFields.forEach(field => {
+              if (cleanedData.hasOwnProperty(field)) {
+                  delete cleanedData[field];
+                  console.log(`🔒 Removed sensitive field: ${field}`);
+              }
+          });
+          
+          return cleanedData;
+      };
+
+  - type: Markdown
+    content: |
+      ### Data Format Transformation
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      const dateFormatProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {
+          if (typeof dataToProcess !== 'object' || dataToProcess === null) {
+              return dataToProcess; // Return unchanged for non-objects
+          }
+          
+          const processedData = { ...dataToProcess };
+          
+          // Convert DD/MM/YYYY dates to YYYY-MM-DD
+          Object.keys(processedData).forEach(key => {
+              if (typeof processedData[key] === 'string' && /^\d{2}\/\d{2}\/\d{4}$/.test(processedData[key])) {
+                  const [day, month, year] = processedData[key].split('/');
+                  processedData[key] = `${year}-${month}-${day}`;
+              }
+          });
+          
+          return processedData;
+      };
+
+  - type: Markdown
+    content: |
+      ## Best Practices
+
+      ### Always Return Data
+      Data Processors **must always return data**. To skip processing, return the original data:
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      const myProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {
+          // Skip processing for certain conditions
+          if (!requestContext.url.includes('/api/')) {
+              return dataToProcess; // Return unchanged
+          }
+          if (responseContext.status >= 400) {
+              return dataToProcess; // Return unchanged
+          }
+          if (typeof dataToProcess !== 'object') {
+              return dataToProcess; // Return unchanged
+          }
+          
+          // Process and return transformed data
+          return { ...dataToProcess, processed: true };
+      };
+
+  - type: Markdown
+    content: |
+      ### Immutable Updates
+      Always clone data before modifying:
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      const processedData = { ...dataToProcess }; // Shallow clone
+      // Or for deep cloning, use JSON.parse(JSON.stringify(...)):
+      const processedData = JSON.parse(JSON.stringify(dataToProcess));
+      // Or with lodash:
+      const processedData = _.cloneDeep(dataToProcess);
+
+  - type: Markdown
+    content: |
+      ### Error Handling
+      The system automatically catches errors, but you can add your own:
+
+  - type: SyntaxHighlighter
+    language: javascript
+    content: |
+      const safeProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {
+          try {
+              // Your processing logic
+              return processedData;
+          } catch (error) {
+              console.error('Processing failed:', error);
+              return dataToProcess; // Return original data on error
+          }
+      };
+
+  - type: Markdown
+    content: |
+      ## RjBuild vs Data Processing
+
+      The system automatically detects whether the response is a complete RjBuild or just data:
+
+      - **Complete RjBuild**: Processors only modify the `data` section
+      - **Data only**: Processors modify the entire response
+
+      This happens automatically based on the `updateOnlyData` parameter in `fetchData`/`submitData`.
+
+      ## Execution Context
+
+      ### With `fetchData`/`submitData`
+
+  - type: SyntaxHighlighter
+    language: yaml
+    content: |
+      - type: button
+        content: "Load User Data"
+        actions:
+          - what: fetchData
+            on: click
+            url: "/api/users/123"
+            refreshAppOnResponse: true
+            updateOnlyData: false # The response is expected to be a complete RjBuild.
+            # When the response is a complete RjBuild, the processors will receive the data only.
+
+  - type: Markdown
+    content: |
+      ### With `additionalDataSources`
+
+  - type: SyntaxHighlighter
+    language: yaml
+    content: |
+      additionalDataSource:
+        - src: "/api/config"
+          path: "~~.config"
+          # Processors will automatically process this data
+
+data:
