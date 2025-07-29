@@ -8,13 +8,121 @@ renderView:
       With the `sharedUpdates` feature, the component can also propagate data changes back to the parent, enabling seamless communication between parent and subroot when working with shared data references.
 
       ## Properties
-      - `rjOptions` (object, required): Options to pass to the subroot - accepts **all** `ReactiveJsonRoot` properties.
-        - Direct properties: `rjBuildUrl`, `dataOverride`, `headersForRjBuild`, `debugMode`, etc.
-        - For inline content: use `maybeRawAppRjBuild` containing `renderView`, `templates`, `data`.
-      - `sharedUpdates` (boolean, optional): Enable upstream data propagation to parent (default: false).
-      - `dataOverrideEvaluationDepth` (number, optional): Special evaluation depth for dataOverride property (default: 10).
-      - Other properties are passed to the underlying `ActionDependant` wrapper.
 
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      # Complete rjOptions structure.
+      - type: ReactiveJsonSubroot
+        # Component-specific properties.
+        sharedUpdates: true
+        dataOverrideEvaluationDepth: 10
+        
+        # Subroot configuration.
+        rjOptions:
+          # Loading from URL.
+          rjBuildUrl: "/path/to/rjbuild.yaml"
+          rjBuildFetchMethod: "GET"  # or "POST".
+          headersForRjBuild:
+            Authorization: "Bearer token"
+            Content-Type: "application/json"
+          
+          # OR inline definition.
+          maybeRawAppRjBuild:
+            renderView:
+              - type: div
+                content: "Subroot content."
+            templates:
+              myTemplate:
+                type: span
+                content: ~.value
+            data:
+              initialValue: "Hello World"
+          
+          # Data replacement.
+          dataOverride: ~~.userData
+          
+          # Debug mode.
+          debugMode: true
+        
+        # Standard actions.
+        actions:
+          - what: hide
+            when: ~.condition
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: rjOptions
+          after: " (object, required)"
+        details:
+          - type: Markdown
+            content: "Options to pass to the subroot - accepts **all** `ReactiveJsonRoot` properties including:"
+          
+          - type: DefinitionList
+            content:
+              - term:
+                  code: rjOptions.rjBuildUrl
+                details: "URL to load the RjBuild from."
+              
+              - term:
+                  code: rjOptions.rjBuildFetchMethod
+                details: "HTTP method (\"GET\" or \"POST\")."
+              
+              - term:
+                  code: rjOptions.headersForRjBuild
+                details: "Headers for the request."
+              
+              - term:
+                  code: rjOptions.dataOverride
+                details: "Override data for the loaded/defined RjBuild."
+              
+              - term:
+                  code: rjOptions.maybeRawAppRjBuild
+                details:
+                  - type: Markdown
+                    content: "Inline RjBuild content (string or object) containing:"
+                  
+                  - type: DefinitionList
+                    content:
+                      - term:
+                          code: rjOptions.maybeRawAppRjBuild.renderView
+                        details: "View definition."
+                      
+                      - term:
+                          code: rjOptions.maybeRawAppRjBuild.templates
+                        details: "Template definitions."
+                      
+                      - term:
+                          code: rjOptions.maybeRawAppRjBuild.data
+                        details: "Initial data."
+              
+              - term:
+                  code: rjOptions.debugMode
+                details: "Enable debug mode and related wrapper components."
+      
+      - term:
+          code: sharedUpdates
+          after: " (boolean, optional)"
+        details: "Enable upstream data propagation to parent (default: false)."
+      
+      - term:
+          code: dataOverrideEvaluationDepth
+          after: " (number, optional)"
+        details: "Special evaluation depth for dataOverride property (default: 10)."
+
+  - type: Markdown
+    content: |
+      ### Standard properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: actions
+          after: " (array, optional)"
+        details: "Actions to attach to the subroot."
+
+  - type: Markdown
+    content: |
       ## Behavior
       - Renders a new `ReactiveJsonRoot` with the provided options.
       - The subroot is typically isolated from the parent for data, templates, and rendering¹.

@@ -19,8 +19,9 @@ With the `sharedUpdates` feature, the component can also propagate data changes 
   - `debugMode`: Enable debug mode and related wrapper components.
 - `sharedUpdates` (boolean, optional): Enable upstream data propagation to parent (default: false).
 - `dataOverrideEvaluationDepth` (number, optional): Special evaluation depth for dataOverride property (default: 10).
-- `actions` (array, optional): Action components to apply (passed to `ActionDependant` wrapper).
-- Other standard component properties (e.g., `attributes`) are passed to the `ActionDependant` wrapper.
+
+### Standard properties
+- `actions` (array, optional): Actions to attach to the subroot.
 
 ## Behavior
 - Renders a new `ReactiveJsonRoot` with the provided options.
