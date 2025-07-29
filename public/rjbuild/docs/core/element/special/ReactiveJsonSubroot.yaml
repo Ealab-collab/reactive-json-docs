@@ -12,7 +12,7 @@ renderView:
         - Direct properties: `rjBuildUrl`, `dataOverride`, `headersForRjBuild`, `debugMode`, etc.
         - For inline content: use `maybeRawAppRjBuild` containing `renderView`, `templates`, `data`.
       - `sharedUpdates` (boolean, optional): Enable upstream data propagation to parent (default: false).
-      - `dataOverrideEvaluationDepth` (number, optional): Special evaluation depth for dataOverride property.
+      - `dataOverrideEvaluationDepth` (number, optional): Special evaluation depth for dataOverride property (default: 10).
       - Other properties are passed to the underlying `ActionDependant` wrapper.
 
       ## Behavior
