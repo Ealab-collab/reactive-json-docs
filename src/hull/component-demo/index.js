@@ -33,12 +33,17 @@ export const docsPageNavigation = {
     },
     "/docs/getting-started": {
         title: "Getting started",
-    },
-    "/docs/rjbuild-structure": {
-        title: "RjBuild structure",
-    },
-    "/docs/template": {
-        title: "Template system",
+        items: {
+            "/docs/getting-started/index": {
+                title: "Main concepts",
+            },
+            "/docs/getting-started/rjbuild-structure": {
+                title: "RjBuild structure",
+            },
+            "/docs/getting-started/template": {
+                title: "Template system",
+            },
+        }
     },
     "/docs/core": {
         title: "Core components",

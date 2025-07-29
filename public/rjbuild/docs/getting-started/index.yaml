@@ -3,6 +3,8 @@ renderView:
     content: |
       # Reactive-JSON Getting Started Guide
 
+      > Dev note: This page needs to be rewritten.
+
       ## Introduction
 
       Reactive-JSON is a powerful library that allows you to create interactive user interfaces using only JSON/YAML configurations. No need to write complex JavaScript code - simply define your interface and its behavior declaratively.
@@ -39,7 +41,7 @@ renderView:
       - `~.` : Local context (relative to current template)
       - `~~.` : Global context (access to global data)
 
-      > 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/template) which covers `~>key` and `~~>key` notations.
+      > 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/getting-started/template) which covers `~>key` and `~~>key` notations.
 
   - type: RjBuildDescriber
     title: "Template System Example"

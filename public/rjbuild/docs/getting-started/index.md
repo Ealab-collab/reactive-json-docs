@@ -53,7 +53,7 @@ data:
   isAdmin: true
 ```
 
-> 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/template) which covers `~>key` and `~~>key` notations.
+> 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/getting-started/template) which covers `~>key` and `~~>key` notations.
 
 ### Basic Elements
 

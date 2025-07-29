@@ -183,7 +183,7 @@ renderView:
 
   - type: Markdown
     content: |
-      > You can get more information about data access in the [template system documentation](/docs/template).
+      > You can get more information about data access in the [template system documentation](/docs/getting-started/template).
 
       ## Section `templates` (Optional)
 
