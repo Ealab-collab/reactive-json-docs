@@ -223,4 +223,4 @@ renderView:
       2. Check out the [elements documentation](/docs/core/element) to discover all available components
       3. Learn how to use the [action system](/docs/core/action) to create interactive interfaces
       4. Discover the [reaction system](/docs/core/reaction) to handle user interactions
-      5. If needed, learn how to [extend Reactive-JSON](/docs/extend) with your own components 
+      5. If needed, learn how to [extend Reactive-JSON](/docs/advanced-concepts/plugins) with your own components 

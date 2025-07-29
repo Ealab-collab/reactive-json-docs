@@ -55,7 +55,21 @@ export const docsPageNavigation = {
             },
             "/docs/advanced-concepts/data-processors": {
                 title: "Data Processors"
-            }
+            },
+            "/docs/advanced-concepts/plugins": {
+                title: "Extending Reactive-JSON",
+                items: {
+                    "/docs/advanced-concepts/plugins/index": {
+                        title: "Introduction"
+                    },
+                    "/docs/advanced-concepts/plugins/component-development": {
+                        title: "Component Development"
+                    },
+                    "/docs/advanced-concepts/plugins/plugin-system": {
+                        title: "Plugin System"
+                    }
+                }
+            },
         }
     },
     "/docs/core": {
@@ -246,20 +260,6 @@ export const docsPageNavigation = {
             "/docs/chartjs/components": {
                 title: "Chart.js components",
             },
-        }
-    },
-    "/docs/extend": {
-        title: "Extending Reactive-JSON",
-        items: {
-            "/docs/extend/index": {
-                title: "Introduction"
-            },
-            "/docs/extend/component-development": {
-                title: "Component Development"
-            },
-            "/docs/extend/plugin-system": {
-                title: "Plugin System"
-            }
         }
     },
     "/docs/docs-components": {

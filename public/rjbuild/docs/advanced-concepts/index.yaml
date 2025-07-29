@@ -7,7 +7,8 @@ renderView:
 
       ## Topics
 
-      - **[Data Processors](data-processors)**: Learn how to intercept and modify data from HTTP requests using the DataProcessor system
+      - **[Data Processors](data-processors)**: Learn how to intercept and modify data from HTTP requests using the DataProcessor system.
+      - **[Plugins](plugins/index)**: Learn how to extend Reactive-JSON with custom components and plugins.
 
 data:
   page_title: "Advanced Concepts - Reactive-JSON Documentation" 
