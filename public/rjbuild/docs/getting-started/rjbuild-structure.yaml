@@ -282,6 +282,7 @@ renderView:
       - **`src`** (required): URL of the data source
       - **`path`** (optional): Path where to place the data (template syntax)
       - **`method`** (optional): HTTP method (GET, POST, etc.)
+      - **`dataMapping`** (optional): Configure selective data dispatch using mapping processors
       - **`blocking`** (optional): If `true`, waits for loading before displaying
 
       ### Loading Modes
@@ -335,6 +336,30 @@ renderView:
 
   - type: Markdown
     content: |
+
+      ### Data Mapping Integration
+
+      Data Mapping can be used with `additionalDataSource` to selectively dispatch response data to specific locations:
+
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      additionalDataSource:
+        - src: "/api/user-profile"
+          blocking: true
+          dataMapping:
+            simpleMapping:
+              stringMap:
+                "profile.displayName": { value: "user.name" }
+                "profile.email": { value: "user.email" }
+                "settings.theme": 
+                  value: "user.preferences.theme"
+                  required: false
+                  defaultValue: "light"
+
+  - type: Markdown
+    content: |
+
+      **Note**: When `dataMapping` is configured, it takes priority over the `path` property. For more details, see [Data Mapping Documentation](../advanced-concepts/data-mapping).
 
       ### Complete Example
 

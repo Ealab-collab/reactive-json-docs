@@ -26,7 +26,7 @@
   "private": false,
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "@ea-lab/reactive-json": "^0.2.2",
+    "@ea-lab/reactive-json": "^0.3.1",
     "@ea-lab/reactive-json-chartjs": "^0.0.23",
     "@npmcli/fs": "^4.0.0",
     "@reduxjs/toolkit": "^2.6.1",

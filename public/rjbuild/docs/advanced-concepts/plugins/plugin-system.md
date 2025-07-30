@@ -12,6 +12,8 @@ A plugin is a JavaScript object that exports components organized by type. The s
 - **action**: Components that perform side effects or modify behavior
 - **reaction**: Event-driven components that respond to user interactions
 - **hook**: React hooks that provide additional functionality
+- **dataProcessor**: Functions that intercept and modify HTTP response data
+- **dataMapping**: Processors that selectively dispatch response data to specific locations
 
 ## Plugin Registration
 

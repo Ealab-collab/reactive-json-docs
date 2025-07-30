@@ -7,6 +7,7 @@ renderView:
 
       ## Topics
 
+      - **[Data Mapping](data-mapping)**: Learn how to selectively dispatch and transform response data using the Data Mapping system.
       - **[Data Processors](data-processors)**: Learn how to intercept and modify data from HTTP requests using the DataProcessor system.
       - **[Plugins](plugins/index)**: Learn how to extend Reactive-JSON with custom components and plugins.
 

@@ -277,6 +277,8 @@ export const CustomRoot = (props) => {
 ```js
 {
     action: { /* Action components */ },
+    dataMapping: { /* Data mapping processors */ },
+    dataProcessor: { /* Data processing functions */ },
     element: { /* Element components */ },
     hook: { /* React hooks */ },
     reaction: { /* Reaction functions */ },

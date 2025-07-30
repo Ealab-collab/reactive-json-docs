@@ -1,0 +1,22 @@
+{
+  "user": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "preferences": {
+      "theme": "dark",
+      "language": "en",
+      "notifications": true
+    },
+    "profile": {
+      "avatar": "/images/john-avatar.png",
+      "bio": "Software developer passionate about React and data processing"
+    }
+  },
+  "metadata": {
+    "requestId": "req_12345",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "version": "v1.2.3"
+  },
+  "status": "success"
+} 

@@ -1,0 +1,24 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Data Mapping Components
+
+      Data mapping components process and transform HTTP response data to specific locations in your application state. These components work with `fetchData`, `submitData` reactions, and `additionalDataSources`.
+
+      ## Core Data Mappers
+
+      ### [SimpleMapping](simpleMapping)
+      The foundational data mapper that provides string-based mappings for selective data dispatch.
+
+      - **Purpose**: Map HTTP response fields to application data paths
+      - **Configuration**: YAML-based string mappings with destination templates
+      - **Features**: Required fields, default values, error handling, update modes
+      - **Use Cases**: User profiles, settings, API data transformation
+
+      ## Creating Custom Data Mappers
+
+      For information about creating custom data mappers and the broader Data Mapping system architecture, see the **[Data Mapping Documentation](../../advanced-concepts/data-mapping)**.
+
+templates:
+
+data: 

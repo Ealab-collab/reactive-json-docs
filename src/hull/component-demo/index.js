@@ -56,6 +56,9 @@ export const docsPageNavigation = {
             "/docs/advanced-concepts/data-processors": {
                 title: "Data Processors"
             },
+            "/docs/advanced-concepts/data-mapping": {
+                title: "Data Mapping"
+            },
             "/docs/advanced-concepts/plugins": {
                 title: "Extending Reactive-JSON",
                 items: {
@@ -230,6 +233,17 @@ export const docsPageNavigation = {
                     "/docs/core/element/special/Switch": {
                         title: "Switch"
                     }
+                }
+            },
+            "/docs/core/dataMapping": {
+                title: "Data Mapping",
+                items: {
+                    "/docs/core/dataMapping/index": {
+                        title: "Overview"
+                    },
+                    "/docs/core/dataMapping/simpleMapping": {
+                        title: "SimpleMapping"
+                    },
                 }
             },
             "/docs/core/example": {

@@ -1,0 +1,140 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Data Mapping System
+
+      Data Mapping is a powerful, extensible system in Reactive-JSON that allows you to selectively dispatch and transform response data from HTTP requests to specific locations in your application state. This system provides fine-grained control over how incoming data is processed and stored after HTTP operations.
+
+      Data mapping occurs after the [Data Processors](data-processors) have processed the response.
+
+      ## System Architecture
+
+      The Data Mapping system processes HTTP response data to selectively dispatch it to application state:
+
+      1. **HTTP Request** → Server responds with data
+      2. **Data Mapping** → Selectively dispatch response data to application state
+      3. **Application State** → Updated with mapped data
+
+      ## Core Components
+
+      ### SimpleMapping (Core)
+      
+      Reactive-JSON includes **simpleMapping** as a core data mapper, providing string-based mappings for common data dispatch scenarios.
+
+      - **Automatic Availability**: No additional configuration required
+      - **String-based Configuration**: YAML-friendly destination → source mappings
+      - **Error Handling**: Built-in fallback values and error recovery
+      - **Template Integration**: Full support for `~~.` and `~.` template references
+
+      **→ [View SimpleMapping Documentation & Examples](../core/dataMapping/simpleMapping)**
+
+      ## Custom Data Mappers
+
+      The Data Mapping system is extensible through custom mapper plugins. You can create specialized mappers for complex transformation logic, integration with external libraries, or domain-specific processing needs.
+
+      ### Creating Custom Mappers
+
+      ```javascript
+      const customMapper = ({config, responseData, globalDataContext, templateContext}) => {
+        // Custom mapping logic
+        const {updateData} = globalDataContext;
+        
+        // Process config and apply transformations
+        updateData(transformedValue, "destination.path");
+      };
+
+      // Register in plugin system
+      const customPlugins = {
+        dataMapping: {
+          customMapper
+        }
+      };
+      ```
+
+      ### Integration with Core
+
+      Custom mappers are automatically merged with core mappers, allowing you to extend the system while keeping access to `simpleMapping`:
+
+      ```yaml
+      dataMapping:
+        simpleMapping:
+          # Core mapper usage
+          stringMap:
+            "~~.profile.name": { value: "user.name" }
+        customMapper:
+          # Your custom mapper configuration
+          specialConfig: "value"
+      ```
+
+      ## Usage Context
+
+      Data Mapping can be used with all HTTP-based data operations in Reactive-JSON:
+
+  - type: Markdown
+    content: |
+      ### fetchData & submitData Reactions
+
+      ```yaml
+      - what: fetchData
+        url: "/api/user-profile"
+        updateOnlyData: true
+        dataMapping:
+          simpleMapping:
+            stringMap:
+              "~~.currentUser.name": { value: "user.name" }
+              "~~.currentUser.email": { value: "user.email" }
+      ```
+
+      ### additionalDataSources  
+
+      ```yaml
+      additionalDataSource:
+        - src: "/api/initial-config"
+          blocking: true
+          dataMapping:
+            simpleMapping:
+              stringMap:
+                "~~.appConfig.theme": { value: "config.theme" }
+                "~~.appConfig.features": { value: "config.enabled_features" }
+      ```
+
+      ## Plugin System Integration
+
+      The Data Mapping system integrates with Reactive-JSON's plugin architecture:
+
+      ```javascript
+      import { mergeComponentCollections, ReactiveJsonRoot } from "@ea-lab/reactive-json";
+
+      const customPlugins = {
+        dataMapping: {
+          // Custom mappers
+          advancedMapper: myAdvancedMapper,
+          xmlMapper: myXmlMapper
+        }
+      };
+
+      // Core plugins (including simpleMapping) are automatically merged
+      const plugins = mergeComponentCollections([customPlugins]);
+
+      export const MyApp = (props) => (
+        <ReactiveJsonRoot {...props} plugins={plugins} />
+      );
+      ```
+
+      ## Best Practices
+
+      1. **Use simpleMapping first**: It handles most common data dispatch scenarios
+      2. **Template References**: Leverage `~~.` and `~.` for dynamic mappings
+      3. **Error Handling**: Always configure `onErrorMap` for critical data paths
+      4. **Performance**: Use `required: false` with `defaultValue` for optional fields
+
+      ## Related Documentation
+
+      - **[SimpleMapping Examples & Configuration](../core/dataMapping/simpleMapping)** - Complete guide to the core mapper
+      - **[Plugin System](plugins/plugin-system)** - Creating custom components
+      - **[FetchData Reaction](../core/reaction/fetchData)** - HTTP request handling
+      - **[SubmitData Reaction](../core/reaction/submitData)** - Form submission with data mapping
+
+templates:
+
+data: 
