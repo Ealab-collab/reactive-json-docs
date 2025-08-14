@@ -246,9 +246,9 @@ renderView:
                 - what: hide
                   andConditions:
                     - when: ~.form.name
-                      isEmpty: not
+                      isNotEmpty:
                     - when: ~.form.email
-                      isEmpty: not
+                      isNotEmpty:
                   
             - type: button
               content: "Submit"
@@ -307,7 +307,12 @@ renderView:
           code: isEmpty
         details:
           type: Markdown
-          content: "Value is empty (null, undefined, empty string, empty array, or empty object). Use `isEmpty:` to check if empty, or `isEmpty: \"not\"` to check if not empty."
+          content: "Value is empty (null, undefined, empty string, empty array, or empty object). The presence of the property is sufficient (value doesn't matter, can be `null` in JSON). Use `isEmpty:` to check if empty, or `isEmpty: \"not\"` to check if not empty (alternatively, use `isNotEmpty:`)."
+      - term:
+          code: isNotEmpty
+        details:
+          type: Markdown
+          content: "Value is not empty (shorthand for `isEmpty: \"not\"`). The presence of the property is sufficient - the value doesn't matter and can be `null` in JSON."
       - term:
           code: contains
         details: "Value contains the specified substring or array element."

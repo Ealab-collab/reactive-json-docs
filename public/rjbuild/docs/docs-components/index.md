@@ -4,8 +4,6 @@
 
 This section documents components that are specific to the reactive-json-docs package. These components are not part of the core Reactive-JSON library but are provided by the documentation system to enhance the presentation of examples and technical content.
 
-**Important**: These components are only available when using reactive-json-docs and are not included in the core @ea-lab/reactive-json package.
-
 ## Available Components
 
 The documentation system provides specialized components for:

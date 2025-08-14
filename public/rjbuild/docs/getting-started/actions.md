@@ -188,9 +188,9 @@ renderView:
       - what: hide
         andConditions:
           - when: ~.form.name
-            isEmpty: not
+            isNotEmpty:
           - when: ~.form.email
-            isEmpty: not
+            isNotEmpty:
             
   - type: button
     content: "Submit"
@@ -231,7 +231,8 @@ Actions support the following conditional operators when using the `when` proper
 
 - `is`: Value equals exactly the specified value.
 - `isNot`: Value is different from the specified value.
-- `isEmpty`: Value is empty (null, undefined, empty string, empty array, or empty object). Use `isEmpty:` to check if empty, or `isEmpty: "not"` to check if not empty.
+- `isEmpty`: Value is empty (null, undefined, empty string, empty array, or empty object). The presence of the property is sufficient (value doesn't matter, can be `null` in JSON). Use `isEmpty:` to check if empty, or `isEmpty: "not"` to check if not empty (alternatively, use `isNotEmpty:`).
+- `isNotEmpty`: Value is not empty (shorthand for `isEmpty: "not"`). The presence of the property is sufficient - the value doesn't matter and can be `null` in JSON.
 - `contains`: Value contains the specified substring or array element.
 - `containsNot`: Value does not contain the specified substring or array element.
 - `containedBy`: Value is contained within the specified array or string.

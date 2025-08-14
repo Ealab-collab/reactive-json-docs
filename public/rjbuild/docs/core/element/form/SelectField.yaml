@@ -275,7 +275,7 @@ renderView:
                   actions:
                     - what: hide
                       when: ~.category
-                      isEmpty: "not"
+                      isNotEmpty:
                 - type: span
                   content: "✗ not empty"
                   attributes:
@@ -311,7 +311,7 @@ renderView:
                   actions:
                     - what: hide
                       when: ~.description
-                      isEmpty: "not"
+                      isNotEmpty:
                 - ")"
       data:
         category: ""

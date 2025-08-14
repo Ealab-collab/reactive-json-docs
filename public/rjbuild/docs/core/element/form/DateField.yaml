@@ -124,13 +124,13 @@ renderView:
               actions:
                 - what: hide
                   when: ~.startDate
-                  isEmpty: "not"
+                  isNotEmpty:
                 - what: hide
                   when: ~.endDate
-                  isEmpty: "not"
+                  isNotEmpty:
                 - what: hide
                   when: ~.reminderDate
-                  isEmpty: "not"
+                  isNotEmpty:
       data:
         startDate: null
         endDate: null
@@ -176,7 +176,7 @@ renderView:
               path: ~.message
               value: "✓ Meeting date is set!"
               when: ~.meetingDate
-              isEmpty: "not"
+              isNotEmpty:
             - what: setData
               on: click
               path: ~.message

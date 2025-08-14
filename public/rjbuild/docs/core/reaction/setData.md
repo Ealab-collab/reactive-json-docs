@@ -68,7 +68,7 @@ renderView:
         path: ~.message
         value: ["Welcome, ", ~.username, "!"]
         when: ~.username
-        isEmpty: "not"
+        isNotEmpty:
       - what: setData
         on: click
         path: ~.message

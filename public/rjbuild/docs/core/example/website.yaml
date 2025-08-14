@@ -1252,11 +1252,11 @@ renderView:
                         - what: hide
                           andConditions:
                             - when: ~.contact_form.nom
-                              isEmpty: "not"
+                              isNotEmpty:
                             - when: ~.contact_form.email
-                              isEmpty: "not"
+                              isNotEmpty:
                             - when: ~.contact_form.sujet
-                              isEmpty: "not"
+                              isNotEmpty:
                       content: "Complétez tous les champs"
 
                     # Bouton Suivant actif
@@ -1289,11 +1289,11 @@ renderView:
                           value: 2
                           andConditions:
                             - when: ~.contact_form.nom
-                              isEmpty: "not"
+                              isNotEmpty:
                             - when: ~.contact_form.email
-                              isEmpty: "not"
+                              isNotEmpty:
                             - when: ~.contact_form.sujet
-                              isEmpty: "not"
+                              isNotEmpty:
                       content: "Suivant →"
 
                 # Boutons de navigation - ÉTAPE 2
@@ -1345,7 +1345,7 @@ renderView:
                       actions:
                         - what: hide
                           when: ~.contact_form.message
-                          isEmpty: "not"
+                          isNotEmpty:
                       content: "Veuillez saisir votre message"
 
                     # Bouton Envoyer actif
@@ -1371,19 +1371,19 @@ renderView:
                           path: ~.show_contact_modal
                           value: false
                           when: ~.contact_form.message
-                          isEmpty: "not"
+                          isNotEmpty:
                         - what: setData
                           on: click
                           path: ~.message_sent
                           value: true
                           when: ~.contact_form.message
-                          isEmpty: "not"
+                          isNotEmpty:
                         - what: setData
                           on: click
                           path: ~.contact_form_step
                           value: 1
                           when: ~.contact_form.message
-                          isEmpty: "not"
+                          isNotEmpty:
                       content: "Envoyer la Missive"
 
 templates:

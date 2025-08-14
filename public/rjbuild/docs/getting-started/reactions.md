@@ -24,7 +24,7 @@ renderView:
         path: ~.saved_text         # Reaction-specific property
         value: ~.user_input        # Reaction-specific property
         when: ~.user_input         # Optional condition
-        isEmpty: "not"             # Condition value
+        isNotEmpty:                # Condition value
 ```
 
 ## Basic Reaction Demonstration
@@ -48,7 +48,7 @@ renderView:
         path: ~.saved_text         # Reaction-specific property
         value: ~.user_input        # Reaction-specific property
         when: ~.user_input         # Optional condition
-        isEmpty: "not"             # Condition value
+        isNotEmpty:             # Condition value
 
   - type: div
     content: ["Saved text: ", ~.saved_text]
@@ -205,7 +205,7 @@ renderView:
           username: ~.form_data.username
           email: ~.form_data.email
         when: ~.form_data.username
-        isEmpty: not
+        isNotEmpty:
 
 data:
   form_data:
@@ -262,7 +262,7 @@ renderView:
         value: "Number is valid and positive!"
         andConditions:
           - when: ~.user_input
-            isEmpty: "not"
+            isNotEmpty:
           - when: ~.user_input
             ">": 0
       - what: setData

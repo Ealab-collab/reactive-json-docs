@@ -101,7 +101,7 @@ renderView:
         path: ~.message
         value: "✓ Meeting date is set!"
         when: ~.meetingDate
-        isEmpty: "not"
+        isNotEmpty:
       - what: setData
         on: click
         path: ~.message

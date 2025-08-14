@@ -45,7 +45,7 @@ renderView:
               path: ~.saved_text         # Reaction-specific property
               value: ~.user_input        # Reaction-specific property
               when: ~.user_input         # Optional condition
-              isEmpty: "not"             # Condition value
+              isNotEmpty:                # Condition value
 
   - type: RjBuildDescriber
     title: "Basic Reaction Demonstration"
@@ -72,7 +72,7 @@ renderView:
               path: ~.saved_text         # Reaction-specific property
               value: ~.user_input        # Reaction-specific property
               when: ~.user_input         # Optional condition
-              isEmpty: "not"             # Condition value
+              isNotEmpty:             # Condition value
 
         - type: div
           content: ["Saved text: ", ~.saved_text]
@@ -189,13 +189,13 @@ renderView:
               value:
                 name: ~.new_item
               when: ~.new_item
-              isEmpty: "not"
+              isNotEmpty:
             - what: setData
               on: click
               path: ~.new_item
               value: ""
               when: ~.new_item
-              isEmpty: "not"
+              isNotEmpty:
 
         - type: div
           content: "Items:"
