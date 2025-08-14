@@ -1,6 +1,6 @@
 {
   "name": "@ea-lab/reactive-json-docs",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Complete documentation for Reactive-JSON - Components, examples and LLM-parsable guides",
   "main": "public/rjbuild/docs/index.yaml",
   "files": [
