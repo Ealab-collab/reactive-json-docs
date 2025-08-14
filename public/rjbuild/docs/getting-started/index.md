@@ -1,5 +1,29 @@
 # Reactive-JSON Getting Started Guide
 
+
+
+## Topics
+
+- **[RjBuild structure](rjbuild-structure.md)**:
+- **[Template system](template-contexts-data-binding.md)**:
+- **[Actions](actions.md)**: Make the UI reflect the state of the app.
+- **[Reactions](reactions.md)**: Bring interactivity to your app, such as performing HTTP requests, edit the app state on events…
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Introduction
 
 Reactive-JSON is a powerful library that allows you to create interactive user interfaces using only JSON/YAML configurations. No need to write complex JavaScript code - simply define your interface and its behavior declaratively.
@@ -53,7 +77,7 @@ data:
   isAdmin: true
 ```
 
-> 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/getting-started/template) which covers `~>key` and `~~>key` notations.
+> 💡 **Advanced navigation:** For complex hierarchical data access, see the [Template System documentation](/docs/getting-started/template-contexts-data-binding) which covers `~>key` and `~~>key` notations.
 
 ### Basic Elements
 
@@ -152,8 +176,8 @@ data:
 
 ## Next Steps
 
-1. Explore the [complete examples](/docs/core/example) to see Reactive-JSON in action
-2. Check out the [elements documentation](/docs/core/element) to discover all available components
-3. Learn how to use the [action system](/docs/core/action) to create interactive interfaces
-4. Discover the [reaction system](/docs/core/reaction) to handle user interactions
-5. If needed, learn how to [extend Reactive-JSON](/docs/advanced-concepts/plugins) with your own components 
+Now that you have an overview of Reactive-JSON, continue with the getting started guide to master the fundamentals:
+
+**[RjBuild Structure](./rjbuild-structure)** - Learn about the core structure of Reactive-JSON configurations and how data, templates, and views work together.
+
+This systematic approach will give you a solid foundation for building interactive applications with Reactive-JSON. 

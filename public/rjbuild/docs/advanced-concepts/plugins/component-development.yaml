@@ -22,7 +22,7 @@ renderView:
       - **TemplateContext**: Contains current template data for evaluation
 
       Other specialized contexts are available.
-      - **EventDispatcherContext**: Centralized event handling system, mostly used by the [reaction system](/docs/core/reaction/index).
+      - **EventDispatcherContext**: Centralized event handling system, mostly used by the [reaction system](/docs/getting-started/reactions).
       - **PaginationContext**: Used by components that integrate pagination, such as [Switch](/docs/core/element/special/Switch).
 
       ## Basic Element Component

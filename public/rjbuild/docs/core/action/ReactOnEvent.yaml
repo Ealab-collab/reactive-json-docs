@@ -3,9 +3,9 @@ renderView:
     content: |
       # ReactOnEvent
 
-      **Type**: Internal Action Component
-
-      **Description**: ReactOnEvent is an internal action component that is automatically instantiated by the Actions system when reactions with event handlers (`on: "eventName"`) are detected. It should **not** be used directly as an element type.
+      ReactOnEvent is an internal action component that is automatically instantiated by the Actions system when reactions with event handlers (`on: "eventName"`) are detected.
+      
+      > **Important**: It should **not** be used directly as an element type. The Reactive-JSON engine will automatically instantiate it when needed.
 
       ## How it Works
 
@@ -16,105 +16,66 @@ renderView:
       3. Creates a ReactOnEvent component that attaches the appropriate event listeners
       4. Wraps the target element with these event handlers
 
-  - type: RjBuildDescriber
-    title: "Correct Usage: Reactions with Events"
-    description:
-      - type: Markdown
-        content: |
-          This example shows the **correct** way to use event handling in Reactive-JSON. 
-          
-          ReactOnEvent is automatically created by the system when you use `on: "eventName"` in actions.
+      ## Usage Pattern
 
-    toDescribe:
+      Instead of using ReactOnEvent directly, you define reactions in the `actions` array of any element:
+
+      ```yaml
       renderView:
-        - type: div
-          content:
-            - type: button
-              content: "Click me"
-              actions:
-                - what: setData
-                  on: click              # ReactOnEvent handles this automatically
-                  path: "clicked"
-                  value: true
-                - what: setData
-                  on: click
-                  path: "clickCount"
-                  value: 1
-                  when: ~.clickCount
-                  isEmpty: true
-                - what: setData
-                  on: click
-                  path: "clickCount"
-                  value: "~.clickCount + 1"
-                  when: ~.clickCount
-                  isEmpty: "not"
-                  
-            - type: input
-              props:
-                type: "text"
-                placeholder: "Type something..."
-              actions:
-                - what: setData
-                  on: change           # ReactOnEvent handles this automatically
-                  path: "inputValue"
-                  value: "~event.target.value"
-                  
-            - type: div
-              content: "Mouse over this area"
-              props:
-                style:
-                  padding: "10px"
-                  border: "1px solid #ccc"
-                  backgroundColor: "~.hovered ? '#f0f0f0' : 'white'"
-              actions:
-                - what: setData
-                  on: mouseover       # ReactOnEvent handles this automatically
-                  path: "hovered"
-                  value: true
-                - what: setData
-                  on: mouseleave      # ReactOnEvent handles this automatically
-                  path: "hovered"
-                  value: false
-              
-        - type: div
-          content:
-            - type: div
-              content: ["Button clicked: ", ~.clicked]
-              
-            - type: div
-              content: ["Click count: ", ~.clickCount]
-              
-            - type: div
-              content: ["Input value: '", ~.inputValue, "'"]
-              
-            - type: div
-              content: ["Mouse hover state: ", ~.hovered]
-
         - type: button
-          content: "Reset all"
+          content: "Click me"
           actions:
             - what: setData
-              on: click
-              path: "clicked"
-              value: false
-            - what: setData
-              on: click
-              path: "clickCount"
-              value: 0
-            - what: setData
-              on: click
-              path: "inputValue"
-              value: ""
-            - what: setData
-              on: click
-              path: "hovered"
-              value: false
+              on: click           # This triggers ReactOnEvent internally
+              path: "buttonClicked"
+              value: true
+      ```
 
-      data:
-        clicked: false
-        clickCount: 0
-        inputValue: ""
-        hovered: false
+      ## Supported Event Types
+
+      ReactOnEvent supports any DOM event by prefixing with `on` and capitalizing the first letter:
+
+      - `on: click` → `onClick`
+      - `on: change` → `onChange`
+      - `on: mouseover` → `onMouseOver`
+      - `on: keydown` → `onKeyDown`
+      - `on: submit` → `onSubmit`
+      - etc.
+
+      ## Special Event Handling
+
+      Some events have special handling and **do not** use ReactOnEvent:
+
+      - `on: "message"` → Uses the [MessageListener](MessageListener.md) component (listens on window)
+      - `on: "hashchange"` → Uses the [HashChangeListener](HashChangeListener.md) component (listens on window)
+
+      ## Event Propagation Control
+
+      By default, ReactOnEvent stops event propagation. You can control this behavior:
+
+      ```yaml
+      actions:
+        - what: setData
+          on: click
+          path: "clicked"
+          value: true
+          stopPropagation: false  # Allow event to continue propagating
+      ```
+
+      ## Event Placeholders
+
+      ReactOnEvent supports special placeholders to access event data:
+
+      - `<reactive-json:event-new-value>`: Returns the most relevant value from form events (checked for checkboxes, value for inputs)
+      - `<reactive-json:event>.propertyPath`: Access any event property (e.g., `.data.message` for MessageEvent, `.key` for KeyboardEvent)
+
+      ## Technical Implementation
+
+      - **Event attachment**: Uses React's event system via `cloneElement`
+      - **Multiple events**: Can handle multiple event types on the same element
+      - **Reaction execution**: Executes reactions in the order they appear
+      - **Context preservation**: Maintains access to global and template data contexts
+      - **Early termination**: Supports `stopPropagation: true` to halt reaction chain execution
 
   - type: Markdown
     content: |
@@ -125,9 +86,8 @@ renderView:
       - **ReactOnEvent is automatically instantiated** by the Actions system when needed
       - **Event propagation is stopped by default** - use `stopPropagation: false` to change this
       
-      ## Related Documentation
+      ## Related Components
       
-      - **[Actions System](index.md)**: Learn about the actions system that uses ReactOnEvent
-      - **[Reactions](../reaction/index.md)**: The reaction functions that ReactOnEvent executes
-      - **[MessageListener](MessageListener.md)**: For `on: "message"` events
-      - **[HashChangeListener](HashChangeListener.md)**: For `on: "hashchange"` events 
+      - **[MessageListener](MessageListener.md)**: Handles `on: "message"` events
+      - **[HashChangeListener](HashChangeListener.md)**: Handles `on: "hashchange"` events
+      - **[Reactions System](../../getting-started/reactions.md)**: The actual reaction functions that ReactOnEvent executes 

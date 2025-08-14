@@ -157,7 +157,7 @@ data:
   isLoggedIn: true
 ```
 
-> You can get more information about data access in the [template system documentation](./template.md).
+ > You can get more information about data access in the [template system documentation](./template-contexts-data-binding.md).
 
 ## Section `templates` (Optional)
 
@@ -347,6 +347,12 @@ additionalDataSource:
 3. **Optimized templates**: Avoid overly complex templates
 
 ### Maintainability
-1. **Consistent naming**: Use clear conventions for templates and data
-2. **Documentation**: Comment complex sections
-3. **Validation**: Verify the structure of your external data 
+1. **Consistent naming**: Use clear conventions for templates and data.
+2. **Documentation**: Comment complex sections.
+3. **Validation**: Verify the structure of your external data.
+
+## Next Steps
+
+ Now that you understand the structure of RjBuilds, learn about the **[Template System](./template-contexts-data-binding.md)** to master data binding and create reusable components.
+
+The template system is crucial for building maintainable and dynamic applications with Reactive-JSON. 

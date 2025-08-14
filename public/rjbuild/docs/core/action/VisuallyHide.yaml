@@ -29,32 +29,30 @@ renderView:
               actions:
                 - what: setData
                   on: click
-                  path: "shouldVisuallyHide"
-                  value: ~.shouldVisuallyHide
-                  is: false
+                  path: ~.shouldVisuallyHide
+                  value: "false"
+                  when: ~.shouldVisuallyHide
+                  is: "true"
+                  stopPropagation: true
                 - what: setData
                   on: click
-                  path: "shouldVisuallyHide"
-                  value: ~.shouldVisuallyHide
-                  is: true
+                  path: ~.shouldVisuallyHide
+                  value: "true"
                   when: ~.shouldVisuallyHide
-                  is: false
+                  is: "false"
 
             - type: div
               content: "This text will be visually hidden but remains in the DOM."
               actions:
                 - what: visuallyHide
                   when: ~.shouldVisuallyHide
-                  is: true
+                  is: "true"
 
             - type: div
               content: ["Current state: shouldVisuallyHide = ", ~.shouldVisuallyHide]
 
-            - type: div
-              content: "↑ Notice the space is preserved even when hidden"
-
       data:
-        shouldVisuallyHide: false
+        shouldVisuallyHide: "false"
 
   - type: Markdown
     content: |

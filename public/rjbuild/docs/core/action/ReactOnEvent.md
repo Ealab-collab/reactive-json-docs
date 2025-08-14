@@ -1,8 +1,8 @@
 # ReactOnEvent
 
-**Type**: Internal Action Component
+ReactOnEvent is an internal action component that is automatically instantiated by the Actions system when reactions with event handlers (`on: "eventName"`) are detected. It should **not** be used directly as an element type.
 
-**Description**: ReactOnEvent is an internal action component that is automatically instantiated by the Actions system when reactions with event handlers (`on: "eventName"`) are detected. It should **not** be used directly as an element type.
+> **Important**: It should **not** be used directly as an element type. The Reactive-JSON engine will automatically instantiate it when needed.
 
 ## How it Works
 
@@ -43,8 +43,8 @@ ReactOnEvent supports any DOM event by prefixing with `on` and capitalizing the 
 
 Some events have special handling and **do not** use ReactOnEvent:
 
-- `on: "message"` → Uses MessageListener component (listens on window)
-- `on: "hashchange"` → Uses HashChangeListener component (listens on window)
+- `on: "message"` → Uses the [MessageListener](MessageListener.md) component (listens on window)
+- `on: "hashchange"` → Uses the [HashChangeListener](HashChangeListener.md) component (listens on window)
 
 ## Event Propagation Control
 
@@ -67,15 +67,15 @@ actions:
 - **Context preservation**: Maintains access to global and template data contexts
 - **Early termination**: Supports `stopPropagation: true` to halt reaction chain execution
 
+## Important Notes
+
+- **Never use `type: ReactOnEvent`** in your renderView - it's an internal component
+- **Use `actions` with `on: "eventName"`** - this is the correct way to handle events
+- **ReactOnEvent is automatically instantiated** by the Actions system when needed
+- **Event propagation is stopped by default** - use `stopPropagation: false` to change this
+
 ## Related Components
 
 - **[MessageListener](MessageListener.md)**: Handles `on: "message"` events
 - **[HashChangeListener](HashChangeListener.md)**: Handles `on: "hashchange"` events
-- **[Reactions System](../reaction/index.md)**: The actual reaction functions that ReactOnEvent executes
-
-## Important Notes
-
-- **Not for direct use**: Never use `type: ReactOnEvent` in your renderView
-- **Automatic instantiation**: The Actions system creates this component automatically
-- **Internal implementation**: This is part of the framework's internal architecture
-- **Event binding**: Events are bound to the actual DOM elements, not wrapper components 
+- **[Reactions System](../../getting-started/reactions.md)**: The actual reaction functions that ReactOnEvent executes

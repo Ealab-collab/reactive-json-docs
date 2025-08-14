@@ -19,4 +19,4 @@ renderView:
 ```
 
 ## Limitation
-- The element no longer exists in the DOM, so no events can be attached to it. 
+- When hidden, the element no longer exists in the DOM, so no events can be attached to it. 

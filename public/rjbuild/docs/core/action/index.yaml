@@ -1,278 +1,33 @@
 renderView:
   - type: Markdown
     content: |
-      # Reactive-JSON Actions System Documentation
+      # Actions
 
-      ## Introduction
+      > For an introduction to the actions system and detailed examples, see [Getting Started: Actions](../../getting-started/actions).
 
-      The Reactive-JSON actions system allows you to modify element behavior and appearance based on dynamic conditions. Actions are applied to individual elements and can control visibility, display tooltips, redirect users, or trigger other behaviors based on the current data state.
+      Actions in Reactive-JSON allow you to modify element behavior and appearance based on dynamic conditions. They are evaluated continuously based on data state and provide state-driven UI adaptation.
 
-      This system enables you to create interactive interfaces directly through JSON configuration, without requiring custom JavaScript code.
+      ## Available Action Components
 
-  - type: RjBuildDescriber
-    title: "Basic Action Structure"
-    description:
-      - type: Markdown
-        content: |
-          This example demonstrates the fundamental structure of actions in Reactive-JSON.
-          
-          Actions are defined as an array on any element and consist of:
-          - `what`: The type of action to execute
-          - **Action-specific properties**: Vary depending on the action type
-          - **Conditional properties**: Define when the action should be executed (optional)
+      ### Visibility Control
+      - **[Hide](./Hide)**: Completely hides the element and its children
+      - **[VisuallyHide](./VisuallyHide)**: Visually hides the element while keeping it accessible to screen readers
 
-    toDescribe:
-      renderView:
-        - type: button
-          content: "Toggle visibility"
-          actions:
-            - what: setData
-              on: click
-              path: ~.my_condition
-              value: false
-              when: ~.my_condition
-              is: true
-              stopPropagation: true
-            - what: setData
-              on: click
-              path: ~.my_condition
-              value: true
-              when: ~.my_condition
-              is: false
-              stopPropagation: true
+      ### User Interaction
+      - **[Tooltip](./Tooltip)**: Displays a tooltip on hover
+      - **[Popover](./Popover)**: Shows a more complex popover on click
 
-        - type: div
-          content: "This content can be hidden"
-          attributes:
-            style:
-              padding: "10px"
-              border: "1px solid #ccc"
-              margin: "5px 0"
-          actions:
-            - what: hide           # Action type
-              when: ~.my_condition # Condition to evaluate
-              is: true             # Expected value
+      ### Navigation
+      - **[Redirect](./Redirect)**: Redirects to a specified URL
 
-      data:
-        my_condition: false
+      ### Event Management
 
-  - type: Markdown
-    content: |
-      ## Action Types
+      Those actions have a special handling in Reactive-JSON. The engine transparently load them
+      when the user requests a [reaction](../../getting-started/reactions) on a given element component.
 
-      Reactive-JSON provides several built-in actions:
+      As a user, you won't need to work with them directly.
 
-      - **[hide](Hide)**: Completely hides the element and its children
-      - **[visuallyHide](VisuallyHide)**: Visually hides the element while keeping it accessible to screen readers
-      - **[tooltip](Tooltip)**: Displays a tooltip on hover
-      - **[popover](Popover)**: Shows a more complex popover on click
-      - **[redirect](Redirect)**: Redirects to a specified URL
+      - **[HashChangeListener](./HashChangeListener)**: Listens for URL hash changes
+      - **[MessageListener](./MessageListener)**: Listens for window messages
+      - **[ReactOnEvent](./ReactOnEvent)**: Reacts to custom events
 
-      For detailed documentation of each action, including properties and examples, see their respective documentation pages.
-
-  - type: RjBuildDescriber
-    title: "Basic Conditional Actions"
-    description:
-      - type: Markdown
-        content: |
-          This example shows simple conditional actions using `is` and `isEmpty` conditions.
-
-    toDescribe:
-      renderView:
-        - type: div
-          content:
-            - type: div
-              content: "This shows only when status is 'active'"
-              attributes:
-                style:
-                  padding: "10px"
-                  backgroundColor: "#e8f5e8"
-                  margin: "5px 0"
-              actions:
-                - what: hide
-                  when: ~.status
-                  isNot: "active"
-                  
-            - type: div
-              content: "This shows only when text is not empty"
-              attributes:
-                style:
-                  padding: "10px"
-                  backgroundColor: "#f0f8ff"
-                  margin: "5px 0"
-              actions:
-                - what: hide
-                  when: ~.text_input
-                  isEmpty: true
-
-        - type: div
-          content:
-            - type: label
-              content: "Status: "
-            - type: SelectField
-              dataLocation: ~.status
-              options:
-                - value: "inactive"
-                  label: "Inactive"
-                - value: "active"
-                  label: "Active"
-                  
-            - type: br
-            
-            - type: label
-              content: "Text: "
-            - type: TextField
-              dataLocation: ~.text_input
-              placeholder: "Type something..."
-
-      data:
-        status: "inactive"
-        text_input: ""
-
-  - type: RjBuildDescriber
-    title: "Tooltip Action Example"
-    description:
-      - type: Markdown
-        content: |
-          This example demonstrates the tooltip action with conditional display.
-
-    toDescribe:
-      renderView:
-        - type: div
-          content:
-            - type: button
-              content: "Hover for help (when enabled)"
-              actions:
-                - what: tooltip
-                  content: "This is a helpful tooltip!"
-                  placement: "top"
-                  when: ~.show_tooltips
-                  is: true
-                  
-            - type: br
-            - type: br
-            
-            - type: label
-              content:
-                - type: CheckBoxField
-                  dataLocation: ~.show_tooltips
-                  options:
-                    - value: true
-                      label: ""
-                - " Enable tooltips"
-
-      data:
-        show_tooltips: true
-
-  - type: RjBuildDescriber
-    title: "Practical Form Example"
-    description:
-      - type: Markdown
-        content: |
-          This example shows a simple form with conditional submit button and validation messages.
-
-    toDescribe:
-      renderView:
-        - type: div
-          content:
-            - type: h4
-              content: "Simple Contact Form"
-              
-            - type: div
-              content:
-                - type: label
-                  content: "Name: "
-                - type: TextField
-                  dataLocation: ~.form.name
-                  placeholder: "Enter your name"
-                      
-            - type: br
-            
-            - type: div
-              content:
-                - type: label
-                  content: "Email: "
-                - type: TextField
-                  dataLocation: ~.form.email
-                  inputType: "email"
-                  placeholder: "Enter your email"
-                      
-            - type: br
-            
-            - type: div
-              content: "Please fill in both fields"
-              attributes:
-                style:
-                  color: "red"
-                  fontSize: "14px"
-              actions:
-                - what: hide
-                  andConditions:
-                    - when: ~.form.name
-                      isEmpty: not
-                    - when: ~.form.email
-                      isEmpty: not
-                  
-            - type: button
-              content: "Submit"
-              attributes:
-                style:
-                  backgroundColor: "#4caf50"
-                  color: "white"
-                  border: "none"
-                  padding: "8px 16px"
-              actions:
-                - what: hide
-                  when: ~.form.name
-                  isEmpty: true
-                - what: hide
-                  when: ~.form.email
-                  isEmpty: true
-                - what: setData
-                  on: click
-                  path: ~.submitted
-                  value: true
-                  
-            - type: div
-              content: "✅ Form submitted successfully!"
-              attributes:
-                style:
-                  color: "green"
-                  marginTop: "10px"
-                  fontWeight: "bold"
-              actions:
-                - what: hide
-                  when: ~.submitted
-                  isNot: true
-
-      data:
-        form:
-          name: ""
-          email: ""
-        submitted: false
-
-  - type: Markdown
-    content: |
-      ## Technical Limitations
-
-      1. **Execution order**: Actions are evaluated in definition order and cannot be reordered dynamically
-      2. **Hide behavior**: Once an element is hidden with the `hide` action, no subsequent actions execute
-      3. **Synchronous evaluation**: All conditions and actions are evaluated synchronously
-      4. **Data scope**: Actions can only access data from the current template context and global context
-      5. **No side effects**: Actions cannot directly modify global state or trigger reactions
-      6. **External dependencies**: Some actions (tooltip, popover) require React Bootstrap components
-
-      ## Best Practices
-
-      1. **Keep conditions simple**: Avoid overly complex condition logic for better maintainability
-      2. **Consider performance**: Minimize frequently-evaluated complex conditions
-      3. **Use appropriate actions**: Choose `visuallyHide` over `hide` when content should remain accessible
-      4. **Test thoroughly**: Verify action behavior with different data states
-      5. **Document complex logic**: Add comments for non-obvious conditional logic
-      6. **Order matters**: Place critical actions (like `hide`) early in the action array when appropriate
-
-      ## Related Documentation
-
-      - **Individual Action Documentation**: See the dedicated pages for each action type
-      - **[Reactions System](../reaction/index)**: Learn about handling user events and state changes
-      - **[Template System](../../template-system)**: Understand data binding and template expressions

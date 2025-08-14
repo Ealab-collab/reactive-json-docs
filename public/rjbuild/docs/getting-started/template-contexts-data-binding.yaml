@@ -1,14 +1,12 @@
 renderView:
   - type: Markdown
     content: |
-      # Template and Context System
-
-      ## Introduction
+      # Template, Contexts, and Data Binding
 
       The template system in reactive-json efficiently manages data contexts and their access. Understanding how templates "containerize" data is essential for properly using components, actions, and reactions.
 
-  - type: Markdown
-    content: |
+      ## Context Notations
+
       There are four main notations for accessing data:
       
       - `~.` : Local context (relative to current template)
@@ -19,7 +17,9 @@ renderView:
       Each notation is explained with examples below.
 
   - type: RjBuildDescriber
-    title: "Local Context (`~.`)"
+    title:
+      type: Markdown
+      content: "Local Context: `~.`"
     description:
       - type: Markdown
         content: |
@@ -34,7 +34,9 @@ renderView:
         username: "John"
 
   - type: RjBuildDescriber
-    title: "Global Context (`~~.`)"
+    title:
+      type: Markdown
+      content: "Global Context: `~~.`"
     description:
       - type: Markdown
         content: |
@@ -61,7 +63,9 @@ renderView:
         isAdmin: true
 
   - type: RjBuildDescriber
-    title: "Nearest Key (`~>key`)"
+    title:
+      type: Markdown
+      content: "Nearest Key: `~>key`"
     description:
       - type: Markdown
         content: |
@@ -89,7 +93,9 @@ renderView:
                 - name: "Item 1"  # themeDisplay template runs here
 
   - type: RjBuildDescriber
-    title: "Top-level Key (`~~>key`)"
+    title:
+      type: Markdown
+      content: "Top-level Key: `~~>key`"
     description:
       - type: Markdown
         content: |
@@ -193,10 +199,10 @@ renderView:
             title: "User List"
             config:
               theme: "light"
-            level1:
-              items:
-                - name: "Item 1"
-                # userList template instances run here at: data.config.userSection.level1.items
+              level1:
+                items:
+                  - name: "Item 1"
+                  # userList template instances run here at: data.config.userSection.config.level1.items
 
       templates:
         userList:
@@ -213,9 +219,17 @@ renderView:
 
       renderView:
         - type: Switch
-          content: ~~.config.userSection.level1.items
+          content: ~~.config.userSection.config.level1.items
           singleOption:
             load: userList
+
+  - type: Markdown
+    content: |
+      ## Next Steps
+
+      Now that you understand the template system and data binding, learn about **[Actions](./actions)** to make your interfaces interactive and responsive to data changes.
+
+      Actions will allow you to hide, show, and manipulate elements based on the current application state.
 
 templates:
 

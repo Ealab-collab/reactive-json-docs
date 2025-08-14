@@ -30,31 +30,31 @@ renderView:
               actions:
                 - what: setData
                   on: click
-                  path: "shouldHide"
-                  value: ~.shouldHide
-                  is: false
+                  path: ~.shouldHide
+                  value: "true"
+                  when: ~.shouldHide
+                  is: "false"
                 - what: setData
                   on: click
-                  path: "shouldHide"
-                  value: ~.shouldHide
-                  is: true
+                  path: ~.shouldHide
+                  value: "false"
                   when: ~.shouldHide
-                  is: false
+                  is: "true"
 
             - type: div
               content: "This text will be hidden when shouldHide is true."
               actions:
                 - what: hide
                   when: ~.shouldHide
-                  is: true
+                  is: "true"
 
             - type: div
               content: ["Current state: shouldHide = ", ~.shouldHide]
 
       data:
-        shouldHide: false
+        shouldHide: "false"
 
   - type: Markdown
     content: |
       ## Limitation
-      - The element no longer exists in the DOM, so no events can be attached to it. 
+      - When hidden, the element no longer exists in the DOM, so no events can be attached to it. 

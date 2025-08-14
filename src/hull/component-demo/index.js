@@ -42,8 +42,14 @@ export const docsPageNavigation = {
             "/docs/getting-started/rjbuild-structure": {
                 title: "RjBuild structure",
             },
-            "/docs/getting-started/template": {
-                title: "Template system",
+            "/docs/getting-started/template-contexts-data-binding": {
+                title: "Template, contexts, and data binding",
+            },
+            "/docs/getting-started/actions": {
+                title: "Actions"
+            },
+            "/docs/getting-started/reactions": {
+                title: "Reactions"
             },
         }
     },
@@ -58,6 +64,9 @@ export const docsPageNavigation = {
             },
             "/docs/advanced-concepts/data-mapping": {
                 title: "Data Mapping"
+            },
+            "/docs/advanced-concepts/forward-update": {
+                title: "Forward Update"
             },
             "/docs/advanced-concepts/plugins": {
                 title: "Extending Reactive-JSON",
@@ -82,7 +91,7 @@ export const docsPageNavigation = {
                 title: "Actions",
                 items: {
                     "/docs/core/action/index": {
-                        title: "What are actions?"
+                        title: "Index"
                     },
                     "/docs/core/action/HashChangeListener": {
                         title: "HashChangeListener"
@@ -114,10 +123,7 @@ export const docsPageNavigation = {
                 title: "Reactions",
                 items: {
                     "/docs/core/reaction/index": {
-                        title: "What are reactions?"
-                    },
-                    "/docs/core/reaction/forward-update": {
-                        title: "Forward Update"
+                        title: "Index"
                     },
                     "/docs/core/reaction/addData": {
                         title: "addData"

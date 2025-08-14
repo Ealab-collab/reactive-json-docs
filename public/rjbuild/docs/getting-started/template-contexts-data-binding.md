@@ -1,6 +1,4 @@
-# Template and Context System
-
-## Introduction
+# Template, Contexts, and Data Binding
 
 The template system in reactive-json efficiently manages data contexts and their access. Understanding how templates "containerize" data is essential for properly using components, actions, and reactions.
 
@@ -110,10 +108,10 @@ data:
       title: "User List"
       config:
         theme: "light"
-      level1:
-        items:
-          - name: "Item 1"
-          # userList template instances run here at: data.config.userSection.level1.items
+        level1:
+          items:
+            - name: "Item 1"
+            # userList template instances run here at: data.config.userSection.config.level1.items
 
 templates:
   userList:
@@ -130,7 +128,7 @@ templates:
 
 renderView:
   - type: Switch
-    content: ~~.config.userSection.level1.items
+    content: ~~.config.userSection.config.level1.items
     singleOption:
       load: userList
 ```
@@ -183,7 +181,13 @@ data:
 
 ## Best Practices
 
-1. **Context Coherence**: Ensure components that need to share data are in the same context
-2. **Global Access**: Use `~~.` for data that needs to be shared between different templates
-3. **Hierarchical Navigation**: Use `~>key` to find nearest occurrence or `~~>key` to find global setting
-4. **Local vs Global**: `~>` prioritizes local overrides, `~~>` prioritizes global settings 
+1. **Context Coherence**: Ensure components that need to share data are in the same context.
+2. **Global Access**: Use `~~.` for data that needs to be shared between different templates.
+3. **Hierarchical Navigation**: Use `~>key` to find nearest occurrence or `~~>key` to find global setting.
+4. **Local vs Global**: `~>` prioritizes local overrides, `~~>` prioritizes global settings.
+
+## Next Steps
+
+Now that you understand the template system and data binding, learn about **[Actions](./actions.md)** to make your interfaces interactive and responsive to data changes.
+
+Actions will allow you to hide, show, and manipulate elements based on the current application state. 

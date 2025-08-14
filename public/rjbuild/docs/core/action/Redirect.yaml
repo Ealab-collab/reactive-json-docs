@@ -8,59 +8,26 @@ renderView:
       ## Properties
       - `to`: destination URL
 
-  - type: RjBuildDescriber
-    title: "Redirect Action Example"
-    description:
-      - type: Markdown
-        content: |
-          This example demonstrates the `redirect` action. **Warning**: clicking the button below will actually redirect you!
-          
-          For demonstration purposes, this redirects to a safe page (the current page), but in real usage you would specify any URL.
+  - type: Markdown
+    content: |
+      ## Example
 
-    toDescribe:
+      The following example will redirect the current page when the user clicks on the button.
+
+      ```yaml
       renderView:
-        - type: div
-          content:
-            - type: button
-              content: "Redirect to Current Page (Safe Demo)"
-              actions:
-                - what: redirect
-                  on: click
-                  to: "."
-
-            - type: div
-              content: "↑ Click the button above to see the redirect in action"
-
-            - type: button
-              content: "Conditional Redirect (Google)"
-              actions:
-                - what: redirect
-                  on: click
-                  to: "https://www.google.com"
-                  when: ~.allowRedirect
-                  is: true
-
-            - type: button
-              content: "Toggle Redirect Permission"
-              actions:
-                - what: setData
-                  on: click
-                  path: "allowRedirect"
-                  value: ~.allowRedirect
-                  is: false
-                - what: setData
-                  on: click
-                  path: "allowRedirect"
-                  value: ~.allowRedirect
-                  is: true
-                  when: ~.allowRedirect
-                  is: false
-
-            - type: div
-              content: ["Redirect allowed: ", ~.allowRedirect]
-
-      data:
-        allowRedirect: false
+        - type: button
+          content: "Go to EA Lab"
+          actions:
+            - what: redirect
+              to: "https://ea-lab.io"
+              when: ~~.allowRedirect
+              is: "true"
+            - what: setData
+              on: click
+              path: ~~.allowRedirect
+              value: "true"
+      ```
 
   - type: Markdown
     content: |
