@@ -1,0 +1,244 @@
+renderView:
+  - type: Markdown
+    content: |
+      # ToggleAttributeValue
+
+      Toggles the presence of a specific value in an HTML attribute. Supports both simple on-off toggles and cyclic toggling through multiple values.
+
+      ## Important Notes
+
+      ### Action-Based Behavior
+      `ToggleAttributeValue` is an **action component** that operates based on data state changes, not direct event triggers. It requires a state variable in your data to activate the toggle behavior. This means you cannot directly use `on: click` with `ToggleAttributeValue` - instead, you must use `setData` with `on: click` to change a state variable, then use `when/is` conditions on the toggle action to respond to that state change.
+
+      ### Base Attribute Detection
+      `ToggleAttributeValue` determines what to toggle by examining the **original attributes** defined in your component's props, not the current DOM state. This means:
+
+      - ✅ **Stable behavior**: The toggle always works relative to the initial attribute values
+      - ✅ **No infinite loops**: Changes don't trigger recursive re-evaluation
+      - ⚠️ **Limitation**: The toggle cannot detect or work with values that were dynamically added by other attribute actions (`SetAttributeValue`, `UnsetAttributeValue`)
+
+      **Example**: If your component initially has `class="base"` and another action adds `"dynamic"`, the toggle will only work with `"base"` and won't see `"dynamic"`.
+
+      ## Basic Syntax
+
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      actions:
+        # Toggle CSS class.
+        - what: toggleAttributeValue
+          name: "class"
+          value: "active"
+          
+        # Cyclic toggle with array.
+        - what: toggleAttributeValue
+          name: "class"
+          value: ["theme-light", "theme-dark", "theme-auto", ""]
+          
+        # Keep attribute when empty.
+        - what: toggleAttributeValue
+          name: "data-optional"
+          value: "enabled"
+          keepAttributeWhenEmpty: true
+          
+        # Conditional toggle.
+        - what: toggleAttributeValue
+          name: "data-features"
+          value: ~.featureName
+          when: ~.shouldToggle
+          is: true
+
+  - type: Markdown
+    content: |
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: keepAttributeWhenEmpty
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: |
+            Whether to keep the attribute when it becomes empty. If `false`, the attribute is removed when no values remain. Default: `false`.
+      - term:
+          code: name
+          after: "(string, required)"
+        details: The name of the attribute to modify.
+      - term:
+          code: separator
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: |
+            The separator used between values. Default: `" "` (space).
+      - term:
+          code: value
+          after: "(string|array, required)"
+        details:
+          type: Markdown
+          content: |
+            The value(s) to toggle in the attribute. Can be a single string or an array of strings for cyclic toggling. Supports template evaluation (e.g., `~.dynamicValue`, `~~.globalValue`). Automatically converted to string if not already.
+
+  - type: Markdown
+    content: |
+
+      ## Behavior
+
+      ### Simple Toggle (string value)
+      - **Smart toggle**: Automatically adds the value if missing, removes it if present.
+      - **Preservation**: Other values in the attribute remain intact.
+      - **Empty handling**: By default, removes the entire attribute if no values remain. Set `keepAttributeWhenEmpty` to `true` to preserve empty attributes.
+
+      #### Common Examples
+
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      # Toggle CSS class.
+      - what: toggleAttributeValue
+        name: "class"
+        value: "active"
+
+      # Toggle readonly attribute.
+      - what: toggleAttributeValue
+        name: "readonly"
+        value: "readonly"
+
+      # Toggle checked attribute.
+      - what: toggleAttributeValue
+        name: "checked"
+        value: "checked"
+
+  - type: Markdown
+    content: |
+
+      ### Cyclic Toggle (array value)
+      - **Cyclic behavior**: When `value` is an array, the action cycles through the values in order.
+      - **Sequential rotation**: Each toggle moves to the next value in the array.
+      - **Empty values handling**: Empty strings (`""`) in the array represent the absence of the value.
+      - **Clean detection**: Values are split by separator and empty values (from double separators) are filtered out during detection.
+      - **First match priority**: If multiple array values are already present, only the first detected value is replaced.
+      - **Default fallback**: If no array values are present, the first array value is applied.
+      - **Empty value filtering**: Attributes with empty values from double separators (e.g., `"val1,,val2,"`) are cleaned during detection, treating them as `"val1 val2"`.
+      - **Single value arrays**: Arrays with one value behave identically to string values (toggle between value and empty).
+      - **Empty string inclusion**: Including `""` in arrays explicitly defines an "empty state" in the cycle.
+
+      #### Array Behavior Examples
+
+      ##### Four-step cycle with empty state
+      ```yaml
+      # Starting with class="theme-light"
+      # Clicks will progress: theme-light → theme-dark → theme-auto → "" → theme-light → ...
+      value: ["theme-light", "theme-dark", "theme-auto", ""]
+      ```
+
+      ##### Simple alternation
+      ```yaml
+      # Starting with class="size-small"
+      # Clicks will alternate: size-small → size-large → size-small → ...
+      value: ["size-small", "size-large"]
+      ```
+
+      ##### Single value array (equivalent to string)
+      ```yaml
+      # Equivalent to value: "highlight"
+      # Toggles: highlight → "" → highlight → ...
+      value: ["highlight"]
+      ```
+
+      ## Common Use Cases
+
+      - **CSS class toggling**: Adding/removing CSS classes based on state changes.
+      - **Data attribute management**: Toggling specific values in space-separated data attributes.
+      - **Interactive styling**: Toggle styling classes for user interactions.
+      - **Feature flags**: Toggle feature-related classes or data attributes.
+      - **State cycling**: Cycle through multiple states (e.g., theme variants, size options).
+      - **Multi-step processes**: Progress through sequential steps with visual indicators.
+
+  - type: RjBuildDescriber
+    title: "ToggleAttributeValue Action Examples"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates how to toggle the readonly attribute using the `ToggleAttributeValue` action.
+          
+          **Expected behavior:**
+          - Initially, the input field is editable (normal appearance)
+          - Click "Toggle readonly" to make the input readonly (you cannot type in it + visual changes)
+          - Click "Toggle readonly" again to make it editable again
+          - Click "Reset" to return to the initial state (editable)
+          - The toggle action automatically adds/removes the 'readonly' value from the class attribute
+          
+          Try interacting with the buttons to see how the readonly state toggles.
+
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Toggle readonly"
+          actions:
+            - what: setData
+              on: click
+              path: ~.shouldToggle
+              value: "yes"
+              when: ~.shouldToggle
+              is: "no"
+              stopPropagation: true
+            - what: setData
+              on: click
+              path: ~.shouldToggle
+              value: "no"
+              when: ~.shouldToggle
+              is: "yes"
+              stopPropagation: true
+
+        - type: button
+          content: "Reset"
+          actions:
+            - what: setData
+              on: click
+              path: ~.shouldToggle
+              value: "no"
+              stopPropagation: true
+
+        - type: input
+          attributes:
+            type: "text"
+            placeholder: "Try typing here when readonly is removed..."
+            value: ~.input_value
+            class: "tav-demo-input"
+            style:
+              padding: "10px"
+              border: "2px solid #007bff"
+              borderRadius: "4px"
+              fontSize: "16px"
+              margin: "10px 0"
+              width: "300px"
+              display: "block"
+          actions:
+            - what: toggleAttributeValue
+              name: "class"
+              value: "tav-readonly"
+              when: ~.shouldToggle
+              is: "yes"
+            - what: setData
+              on: change
+              path: ~.input_value
+              value: <reactive-json:event-new-value>
+        - type: style
+          content: |
+            .tav-readonly {
+              cursor: not-allowed !important;
+              opacity: 0.7 !important;
+              border-color: #6c757d !important;
+              pointer-events: none !important;
+            }
+
+      data:
+        shouldToggle: "no"
+        input_value: ""
+  - type: Markdown
+    content: |
+      ## Notes
+
+      - The `value` property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
+      - More efficient than separate SetAttributeValue/UnsetAttributeValue actions for toggle scenarios.
+      - Works with any space-separated attribute values (class, data attributes, etc.).

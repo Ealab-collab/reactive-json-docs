@@ -93,6 +93,23 @@ export const docsPageNavigation = {
                     "/docs/core/action/index": {
                         title: "Index"
                     },
+                    "/docs/core/action/Attribute": {
+                        title: "Attribute",
+                        items: {
+                            "/docs/core/action/Attribute/SetAttributeValue": {
+                                title: "SetAttributeValue"
+                            },
+                            "/docs/core/action/Attribute/UnsetAttribute": {
+                                title: "UnsetAttribute"
+                            },
+                            "/docs/core/action/Attribute/UnsetAttributeValue": {
+                                title: "UnsetAttributeValue"
+                            },
+                            "/docs/core/action/Attribute/ToggleAttributeValue": {
+                                title: "ToggleAttributeValue"
+                            }
+                        }
+                    },
                     "/docs/core/action/HashChangeListener": {
                         title: "HashChangeListener"
                     },

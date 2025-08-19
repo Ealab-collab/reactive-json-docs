@@ -1,0 +1,141 @@
+renderView:
+  - type: Markdown
+    content: |
+      # SetAttributeValue
+
+      Dynamically sets or modifies the value of an HTML attribute on an element.
+
+      ## Basic Syntax
+
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      actions:
+        # Add CSS class
+        - what: setAttributeValue
+          name: "class"
+          value: "active"
+          
+        # Replace attribute value
+        - what: setAttributeValue
+          name: "data-status"
+          mode: "replace"
+          value: ~.currentStatus
+
+  - type: Markdown
+    content: |
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: name
+          after: "(string, required)"
+        details: The name of the attribute to modify.
+      - term:
+          code: mode
+          after: "(string, optional)"
+        details: 
+          type: Markdown
+          content: |
+            The modification mode. Default: `"append"`
+            - `"append"`: Adds the value to the existing attribute value (space-separated)
+            - `"replace"`: Completely replaces the existing attribute value
+      - term:
+          code: value
+          after: "(string, required)"
+        details: The value to set or append. Supports template evaluation (e.g., `~.dynamicValue`, `~~.globalValue`). Automatically converted to string if not already. Special characters are handled safely.
+      - term:
+          code: preventDuplicateValues
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: When `true` (default), prevents duplicate values when using append mode.
+      - term:
+          code: separator
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: |
+            The separator used between values. Default: `" "` (space).
+
+  - type: Markdown
+    content: |
+
+      ## Behavior
+
+      - **Append mode**: Adds the new value to the existing attribute, separated by the specified separator.
+      - **Replace mode**: Completely overwrites the existing attribute value.
+      - **Duplicate prevention**: In append mode, prevents adding duplicate values when enabled.
+
+      ## Common Use Cases
+
+      - **Dynamic CSS classes**: Adding/removing CSS classes based on state.
+      - **Data attributes**: Setting data-* attributes for JavaScript integration.
+      - **ARIA attributes**: Dynamically updating accessibility attributes.
+      - **Style attributes**: Modifying inline styles conditionally.
+
+  - type: RjBuildDescriber
+    title: "SetAttributeValue Action Examples"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates how to use the `SetAttributeValue` action to dynamically add CSS classes based on input content.
+          
+          **Expected behavior:**
+          - Initially, the input field has normal appearance (base styling)
+          - Start typing in the input field
+          - When the field is not empty, the 'sav-highlighted' class is automatically added (visual highlighting)
+          - Clear the field to remove the highlighting
+          - The action uses append mode and responds to the `isNotEmpty` condition
+          
+          Try typing and clearing the input to see how the class attribute changes automatically.
+
+    toDescribe:
+      renderView:
+        - type: input
+          attributes:
+            type: "text"
+            placeholder: "Start typing to see the highlighting..."
+            class: "sav-demo-input"
+            value: ~.input_data
+            style:
+              padding: "10px"
+              border: "2px solid #007bff"
+              borderRadius: "4px"
+              fontSize: "16px"
+              margin: "10px 0"
+              width: "300px"
+              display: "block"
+          actions:
+            - what: setData
+              on: change
+              path: ~.input_data
+              value: <reactive-json:event-new-value>
+            - what: setAttributeValue
+              name: "class"
+              value: "sav-highlighted"
+              when: ~.input_data
+              isNotEmpty:
+
+        - type: div
+          content: ~.input_data
+
+        - type: style
+          content: |
+            .sav-highlighted {
+              border-color: #28a745 !important;
+              outline: 2px solid #28a745 !important;
+              outline-offset: 2px !important;
+            }
+
+      data:
+        input_data: ""
+
+  - type: Markdown
+    content: |
+      ## Notes
+
+      - The action respects existing attribute values when using append mode.
+      - Use replace mode when you need complete control over the attribute value.
+      - Duplicate prevention only applies to append mode.
+      - The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.

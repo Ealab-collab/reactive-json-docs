@@ -20,6 +20,12 @@ renderView:
       ### Navigation
       - **[Redirect](./Redirect)**: Redirects to a specified URL
 
+      ### Attribute Management
+      - **[SetAttributeValue](./Attribute/SetAttributeValue)**: Sets or modifies HTML attribute values dynamically
+      - **[UnsetAttribute](./Attribute/UnsetAttribute)**: Completely removes HTML attributes
+      - **[UnsetAttributeValue](./Attribute/UnsetAttributeValue)**: Removes specific values from HTML attributes
+      - **[ToggleAttributeValue](./Attribute/ToggleAttributeValue)**: Toggles the presence of specific values in HTML attributes
+
       ### Event Management
 
       Those actions have a special handling in Reactive-JSON. The engine transparently load them

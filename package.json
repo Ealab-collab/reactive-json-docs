@@ -26,7 +26,7 @@
   "private": false,
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "@ea-lab/reactive-json": "^0.4.0",
+    "@ea-lab/reactive-json": "^0.5.0",
     "@ea-lab/reactive-json-chartjs": "^0.0.23",
     "@npmcli/fs": "^4.0.0",
     "@reduxjs/toolkit": "^2.6.1",
@@ -75,5 +75,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "remark-gfm": "^4.0.1"
   }
 }

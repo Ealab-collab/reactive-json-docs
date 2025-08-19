@@ -17,6 +17,12 @@ Actions in Reactive-JSON allow you to modify element behavior and appearance bas
 ### Navigation
 - **[Redirect](./Redirect.md)**: Redirects to a specified URL
 
+### Attribute Management
+- **[SetAttributeValue](./Attribute/SetAttributeValue.md)**: Sets or modifies HTML attribute values dynamically
+- **[UnsetAttribute](./Attribute/UnsetAttribute.md)**: Completely removes HTML attributes
+- **[UnsetAttributeValue](./Attribute/UnsetAttributeValue.md)**: Removes specific values from HTML attributes
+- **[ToggleAttributeValue](./Attribute/ToggleAttributeValue.md)**: Toggles the presence of specific values in HTML attributes
+
 ### Event Management
 
 Those actions have a special handling in Reactive-JSON. The engine transparently load them

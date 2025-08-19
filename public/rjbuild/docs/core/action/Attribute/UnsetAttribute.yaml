@@ -1,0 +1,135 @@
+renderView:
+  - type: Markdown
+    content: |
+      # UnsetAttribute
+
+      Completely removes an HTML attribute from an element.
+
+      ## Basic Syntax
+
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      actions:
+        # Remove entire attribute
+        - what: unsetAttribute
+          name: "class"
+          
+        # Conditional removal
+        - what: unsetAttribute
+          name: "style"
+          when: ~.useDefaultStyling
+          is: true
+
+  - type: Markdown
+    content: |
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: name
+          after: "(string, required)"
+        details: The name of the attribute to remove completely.
+
+  - type: Markdown
+    content: |
+
+      ## Behavior
+
+      - **Complete removal**: Removes the entire attribute and all its values from the DOM element.
+      - **Attribute deletion**: The attribute is completely deleted, not just emptied.
+      - **Irreversible**: Once removed, the attribute must be explicitly set again to restore it.
+
+      ## Common Use Cases
+
+      - **Conditional attribute presence**: Removing attributes entirely based on conditions.
+      - **Accessibility cleanup**: Removing ARIA attributes when not needed.
+      - **Data attribute management**: Completely removing data-* attributes.
+      - **Style reset**: Removing inline style attributes to fall back to CSS.
+
+  - type: RjBuildDescriber
+    title: "UnsetAttribute Action Examples"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates how to completely remove HTML attributes using the `UnsetAttribute` action.
+          
+          **Expected behavior:**
+          - Initially, the input field is read-only (you cannot type in it) and has visual styling
+          - Click "Remove readonly attribute" to remove the entire readonly attribute - the input becomes editable
+          - Click "Reset" to restore the readonly attribute - the input becomes read-only again
+          - The action completely removes the entire attribute, not just its value
+          
+          Try interacting with the buttons to see how the readonly attribute is completely removed/restored.
+
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Remove readonly attribute"
+          actions:
+            - what: setData
+              on: click
+              path: ~.makeEditable
+              value: true
+              stopPropagation: true
+
+        - type: button
+          content: "Reset"
+          actions:
+            - what: setData
+              on: click
+              path: ~.makeEditable
+              value: false
+              stopPropagation: true
+
+        - type: input
+          attributes:
+            type: "text"
+            value: ~.input_value
+            placeholder: "Try typing here when readonly is removed..."
+            class: "ua-demo-input"
+            readonly: "readonly"
+            style:
+              padding: "10px"
+              border: "2px solid #007bff"
+              borderRadius: "4px"
+              fontSize: "16px"
+              margin: "10px 0"
+              width: "300px"
+              display: "block"
+          actions:
+            - what: unsetAttribute
+              name: "readonly"
+              when: ~.makeEditable
+              is: true
+            - what: setData
+              on: change
+              path: ~.input_value
+              value: <reactive-json:event-new-value>
+
+        - type: style
+          content: |
+            .ua-demo-input[readonly] {
+              cursor: not-allowed !important;
+              opacity: 0.7 !important;
+              border-color: #6c757d !important;
+            }
+            .ua-demo-input:not([readonly]) {
+              border-color: #28a745 !important;
+              outline: 2px solid #28a745 !important;
+              outline-offset: 2px !important;
+            }
+
+      data:
+        makeEditable: false
+        input_value: ""
+
+  - type: Markdown
+    content: |
+      ## Notes
+
+      - This action **completely removes the entire attribute**, not just specific values.
+      - Use `UnsetAttributeValue` if you only want to remove specific values.
+      - The attribute can be restored using `SetAttributeValue` if needed.
+      - **Important**: To set an empty attribute (not remove it), use `SetAttributeValue` with an empty string value.
+      - Useful for conditional attribute presence rather than conditional values.
