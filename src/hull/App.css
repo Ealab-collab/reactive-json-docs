@@ -1,5 +1,5 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
-@import './MaterialDocsTheme.css';
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "./MaterialDocsTheme.css";
 
 [role="alert"] {
     & p:last-of-type {
