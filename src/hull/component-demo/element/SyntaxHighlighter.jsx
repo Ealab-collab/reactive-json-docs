@@ -5,7 +5,10 @@ import { evaluateTemplateValue } from "@ea-lab/reactive-json/dist/engine";
 import { useEvaluatedAttributes } from "@ea-lab/reactive-json/dist/engine";
 import { useContext } from "react";
 import SyntaxHighlighter_Real from "react-syntax-highlighter";
-import { docco as highlighterLightTheme, darcula as highlighterDarkTheme } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import {
+    docco as highlighterLightTheme,
+    darcula as highlighterDarkTheme,
+} from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { useDarkMode } from "../hooks/useDarkMode.js";
 
 export const SyntaxHighlighter = ({ props }) => {
@@ -16,38 +19,38 @@ export const SyntaxHighlighter = ({ props }) => {
     const evaluatedContent = evaluateTemplateValue({
         valueToEvaluate: props.content,
         globalDataContext,
-        templateContext
+        templateContext,
     });
 
     const evaluatedLanguage = evaluateTemplateValue({
         valueToEvaluate: props.language || "text",
         globalDataContext,
-        templateContext
+        templateContext,
     });
 
     const evaluatedStyle = evaluateTemplateValue({
         valueToEvaluate: props.style,
         globalDataContext,
-        templateContext
+        templateContext,
     });
 
     const evaluatedLightStyle = evaluateTemplateValue({
         valueToEvaluate: props.lightStyle,
         globalDataContext,
-        templateContext
+        templateContext,
     });
 
     const evaluatedDarkStyle = evaluateTemplateValue({
         valueToEvaluate: props.darkStyle,
         globalDataContext,
-        templateContext
+        templateContext,
     });
 
     const attributes = useEvaluatedAttributes(props.attributes);
 
     // Logic for style selection with dark mode support.
     let styleToUse;
-    
+
     if (evaluatedStyle) {
         // If a specific style is provided, use it.
         styleToUse = evaluatedStyle;
@@ -65,16 +68,16 @@ export const SyntaxHighlighter = ({ props }) => {
     return (
         <ActionDependant {...props}>
             <div {...attributes}>
-                <SyntaxHighlighter_Real 
+                <SyntaxHighlighter_Real
                     language={evaluatedLanguage}
                     style={styleToUse}
                     showLineNumbers={props.showLineNumbers || false}
                     wrapLines={props.wrapLines || false}
                     wrapLongLines={props.wrapLongLines || false}
                 >
-                    {evaluatedContent || ''}
+                    {evaluatedContent || ""}
                 </SyntaxHighlighter_Real>
             </div>
         </ActionDependant>
     );
-}; 
+};

@@ -6,13 +6,13 @@
  *
  * It also contains a navigation tree.
  */
-import {DefinitionList} from "./element/DefinitionList.jsx";
-import {DemoContentMapper} from "./element/DemoContentMapper.jsx";
-import {Markdown} from "./element/Markdown.jsx";
-import {RjBuildDescriber} from "./element/RjBuildDescriber.jsx";
-import {Sidebar} from "./element/Sidebar.jsx";
-import {SyntaxHighlighter} from "./element/SyntaxHighlighter.jsx";
-import {TabbedSerializer} from "./utility/TabbedSerializer.jsx";
+import { DefinitionList } from "./element/DefinitionList.jsx";
+import { DemoContentMapper } from "./element/DemoContentMapper.jsx";
+import { Markdown } from "./element/Markdown.jsx";
+import { RjBuildDescriber } from "./element/RjBuildDescriber.jsx";
+import { Sidebar } from "./element/Sidebar.jsx";
+import { SyntaxHighlighter } from "./element/SyntaxHighlighter.jsx";
+import { TabbedSerializer } from "./utility/TabbedSerializer.jsx";
 
 export const demoPlugins = {
     element: {
@@ -23,8 +23,8 @@ export const demoPlugins = {
         Sidebar,
         SyntaxHighlighter,
         TabbedSerializer,
-    }
-}
+    },
+};
 
 export const docsPageNavigation = {
     "/docs": {
@@ -46,43 +46,43 @@ export const docsPageNavigation = {
                 title: "Template, contexts, and data binding",
             },
             "/docs/getting-started/actions": {
-                title: "Actions"
+                title: "Actions",
             },
             "/docs/getting-started/reactions": {
-                title: "Reactions"
+                title: "Reactions",
             },
-        }
+        },
     },
     "/docs/advanced-concepts": {
         title: "Advanced Concepts",
         items: {
             "/docs/advanced-concepts/index": {
-                title: "Overview"
+                title: "Overview",
             },
             "/docs/advanced-concepts/data-processors": {
-                title: "Data Processors"
+                title: "Data Processors",
             },
             "/docs/advanced-concepts/data-mapping": {
-                title: "Data Mapping"
+                title: "Data Mapping",
             },
             "/docs/advanced-concepts/forward-update": {
-                title: "Forward Update"
+                title: "Forward Update",
             },
             "/docs/advanced-concepts/plugins": {
                 title: "Extending Reactive-JSON",
                 items: {
                     "/docs/advanced-concepts/plugins/index": {
-                        title: "Introduction"
+                        title: "Introduction",
                     },
                     "/docs/advanced-concepts/plugins/component-development": {
-                        title: "Component Development"
+                        title: "Component Development",
                     },
                     "/docs/advanced-concepts/plugins/plugin-system": {
-                        title: "Plugin System"
-                    }
-                }
+                        title: "Plugin System",
+                    },
+                },
             },
-        }
+        },
     },
     "/docs/core": {
         title: "Core components",
@@ -91,183 +91,183 @@ export const docsPageNavigation = {
                 title: "Actions",
                 items: {
                     "/docs/core/action/index": {
-                        title: "Index"
+                        title: "Index",
                     },
                     "/docs/core/action/Attribute": {
                         title: "Attribute",
                         items: {
                             "/docs/core/action/Attribute/SetAttributeValue": {
-                                title: "SetAttributeValue"
+                                title: "SetAttributeValue",
                             },
                             "/docs/core/action/Attribute/UnsetAttribute": {
-                                title: "UnsetAttribute"
+                                title: "UnsetAttribute",
                             },
                             "/docs/core/action/Attribute/UnsetAttributeValue": {
-                                title: "UnsetAttributeValue"
+                                title: "UnsetAttributeValue",
                             },
                             "/docs/core/action/Attribute/ToggleAttributeValue": {
-                                title: "ToggleAttributeValue"
-                            }
-                        }
+                                title: "ToggleAttributeValue",
+                            },
+                        },
                     },
                     "/docs/core/action/HashChangeListener": {
-                        title: "HashChangeListener"
+                        title: "HashChangeListener",
                     },
                     "/docs/core/action/Hide": {
-                        title: "Hide"
+                        title: "Hide",
                     },
                     "/docs/core/action/MessageListener": {
-                        title: "MessageListener"
+                        title: "MessageListener",
                     },
                     "/docs/core/action/Popover": {
-                        title: "Popover"
+                        title: "Popover",
                     },
                     "/docs/core/action/ReactOnEvent": {
-                        title: "ReactOnEvent"
+                        title: "ReactOnEvent",
                     },
                     "/docs/core/action/Redirect": {
-                        title: "Redirect"
+                        title: "Redirect",
                     },
                     "/docs/core/action/Tooltip": {
-                        title: "Tooltip"
+                        title: "Tooltip",
                     },
                     "/docs/core/action/VisuallyHide": {
-                        title: "VisuallyHide"
-                    }
-                }
+                        title: "VisuallyHide",
+                    },
+                },
             },
             "/docs/core/reaction": {
                 title: "Reactions",
                 items: {
                     "/docs/core/reaction/index": {
-                        title: "Index"
+                        title: "Index",
                     },
                     "/docs/core/reaction/addData": {
-                        title: "addData"
+                        title: "addData",
                     },
                     "/docs/core/reaction/fetchData": {
-                        title: "fetchData"
+                        title: "fetchData",
                     },
                     "/docs/core/reaction/moveData": {
-                        title: "moveData"
+                        title: "moveData",
                     },
                     "/docs/core/reaction/postMessage": {
-                        title: "postMessage"
+                        title: "postMessage",
                     },
                     "/docs/core/reaction/redirectNow": {
-                        title: "redirectNow"
+                        title: "redirectNow",
                     },
                     "/docs/core/reaction/removeData": {
-                        title: "removeData"
+                        title: "removeData",
                     },
                     "/docs/core/reaction/setClipboardData": {
-                        title: "setClipboardData"
+                        title: "setClipboardData",
                     },
                     "/docs/core/reaction/setData": {
-                        title: "setData"
+                        title: "setData",
                     },
                     "/docs/core/reaction/submitData": {
-                        title: "submitData"
+                        title: "submitData",
                     },
                     "/docs/core/reaction/triggerEvent": {
-                        title: "triggerEvent"
-                    }
-                }
+                        title: "triggerEvent",
+                    },
+                },
             },
             "/docs/core/element/html": {
                 title: "HTML Elements",
                 items: {
                     "/docs/core/element/html/AccordionItem": {
-                        title: "AccordionItem"
+                        title: "AccordionItem",
                     },
                     "/docs/core/element/html/FolderSortableTree": {
-                        title: "FolderSortableTree"
+                        title: "FolderSortableTree",
                     },
                     "/docs/core/element/html/FormatNumeral": {
-                        title: "FormatNumeral"
+                        title: "FormatNumeral",
                     },
                     "/docs/core/element/html/Html": {
-                        title: "Html"
+                        title: "Html",
                     },
                     "/docs/core/element/html/LabelFromValue": {
-                        title: "LabelFromValue"
+                        title: "LabelFromValue",
                     },
                     "/docs/core/element/html/Modal": {
-                        title: "Modal"
+                        title: "Modal",
                     },
                     "/docs/core/element/html/PreformattedMarkup": {
-                        title: "PreformattedMarkup"
+                        title: "PreformattedMarkup",
                     },
                     "/docs/core/element/html/SortableTreeItemCollapseButton": {
-                        title: "SortableTree ItemCollapseButton"
+                        title: "SortableTree ItemCollapseButton",
                     },
                     "/docs/core/element/html/Tabs": {
-                        title: "Tabs"
-                    }
-                }
+                        title: "Tabs",
+                    },
+                },
             },
             "/docs/core/element/form": {
                 title: "Form Elements",
                 items: {
                     "/docs/core/element/form/CheckBoxField": {
-                        title: "CheckBoxField"
+                        title: "CheckBoxField",
                     },
                     "/docs/core/element/form/DateField": {
-                        title: "DateField"
+                        title: "DateField",
                     },
                     "/docs/core/element/form/NumberField": {
-                        title: "NumberField"
+                        title: "NumberField",
                     },
                     "/docs/core/element/form/SelectField": {
-                        title: "SelectField"
+                        title: "SelectField",
                     },
                     "/docs/core/element/form/TextAreaField": {
-                        title: "TextAreaField"
+                        title: "TextAreaField",
                     },
                     "/docs/core/element/form/TextField": {
-                        title: "TextField"
+                        title: "TextField",
                     },
-                }
+                },
             },
             "/docs/core/element/special": {
                 title: "Special Elements",
                 items: {
                     "/docs/core/element/special/BootstrapElement": {
-                        title: "BootstrapElement"
+                        title: "BootstrapElement",
                     },
                     "/docs/core/element/special/Count": {
-                        title: "Count"
+                        title: "Count",
                     },
                     "/docs/core/element/special/DataFilter": {
-                        title: "DataFilter"
+                        title: "DataFilter",
                     },
                     "/docs/core/element/special/DelayedActions": {
-                        title: "DelayedActions"
+                        title: "DelayedActions",
                     },
                     "/docs/core/element/special/PageControls": {
-                        title: "PageControls"
+                        title: "PageControls",
                     },
                     "/docs/core/element/special/Phantom": {
-                        title: "Phantom"
+                        title: "Phantom",
                     },
                     "/docs/core/element/special/ReactiveJsonSubroot": {
-                        title: "ReactiveJsonSubroot"
+                        title: "ReactiveJsonSubroot",
                     },
                     "/docs/core/element/special/Switch": {
-                        title: "Switch"
-                    }
-                }
+                        title: "Switch",
+                    },
+                },
             },
             "/docs/core/dataMapping": {
                 title: "Data Mapping",
                 items: {
                     "/docs/core/dataMapping/index": {
-                        title: "Overview"
+                        title: "Overview",
                     },
                     "/docs/core/dataMapping/simpleMapping": {
-                        title: "SimpleMapping"
+                        title: "SimpleMapping",
                     },
-                }
+                },
             },
             "/docs/core/example": {
                 title: "Examples",
@@ -284,9 +284,9 @@ export const docsPageNavigation = {
                     "/docs/core/example/website": {
                         title: "Website example",
                     },
-                }
+                },
             },
-        }
+        },
     },
     "/docs/chartjs": {
         title: "Chart.js integration",
@@ -297,17 +297,17 @@ export const docsPageNavigation = {
             "/docs/chartjs/components": {
                 title: "Chart.js components",
             },
-        }
+        },
     },
     "/docs/docs-components": {
         title: "Documentation Components",
         items: {
             "/docs/docs-components/index": {
-                title: "Overview"
+                title: "Overview",
             },
             "/docs/docs-components/SyntaxHighlighter": {
-                title: "SyntaxHighlighter"
-            }
-        }
-    }
-}
+                title: "SyntaxHighlighter",
+            },
+        },
+    },
+};

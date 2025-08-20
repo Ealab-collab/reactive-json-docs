@@ -43,12 +43,9 @@
     .rj-demo-sidebar .accordion-button {
         color: currentColor !important;
     }
-    
+
     .rj-demo-sidebar .accordion-button:not(.collapsed) {
         color: currentColor !important;
         background-color: unset !important;
     }
 }
-
-
-

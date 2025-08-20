@@ -1,9 +1,9 @@
-import {CustomReactiveJsonRoot} from "../../CustomReactiveJsonRoot";
 import _ from "lodash";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { CustomReactiveJsonRoot } from "../../CustomReactiveJsonRoot";
 
 export const DemoContentMapper = () => {
-    const {pathname} = useLocation();
+    const { pathname } = useLocation();
 
     const docsPagesBasePath = "/docs";
 
@@ -22,5 +22,5 @@ export const DemoContentMapper = () => {
         finalRjBuildUrl += subpath + ".yaml";
     }
 
-    return <CustomReactiveJsonRoot rjBuildUrl={finalRjBuildUrl}/>
-}
+    return <CustomReactiveJsonRoot rjBuildUrl={finalRjBuildUrl} />;
+};

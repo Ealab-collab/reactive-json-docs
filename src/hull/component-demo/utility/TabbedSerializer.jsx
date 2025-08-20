@@ -4,10 +4,10 @@ import {
     docco as highlighterLightTheme,
     darcula as highlighterDarkTheme,
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import {Tab, Tabs} from "react-bootstrap";
+import { Tab, Tabs } from "react-bootstrap";
 import { useDarkMode } from "../hooks/useDarkMode.js";
 
-export const TabbedSerializer = ({props}) => {
+export const TabbedSerializer = ({ props }) => {
     const isDarkMode = useDarkMode();
     const syntaxTheme = isDarkMode ? highlighterDarkTheme : highlighterLightTheme;
 
@@ -20,17 +20,19 @@ export const TabbedSerializer = ({props}) => {
     const jsonSerializedContent = props?.yamlSerializedContent
         ? JSON.stringify(jsyaml.load(yamlSerializedContent), null, 2)
         : JSON.stringify(props?.rawContentToSerialize, null, 2);
-    
-    return <Tabs defaultActiveKey={"yaml"}>
-        <Tab eventKey={"yaml"} title={"YAML"}>
-            <SyntaxHighlighter language="yaml" style={syntaxTheme}>
-                {yamlSerializedContent}
-            </SyntaxHighlighter>
-        </Tab>
-        <Tab eventKey={"json"} title={"JSON"}>
-            <SyntaxHighlighter language="javascript" style={syntaxTheme}>
-                {jsonSerializedContent}
-            </SyntaxHighlighter>
-        </Tab>
-    </Tabs>
+
+    return (
+        <Tabs defaultActiveKey={"yaml"}>
+            <Tab eventKey={"yaml"} title={"YAML"}>
+                <SyntaxHighlighter language="yaml" style={syntaxTheme}>
+                    {yamlSerializedContent}
+                </SyntaxHighlighter>
+            </Tab>
+            <Tab eventKey={"json"} title={"JSON"}>
+                <SyntaxHighlighter language="javascript" style={syntaxTheme}>
+                    {jsonSerializedContent}
+                </SyntaxHighlighter>
+            </Tab>
+        </Tabs>
+    );
 };

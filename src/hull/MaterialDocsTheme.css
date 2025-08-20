@@ -4,84 +4,85 @@
    =================================================================== */
 
 /* Import Google Fonts - Roboto for text only */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 /* ===================================================================
    ROOT VARIABLES - Material Design inspired color palette
    =================================================================== */
 :root {
-  /* Typography */
-  --md-text-font: "Roboto", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
-  --md-code-font: "SFMono-Regular", "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Fira Mono", "Droid Sans Mono", "Consolas", "Liberation Mono", "Menlo", monospace;
-  
-  /* Light theme colors */
-  --md-default-bg-color: #ffffff;
-  --md-default-fg-color: #2c3e50;
-  --md-default-fg-color--light: #546e7a;
-  --md-default-fg-color--lighter: #78909c;
-  --md-default-fg-color--lightest: #b0bec5;
-  
-  /* Primary accent colors - Turquoise theme */
-  --md-primary-fg-color: #44a08d;
-  --md-primary-fg-color--light: #4ecdc4;
-  --md-primary-fg-color--dark: #3d8b85;
-  
-  /* Code and syntax highlighting */
-  --md-code-bg-color: #f8f9fa;
-  --md-code-fg-color: #2b6b5a;
-  
-  /* Borders and dividers */
-  --md-border-color: #e0e6e4;
-  --md-border-color--light: #f0f2f1;
-  
-  /* Typography scale - Material Design inspired */
-  --md-typeset-h1-font-size: 2.0rem;
-  --md-typeset-h2-font-size: 1.5rem;
-  --md-typeset-h3-font-size: 1.25rem;
-  --md-typeset-h4-font-size: 1.1rem;
-  --md-typeset-h5-font-size: 1rem;
-  --md-typeset-h6-font-size: 0.875rem;
-  --md-typeset-body-font-size: 1.1rem;
-  --md-typeset-small-font-size: 0.875rem;
-  
-  /* Line heights */
-  --md-typeset-line-height: 1.6;
-  --md-typeset-heading-line-height: 1.3;
-  --md-typeset-code-line-height: 1.4;
-  
-  /* Spacing */
-  --md-typeset-spacing-horizontal: 1.5rem;
-  --md-typeset-spacing-vertical: 1.2rem;
+    /* Typography */
+    --md-text-font: "Roboto", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    --md-code-font: "SFMono-Regular", "SF Mono", "Monaco", "Inconsolata", "Fira Code", "Fira Mono", "Droid Sans Mono",
+        "Consolas", "Liberation Mono", "Menlo", monospace;
+
+    /* Light theme colors */
+    --md-default-bg-color: #ffffff;
+    --md-default-fg-color: #2c3e50;
+    --md-default-fg-color--light: #546e7a;
+    --md-default-fg-color--lighter: #78909c;
+    --md-default-fg-color--lightest: #b0bec5;
+
+    /* Primary accent colors - Turquoise theme */
+    --md-primary-fg-color: #44a08d;
+    --md-primary-fg-color--light: #4ecdc4;
+    --md-primary-fg-color--dark: #3d8b85;
+
+    /* Code and syntax highlighting */
+    --md-code-bg-color: #f8f9fa;
+    --md-code-fg-color: #2b6b5a;
+
+    /* Borders and dividers */
+    --md-border-color: #e0e6e4;
+    --md-border-color--light: #f0f2f1;
+
+    /* Typography scale - Material Design inspired */
+    --md-typeset-h1-font-size: 2rem;
+    --md-typeset-h2-font-size: 1.5rem;
+    --md-typeset-h3-font-size: 1.25rem;
+    --md-typeset-h4-font-size: 1.1rem;
+    --md-typeset-h5-font-size: 1rem;
+    --md-typeset-h6-font-size: 0.875rem;
+    --md-typeset-body-font-size: 1.1rem;
+    --md-typeset-small-font-size: 0.875rem;
+
+    /* Line heights */
+    --md-typeset-line-height: 1.6;
+    --md-typeset-heading-line-height: 1.3;
+    --md-typeset-code-line-height: 1.4;
+
+    /* Spacing */
+    --md-typeset-spacing-horizontal: 1.5rem;
+    --md-typeset-spacing-vertical: 1.2rem;
 }
 
 /* Dark theme overrides */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --md-default-bg-color: #242928;
-    --md-default-fg-color: #f7fafc;
-    --md-default-fg-color--light: #cbd5e0;
-    --md-default-fg-color--lighter: #a0aec0;
-    --md-default-fg-color--lightest: #718096;
-    
-    --md-primary-fg-color: #4ecdc4;
-    --md-primary-fg-color--light: #66e0d7;
-    --md-primary-fg-color--dark: #44a08d;
-    
-    --md-code-bg-color: #202523;
-    --md-code-fg-color: #d4f0ec;
-    
-    --md-border-color: #3a3e3c;
-    --md-border-color--light: #303532;
-    
-    /* Override Bootstrap variables for consistent dark theme */
-    --bs-body-bg: #242928;
-    --bs-body-color: #f7fafc;
-  }
-  
-  /* Ensure dark background is applied */
-  .reactive-json {
-    background-color: var(--md-default-bg-color) !important;
-  }
+    :root {
+        --md-default-bg-color: #242928;
+        --md-default-fg-color: #f7fafc;
+        --md-default-fg-color--light: #cbd5e0;
+        --md-default-fg-color--lighter: #a0aec0;
+        --md-default-fg-color--lightest: #718096;
+
+        --md-primary-fg-color: #4ecdc4;
+        --md-primary-fg-color--light: #66e0d7;
+        --md-primary-fg-color--dark: #44a08d;
+
+        --md-code-bg-color: #202523;
+        --md-code-fg-color: #d4f0ec;
+
+        --md-border-color: #3a3e3c;
+        --md-border-color--light: #303532;
+
+        /* Override Bootstrap variables for consistent dark theme */
+        --bs-body-bg: #242928;
+        --bs-body-color: #f7fafc;
+    }
+
+    /* Ensure dark background is applied */
+    .reactive-json {
+        background-color: var(--md-default-bg-color) !important;
+    }
 }
 
 /* ===================================================================
@@ -90,24 +91,24 @@
 
 /* Apply Material styling to reactive-json content areas */
 .reactive-json {
-  font-family: var(--md-text-font);
-  font-size: var(--md-typeset-body-font-size);
-  line-height: var(--md-typeset-line-height);
-  color: var(--md-default-fg-color);
-  background-color: var(--md-default-bg-color);
-  min-height: 100vh;
+    font-family: var(--md-text-font);
+    font-size: var(--md-typeset-body-font-size);
+    line-height: var(--md-typeset-line-height);
+    color: var(--md-default-fg-color);
+    background-color: var(--md-default-bg-color);
+    min-height: 100vh;
 }
 
 /* Container styling for better spacing */
 .reactive-json .container {
-  max-width: 1200px;
-  padding-top: 1.5rem;
-  padding-bottom: 2rem;
+    max-width: 1200px;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
 }
 
 /* Override Bootstrap body font */
 body {
-  font-family: var(--md-text-font) !important;
+    font-family: var(--md-text-font) !important;
 }
 
 /* ===================================================================
@@ -121,55 +122,55 @@ body {
 .reactive-json h4,
 .reactive-json h5,
 .reactive-json h6 {
-  font-family: var(--md-text-font);
-  font-weight: 400;
-  line-height: var(--md-typeset-heading-line-height);
-  color: var(--md-default-fg-color);
-  margin: 0;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+    font-family: var(--md-text-font);
+    font-weight: 400;
+    line-height: var(--md-typeset-heading-line-height);
+    color: var(--md-default-fg-color);
+    margin: 0;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 .reactive-json h1 {
-  font-size: var(--md-typeset-h1-font-size);
-  font-weight: 400;
-  margin-top: 0;
-  margin-bottom: 1.5rem;
+    font-size: var(--md-typeset-h1-font-size);
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
 }
 
 .reactive-json h2 {
-  font-size: var(--md-typeset-h2-font-size);
-  font-weight: 400;
-  margin-top: 2.5rem;
-  margin-bottom: 1.2rem;
+    font-size: var(--md-typeset-h2-font-size);
+    font-weight: 400;
+    margin-top: 2.5rem;
+    margin-bottom: 1.2rem;
 }
 
 .reactive-json h3 {
-  font-size: var(--md-typeset-h3-font-size);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+    font-size: var(--md-typeset-h3-font-size);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
 }
 
 .reactive-json h4 {
-  font-size: var(--md-typeset-h4-font-size);
-  margin-top: 1.8rem;
-  margin-bottom: 0.8rem;
+    font-size: var(--md-typeset-h4-font-size);
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
 }
 
 .reactive-json h5 {
-  font-size: var(--md-typeset-h5-font-size);
-  margin-top: 1.5rem;
-  margin-bottom: 0.6rem;
+    font-size: var(--md-typeset-h5-font-size);
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
 }
 
 .reactive-json h6 {
-  font-size: var(--md-typeset-h6-font-size);
-  margin-top: 1.3rem;
-  margin-bottom: 0.5rem;
-  color: var(--md-default-fg-color--light);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 700;
+    font-size: var(--md-typeset-h6-font-size);
+    margin-top: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: var(--md-default-fg-color--light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
 }
 
 /* ===================================================================
@@ -177,19 +178,19 @@ body {
    =================================================================== */
 
 .reactive-json p {
-  margin: 0 0 var(--md-typeset-spacing-vertical) 0;
-  line-height: var(--md-typeset-line-height);
+    margin: 0 0 var(--md-typeset-spacing-vertical) 0;
+    line-height: var(--md-typeset-line-height);
 }
 
 .reactive-json p:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* Lead paragraphs (first paragraph after h1) */
 .reactive-json h1 + p {
-  font-size: 1.1em;
-  color: var(--md-default-fg-color--light);
-  margin-bottom: 2rem;
+    font-size: 1.1em;
+    color: var(--md-default-fg-color--light);
+    margin-bottom: 2rem;
 }
 
 /* ===================================================================
@@ -197,22 +198,22 @@ body {
    =================================================================== */
 
 .reactive-json a {
-  color: var(--md-primary-fg-color);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: all 0.2s ease;
+    color: var(--md-primary-fg-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
 }
 
 .reactive-json a:hover {
-  color: var(--md-primary-fg-color--dark);
-  border-bottom-color: var(--md-primary-fg-color--light);
-  text-decoration: none;
+    color: var(--md-primary-fg-color--dark);
+    border-bottom-color: var(--md-primary-fg-color--light);
+    text-decoration: none;
 }
 
 .reactive-json a:focus {
-  outline: 2px solid var(--md-primary-fg-color--light);
-  outline-offset: 2px;
-  border-radius: 2px;
+    outline: 2px solid var(--md-primary-fg-color--light);
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
 /* ===================================================================
@@ -221,20 +222,20 @@ body {
 
 .reactive-json ul,
 .reactive-json ol {
-  margin: 0 0 var(--md-typeset-spacing-vertical) 0;
-  line-height: var(--md-typeset-line-height);
+    margin: 0 0 var(--md-typeset-spacing-vertical) 0;
+    line-height: var(--md-typeset-line-height);
 }
 
 .reactive-json li {
-  margin: 0.3rem 0;
+    margin: 0.3rem 0;
 }
 
 .reactive-json li > p {
-  margin: 0.3rem 0;
+    margin: 0.3rem 0;
 }
 
 .reactive-json li:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* Nested lists */
@@ -242,7 +243,7 @@ body {
 .reactive-json ol ol,
 .reactive-json ul ol,
 .reactive-json ol ul {
-  margin: 0.5rem 0;
+    margin: 0.5rem 0;
 }
 
 /* ===================================================================
@@ -250,77 +251,77 @@ body {
    =================================================================== */
 
 .reactive-json code {
-  font-family: var(--md-code-font);
-  font-size: 0.85em;
-  background-color: var(--md-code-bg-color);
-  color: var(--md-code-fg-color);
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  border: 1px solid var(--md-border-color);
+    font-family: var(--md-code-font);
+    font-size: 0.85em;
+    background-color: var(--md-code-bg-color);
+    color: var(--md-code-fg-color);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    border: 1px solid var(--md-border-color);
 }
 
 .reactive-json pre {
-  font-family: var(--md-code-font);
-  font-size: 0.8rem;
-  line-height: var(--md-typeset-code-line-height);
-  background-color: var(--md-code-bg-color);
-  color: var(--md-code-fg-color);
-  padding: 1.2rem;
-  border-radius: 6px;
-  border: 1px solid var(--md-border-color);
-  margin: var(--md-typeset-spacing-vertical) 0;
-  overflow-x: auto;
+    font-family: var(--md-code-font);
+    font-size: 0.8rem;
+    line-height: var(--md-typeset-code-line-height);
+    background-color: var(--md-code-bg-color);
+    color: var(--md-code-fg-color);
+    padding: 1.2rem;
+    border-radius: 6px;
+    border: 1px solid var(--md-border-color);
+    margin: var(--md-typeset-spacing-vertical) 0;
+    overflow-x: auto;
 }
 
 .reactive-json pre code {
-  background: none;
-  border: none;
-  padding: 0;
-  font-size: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: inherit;
 }
 
 /* SyntaxHighlighter overrides - Light mode */
 .reactive-json .hljs {
-  border-radius: 6px;
-  border: 1px solid var(--md-border-color);
-  font-family: var(--md-code-font) !important;
-  font-size: 0.8rem !important;
-  line-height: var(--md-typeset-code-line-height) !important;
+    border-radius: 6px;
+    border: 1px solid var(--md-border-color);
+    font-family: var(--md-code-font) !important;
+    font-size: 0.8rem !important;
+    line-height: var(--md-typeset-code-line-height) !important;
 }
 
 /* Light mode specific colors */
 @media (prefers-color-scheme: light) {
-  .reactive-json .hljs {
-    background: var(--md-code-bg-color) !important;
-    color: var(--md-code-fg-color) !important;
-  }
-  
-  .reactive-json pre[style] {
-    background: var(--md-code-bg-color) !important;
-    border: 1px solid var(--md-border-color) !important;
-  }
+    .reactive-json .hljs {
+        background: var(--md-code-bg-color) !important;
+        color: var(--md-code-fg-color) !important;
+    }
+
+    .reactive-json pre[style] {
+        background: var(--md-code-bg-color) !important;
+        border: 1px solid var(--md-border-color) !important;
+    }
 }
 
 /* Dark mode - ensure dark background like MkDocs Material */
 @media (prefers-color-scheme: dark) {
-  .reactive-json .hljs {
-    background: var(--md-code-bg-color) !important;
-    border: 1px solid var(--md-border-color) !important;
-    /* Let atomOneDark handle text colors but force dark background */
-  }
-  
-  .reactive-json pre[style] {
-    background: var(--md-code-bg-color) !important;
-    border: 1px solid var(--md-border-color) !important;
-  }
+    .reactive-json .hljs {
+        background: var(--md-code-bg-color) !important;
+        border: 1px solid var(--md-border-color) !important;
+        /* Let atomOneDark handle text colors but force dark background */
+    }
+
+    .reactive-json pre[style] {
+        background: var(--md-code-bg-color) !important;
+        border: 1px solid var(--md-border-color) !important;
+    }
 }
 
 /* React Syntax Highlighter wrapper styling */
 .reactive-json pre[style] {
-  font-family: var(--md-code-font) !important;
-  font-size: 0.8rem !important;
-  line-height: var(--md-typeset-code-line-height) !important;
-  border-radius: 6px !important;
+    font-family: var(--md-code-font) !important;
+    font-size: 0.8rem !important;
+    line-height: var(--md-typeset-code-line-height) !important;
+    border-radius: 6px !important;
 }
 
 /* ===================================================================
@@ -328,28 +329,28 @@ body {
    =================================================================== */
 
 .reactive-json blockquote {
-  margin: var(--md-typeset-spacing-vertical) 0;
-  padding: 0.8rem 1.2rem;
-  background-color: var(--md-code-bg-color);
-  border-left: 4px solid var(--md-primary-fg-color);
-  border-radius: 0 4px 4px 0;
-  color: var(--md-default-fg-color--light);
+    margin: var(--md-typeset-spacing-vertical) 0;
+    padding: 0.8rem 1.2rem;
+    background-color: var(--md-code-bg-color);
+    border-left: 4px solid var(--md-primary-fg-color);
+    border-radius: 0 4px 4px 0;
+    color: var(--md-default-fg-color--light);
 }
 
 .reactive-json blockquote p {
-  margin: 0;
+    margin: 0;
 }
 
 .reactive-json blockquote p:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* Admonition-style blockquotes */
 .reactive-json blockquote:has(> p:first-child:contains("💡")),
 .reactive-json blockquote:has(> p:first-child:contains("⚠️")),
 .reactive-json blockquote:has(> p:first-child:contains("📚")) {
-  background-color: rgba(33, 150, 243, 0.1);
-  border-left-color: #2196f3;
+    background-color: rgba(33, 150, 243, 0.1);
+    border-left-color: #2196f3;
 }
 
 /* ===================================================================
@@ -357,27 +358,27 @@ body {
    =================================================================== */
 
 .reactive-json table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: var(--md-typeset-spacing-vertical) 0;
-  font-size: 0.85rem;
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--md-typeset-spacing-vertical) 0;
+    font-size: 0.85rem;
 }
 
 .reactive-json th,
 .reactive-json td {
-  padding: 0.8rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--md-border-color);
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--md-border-color);
 }
 
 .reactive-json th {
-  background-color: var(--md-code-bg-color);
-  font-weight: 500;
-  color: var(--md-default-fg-color);
+    background-color: var(--md-code-bg-color);
+    font-weight: 500;
+    color: var(--md-default-fg-color);
 }
 
 .reactive-json tr:hover {
-  background-color: var(--md-border-color--light);
+    background-color: var(--md-border-color--light);
 }
 
 /* ===================================================================
@@ -385,10 +386,10 @@ body {
    =================================================================== */
 
 .reactive-json hr {
-  border: none;
-  height: 1px;
-  background-color: var(--md-border-color);
-  margin: 2rem 0;
+    border: none;
+    height: 1px;
+    background-color: var(--md-border-color);
+    margin: 2rem 0;
 }
 
 /* ===================================================================
@@ -396,10 +397,10 @@ body {
    =================================================================== */
 
 .reactive-json img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin: var(--md-typeset-spacing-vertical) 0;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: var(--md-typeset-spacing-vertical) 0;
 }
 
 /* ===================================================================
@@ -408,93 +409,93 @@ body {
 
 /* Override Bootstrap button styles for better integration */
 .reactive-json .btn {
-  font-family: var(--md-text-font);
-  font-size: 0.875rem;
-  font-weight: 500;
-  border-radius: 4px;
-  padding: 0.6rem 1.2rem;
-  transition: all 0.2s ease;
+    font-family: var(--md-text-font);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    transition: all 0.2s ease;
 }
 
 /* Accordion overrides for better Material look */
 .reactive-json .accordion-button {
-  font-family: var(--md-text-font);
-  font-size: var(--md-typeset-body-font-size);
-  font-weight: 500;
-  padding: 1rem 1.2rem;
+    font-family: var(--md-text-font);
+    font-size: var(--md-typeset-body-font-size);
+    font-weight: 500;
+    padding: 1rem 1.2rem;
 }
 
 .reactive-json .accordion-body {
-  font-size: var(--md-typeset-body-font-size);
-  line-height: var(--md-typeset-line-height);
+    font-size: var(--md-typeset-body-font-size);
+    line-height: var(--md-typeset-line-height);
 }
 
 /* Fix accordion header margins - higher specificity selector */
 .reactive-json .accordion .accordion-item .accordion-header {
-  margin-top: 0;
-  margin-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .reactive-json .accordion .accordion-item .accordion-header h2 {
-  margin-top: 0;
-  margin-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 /* Tab navigation styling */
 .reactive-json .nav-tabs {
-  border-bottom: 2px solid var(--md-border-color);
-  margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--md-border-color);
+    margin-bottom: 1.5rem;
 }
 
 /* Remove margins from nav-item list elements in tabs */
 .reactive-json ul.nav.nav-tabs > li.nav-item {
-  margin-top: 0;
-  margin-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .reactive-json .nav-tabs .nav-link {
-  font-family: var(--md-text-font);
-  font-size: var(--md-typeset-body-font-size);
-  font-weight: 500;
-  color: var(--md-default-fg-color--light);
-  border: none;
-  border-bottom: 2px solid transparent;
-  padding: 0.75rem 1.2rem;
-  background: none;
+    font-family: var(--md-text-font);
+    font-size: var(--md-typeset-body-font-size);
+    font-weight: 500;
+    color: var(--md-default-fg-color--light);
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.75rem 1.2rem;
+    background: none;
 }
 
 .reactive-json .nav-tabs .nav-link:hover {
-  border-color: transparent;
-  background: none;
-  color: var(--md-primary-fg-color);
+    border-color: transparent;
+    background: none;
+    color: var(--md-primary-fg-color);
 }
 
 .reactive-json .nav-tabs .nav-link.active {
-  background: none;
-  border-color: transparent;
-  border-bottom-color: var(--md-primary-fg-color);
-  color: var(--md-primary-fg-color);
-  font-weight: 600;
+    background: none;
+    border-color: transparent;
+    border-bottom-color: var(--md-primary-fg-color);
+    color: var(--md-primary-fg-color);
+    font-weight: 600;
 }
 
 /* Tab content styling */
 .reactive-json .tab-content {
-  padding: 0;
+    padding: 0;
 }
 
 /* RjBuildDescriber component styling */
 .reactive-json .fs-3 {
-  font-family: var(--md-text-font);
-  font-size: var(--md-typeset-h3-font-size);
-  font-weight: 500;
-  color: var(--md-default-fg-color);
-  margin-bottom: 1rem;
+    font-family: var(--md-text-font);
+    font-size: var(--md-typeset-h3-font-size);
+    font-weight: 500;
+    color: var(--md-default-fg-color);
+    margin-bottom: 1rem;
 }
 
 .reactive-json .fw-bold {
-  font-family: var(--md-text-font);
-  font-weight: 600;
-  color: var(--md-default-fg-color);
+    font-family: var(--md-text-font);
+    font-weight: 600;
+    color: var(--md-default-fg-color);
 }
 
 /* ===================================================================
@@ -503,28 +504,28 @@ body {
 
 /* Larger screens - slightly increase base font size */
 @media (min-width: 1200px) {
-  :root {
-    --md-typeset-body-font-size: 1.1rem;
-    --md-typeset-h1-font-size: 2.2rem;
-    --md-typeset-h2-font-size: 1.6rem;
-    --md-typeset-h3-font-size: 1.3rem;
-  }
+    :root {
+        --md-typeset-body-font-size: 1.1rem;
+        --md-typeset-h1-font-size: 2.2rem;
+        --md-typeset-h2-font-size: 1.6rem;
+        --md-typeset-h3-font-size: 1.3rem;
+    }
 }
 
 /* Smaller screens - adjust spacing and font sizes */
 @media (max-width: 768px) {
-  :root {
-    --md-typeset-body-font-size: 1.05rem;
-    --md-typeset-h1-font-size: 1.8rem;
-    --md-typeset-h2-font-size: 1.4rem;
-    --md-typeset-h3-font-size: 1.2rem;
-    --md-typeset-spacing-horizontal: 1rem;
-  }
-  
-  .reactive-json .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+    :root {
+        --md-typeset-body-font-size: 1.05rem;
+        --md-typeset-h1-font-size: 1.8rem;
+        --md-typeset-h2-font-size: 1.4rem;
+        --md-typeset-h3-font-size: 1.2rem;
+        --md-typeset-spacing-horizontal: 1rem;
+    }
+
+    .reactive-json .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 /* ===================================================================
@@ -532,21 +533,21 @@ body {
    =================================================================== */
 
 @media print {
-  .reactive-json {
-    font-size: 12pt;
-    line-height: 1.5;
-    color: #000;
-    background: #fff;
-  }
-  
-  .reactive-json h1,
-  .reactive-json h2,
-  .reactive-json h3 {
-    page-break-after: avoid;
-  }
-  
-  .reactive-json pre,
-  .reactive-json blockquote {
-    page-break-inside: avoid;
-  }
-} 
+    .reactive-json {
+        font-size: 12pt;
+        line-height: 1.5;
+        color: #000;
+        background: #fff;
+    }
+
+    .reactive-json h1,
+    .reactive-json h2,
+    .reactive-json h3 {
+        page-break-after: avoid;
+    }
+
+    .reactive-json pre,
+    .reactive-json blockquote {
+        page-break-inside: avoid;
+    }
+}
