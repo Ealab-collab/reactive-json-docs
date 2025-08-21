@@ -258,6 +258,14 @@ export const docsPageNavigation = {
                     },
                 },
             },
+            "/docs/core/element/debug": {
+                title: "Debug elements",
+                items: {
+                    "/docs/core/element/debug/VariablesDebug": {
+                        title: "VariablesDebug",
+                    },
+                },
+            },
             "/docs/core/dataMapping": {
                 title: "Data Mapping",
                 items: {

@@ -1,0 +1,71 @@
+renderView:
+  - type: Markdown
+    content: |
+      # VariablesDebug
+
+      The `VariablesDebug` component renders a floating debug panel that lets you inspect the
+      current template data at runtime. It is intended for development and debugging purposes
+      to quickly see the values available in the active template context.
+
+      ## Properties
+
+      None
+
+      ## Behavior
+      - Renders a floating panel that can be expanded/collapsed.
+      - Displays the current template path.
+      - Switches between two modes: a flattened key/value list or a formatted JSON view.
+      - Copies the current view to the clipboard (list or JSON).
+      - Uses a portal (`#rj-debug-root`) injected into `document.body`.
+      - Returns `null` when `document` is not available (e.g., SSR).
+      - Multiple `VariablesDebug` components can be used in the same page.
+
+  - type: RjBuildDescriber
+    title: "Example"
+    description:
+      type: Markdown
+      content: |
+        This example shows how to use the `VariablesDebug` component to display the current template data.
+
+        Click the button to open the debug panel.
+
+        As the `VariablesDebug` declaration is located at the RjBuild root, it will show the global data assigned to the root.
+
+    toDescribe:
+      renderView:
+        - type: VariablesDebug
+          actions:
+            - what: hide
+              when: ~.openDebug
+              isEmpty:
+
+        - type: button
+          content: Open/close the debug panel
+          actions:
+            - what: setData
+              on: click
+              path: ~.openDebug
+              value: true
+              when: ~.openDebug
+              isNot: true
+              stopPropagation: true
+            - what: setData
+              on: click
+              path: ~.openDebug
+              value: false
+              when: ~.openDebug
+              isNot: false
+              stopPropagation: true
+
+      data:
+        user:
+          name: "Alice"
+          email: "alice@example.com"
+
+  - type: Markdown
+    content: |
+      ## Notes
+      - Best used only in development environments. You should not ship it in production UIs.
+      - Clipboard access depends on browser permissions/policies.
+      - Do not include too many `VariablesDebug` components in the same page; otherwise,
+        the vertical space available will be too small to be useful.
