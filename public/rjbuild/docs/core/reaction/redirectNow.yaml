@@ -7,10 +7,17 @@ renderView:
 
       ## Properties
 
-      - `what` (string, required): The name of the reaction, which must be `redirectNow`.
-      - `on` (string, required): The name of the event that triggers the reaction (e.g., `click`).
-      - `to` (string, required): The URL to redirect to. This value is evaluated, so it can be a static URL or dynamically constructed from data.
+  - type: DefinitionList
+    content:
+      - term:
+          code: to
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "The URL to redirect to. This value is evaluated, so it can be a static URL or dynamically constructed from data"
 
+  - type: Markdown
+    content: |
       ## Behavior
 
       - When triggered, the reaction evaluates the `to` property to get the target URL.

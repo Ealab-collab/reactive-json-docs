@@ -11,10 +11,10 @@ renderView:
 
       When you define actions with event handlers (like `on: "click"`), the Actions system automatically:
 
-      1. Collects all reactions with event handlers for the element
-      2. Groups them by event type (click, change, mouseover, etc.)
-      3. Creates a ReactOnEvent component that attaches the appropriate event listeners
-      4. Wraps the target element with these event handlers
+      1. Collects all reactions with event handlers for the element.
+      2. Groups them by event type (click, change, mouseover, etc.).
+      3. Creates a ReactOnEvent component that attaches the appropriate event listeners.
+      4. Wraps the target element with these event handlers.
 
       ## Usage Pattern
 

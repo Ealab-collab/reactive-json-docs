@@ -10,12 +10,34 @@ renderView:
 
       ## Properties
 
-      - `dataLocation` (string, optional): Path to bind the field value in the data context
-      - `defaultFieldValue` (string, optional): Default value when no data is present
-      - `label` (string, optional): Field label text
-      - `attributes` (object, optional): Attributes applied to the Form.Group container
-      - `actions` (array, optional): Actions to execute based on field state. Supports both actions (hide, tooltip, etc.) and conditional reactions (setData, fetchData, etc.) with full conditional logic support
+  - type: DefinitionList
+    content:
+      - term:
+          code: dataLocation
+          after: "(string, optional)"
+        details: Path to bind the field value in the data context.
+      - term:
+          code: defaultFieldValue
+          after: "(string, optional)"
+        details: Default value when no data is present.
+      - term:
+          code: label
+          after: "(string, optional)"
+        details: Field label text.
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: Attributes applied to the Form.Group container.
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details:
+          type: Markdown
+          content: |
+            Actions to execute based on field state. Supports both actions (hide, tooltip, etc.) and conditional reactions (setData, fetchData, etc.) with full conditional logic support.
 
+  - type: Markdown
+    content: |
       ## Data Management
 
       The component automatically synchronizes its value with the global data context as an ISO 8601 datetime string format (YYYY-MM-DDTHH:mm). When using `dataLocation`, the value is stored at the specified path. Without `dataLocation`, the value is stored in the template context using the component's `datafield`.

@@ -3,10 +3,11 @@ renderView:
     content: |
       # Hide
 
-      **Description**: Completely hides the element and cancels any subsequent actions.
+      Completely hides the element and cancels any subsequent actions.
 
       ## Properties
-      - None
+
+      None.
 
       ## Behavior
       - The element and its children are not rendered in the DOM.
@@ -18,7 +19,7 @@ renderView:
       - type: Markdown
         content: |
           This example shows how the `hide` action completely removes an element from the DOM based on a condition.
-          
+
           Try toggling the visibility to see how the `hide` action works differently from just making something invisible.
 
     toDescribe:

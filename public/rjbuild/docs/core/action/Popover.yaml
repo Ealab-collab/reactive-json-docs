@@ -3,13 +3,36 @@ renderView:
     content: |
       # Popover
 
-      **Description**: Displays a Bootstrap popover on click or hover of the element.
+      Displays a Bootstrap popover on click or hover of the element.
 
       ## Properties
-      - `header` (optional): content of the popover header
-      - `body`: content of the popover body
-      - `placement` (optional): position (`top`, `bottom`, `left`, `right`)
-      - `trigger` (optional): trigger event (`click`, `hover`, etc.)
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: header
+          after: "(optional)"
+        details:
+          type: Markdown
+          content: "Content of the popover header."
+      - term:
+          code: body
+          after: "(required)"
+        details:
+          type: Markdown
+          content: "Content of the popover body."
+      - term:
+          code: placement
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Position (`top`, `bottom`, `left`, `right`)."
+      - term:
+          code: trigger
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Trigger event (`click`, `hover`, etc.)."
 
   - type: RjBuildDescriber
     title: "Popover Action Example"

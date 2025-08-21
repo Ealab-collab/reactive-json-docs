@@ -6,16 +6,52 @@ renderView:
       The `SyntaxHighlighter` component provides syntax highlighting for code snippets using the react-syntax-highlighter library. It supports multiple programming languages and themes, making it perfect for displaying formatted code in documentation or tutorials.
 
       ## Properties
-      - `content` (string, required): The code content to highlight (supports template evaluation)
-      - `language` (string, optional): Programming language for syntax highlighting (default: "text")
-      - `style` (object, optional): Custom style theme for highlighting (overrides automatic dark mode detection)
-      - `lightStyle` (object, optional): Style theme for light mode (supports template evaluation)
-      - `darkStyle` (object, optional): Style theme for dark mode (supports template evaluation)
-      - `showLineNumbers` (boolean, optional): Whether to display line numbers (default: false)
-      - `wrapLines` (boolean, optional): Whether to wrap lines (default: false)
-      - `wrapLongLines` (boolean, optional): Whether to wrap long lines (default: false)
-      - `attributes` (object, optional): HTML attributes for the wrapper div
 
+  - type: DefinitionList
+    content:
+      - term:
+          code: content
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "The code content to highlight (supports template evaluation)."
+      - term:
+          code: language
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Programming language for syntax highlighting (default: `text`)."
+      - term:
+          code: style
+          after: "(object, optional)"
+        details: Custom style theme for highlighting (overrides automatic dark mode detection).
+      - term:
+          code: lightStyle
+          after: "(object, optional)"
+        details: Style theme for light mode (supports template evaluation).
+      - term:
+          code: darkStyle
+          after: "(object, optional)"
+        details: Style theme for dark mode (supports template evaluation).
+      - term:
+          code: showLineNumbers
+          after: "(boolean, optional)"
+        details: Whether to display line numbers (default: false).
+      - term:
+          code: wrapLines
+          after: "(boolean, optional)"
+        details: Whether to wrap lines (default: false).
+      - term:
+          code: wrapLongLines
+          after: "(boolean, optional)"
+        details: Whether to wrap long lines (default: false).
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: HTML attributes for the wrapper div.
+
+  - type: Markdown
+    content: |
       **Automatic Dark Mode**: The component automatically detects the user's color scheme preference and uses appropriate themes:
       - Light mode: `docco` theme by default
       - Dark mode: `atomOneDark` theme by default
@@ -230,9 +266,9 @@ renderView:
       The component automatically adapts to the user's system color scheme preference:
       
       ### Automatic Theme Detection
-      - **Light mode**: Uses the `docco` theme by default (clean, minimal highlighting)
-      - **Dark mode**: Uses the `atomOneDark` theme by default (modern dark theme with good contrast)
-      - **Real-time switching**: Themes change instantly when the user switches their system preference
+      - **Light mode**: Uses the `docco` theme by default (clean, minimal highlighting).
+      - **Dark mode**: Uses the `atomOneDark` theme by default (modern dark theme with good contrast).
+      - **Real-time switching**: Themes change instantly when the user switches their system preference.
       
       ### Custom Theme Configuration
       
@@ -261,10 +297,10 @@ renderView:
       ## Styling and Themes
       
       The component supports all react-syntax-highlighter themes. The style can be:
-      - A static style object imported from react-syntax-highlighter themes
-      - A template-evaluated value from your data context
-      - Any valid react-syntax-highlighter style configuration
-      - Different themes for light and dark modes using `lightStyle` and `darkStyle` properties
+      - A static style object imported from react-syntax-highlighter themes.
+      - A template-evaluated value from your data context.
+      - Any valid react-syntax-highlighter style configuration.
+      - Different themes for light and dark modes using `lightStyle` and `darkStyle` properties.
 
   - type: Markdown
     content: |
@@ -287,7 +323,7 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - Style themes must be compatible with react-syntax-highlighter
-      - Large code blocks may impact performance
-      - Line numbers display depends on the chosen theme
-      - Custom syntax definitions are not supported through the template system 
+      - Style themes must be compatible with react-syntax-highlighter.
+      - Large code blocks may impact performance.
+      - Line numbers display depends on the chosen theme.
+      - Custom syntax definitions are not supported through the template system.

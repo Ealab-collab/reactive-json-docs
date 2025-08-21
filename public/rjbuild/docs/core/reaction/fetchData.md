@@ -1,6 +1,5 @@
 # Reactive-JSON fetchData Documentation
 
-## Introduction
 `fetchData` is a reaction that allows making HTTP requests to a server. It operates in multiple modes, depending on configuration values.
 
 - Supports configurable HTTP methods (GET by default for backward compatibility)
@@ -9,11 +8,11 @@
 - The response can refresh the app (default) or be ignored
 
 ## Properties
-- `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
 - `httpMethod` (string, optional): The HTTP method to use (default: "get"). Supports: get, post, put, patch, delete, etc.
 - `refreshAppOnResponse` (boolean, optional): If true (default), the response will update the application. If false, the response is ignored (webhook mode).
 - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
 - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
+- `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
 
 ## Behavior
 - Supports configurable HTTP methods (GET by default for backward compatibility)

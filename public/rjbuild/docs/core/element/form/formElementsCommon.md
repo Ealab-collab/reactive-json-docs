@@ -1,7 +1,5 @@
 # Form Elements Common Utilities
 
-## Introduction
-
 The `formElementsCommon.jsx` file provides shared utilities for all form components in Reactive-JSON. These utilities handle data location resolution, path calculation, and default value management.
 
 ## propsDataLocationToPathAndValue Function
@@ -27,13 +25,13 @@ Returns an object with:
 
 The function implements two data binding strategies:
 
-#### 1. Custom Data Location
+#### Custom Data Location
 When `dataLocation` is provided:
 - Evaluates the template value at the specified location
 - Uses the resolved path for data updates
 - Falls back to `defaultValue` if the location is undefined
 
-#### 2. Template-Scoped Data
+#### Template-Scoped Data
 When no `dataLocation` is provided:
 - Uses the component's `datafield` as the key
 - Stores data in the template context under this key

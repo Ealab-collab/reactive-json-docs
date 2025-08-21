@@ -6,13 +6,22 @@ renderView:
       The `Tabs` component provides a tabbed interface using React-Bootstrap. Each tab must have a unique `eventKey` and a `title` in its attributes, and can contain any valid Reactive-JSON view content.
 
       ## Properties
-      - `tabs` (array, required): Static array of tab objects. This array is not evaluated by the template system and must be defined statically in the schema.
-        - Each tab object must have:
-          - `attributes` (object, required):
-            - `title` (string, required): The label of the tab
-            - `eventKey` (string, required): A unique identifier for the tab
-            - Other attributes are passed to the React-Bootstrap Tab component
-          - `content` (array/object, required): The content to display in the tab. Can be any valid Reactive-JSON view (components, arrays, templates, etc.)
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: tabs
+          after: "(array, required)"
+        details:
+          type: Markdown
+          content: |
+            Static array of tab objects. This array is not evaluated by the template system and must be defined statically in the schema.
+            Each tab object must have:
+            - `attributes` (object, required):
+              - `title` (string, required): The label of the tab.
+              - `eventKey` (string, required): A unique identifier for the tab.
+              - Other attributes are passed to the React-Bootstrap Tab component.
+            - `content` (array|object, required): The content to display in the tab. Can be any valid Reactive-JSON view (components, arrays, templates, etc.)
 
   - type: RjBuildDescriber
     title: "Interactive Example: Editable tabs"
@@ -47,11 +56,11 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - The `tabs` array must be static in the schema (no dynamic generation or template evaluation)
-      - Each tab must have a unique `eventKey` in its attributes
-      - The `title` attribute is required for each tab
-      - No support for dynamic addition/removal of tabs at runtime
-      - No built-in support for icons in tab headers
-      - No animation customization beyond what react-bootstrap provides
-      - All tab content is rendered at once (not lazy-loaded)
-      - Tab selection state is not persisted between renders
+      - The `tabs` array must be static in the schema (no dynamic generation or template evaluation).
+      - Each tab must have a unique `eventKey` in its attributes.
+      - The `title` attribute is required for each tab.
+      - No support for dynamic addition/removal of tabs at runtime.
+      - No built-in support for icons in tab headers.
+      - No animation customization beyond what react-bootstrap provides.
+      - All tab content is rendered at once (not lazy-loaded).
+      - Tab selection state is not persisted between renders.

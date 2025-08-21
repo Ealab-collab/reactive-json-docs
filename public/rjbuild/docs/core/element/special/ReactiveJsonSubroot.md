@@ -1,7 +1,5 @@
 # ReactiveJsonSubroot
 
-## Introduction
-
 The `ReactiveJsonSubroot` component allows you to render a new Reactive-JSON root inside an existing application. It is useful for embedding a sub-application, isolating a part of the data tree, or rendering a separate rjbuild with its own options.
 
 With the `sharedUpdates` feature, the component can also propagate data changes back to the parent, enabling seamless communication between parent and subroot when working with shared data references.
@@ -60,15 +58,15 @@ When `sharedUpdates: true` is enabled, the component automatically detects templ
 
 ### Supported vs Unsupported Cases
 
-#### ✅ Supported cases
+#### Supported cases
 
-##### 1. Direct reference
+##### Direct reference
 ```yaml
 dataOverride: ~~.user
 # Modifications in the subroot propagate to "user" in the parent
 ```
 
-##### 2. Object mapping with references
+##### Object mapping with references
 ```yaml
 dataOverride:
   userInfo: ~~.user
@@ -77,19 +75,19 @@ dataOverride:
 # Modifications to "settings" propagate to "config" in the parent
 ```
 
-##### 3. Local references
+##### Local references
 ```yaml
 dataOverride: ~.localData
 # Modifications propagate to the local template context
 ```
 
-##### 4. Hierarchical references
+##### Hierarchical references
 ```yaml
 dataOverride: ~>key.someData
 # Modifications propagate up the template hierarchy
 ```
 
-##### 5. Arrays in dataOverride
+##### Arrays in dataOverride
 ```yaml
 dataOverride:
   - ~~.firstItem
@@ -97,7 +95,7 @@ dataOverride:
 # Array items with template references are properly handled
 ```
 
-#### ❌ Unsupported cases
+#### Unsupported cases
 
 ##### Nested references in data
 ```yaml

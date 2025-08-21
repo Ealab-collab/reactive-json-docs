@@ -7,15 +7,45 @@ renderView:
 
       ## Properties
 
-      - `dataLocation` (string, optional): Path to bind the field value in the data context
-      - `defaultFieldValue` (string, optional): Default value when no data is present
-      - `label` (string, optional): Field label text (supports template evaluation)
-      - `placeholder` (string, optional): Placeholder text (supports template evaluation)
-      - `inputType` (string, optional): HTML input type (default: "text", supports template evaluation)
-      - `attributes` (object, optional): Attributes applied to the Form.Group container
-      - `inputAttributes` (object, optional): Attributes applied directly to the input element
-      - `actions` (array, optional): Actions to execute based on field state
+  - type: DefinitionList
+    content:
+      - term:
+          code: dataLocation
+          after: "(string, optional)"
+        details: "Path to bind the field value in the data context."
+      - term:
+          code: defaultFieldValue
+          after: "(string, optional)"
+        details: "Default value when no data is present."
+      - term:
+          code: label
+          after: "(string, optional)"
+        details: "Field label text (supports template evaluation)."
+      - term:
+          code: placeholder
+          after: "(string, optional)"
+        details: "Placeholder text (supports template evaluation)."
+      - term:
+          code: inputType
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "HTML input type (default: \"text\", supports template evaluation)."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Attributes applied to the Form.Group container."
+      - term:
+          code: inputAttributes
+          after: "(object, optional)"
+        details: "Attributes applied directly to the input element."
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details: "Actions to execute based on field state."
 
+  - type: Markdown
+    content: |
       ## Data Management
 
       The component automatically synchronizes its value with the global data context. When using `dataLocation`, the value is stored at the specified path. Without `dataLocation`, the value is stored in the template context using the component's `datafield`.

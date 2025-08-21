@@ -8,10 +8,27 @@ renderView:
       **Note:** The `tag` property must be a static string. It cannot be set dynamically via template or data.
 
       ## Properties
-      - `tag` (string, required): The HTML tag to render (e.g., div, span, section)
-      - `attributes` (object, optional): Attributes for the tag (class, id, etc.)
-      - `content` (object/array, optional): Content to render inside the tag (any Reactive-JSON view or array)
-      - `extra` (object, optional): Additional content rendered after the main tag
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: tag
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "The HTML tag to render (e.g., div, span, section)."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Attributes for the tag (class, id, etc.)."
+      - term:
+          code: content
+          after: "(object|array, optional)"
+        details: "Content to render inside the tag (any Reactive-JSON view or array)."
+      - term:
+          code: extra
+          after: "(object, optional)"
+        details: "Additional content rendered after the main tag."
 
   - type: BsAlert
     attributes:
@@ -60,8 +77,8 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - The `tag` property does not support template evaluation and must be a static string
-      - No validation of tag names; invalid tags may cause rendering errors
-      - No support for dangerouslySetInnerHTML (use PreformattedMarkup for raw HTML)
-      - No built-in support for event handlers (use actions system for interactivity)
-      - No automatic support for custom attributes beyond React's attribute normalization
+      - The `tag` property does not support template evaluation and must be a static string.
+      - No validation of tag names; invalid tags may cause rendering errors.
+      - No support for dangerouslySetInnerHTML (use PreformattedMarkup for raw HTML).
+      - No built-in support for event handlers (use actions system for interactivity).
+      - No automatic support for custom attributes beyond React's attribute normalization.

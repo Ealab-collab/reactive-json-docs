@@ -6,9 +6,24 @@ renderView:
       `addData` is a reaction that allows adding data at a specified path in the application's data context. It's particularly useful for appending new items to arrays or adding new properties to objects.
 
       ## Properties
-      - `path` (string, required): The location where the data should be added (using template path syntax with `~` or `~~`). If the path does not exist, it will be created automatically.
-      - `value` (any, optional): The data to add. Can be any valid JSON value (string, number, object, array).
 
+  - type: DefinitionList
+    content:
+      - term:
+          code: path
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "The location where the data should be added (using template path syntax with `~` or `~~`). If the path does not exist, it will be created automatically"
+      - term:
+          code: value
+          after: "(any, optional)"
+        details:
+          type: Markdown
+          content: "The data to add. Can be any valid JSON value (string, number, object, array)"
+
+  - type: Markdown
+    content: |
       ## Behavior
       - If the path doesn't exist, it will be created automatically
       - For arrays, the value is appended to the end

@@ -4,14 +4,14 @@ The `CheckBoxField` component renders checkbox or radio button groups using Reac
 
 ## Properties
 
-- `dataLocation` (string, optional): Path to bind the field value in the data context
-- `defaultFieldValue` (any, optional): Default value when no data is present
-- `options` (array, optional): Static array of option objects with `label` and `value` properties
-- `dynamicOptions` (string, optional): Template path to dynamic options array
-- `controlType` (string, optional): Type of control - "checkbox" (default) or "radio"
-- `multiple` (boolean, optional): Force array storage for checkboxes (default: auto-detected)
-- `attributes` (object, optional): Attributes applied to the Form.Group container
-- `actions` (array, optional): Actions to execute based on field state
+- `dataLocation` (string, optional): Path to bind the field value in the data context.
+- `defaultFieldValue` (any, optional): Default value when no data is present.
+- `options` (array, optional): Static array of option objects with `label` and `value` properties.
+- `dynamicOptions` (string, optional): Template path to dynamic options array.
+- `controlType` (string, optional): Type of control - "checkbox" (default) or "radio".
+- `multiple` (boolean, optional): Force array storage for checkboxes (default: auto-detected).
+- `attributes` (object, optional): Attributes applied to the Form.Group container.
+- `actions` (array, optional): Actions to execute based on field state.
 
 ## Option Format
 

@@ -1,13 +1,9 @@
 # Reaction: setData
 
-## Introduction
-
 The `setData` reaction updates the data at a specific location in the global data context. It is one of the most fundamental reactions for managing state and making applications interactive. It can be used to set simple values, objects, or the result of a template evaluation.
 
 ## Properties
 
-- `what` (string, required): The name of the reaction, which must be `setData`.
-- `on` (string, required): The name of the event that triggers the reaction (e.g., `click`, `change`).
 - `path` (string, required): The target location in the data context where the value will be set. It supports `~.` notation for relative paths.
 - `value` (any, required): The value to set at the specified path. This value is evaluated, so it can be a literal, a path to other data, or a template string.
 - **Conditional properties** (optional): Like all reactions, `setData` supports conditional execution using `when`, `is`, `isNot`, `isEmpty`, `contains`, `>`, `<`, `>=`, `<=`, `andConditions`, `orConditions`.

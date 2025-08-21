@@ -1,10 +1,10 @@
 # Tooltip
 
-**Description**: Displays a Bootstrap tooltip when hovering over the element.
+Displays a Bootstrap tooltip when hovering over the element.
 
 ## Properties
-- `content`: tooltip content (text or component)
-- `placement` (optional): tooltip position (`top`, `bottom`, `left`, `right`)
+- `content`: Tooltip content (text or component).
+- `placement` (optional): Tooltip position (`top`, `bottom`, `left`, `right`).
 
 ## Example
 ```yaml

@@ -1,13 +1,9 @@
 # Reaction: postMessage
 
-## Introduction
-
 The `postMessage` reaction sends a message to another window or frame using the standard `window.postMessage` Web API. This is useful for communication between your Reactive-JSON application and a parent window (if embedded in an iframe) or for other cross-origin communication scenarios.
 
 ## Properties
 
-- `what` (string, required): The name of the reaction, must be `postMessage`.
-- `on` (string, required): The event that triggers the reaction (e.g., `click`, `change`).
 - `message` (any, required): The data to send as the message. This value is evaluated and can be any serializable type (string, number, object, array).
 - `messageTarget` (string, optional): The target window for the message. Can be `'parent'` (the default) or `'self'`.
 - `targetOrigin` (string, optional): Specifies the origin of the target window for security. Defaults to the current window's origin (`window.location.origin`). Use `"*"` for any origin, but be aware of the security implications.

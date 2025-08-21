@@ -1,9 +1,9 @@
 # Hide
 
-**Description**: Completely hides the element and cancels any subsequent actions.
+Completely hides the element and cancels any subsequent actions.
 
 ## Properties
-- None
+None.
 
 ## Behavior
 - The element and its children are not rendered in the DOM.

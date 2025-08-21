@@ -11,11 +11,12 @@ renderView:
       disappearance of the default collapse button.
 
       ## Properties
-      No properties.
+
+      None.
 
       ## Technical Details
-      - Renders a button with CSS classes for styling
-      - Only appears when the tree item has children and supports collapsing
+      - Renders a button with CSS classes for styling.
+      - Only appears when the tree item has children and supports collapsing.
 
   - type: RjBuildDescriber
     title: "Interactive Example: Tree with a right aligned collapse button"
@@ -85,8 +86,8 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - Only works within the template context of a `FolderSortableTree` item
-      - The button only appears when the tree item has children (`childCount > 0`)
-      - No customization of the collapse/expand behavior beyond what the underlying SortableTree provides
+      - Only works within the template context of a `FolderSortableTree` item.
+      - The button only appears when the tree item has children (`childCount > 0`).
+      - No customization of the collapse/expand behavior beyond what the underlying SortableTree provides.
       - The styling is controlled by the dnd-kit-sortable-tree CSS classes. You will need to provide CSS to override
         the default styling.

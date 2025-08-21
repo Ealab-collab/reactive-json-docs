@@ -28,7 +28,7 @@ data: # Data used by renderView and templates
 
 ## Component Architecture Patterns
 
-### 1. Basic Element Component Structure
+### Basic Element Component Structure
 
 ```jsx
 import {ActionDependant} from "@ea-lab/reactive-json/dist/engine";
@@ -56,7 +56,7 @@ export const ComponentName = ({props}) => {
 };
 ```
 
-### 2. Form Element Component Structure
+### Form Element Component Structure
 
 ```jsx
 import {useContext} from 'react';
@@ -93,7 +93,7 @@ export const FormComponentName = ({props, datafield, path}) => {
 };
 ```
 
-### 3. Component with View (Nested Content)
+### Component with View (Nested Content)
 
 ```jsx
 import {View} from "@ea-lab/reactive-json/dist/engine";
@@ -120,7 +120,7 @@ export const WrapperComponent = ({props, path, currentData, datafield}) => {
 };
 ```
 
-### 4. Generic Bootstrap Wrapper
+### Generic Bootstrap Wrapper
 
 ```jsx
 import {ActionDependant} from "@ea-lab/reactive-json/dist/engine";
@@ -151,7 +151,7 @@ export function BootstrapElement({props, currentData, path, bsComponent}) {
 }
 ```
 
-### 5. Action Component Structure
+### Action Component Structure
 
 ```jsx
 import {useContext, useEffect} from "react";
@@ -200,7 +200,7 @@ Other specialized contexts are available.
 
 ## Component Creation Rules
 
-### 1. Import Path Conventions
+### Import Path Conventions
 
 **Consumer application** (package imports - **RECOMMENDED**):
 ```jsx
@@ -219,7 +219,7 @@ import {GlobalDataContext} from "../../../engine/GlobalDataContext.jsx";
 
 > **Important Note**: The relative path syntax (`../../../engine/`) is reserved for developing internal components within the reactive-json package. For all other use cases, use package imports with `@ea-lab/reactive-json/dist/engine`.
 
-### 2. Component Signature Standards
+### Component Signature Standards
 ✅ **Correct**:
 ```jsx
 export const Component = ({props}) => {
@@ -234,17 +234,17 @@ export const Component = ({props, customValue}) => {
 }
 ```
 
-### 3. Error Handling
+### Error Handling
 - Components should fail silently when misconfigured
 - Return `null` for invalid configurations
 - Don't crash the application
 
-### 4. Feature Implementation Priority
+### Feature Implementation Priority
 1. **Essential features**: Core functionality
 2. **Requested features**: When explicitly asked
 3. **Optional features**: Keep minimal complexity
 
-### 5. Default Behavior
+### Default Behavior
 - Provide sensible defaults
 - Allow overriding via YAML/JSON configuration
 - Keep React components simple
@@ -289,23 +289,23 @@ export const CustomRoot = (props) => {
 
 ## Best Practices
 
-### 1. Code Organization
+### Code Organization
 - Order imports alphabetically by path
 - Order object properties alphabetically
 - Use JSX for reactive-json library components
 - Export components via `index.js`: `export * from "./ComponentName.jsx";`
 
-### 2. Dynamic Values
+### Dynamic Values
 - Use `evaluateTemplateValue()` for single values
 - Use `evaluateTemplateValueCollection()` for arrays/objects
 - Always evaluate user-provided content
 
-### 3. Attributes & Actions
+### Attributes & Actions
 - Include attribute support via `useEvaluatedAttributes()`
 - Wrap content with `<ActionDependant {...props}>`
 - Support actions unless explicitly told not to
 
-### 4. CSS & Styling
+### CSS & Styling
 - Use CSS modules for component-specific styles (`Component.module.css`)
 - For external libraries, mention CSS import requirements
 - Prefer minimal styling approach

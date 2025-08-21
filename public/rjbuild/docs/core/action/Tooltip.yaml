@@ -3,11 +3,24 @@ renderView:
     content: |
       # Tooltip
 
-      **Description**: Displays a Bootstrap tooltip when hovering over the element.
+      Displays a Bootstrap tooltip when hovering over the element.
 
       ## Properties
-      - `content`: tooltip content (text or component)
-      - `placement` (optional): tooltip position (`top`, `bottom`, `left`, `right`)
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: content
+          after: "(required)"
+        details:
+          type: Markdown
+          content: "Tooltip content (text or component)."
+      - term:
+          code: placement
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Tooltip position (`top`, `bottom`, `left`, `right`)."
 
   - type: RjBuildDescriber
     title: "Tooltip Action Example"

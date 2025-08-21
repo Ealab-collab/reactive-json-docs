@@ -7,12 +7,35 @@ renderView:
       The `Modal` component displays a dialog that can be controlled by local state or by a boolean in the global data context. It is useful for confirmations, information, or any overlay content.
 
       ## Properties
-      - `headerTitle` (object, optional): Content for the modal header (any Reactive-JSON view)
-      - `body` (object, optional): Content for the modal body (any Reactive-JSON view)
-      - `closeButton` (boolean, optional): Show a close button in the header (default: false)
-      - `showBoolPath` (string or boolean, optional): If a string, path to a boolean in data controlling visibility; otherwise, local state is used
-      - `attributes` (object, optional): Additional attributes for the modal (size, centered, etc.)
-      - `className` (string, optional): Additional CSS classes (always includes `reactive-json`)
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: headerTitle
+          after: "(object, optional)"
+        details: "Content for the modal header (any Reactive-JSON view)."
+      - term:
+          code: body
+          after: "(object, optional)"
+        details: "Content for the modal body (any Reactive-JSON view)."
+      - term:
+          code: closeButton
+          after: "(boolean, optional)"
+        details: "Show a close button in the header (default: false)."
+      - term:
+          code: showBoolPath
+          after: "(string|boolean, optional)"
+        details:
+          type: Markdown
+          content: "If a string, path to a boolean in data controlling visibility; otherwise, local state is used."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Additional attributes for the modal (size, centered, etc.)."
+      - term:
+          code: className
+          after: "(string, optional)"
+        details: "Additional CSS classes (always includes `reactive-json`)."
 
   - type: RjBuildDescriber
     title: "Interactive Example: Modal controlled by data path"
@@ -83,11 +106,11 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - No built-in async or loading state
-      - No advanced accessibility beyond react-bootstrap
-      - If `showBoolPath` is a data path, it must resolve to a boolean
-      - No animation customization beyond react-bootstrap
+      - No built-in async or loading state.
+      - No advanced accessibility beyond react-bootstrap.
+      - If `showBoolPath` is a data path, it must resolve to a boolean.
+      - No animation customization beyond react-bootstrap.
 
       ## Notes
-      - Multiple modals can be displayed simultaneously by using different `showBoolPath` values or state-controlled modals
-      - Each modal is independently controlled and managed
+      - Multiple modals can be displayed simultaneously by using different `showBoolPath` values or state-controlled modals.
+      - Each modal is independently controlled and managed.

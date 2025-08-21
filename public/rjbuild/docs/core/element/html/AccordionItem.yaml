@@ -8,9 +8,21 @@ renderView:
       **Important:** `AccordionItem` must be a direct child of `BsAccordion`.
 
       ## Properties
-      - `header` (object, optional): Content for the accordion header
-      - `body` (object, optional): Content for the accordion body
-      - `attributes` (object, optional): Additional attributes for the Accordion.Item
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: header
+          after: "(object, optional)"
+        details: "Content for the accordion header."
+      - term:
+          code: body
+          after: "(object, optional)"
+        details: "Content for the accordion body."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Additional attributes for the Accordion.Item."
 
   - type: RjBuildDescriber
     title: "Interactive Example: Accordion with multiple sections"
@@ -41,7 +53,7 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - Only works inside a parent BsAccordion component
-      - No built-in support for nested accordions
-      - The eventKey is set automatically; custom keys are not supported directly
-      - No animation customization beyond what react-bootstrap provides
+      - Only works inside a parent BsAccordion component.
+      - No built-in support for nested accordions.
+      - The eventKey is set automatically; custom keys are not supported directly.
+      - No animation customization beyond what react-bootstrap provides.

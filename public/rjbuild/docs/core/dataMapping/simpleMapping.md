@@ -6,14 +6,14 @@ SimpleMapping is the core data mapping processor in Reactive-JSON that enables s
 
 ### stringMap Configuration
 
-- `value` (string, required): Source path in the HTTP response (e.g., `user.firstName`)
-- `required` (boolean, optional, default: true): Whether the source value must exist
-- `defaultValue` (any, optional): Fallback value when source is missing and not required
-- `updateMode` (string, optional, default: "replace"): How to apply the value (`replace`, `add`, `move`, `remove`)
+- `value` (string, required): Source path in the HTTP response (e.g., `user.firstName`).
+- `required` (boolean, optional, default: true): Whether the source value must exist.
+- `defaultValue` (any, optional): Fallback value when source is missing and not required.
+- `updateMode` (string, optional, default: "replace"): How to apply the value (`replace`, `add`, `move`, `remove`).
 
 ### onErrorMap Configuration
 
-- `value` (string, required): Can be either static values (e.g., `Error occurred`) or template references (e.g., `~~.errorTimestamp`)
+- `value` (string, required): Can be either static values (e.g., `Error occurred`) or template references (e.g., `~~.errorTimestamp`).
 
 ## Configuration Structure
 

@@ -1,7 +1,5 @@
 # addData
 
-## Introduction
-
 `addData` is a reaction that allows adding data at a specified path in the application's data context. It's particularly useful for appending new items to arrays or adding new properties to objects.
 
 ## Properties

@@ -10,14 +10,50 @@ renderView:
       - The response can refresh the app (default) or be ignored.
 
       ## Properties
-      - `url` (string, required): The destination URL for the request
-      - `httpMethod` (string, optional): The HTTP method to use (default: "post")
-      - `data` (object, optional): The data to send. If not specified, data is sent in an object with the structure `{ data: globalDataContext.templateData }`. If `__state` exists in the context, it is automatically added.
-      - `refreshAppOnResponse` (boolean, optional): If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`).
-      - `submitSilently` (boolean, optional): If true, doesn't apply visual disabling styles during submission
-      - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
-      - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
 
+  - type: DefinitionList
+    content:
+      - term:
+          code: url
+          after: "(string, required)"
+        details: "The destination URL for the request"
+      - term:
+          code: httpMethod
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "The HTTP method to use (default: \"post\")"
+      - term:
+          code: data
+          after: "(object, optional)"
+        details:
+          type: Markdown
+          content: "The data to send. If not specified, data is sent in an object with the structure `{ data: globalDataContext.templateData }`. If `__state` exists in the context, it is automatically added"
+      - term:
+          code: refreshAppOnResponse
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`)"
+      - term:
+          code: submitSilently
+          after: "(boolean, optional)"
+        details: "If true, doesn't apply visual disabling styles during submission"
+      - term:
+          code: updateOnlyData
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false"
+      - term:
+          code: updateDataAtLocation
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., \"~~.userProfile\", \"~.config.settings\"). If not specified, replaces the entire data object"
+
+  - type: Markdown
+    content: |
       ## Behavior
       - Only one submission can be active at a time (global lock)
       - The default HTTP method is POST, but can be customized

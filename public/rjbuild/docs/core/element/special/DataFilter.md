@@ -1,32 +1,31 @@
 # DataFilter
 
-## Introduction
-
 The `DataFilter` component allows you to filter data from the global or template context before rendering its content. It is particularly useful for conditional display of elements based on dynamic complex criteria, such as filtering lists, trees, or data subsets.
 
 ## Properties
-- `filters` (array, required): Array of filter objects, each specifying properties and conditions to check
-  - `subjectsWithProperty` (string): Property to check in the data, acts as namespace
-  - `andConditions` (array): List of conditions that must all be true
-  - `orConditions` (array): List of conditions where at least one must be true
+- `filters` (array, required): Array of filter objects, each specifying properties and conditions to check:
+  - `subjectsWithProperty` (string): Property to check in the data, acts as namespace.
+  - `andConditions` (array): List of conditions that must all be true.
+  - `orConditions` (array): List of conditions where at least one must be true.
   - Available conditions:
-    - `when`: Checks a condition on a value
-    - `is`: Compares exact equality
-    - `isNot`: Checks inequality
-    - `isEmpty`: Checks if a value is empty
-    - `contains`: Checks if a value contains a substring
-    - `>=`, `<=`, `>`, `<`: Numeric comparisons
-    - `compareAsDates`: Boolean to compare values as dates
-    - `whenFilterableData`: Specifies the data path to filter, must include the namespace
-- `context` (string, optional): Context to filter (`global` or `template`). Default: `global`
-- `content` (object/array, required): Content to render after filtering
+    - `when`: Checks a condition on a value.
+    - `is`: Compares exact equality.
+    - `isNot`: Checks inequality.
+    - `isEmpty`: Checks if a value is empty.
+    - `isNotEmpty`: Checks if a value is not empty.
+    - `contains`: Checks if a value contains a substring.
+    - `>=`, `<=`, `>`, `<`: Numeric comparisons.
+    - `compareAsDates`: Boolean to compare values as dates.
+    - `whenFilterableData`: Specifies the data path to filter, must include the namespace.
+- `context` (string, optional): Context to filter (`global` or `template`). Default: `global`.
+- `content` (object/array, required): Content to render after filtering.
 
 ## Behavior
-- Applies all filters to the selected context before content rendering
-- Supports complex filtering conditions with `andConditions` and `orConditions`
-- Allows recursive filtering while preserving data structure
-- Can be combined with other components to create interactive filtering interfaces
-- Supports dynamic filtering based on application state
+- Applies all filters to the selected context before content rendering.
+- Supports complex filtering conditions with `andConditions` and `orConditions`.
+- Allows recursive filtering while preserving data structure.
+- Can be combined with other components to create interactive filtering interfaces.
+- Supports dynamic filtering based on application state.
 
 ## Filterable Data Structure
 
@@ -59,10 +58,10 @@ filters:
 ```
 
 The identification key (here "item"):
-- Can have any name (`itemXyz`, `element`, etc.)
-- Must be consistent between data structure and conditions
-- Serves as a namespace for accessing properties in `whenFilterableData`
-- Is required for DataFilter to correctly identify filterable elements
+- Can have any name (`itemXyz`, `element`, etc.).
+- Must be consistent between data structure and conditions.
+- Serves as a namespace for accessing properties in `whenFilterableData`.
+- Is required for DataFilter to correctly identify filterable elements.
 
 ## Example
 
@@ -127,23 +126,23 @@ data:
 ```
 
 ## Advanced Use Cases
-- Multi-criteria filtering with combined conditions
-- Real-time search interface
-- Hierarchical data filtering (trees, sub-elements)
-- Complex state management (conflicts, modifications, new elements)
-- Integration with pagination components
-- Date-based filtering and numeric comparisons
+- Multi-criteria filtering with combined conditions.
+- Real-time search interface.
+- Hierarchical data filtering (trees, sub-elements).
+- Complex state management (conflicts, modifications, new elements).
+- Integration with pagination components.
+- Date-based filtering and numeric comparisons.
 
 ## Best Practices
-- Organize filters by logical category
-- Use comments to document complex conditions
-- Combine with UI components for interactive experience
-- Consider performance with large datasets
-- Use reusable templates for common filters
-- Use consistent namespace patterns across your application
+- Organize filters by logical category.
+- Use comments to document complex conditions.
+- Combine with UI components for interactive experience.
+- Consider performance with large datasets.
+- Use reusable templates for common filters.
+- Use consistent namespace patterns across your application.
 
 ## Limitations
-- Filtering is based on simple comparisons
-- Performance may be impacted with very large datasets
-- Does not support custom filtering functions
-- Filtering is applied recursively on the entire structure 
+- Filtering is based on simple comparisons.
+- Performance may be impacted with very large datasets.
+- Does not support custom filtering functions.
+- Filtering is applied recursively on the entire structure.

@@ -1,13 +1,9 @@
 # Reaction: triggerEvent
 
-## Introduction
-
 The `triggerEvent` reaction programmatically dispatches an event on one or more target elements found via a CSS selector. This allows for indirect interactions, such as one button triggering the `click` event of another element, or simulating user actions on specific components.
 
 ## Properties
 
-- `what` (string, required): The name of the reaction, must be `triggerEvent`.
-- `on` (string, required): The event that triggers this reaction.
 - `eventName` (string, required): The name of the event to dispatch on the target element(s) (e.g., `click`, `focus`).
 - `selector` (string, required): A CSS selector to identify the target element(s) that will receive the event.
 - `selectorBase` (string, optional): Defines the starting point for the `selector` search.

@@ -4,15 +4,15 @@ The `SelectField` component renders a dropdown selection field using React Boots
 
 ## Properties
 
-- `dataLocation` (string, optional): Path to bind the field value in the data context
-- `defaultFieldValue` (any, optional): Default value when no data is present
-- `label` (string, optional): Field label text (supports template evaluation)
-- `options` (array, optional): Static array of option objects with `label` and `value` properties
-- `dynamicOptions` (string, optional): Template path to dynamic options array
-- `allowEmptyStringAsValue` (boolean, optional): Preserve empty strings as `""` instead of converting to `undefined` (default: false)
-- `attributes` (object, optional): Attributes applied to the Form.Group container
-- `inputAttributes` (object, optional): Attributes applied directly to the select element
-- `actions` (array, optional): Actions to execute based on field state
+- `dataLocation` (string, optional): Path to bind the field value in the data context.
+- `defaultFieldValue` (any, optional): Default value when no data is present.
+- `label` (string, optional): Field label text (supports template evaluation).
+- `options` (array, optional): Static array of option objects with `label` and `value` properties.
+- `dynamicOptions` (string, optional): Template path to dynamic options array.
+- `allowEmptyStringAsValue` (boolean, optional): Preserve empty strings as `""` instead of converting to `undefined` (default: false).
+- `attributes` (object, optional): Attributes applied to the Form.Group container.
+- `inputAttributes` (object, optional): Attributes applied directly to the select element.
+- `actions` (array, optional): Actions to execute based on field state.
 
 ## Option Format
 

@@ -6,12 +6,13 @@ renderView:
       The `PageControls` component displays the pagination controls provided by the current `PaginationContext`. It is useful for rendering navigation controls (such as next/previous buttons or page numbers) in paginated lists or tables.
 
       ## Properties
-      - (none)
+
+      None.
 
       ## Behavior
-      - Renders the pagination controls from the current `PaginationContext` if available
-      - If no pagination controls are present in the context, renders nothing
-      - Intended to be used inside paginated views or lists
+      - Renders the pagination controls from the current `PaginationContext` if available.
+      - If no pagination controls are present in the context, renders nothing.
+      - Intended to be used inside paginated views or lists.
 
       ## Pagination Context
       The pagination context is provided by components like `Switch` when the `paginated` property is set to `true`.
@@ -123,10 +124,10 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - Only works if a `PaginationContext` is present and provides controls
-      - Does not manage pagination state itself; only renders controls from the context
-      - No customization of the controls via props
-      - Entirely depends on the parent component (like Switch) for pagination logic
+      - Only works if a `PaginationContext` is present and provides controls.
+      - Does not manage pagination state itself; only renders controls from the context.
+      - No customization of the controls via props.
+      - Entirely depends on the parent component (like Switch) for pagination logic.
 
 templates:
 

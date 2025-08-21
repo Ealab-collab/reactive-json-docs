@@ -6,9 +6,23 @@ renderView:
       The `FormatNumeral` component displays a number as a Roman numeral or Latin letter. Useful for sections, lists, or any context where a non-Arabic numeral is needed.
 
       ## Properties
-      - `content` (number, required): The number to format
-      - `format` (string, required): One of `roman-upper`, `roman-lower`, `latin-upper`, `latin-lower`
-      - `attributes` (object, optional): Additional attributes for the root element
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: content
+          after: "(number, required)"
+        details: "The number to format."
+      - term:
+          code: format
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "One of: `roman-upper`, `roman-lower`, `latin-upper`, `latin-lower`."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Additional attributes for the root element."
 
   - type: RjBuildDescriber
     title: "Interactive Example: Format a number"
@@ -52,7 +66,7 @@ renderView:
   - type: Markdown
     content: |
       ## Limitations
-      - Only positive integers are supported (no zero, negative, or fractional numbers)
-      - No support for custom numeral systems
-      - No localization or language-specific formatting
-      - No error message for invalid input; nothing is rendered if the input is invalid
+      - Only positive integers are supported (no zero, negative, or fractional numbers).
+      - No support for custom numeral systems.
+      - No localization or language-specific formatting.
+      - No error message for invalid input; nothing is rendered if the input is invalid.

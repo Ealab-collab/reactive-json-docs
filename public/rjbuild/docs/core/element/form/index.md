@@ -1,7 +1,5 @@
 # Form Elements
 
-## Introduction
-
 Form elements in Reactive-JSON provide interactive input components based on React Bootstrap. These components automatically manage state through the global data context and support template evaluation for dynamic content.
 
 All form elements support:

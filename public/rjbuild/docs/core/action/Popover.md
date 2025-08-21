@@ -1,12 +1,12 @@
 # Popover
 
-**Description**: Displays a Bootstrap popover on click or hover of the element.
+Displays a Bootstrap popover on click or hover of the element.
 
 ## Properties
-- `header` (optional): content of the popover header
-- `body`: content of the popover body
-- `placement` (optional): position (`top`, `bottom`, `left`, `right`)
-- `trigger` (optional): trigger event (`click`, `hover`, etc.)
+- `header` (optional): Content of the popover header.
+- `body`: Content of the popover body.
+- `placement` (optional): Position (`top`, `bottom`, `left`, `right`).
+- `trigger` (optional): Trigger event (`click`, `hover`, etc.).
 
 ## Example
 ```yaml

@@ -6,24 +6,61 @@ renderView:
       The `Switch` component allows you to render a list or collection of items using a template, with support for dynamic data, options, and pagination. It is useful for displaying arrays, lists, or collections where each item can be rendered with a specific template or configuration.
 
       ## Properties
-      - `content` (object/array/string, required): The data or path to the data to iterate over
-      - `options` (object, optional): Mapping of keys to templates for rendering each item (used for object/array of objects)
-      - `singleOption` (object, optional): Template to use for each item when all items share the same structure
-      - `cardinality` (number, optional): Maximum number of items to render (default: unlimited)
-      - `paginated` (boolean, optional): Whether to enable pagination (default: false)
-      - `paginationProps` (object, optional): Pagination configuration (page size, etc.)
-      - `before` (object, optional): Content to render before the list
-      - `after` (object, optional): Content to render after the list
-      - `contentWrapper` (object, optional): HTML element configuration to wrap the main content (items only, not before/after)
-        - `tag` (string, optional): HTML tag name (default: "div")
-        - `attributes` (object, optional): HTML attributes to apply to the wrapper element (supports template evaluation)
 
+  - type: DefinitionList
+    content:
+      - term:
+          code: content
+          after: "(object|array|string, required)"
+        details:
+          type: Markdown
+          content: "Data or path to the data to iterate over."
+      - term:
+          code: options
+          after: "(object, optional)"
+        details: "Mapping of keys to templates for rendering each item (used for object/array of objects)."
+      - term:
+          code: singleOption
+          after: "(object, optional)"
+        details: "Template to use for each item when all items share the same structure."
+      - term:
+          code: cardinality
+          after: "(number, optional)"
+        details: "Maximum number of items to render (default: unlimited)."
+      - term:
+          code: paginated
+          after: "(boolean, optional)"
+        details: "Whether to enable pagination (default: false)."
+      - term:
+          code: paginationProps
+          after: "(object, optional)"
+        details: "Pagination configuration (page size, etc.)."
+      - term:
+          code: before
+          after: "(object, optional)"
+        details: "Content to render before the list."
+      - term:
+          code: after
+          after: "(object, optional)"
+        details: "Content to render after the list."
+      - term:
+          code: contentWrapper
+          after: "(object, optional)"
+        details:
+          type: Markdown
+          content: |
+            HTML element configuration to wrap the main content (items only, not before/after):
+            - `tag` (string, optional): HTML tag name (default: `div`)
+            - `attributes` (object, optional): HTML attributes to apply to the wrapper element (supports template evaluation)
+
+  - type: Markdown
+    content: |
       ## Behavior
-      - Iterates over the provided data and renders each item using the specified template(s)
-      - If `options` is provided, uses the corresponding template for each key
-      - If `singleOption` is provided, uses the same template for all items
-      - Supports limiting the number of items with `cardinality`
-      - Supports pagination if `paginated` is true
+      - Iterates over the provided data and renders each item using the specified template(s).
+      - If `options` is provided, uses the corresponding template for each key.
+      - If `singleOption` is provided, uses the same template for all items.
+      - Supports limiting the number of items with `cardinality`.
+      - Supports pagination if `paginated` is true.
       - Renders optional `before` and `after` content
       - Can wrap the main content (items) with a custom HTML element using `contentWrapper`
 
@@ -88,7 +125,7 @@ renderView:
       ```
 
   - type: RjBuildDescriber
-    title: "1. Simple usage with `singleOption` (no pagination)"
+    title: "Simple usage with `singleOption` (no pagination)"
     description: |
       This example shows a basic Switch rendering a list of users with a single template.
     toDescribe:
@@ -108,7 +145,7 @@ renderView:
           - name: "Charlie"
 
   - type: RjBuildDescriber
-    title: "2. Usage with `options` (different templates per key)"
+    title: "Usage with `options` (different templates per key)"
     description: |
       This example shows how to use different templates for each key in the data.
     toDescribe:
@@ -139,7 +176,7 @@ renderView:
               value: 25
 
   - type: RjBuildDescriber
-    title: "3. Usage with `singleOption` and pagination (4 per page, 10 items)"
+    title: "Usage with `singleOption` and pagination (4 per page, 10 items)"
     description: |
       This example demonstrates pagination with 4 items per page and 10 items in total. PageControls is added to the end of the list.
     toDescribe:
@@ -173,7 +210,7 @@ renderView:
           - value: 10
 
   - type: RjBuildDescriber
-    title: "4. Usage with `contentWrapper` for CSS Grid Layout"
+    title: "Usage with `contentWrapper` for CSS Grid Layout"
     description: |
       This example demonstrates how to use contentWrapper to apply a CSS Grid layout to the Switch items.
     toDescribe:
@@ -239,7 +276,7 @@ renderView:
             description: "Affordable product D"
 
   - type: RjBuildDescriber
-    title: "5. Usage with `contentWrapper` and Pagination"
+    title: "Usage with `contentWrapper` and Pagination"
     description: |
       This example shows how contentWrapper works seamlessly with pagination.
     toDescribe:
@@ -288,7 +325,7 @@ renderView:
           - title: "Card 7"
 
   - type: RjBuildDescriber
-    title: "6. Dynamic `contentWrapper` with Template Evaluation"
+    title: "Dynamic `contentWrapper` with Template Evaluation"
     description: |
       This example demonstrates how contentWrapper attributes can use template evaluation to create dynamic layouts.
     toDescribe:

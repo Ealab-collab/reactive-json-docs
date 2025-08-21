@@ -3,10 +3,16 @@ renderView:
     content: |
       # Redirect
 
-      **Description**: Redirects the user to a given URL if the condition is met.
+      Redirects the user to a given URL if the condition is met.
 
       ## Properties
-      - `to`: destination URL
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: to
+          after: "(string, required)"
+        details: "Destination URL."
 
   - type: Markdown
     content: |

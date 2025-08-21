@@ -1,13 +1,9 @@
 # Reaction: redirectNow
 
-## Introduction
-
 The `redirectNow` reaction performs an immediate browser redirection to a specified URL. It is useful for navigating to a new page after an action is completed, such as after submitting a form or clicking a link.
 
 ## Properties
 
-- `what` (string, required): The name of the reaction, which must be `redirectNow`.
-- `on` (string, required): The name of the event that triggers the reaction (e.g., `click`).
 - `to` (string, required): The URL to redirect to. This value is evaluated, so it can be a static URL or dynamically constructed from data.
 
 ## Behavior

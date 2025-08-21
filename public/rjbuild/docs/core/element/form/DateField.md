@@ -7,11 +7,11 @@ The `DateField` component renders a date and time input field using React Bootst
 
 ## Properties
 
-- `dataLocation` (string, optional): Path to bind the field value in the data context
-- `defaultFieldValue` (string, optional): Default value when no data is present
-- `label` (string, optional): Field label text
-- `attributes` (object, optional): Attributes applied to the Form.Group container
-- `actions` (array, optional): Actions to execute based on field state. Supports both actions (hide, tooltip, etc.) and conditional reactions (setData, fetchData, etc.) with full conditional logic support
+- `dataLocation` (string, optional): Path to bind the field value in the data context.
+- `defaultFieldValue` (string, optional): Default value when no data is present.
+- `label` (string, optional): Field label text.
+- `attributes` (object, optional): Attributes applied to the Form.Group container.
+- `actions` (array, optional): Actions to execute based on field state. Supports both actions (hide, tooltip, etc.) and conditional reactions (setData, fetchData, etc.) with full conditional logic support.
 
 ## Data Management
 

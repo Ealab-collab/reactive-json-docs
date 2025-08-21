@@ -10,9 +10,20 @@ renderView:
       It is automatically used by higher-level components (such as BsAccordion, BsAlert, etc.) to provide Bootstrap features in a declarative way.
 
       ## Properties
-      - `attributes` (object, optional): Attributes passed to the underlying Bootstrap component
-      - `content` (object/array, optional): Content to render inside the Bootstrap component
 
+  - type: DefinitionList
+    content:
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Attributes passed to the underlying Bootstrap component."
+      - term:
+          code: content
+          after: "(object|array, optional)"
+        details: "Content to render inside the Bootstrap component."
+
+  - type: Markdown
+    content: |
       ## Limitations
-      - Not intended for direct use in rjbuild templates
-      - Used internally by the system for Bootstrap integration 
+      - Not intended for direct use in rjbuild templates.
+      - Used internally by the system for Bootstrap integration.

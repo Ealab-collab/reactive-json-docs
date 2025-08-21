@@ -3,10 +3,10 @@ renderView:
     content: |
       # VisuallyHide
 
-      **Description**: Visually hides the element but keeps it in the DOM (useful for accessibility or to keep the element reactive to events).
+      Visually hides the element but keeps it in the DOM (useful for accessibility or to keep the element reactive to events).
 
       ## Properties
-      - None
+      None.
 
       ## Behavior
       - The element is rendered in the DOM but with `display: none`.

@@ -48,28 +48,28 @@ renderView:
                 details:
                   type: Markdown
                   content: |
-                    Source path in the HTTP response (e.g., `user.firstName`)
+                    Source path in the HTTP response (e.g., `user.firstName`).
               - term:
                   code: required
                   after: " (optional, default: true)"
                 details:
                   type: Markdown
                   content: |
-                    Whether the source value must exist
+                    Whether the source value must exist.
               - term:
                   code: defaultValue
                   after: " (optional)"
                 details:
                   type: Markdown
                   content: |
-                    Fallback value when source is missing and not required
+                    Fallback value when source is missing and not required.
               - term:
                   code: updateMode
                   after: " (optional, default: \"replace\")"
                 details:
                   type: Markdown
                   content: |
-                    How to apply the value (`"replace"`, `"add"`, `"move"`, `"remove"`)
+                    How to apply the value (`"replace"`, `"add"`, `"move"`, `"remove"`).
 
   - type: DefinitionList
     content:
@@ -81,7 +81,7 @@ renderView:
             content: |
               The `onErrorMap` works like `stringMap`, but provides fallback values when main mappings fail.
 
-              Same key-value structure as `stringMap` (destination → configuration)
+              Same key-value structure as `stringMap` (destination → configuration).
 
               Applied only when corresponding `stringMap` entries fail and are marked as `required: true`.
 
@@ -95,7 +95,7 @@ renderView:
                 details:
                   type: Markdown
                   content: |
-                    Can be either static values (e.g., `Error occurred`) or template references (e.g., `~~.errorTimestamp`)
+                    Can be either static values (e.g., `Error occurred`) or template references (e.g., `~~.errorTimestamp`).
 
   - type: Markdown
     content: |

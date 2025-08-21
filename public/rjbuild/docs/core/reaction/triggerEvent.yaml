@@ -7,15 +7,31 @@ renderView:
 
       ## Properties
 
-      - `what` (string, required): The name of the reaction, must be `triggerEvent`.
-      - `on` (string, required): The event that triggers this reaction.
-      - `eventName` (string, required): The name of the event to dispatch on the target element(s) (e.g., `click`, `focus`).
-      - `selector` (string, required): A CSS selector to identify the target element(s) that will receive the event.
-      - `selectorBase` (string, optional): Defines the starting point for the `selector` search.
-        - If omitted, the search starts from the `document` root.
-        - If set to `'currentEventTarget'`, the search starts from the element that triggered the reaction.
-        - If set to another CSS selector, the search starts from the closest ancestor matching that selector.
+  - type: DefinitionList
+    content:
+      - term:
+          code: eventName
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "The name of the event to dispatch on the target element(s) (e.g., `click`, `focus`)"
+      - term:
+          code: selector
+          after: "(string, required)"
+        details: "A CSS selector to identify the target element(s) that will receive the event"
+      - term:
+          code: selectorBase
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: |
+            Defines the starting point for the `selector` search.
+            - If omitted, the search starts from the `document` root.
+            - If set to `'currentEventTarget'`, the search starts from the element that triggered the reaction.
+            - If set to another CSS selector, the search starts from the closest ancestor matching that selector.
 
+  - type: Markdown
+    content: |
       ## Behavior
 
       - When triggered, the reaction searches for elements matching the `selector` within the scope defined by `selectorBase`.
@@ -32,9 +48,7 @@ renderView:
   - type: RjBuildDescriber
     title: "Triggering a click on another element"
     description: |
-      In this example, clicking the first button does not update the status directly. Instead, it dispatches a `click` event on the second button.
-      The second button has its own `click` reaction that updates the status.
-      Therefore, clicking either button will result in the same final action: the status text gets updated.
+      In this example, clicking the first button (`Trigger a click...`) does not update the status directly. Instead, it dispatches a `click` event on the second button (`Update the status`). The second button has its own `click` reaction that updates the status. Therefore, clicking either button will result in the same final action: the status text gets updated.
     toDescribe:
       renderView:
         - type: button

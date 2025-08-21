@@ -7,13 +7,35 @@ renderView:
 
       ## Properties
 
-      - `what` (string, required): The name of the reaction, which must be `moveData`.
-      - `on` (string, required): The name of the event that triggers the reaction.
-      - `path` (string, optional): The path to the array element to move. Required if `target` is not used.
-      - `target` (string, optional): If set to `currentTemplateData`, the reaction will target the data associated with the current template item.
-      - `parentLevel` (number, optional): Used with `target: 'currentTemplateData'`. Specifies how many levels to go up from the current data path to find the element to move.
-      - `increment` (integer, required): The number of positions to move the element. A positive integer moves it down (towards the end of the array), and a negative integer moves it up (towards the beginning).
+  - type: DefinitionList
+    content:
+      - term:
+          code: path
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "The path to the array element to move. Required if `target` is not used"
+      - term:
+          code: target
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "If set to `currentTemplateData`, the reaction will target the data associated with the current template item"
+      - term:
+          code: parentLevel
+          after: "(number, optional)"
+        details:
+          type: Markdown
+          content: "Used with `target: 'currentTemplateData'`. Specifies how many levels to go up from the current data path to find the element to move"
+      - term:
+          code: increment
+          after: "(integer, required)"
+        details:
+          type: Markdown
+          content: "The number of positions to move the element. A positive integer moves it down (towards the end of the array), and a negative integer moves it up (towards the beginning)"
 
+  - type: Markdown
+    content: |
       ## Behavior
 
       - When triggered, `moveData` repositions an element within an array.

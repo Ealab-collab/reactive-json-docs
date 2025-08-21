@@ -1,13 +1,9 @@
 # Reaction: moveData
 
-## Introduction
-
 The `moveData` reaction changes the position of an element within an array in the global data context. This is particularly useful for reordering items in a list, for example, moving an item up or down. Like `removeData`, it can operate in `path` mode or `target` mode.
 
 ## Properties
 
-- `what` (string, required): The name of the reaction, which must be `moveData`.
-- `on` (string, required): The name of the event that triggers the reaction.
 - `path` (string, optional): The path to the array element to move. Required if `target` is not used.
 - `target` (string, optional): If set to `currentTemplateData`, the reaction will target the data associated with the current template item.
 - `parentLevel` (number, optional): Used with `target: 'currentTemplateData'`. Specifies how many levels to go up from the current data path to find the element to move.

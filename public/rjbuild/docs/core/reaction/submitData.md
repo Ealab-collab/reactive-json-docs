@@ -1,6 +1,5 @@
 # Reactive-JSON submitData Documentation
 
-## Introduction
 `submitData` is a reaction that allows sending data to a server via HTTP requests (usually POST). It's especially useful for form submissions and API interactions.
 
 - The payload can be customized with the `data` property.
@@ -44,7 +43,7 @@ This limitation is intentional to avoid data consistency issues but may be restr
 ### Styling Submitting State (CSS)
 You can visually disable form controls during submission using CSS. There are two main approaches:
 
-#### 1. Target only the submitting control (button, input, etc.)
+#### Target only the submitting control (button, input, etc.)
 The element that triggered the submission receives `data-is-submitting="true"` during the request:
 
 ```css
@@ -58,7 +57,7 @@ textarea[data-is-submitting="true"] {
 }
 ```
 
-#### 2. Target all controls globally during submission
+#### Target all controls globally during submission
 While a submission is in progress, the `<body>` receives `data-html-builder-is-submitting="true"`. You can use this to disable all form controls:
 
 ```css

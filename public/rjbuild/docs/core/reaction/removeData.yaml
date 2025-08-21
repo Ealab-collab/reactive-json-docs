@@ -5,8 +5,46 @@ renderView:
 
       The `removeData` reaction deletes data from a specific location in the global data context. It can operate in two modes: `path` mode or `target` mode.
 
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: path
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Path to the data to remove. Required if `target` is not used"
+      - term:
+          code: target
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "If set to `currentTemplateData`, the reaction will target the data associated with the current template item"
+      - term:
+          code: parentLevel
+          after: "(number, optional)"
+        details:
+          type: Markdown
+          content: "Used with `target: 'currentTemplateData'`. Specifies how many levels to go up from the current data path before removing. `0` means the current level"
+
+  - type: Markdown
+    content: |
+      ## Behavior
+
+      - When triggered, `removeData` deletes the data at the specified location.
+      - **Path Mode**: Uses the `path` property to identify what to remove.
+      - **Target Mode**: Uses `target: 'currentTemplateData'` to remove the current template data item from its parent array.
+      - The reaction has no effect if the target data doesn't exist.
+
+      ## Limitations
+
+      - Either `path` or `target` must be specified.
+      - With `target` mode, the data must be part of an array for removal to work.
+      - Removing non-existent data has no effect (no error is thrown).
+
   - type: RjBuildDescriber
-    title: "1. Using `path` to remove a specific key"
+    title: "Using `path` to remove a specific key"
     description: "This example shows how to delete a specific user profile field by clicking a button."
     toDescribe:
       renderView:
@@ -24,7 +62,7 @@ renderView:
           email: "john.doe@example.com"
 
   - type: RjBuildDescriber
-    title: "2. Using `target` to remove an item from a list"
+    title: "Using `target` to remove an item from a list"
     description: |
       This example shows a list of users where each user can be removed by clicking a "Remove" button next to their name.
       The reaction uses `target: currentTemplateData` to identify which item to remove from the list.

@@ -4,14 +4,14 @@ The `TextAreaField` component renders a multi-line text input field using React 
 
 ## Properties
 
-- `dataLocation` (string, optional): Path to bind the field value in the data context
-- `defaultFieldValue` (string, optional): Default value when no data is present
-- `label` (string, optional): Field label text (supports template evaluation)
-- `placeholder` (string, optional): Placeholder text (supports template evaluation)
-- `rows` (number, optional): Number of visible text lines (default: 3)
-- `attributes` (object, optional): Attributes applied to the Form.Group container
-- `inputAttributes` (object, optional): Attributes applied directly to the textarea element
-- `actions` (array, optional): Actions to execute based on field state
+- `dataLocation` (string, optional): Path to bind the field value in the data context.
+- `defaultFieldValue` (string, optional): Default value when no data is present.
+- `label` (string, optional): Field label text (supports template evaluation).
+- `placeholder` (string, optional): Placeholder text (supports template evaluation).
+- `rows` (number, optional): Number of visible text lines (default: 3).
+- `attributes` (object, optional): Attributes applied to the Form.Group container.
+- `inputAttributes` (object, optional): Attributes applied directly to the textarea element.
+- `actions` (array, optional): Actions to execute based on field state.
 
 ## Data Management
 

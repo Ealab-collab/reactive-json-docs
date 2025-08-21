@@ -7,10 +7,17 @@ renderView:
 
       ## Properties
 
-      - `what` (string, required): The name of the reaction, which must be `setClipboardData`.
-      - `on` (string, required): The name of the event that triggers the reaction (e.g., `click`).
-      - `value` (any, required): The value to be copied to the clipboard. The value is evaluated, so it can be a literal string or a path to data.
+  - type: DefinitionList
+    content:
+      - term:
+          code: value
+          after: "(any, required)"
+        details:
+          type: Markdown
+          content: "The value to be copied to the clipboard. The value is evaluated, so it can be a literal string or a path to data"
 
+  - type: Markdown
+    content: |
       ## Behavior
 
       - When triggered, the reaction evaluates the `value` property.

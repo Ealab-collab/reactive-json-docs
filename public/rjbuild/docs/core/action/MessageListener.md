@@ -1,6 +1,6 @@
 # MessageListener
 
-**Description**: Executes a reaction when receiving a message via `window.postMessage`. This is an internal action component that is automatically used when you specify `on: "message"` in your actions.
+Executes a reaction when receiving a message via `window.postMessage`. This is an internal action component that is automatically used when you specify `on: "message"` in your actions.
 
 ## Usage
 
@@ -10,9 +10,9 @@ MessageListener is **not** used directly as an element type. Instead, it is auto
 
 When using `on: "message"` in actions, you can specify:
 
-- `what` (required): name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`, etc.)
-- `whenMessageIs` (optional): message value to react to (deep comparison with the received message data)
-- All other properties are passed as arguments to the reaction function
+- `what` (required): Name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`, etc.).
+- `whenMessageIs` (optional): Message value to react to (deep comparison with the received message data)
+- All other properties are passed as arguments to the reaction function.
 
 ## Behavior
 

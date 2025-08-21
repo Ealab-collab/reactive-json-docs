@@ -164,7 +164,7 @@ const dateFormatProcessor = ({ requestContext, responseContext, dataToProcess, o
 };
 ```
 
-### 4. Conditional Processing
+### Conditional Processing
 
 ```javascript
 const userDataProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {
@@ -268,7 +268,7 @@ const safeProcessor = ({ requestContext, responseContext, dataToProcess, origina
 };
 ```
 
-### 4. Descriptive IDs and Ordering
+### Descriptive IDs and Ordering
 Use clear names and logical ordering:
 
 ```javascript

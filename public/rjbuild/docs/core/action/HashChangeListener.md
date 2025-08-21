@@ -1,6 +1,6 @@
 # HashChangeListener
 
-**Description**: Listens to hash changes (URL fragment) in the window and executes a reaction function in response. This is an internal action component that is automatically used when you specify `on: "hashchange"` in your actions.
+Listens to hash changes (URL fragment) in the window and executes a reaction function in response. This is an internal action component that is automatically used when you specify `on: "hashchange"` in your actions.
 
 ## Usage
 

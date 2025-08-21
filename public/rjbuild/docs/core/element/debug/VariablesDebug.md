@@ -1,20 +1,18 @@
 # VariablesDebug
 
-## Introduction
-
 The `VariablesDebug` component renders a floating debug panel that lets you inspect the current template data at runtime. It is intended for development and debugging purposes to quickly see the values available in the active template context.
 
 ## Properties
 None
 
 ## Behavior
-- Renders a floating panel that can be expanded/collapsed
-- Displays the current template path
-- Switches between two modes: a flattened key/value list or a formatted JSON view
-- Copies the current view to the clipboard (list or JSON)
-- Uses a portal (`#rj-debug-root`) injected into `document.body`
-- Returns `null` when `document` is not available (e.g., SSR)
-- Multiple `VariablesDebug` components can be used in the same page
+- Renders a floating panel that can be expanded/collapsed.
+- Displays the current template path.
+- Switches between two modes: a flattened key/value list or a formatted JSON view.
+- Copies the current view to the clipboard (list or JSON).
+- Uses a portal (`#rj-debug-root`) injected into `document.body`.
+- Returns `null` when `document` is not available (e.g., SSR).
+- Multiple `VariablesDebug` components can be used in the same page.
 
 ## Example
 This example shows how to use the `VariablesDebug` component to display the current template data.

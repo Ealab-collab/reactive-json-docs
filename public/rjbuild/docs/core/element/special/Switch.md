@@ -1,32 +1,30 @@
 # Switch
 
-## Introduction
-
 The `Switch` component allows you to render a list or collection of items using a template, with support for dynamic data, options, and pagination. It is useful for displaying arrays, lists, or collections where each item can be rendered with a specific template or configuration.
 
 ## Properties
-- `content` (array/object, required): The data or path to the data to iterate over
-- `options` (object, optional): Mapping of keys to templates for rendering each item (referenced by `load`)
-- `singleOption` (object, optional): Template to use for each item when all items share the same structure (referenced by `load`)
-- `cardinality` (number, optional): Maximum number of items to render (default: unlimited)
-- `paginated` (boolean, optional): Whether to enable pagination (default: false)
-- `paginationProps` (object, optional): Pagination configuration (page size, etc.)
-- `before` (object, optional): Content to render before the list
-- `after` (object, optional): Content to render after the list
-- `contentWrapper` (object, optional): HTML element configuration to wrap the main content (items only, not before/after)
-  - `tag` (string, optional): HTML tag name (default: "div")
-  - `attributes` (object, optional): HTML attributes to apply to the wrapper element (supports template evaluation)
-- `templates` (object, optional): Named templates referenced by `load` in `singleOption` or `options`
+- `content` (array/object, required): The data or path to the data to iterate over.
+- `options` (object, optional): Mapping of keys to templates for rendering each item (referenced by `load`).
+- `singleOption` (object, optional): Template to use for each item when all items share the same structure (referenced by `load`).
+- `cardinality` (number, optional): Maximum number of items to render (default: unlimited).
+- `paginated` (boolean, optional): Whether to enable pagination (default: false).
+- `paginationProps` (object, optional): Pagination configuration (page size, etc.).
+- `before` (object, optional): Content to render before the list.
+- `after` (object, optional): Content to render after the list.
+- `contentWrapper` (object, optional): HTML element configuration to wrap the main content (items only, not before/after).
+  - `tag` (string, optional): HTML tag name (default: "div").
+  - `attributes` (object, optional): HTML attributes to apply to the wrapper element (supports template evaluation).
+- `templates` (object, optional): Named templates referenced by `load` in `singleOption` or `options`.
 
 ## Behavior
-- Iterates over the provided data and renders each item using the specified template(s)
-- If `options` is provided, uses the corresponding template for each key (with `load`)
-- If `singleOption` is provided, uses the template referenced by `load` for all items
-- Supports limiting the number of items with `cardinality`
-- Supports pagination if `paginated` is true
-- Renders optional `before` and `after` content
-- Can wrap the main content (items) with a custom HTML element using `contentWrapper`
-- Templates are defined in the `templates` object and referenced by name
+- Iterates over the provided data and renders each item using the specified template(s).
+- If `options` is provided, uses the corresponding template for each key (with `load`).
+- If `singleOption` is provided, uses the template referenced by `load` for all items.
+- Supports limiting the number of items with `cardinality`.
+- Supports pagination if `paginated` is true.
+- Renders optional `before` and `after` content.
+- Can wrap the main content (items) with a custom HTML element using `contentWrapper`.
+- Templates are defined in the `templates` object and referenced by name.
 
 ## Content Wrapper Feature
 
@@ -46,7 +44,7 @@ The wrapper only affects the main content items and does not interfere with pagi
 
 ## Examples
 
-### 1. Simple usage with `singleOption` (no pagination)
+### Simple usage with `singleOption` (no pagination)
 ```yaml
 renderView:
   - type: Switch
@@ -65,7 +63,7 @@ data:
     - name: "Charlie"
 ```
 
-### 2. Usage with `options` (different templates per key)
+### Usage with `options` (different templates per key)
 ```yaml
 renderView:
   - type: Switch
@@ -94,7 +92,7 @@ data:
         value: 25
 ```
 
-### 3. Usage with `singleOption`, pagination, before/after, and PageControls
+### Usage with `singleOption`, pagination, before/after, and PageControls
 ```yaml
 renderView:
   - type: Switch
@@ -127,7 +125,7 @@ data:
     - value: 10
 ```
 
-### 4. Usage with `contentWrapper` for CSS Grid Layout
+### Usage with `contentWrapper` for CSS Grid Layout
 ```yaml
 renderView:
   - type: Switch
@@ -168,7 +166,7 @@ data:
       description: "Description of product C"
 ```
 
-### 5. Usage with `contentWrapper` for Flexbox Layout
+### Usage with `contentWrapper` for Flexbox Layout
 ```yaml
 renderView:
   - type: Switch
@@ -201,7 +199,7 @@ data:
     - text: "Item 3"
 ```
 
-### 6. Dynamic `contentWrapper` with Template Evaluation
+### Dynamic `contentWrapper` with Template Evaluation
 ```yaml
 renderView:
   - type: Switch
@@ -238,11 +236,11 @@ data:
 ```
 
 ## Limitations
-- The data must be an array or object; strings and numbers are not supported
-- If both `options` and `singleOption` are provided, `singleOption` takes precedence
-- No built-in support for filtering or sorting (use DataFilter or custom logic)
-- Pagination requires the `paginated` property to be set to true
-- Templates must be defined in the `templates` object and referenced by `load`
+- The data must be an array or object; strings and numbers are not supported.
+- If both `options` and `singleOption` are provided, `singleOption` takes precedence.
+- No built-in support for filtering or sorting (use DataFilter or custom logic).
+- Pagination requires the `paginated` property to be set to true.
+- Templates must be defined in the `templates` object and referenced by `load`.
 
 ### Data Structure Requirements
 Switch requires each item in the data to be an object, not a primitive value:

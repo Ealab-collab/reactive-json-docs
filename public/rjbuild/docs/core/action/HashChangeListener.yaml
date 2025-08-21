@@ -3,7 +3,7 @@ renderView:
     content: |
       # HashChangeListener
 
-      **Description**: Listens to hash changes (URL fragment) in the window and executes a reaction function in response. This is an internal action component that is automatically used when you specify `on: "hashchange"` in your actions.
+      Listens to hash changes (URL fragment) in the window and executes a reaction function in response. This is an internal action component that is automatically used when you specify `on: "hashchange"` in your actions.
 
       ## Usage
 
@@ -11,12 +11,30 @@ renderView:
 
       ## Properties
 
-      When using `on: "hashchange"` in actions, you can specify:
+  - type: DefinitionList
+    content:
+      - term:
+          code: what
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`)"
+      - term:
+          code: whenHashIs
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "hash value that should trigger the reaction (includes the `#` character)"
+      - term:
+          code: whenHashWas
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "previous hash value that should trigger the reaction (includes the `#` character)"
 
-      - `what` (required): name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`, etc.)
-      - `whenHashIs` (optional): hash value that should trigger the reaction (includes the '#' character)
-      - `whenHashWas` (optional): previous hash value that should trigger the reaction (includes the '#' character)
-      - All other properties are passed as arguments to the reaction function
+  - type: Markdown
+    content: |
+      All other properties are passed as arguments to the reaction function.
 
   - type: RjBuildDescriber
     title: "HashChangeListener Example"

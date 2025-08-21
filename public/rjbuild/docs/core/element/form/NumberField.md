@@ -4,13 +4,13 @@ The `NumberField` component renders a numeric input field using React Bootstrap.
 
 ## Properties
 
-- `dataLocation` (string, optional): Path to bind the field value in the data context
-- `defaultFieldValue` (number, optional): Default value when no data is present
-- `label` (string, optional): Field label text (supports template evaluation)
-- `placeholder` (string, optional): Placeholder text (supports template evaluation)
-- `attributes` (object, optional): Attributes applied to the Form.Group container
-- `inputAttributes` (object, optional): Attributes applied directly to the input element
-- `actions` (array, optional): Actions to execute based on field state
+- `dataLocation` (string, optional): Path to bind the field value in the data context.
+- `defaultFieldValue` (number, optional): Default value when no data is present.
+- `label` (string, optional): Field label text (supports template evaluation).
+- `placeholder` (string, optional): Placeholder text (supports template evaluation).
+- `attributes` (object, optional): Attributes applied to the Form.Group container.
+- `inputAttributes` (object, optional): Attributes applied directly to the input element.
+- `actions` (array, optional): Actions to execute based on field state.
 
 ## Data Management
 

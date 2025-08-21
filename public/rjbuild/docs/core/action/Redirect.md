@@ -1,9 +1,9 @@
 # Redirect
 
-**Description**: Redirects the user to a given URL if the condition is met.
+
 
 ## Properties
-- `to`: destination URL
+- `to`: Destination URL.
 
 ## Example
 

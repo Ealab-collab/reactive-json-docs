@@ -17,13 +17,36 @@ renderView:
   - type: Markdown
     content: |
       ## Properties
-      - `what` (string, required): The name of the reaction, must be `postMessage`.
-      - `on` (string, required): The event that triggers the reaction (e.g., `click`, `change`).
-      - `message` (any, required): The data to send as the message. This value is evaluated and can be any serializable type (string, number, object, array).
-      - `messageTarget` (string, optional): The target window for the message. Can be `'parent'` (the default) or `'self'`.
-      - `targetOrigin` (string, optional): Specifies the origin of the target window for security. Defaults to the current window's origin (`window.location.origin`). Use `"*"` for any origin, but be aware of the security implications.
-      - `includeChangedValue` (boolean, optional): If the trigger event is `change` on an input element, setting this to `true` will add the input's new value to the message payload under the key `changedValue`. Currently, this is only supported for checkboxes.
 
+  - type: DefinitionList
+    content:
+      - term:
+          code: message
+          after: "(any, required)"
+        details:
+          type: Markdown
+          content: "The data to send as the message. This value is evaluated and can be any serializable type (string, number, object, array)"
+      - term:
+          code: messageTarget
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "The target window for the message. Can be 'parent' (the default) or 'self'"
+      - term:
+          code: targetOrigin
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Specifies the origin of the target window for security. Defaults to the current window's origin (`window.location.origin`). Use \"*\" for any origin, but be aware of the security implications"
+      - term:
+          code: includeChangedValue
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "If the trigger event is `change` on an input element, setting this to `true` will add the input's new value to the message payload under the key `changedValue`. Currently, this is only supported for checkboxes"
+
+  - type: Markdown
+    content: |
       ## Behavior
       - When triggered, the reaction evaluates the `message` content.
       - It identifies the target window based on `messageTarget` and the target origin from `targetOrigin`.

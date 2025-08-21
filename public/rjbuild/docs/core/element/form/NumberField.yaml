@@ -7,14 +7,39 @@ renderView:
 
       ## Properties
 
-      - `dataLocation` (string, optional): Path to bind the field value in the data context
-      - `defaultFieldValue` (number, optional): Default value when no data is present
-      - `label` (string, optional): Field label text (supports template evaluation)
-      - `placeholder` (string, optional): Placeholder text (supports template evaluation)
-      - `attributes` (object, optional): Attributes applied to the Form.Group container
-      - `inputAttributes` (object, optional): Attributes applied directly to the input element
-      - `actions` (array, optional): Actions to execute based on field state
+  - type: DefinitionList
+    content:
+      - term:
+          code: dataLocation
+          after: "(string, optional)"
+        details: "Path to bind the field value in the data context."
+      - term:
+          code: defaultFieldValue
+          after: "(number, optional)"
+        details: "Default value when no data is present."
+      - term:
+          code: label
+          after: "(string, optional)"
+        details: "Field label text (supports template evaluation)."
+      - term:
+          code: placeholder
+          after: "(string, optional)"
+        details: "Placeholder text (supports template evaluation)."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Attributes applied to the Form.Group container."
+      - term:
+          code: inputAttributes
+          after: "(object, optional)"
+        details: "Attributes applied directly to the input element."
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details: "Actions to execute based on field state."
 
+  - type: Markdown
+    content: |
       ## Data Management
 
       The component stores the input value as a string in the data context. The browser's number input provides built-in validation, but the value should be converted to a number when needed for calculations.

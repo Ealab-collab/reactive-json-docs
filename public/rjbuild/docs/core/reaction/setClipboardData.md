@@ -1,13 +1,9 @@
 # Reaction: setClipboardData
 
-## Introduction
-
 The `setClipboardData` reaction copies a specified value to the user's clipboard. This is useful for creating "Copy to clipboard" buttons for sharing information like referral codes, URLs, or any text-based data.
 
 ## Properties
 
-- `what` (string, required): The name of the reaction, which must be `setClipboardData`.
-- `on` (string, required): The name of the event that triggers the reaction (e.g., `click`).
 - `value` (any, required): The value to be copied to the clipboard. The value is evaluated, so it can be a literal string or a path to data.
 
 ## Behavior

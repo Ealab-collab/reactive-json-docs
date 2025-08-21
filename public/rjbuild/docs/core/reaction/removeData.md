@@ -1,13 +1,9 @@
 # Reaction: removeData
 
-## Introduction
-
 The `removeData` reaction deletes data from a specific location in the global data context. It is essential for dynamically managing lists, removing items, or clearing parts of the application state. It can operate in two modes: `path` mode (to target a specific data location) or `target` mode (to target the current template's data).
 
 ## Properties
 
-- `what` (string, required): The name of the reaction, which must be `removeData`.
-- `on` (string, required): The name of the event that triggers the reaction (e.g., `click`).
 - `path` (string, optional): The target location in the data context to delete. Required if `target` is not used.
 - `target` (string, optional): If set to `currentTemplateData`, the reaction will remove the data associated with the current template item.
 - `parentLevel` (number, optional): Used with `target: 'currentTemplateData'`. Specifies how many levels to go up from the current data path before removing. `0` means the current level.
@@ -22,7 +18,7 @@ The `removeData` reaction deletes data from a specific location in the global da
 
 ## Examples
 
-### 1. Using `path` to remove a specific key
+### Using `path` to remove a specific key
 
 This example shows how to delete a specific user profile field by clicking a button.
 
@@ -42,7 +38,7 @@ data:
     email: "john.doe@example.com"
 ```
 
-### 2. Using `target` to remove an item from a list
+### Using `target` to remove an item from a list
 
 This example shows a list of users where each user can be removed by clicking a "Remove" button next to their name. The reaction targets the current item in the iteration.
 

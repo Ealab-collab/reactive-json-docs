@@ -3,21 +3,50 @@ renderView:
     content: |
       # fetchData
 
-      fetchData is a reaction that allows making HTTP requests to a server. It operates in two distinct modes:
+      `fetchData` is a reaction that allows making HTTP requests to a server. It operates in multiple modes, depending on configuration values.
 
-      The behavior depends on `refreshAppOnResponse`:
-      - If `true` (default): Response must be a valid rjbuild (with renderView/templates/data) as it will be used to re-render the application
-      - If `false`: Response is completely ignored - useful for webhook-like calls or server notifications
-
-      **Important**: Dynamic URLs are not supported. URLs must be static strings.
+      - Supports configurable HTTP methods (GET by default for backward compatibility)
+      - Only one request can be active at a time
+      - The URL is evaluated via the template system before sending, but must resolve to a static string
+      - The response can refresh the app (default) or be ignored
 
       ## Properties
-      - `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
-      - `httpMethod` (string, optional): The HTTP method to use (default: "get"). Supports: get, post, put, patch, delete, etc.
-      - `refreshAppOnResponse` (boolean, optional): If true (default), the response will update the application. If false, the response is ignored (webhook mode).
-      - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
-      - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
 
+  - type: DefinitionList
+    content:
+      - term:
+          code: httpMethod
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "The HTTP method to use (default: \"get\"). Supports: get, post, put, patch, delete, etc."
+      - term:
+          code: refreshAppOnResponse
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "If true (default), the response will update the application. If false, the response is ignored (webhook mode)"
+      - term:
+          code: updateDataAtLocation
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., \"~~.userProfile\", \"~.config.settings\"). If not specified, replaces the entire data object"
+      - term:
+          code: updateOnlyData
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false"
+      - term:
+          code: url
+          after: "(string, required)"
+        details:
+          type: Markdown
+          content: "The URL to call (must be a static string, dynamic URLs are not supported)"
+
+  - type: Markdown
+    content: |
       ## Behavior
       - Supports configurable HTTP methods (GET by default for backward compatibility)
       - Only one request can be active at a time
