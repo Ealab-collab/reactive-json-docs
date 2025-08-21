@@ -5,62 +5,6 @@ renderView:
 
       SimpleMapping is the core data mapping processor in Reactive-JSON that enables selective dispatch and transformation of HTTP response data to specific locations in your application state.
 
-      ## Properties
-
-      ### stringMap Configuration
-
-  - type: DefinitionList
-    content:
-      - term:
-          code: value
-          after: " (required)"
-        details:
-          type: Markdown
-          content: |
-            Source path in the HTTP response (e.g., `user.firstName`)
-      - term:
-          code: required
-          after: " (optional, default: true)"
-        details:
-          type: Markdown
-          content: |
-            Whether the source value must exist
-      - term:
-          code: defaultValue
-          after: " (optional)"
-        details:
-          type: Markdown
-          content: |
-            Fallback value when source is missing and not required
-      - term:
-          code: updateMode
-          after: " (optional, default: \"replace\")"
-        details:
-          type: Markdown
-          content: |
-            How to apply the value (`"replace"`, `"add"`, `"move"`, `"remove"`)
-
-  - type: Markdown
-    content: |
-      ### onErrorMap Configuration
-
-      The `onErrorMap` works like `stringMap`, but provides fallback values when main mappings fail.
-
-      Same key-value structure as `stringMap` (destination → configuration)
-      Applied only when corresponding `stringMap` entries fail and are marked as `required: true`.
-
-  - type: DefinitionList
-    content:
-      - term:
-          code: value
-          after: " (required)"
-        details:
-          type: Markdown
-          content: |
-            Can be either static values (e.g., `Error occurred`) or template references (e.g., `~~.errorTimestamp`)
-
-  - type: Markdown
-    content: |
       ## Basic Syntax
 
   - type: TabbedSerializer
@@ -76,6 +20,82 @@ renderView:
           onErrorMap:
             "~~.error.path":
               value: "Error message or ~~.template.reference"
+
+  - type: Markdown
+    content: |
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: stringMap
+          after: " (object, required)"
+        details:
+          - type: Markdown
+            content: |
+              The `stringMap` configuration is used to map source paths in the HTTP response to specific locations in your application state.
+
+              Each key in the `stringMap` object represents a destination path in your application state, e.g. `~~.profile.displayName`.
+              
+              The value associated with each key is an object that defines how to map the source data to that destination.
+              Here is the list of properties that can be used in the value object:
+
+          - type: DefinitionList
+            content:
+              - term:
+                  code: value
+                  after: " (required)"
+                details:
+                  type: Markdown
+                  content: |
+                    Source path in the HTTP response (e.g., `user.firstName`)
+              - term:
+                  code: required
+                  after: " (optional, default: true)"
+                details:
+                  type: Markdown
+                  content: |
+                    Whether the source value must exist
+              - term:
+                  code: defaultValue
+                  after: " (optional)"
+                details:
+                  type: Markdown
+                  content: |
+                    Fallback value when source is missing and not required
+              - term:
+                  code: updateMode
+                  after: " (optional, default: \"replace\")"
+                details:
+                  type: Markdown
+                  content: |
+                    How to apply the value (`"replace"`, `"add"`, `"move"`, `"remove"`)
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: onErrorMap
+          after: " (object, optional)"
+        details:
+          - type: Markdown
+            content: |
+              The `onErrorMap` works like `stringMap`, but provides fallback values when main mappings fail.
+
+              Same key-value structure as `stringMap` (destination → configuration)
+
+              Applied only when corresponding `stringMap` entries fail and are marked as `required: true`.
+
+              Here is the list of properties that can be used in the value object:
+
+          - type: DefinitionList
+            content:
+              - term:
+                  code: value
+                  after: " (required)"
+                details:
+                  type: Markdown
+                  content: |
+                    Can be either static values (e.g., `Error occurred`) or template references (e.g., `~~.errorTimestamp`)
 
   - type: Markdown
     content: |

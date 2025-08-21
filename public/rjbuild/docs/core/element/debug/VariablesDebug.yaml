@@ -9,7 +9,7 @@ renderView:
 
       ## Properties
 
-      None
+      None.
 
       ## Behavior
       - Renders a floating panel that can be expanded/collapsed.
