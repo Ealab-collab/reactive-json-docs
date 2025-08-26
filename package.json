@@ -26,17 +26,17 @@
   "private": false,
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "@ea-lab/reactive-json": "^0.7.1",
-    "@ea-lab/reactive-json-chartjs": "^0.0.23",
+    "@ea-lab/reactive-json": "^1.0.0-alpha.4",
+    "@ea-lab/reactive-json-chartjs": "^1.0.0",
     "@npmcli/fs": "^4.0.0",
     "@reduxjs/toolkit": "^2.6.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "bootstrap": "^5.3.5",
+    "bootstrap": "^5.3.7",
     "lodash": "^4.17.21",
     "react": "^19.1.0",
-    "react-bootstrap": "^2.10.2",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
@@ -77,6 +77,7 @@
     ]
   },
   "dependencies": {
+    "@ea-lab/reactive-json-bootstrap": "^0.0.2",
     "remark-gfm": "^4.0.1"
   }
 }
