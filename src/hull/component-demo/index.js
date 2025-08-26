@@ -54,7 +54,7 @@ export const docsPageNavigation = {
         },
     },
     "/docs/advanced-concepts": {
-        title: "Advanced Concepts",
+        title: "Advanced concepts",
         items: {
             "/docs/advanced-concepts/index": {
                 title: "Overview",
@@ -63,7 +63,7 @@ export const docsPageNavigation = {
                 title: "Data Processors",
             },
             "/docs/advanced-concepts/data-mapping": {
-                title: "Data Mapping",
+                title: "Data mapping",
             },
             "/docs/advanced-concepts/forward-update": {
                 title: "Forward Update",
@@ -175,11 +175,8 @@ export const docsPageNavigation = {
                 },
             },
             "/docs/core/element/html": {
-                title: "HTML Elements",
+                title: "HTML elements",
                 items: {
-                    "/docs/core/element/html/AccordionItem": {
-                        title: "AccordionItem",
-                    },
                     "/docs/core/element/html/FolderSortableTree": {
                         title: "FolderSortableTree",
                     },
@@ -192,49 +189,17 @@ export const docsPageNavigation = {
                     "/docs/core/element/html/LabelFromValue": {
                         title: "LabelFromValue",
                     },
-                    "/docs/core/element/html/Modal": {
-                        title: "Modal",
-                    },
                     "/docs/core/element/html/PreformattedMarkup": {
                         title: "PreformattedMarkup",
                     },
                     "/docs/core/element/html/SortableTreeItemCollapseButton": {
                         title: "SortableTree ItemCollapseButton",
                     },
-                    "/docs/core/element/html/Tabs": {
-                        title: "Tabs",
-                    },
-                },
-            },
-            "/docs/core/element/form": {
-                title: "Form Elements",
-                items: {
-                    "/docs/core/element/form/CheckBoxField": {
-                        title: "CheckBoxField",
-                    },
-                    "/docs/core/element/form/DateField": {
-                        title: "DateField",
-                    },
-                    "/docs/core/element/form/NumberField": {
-                        title: "NumberField",
-                    },
-                    "/docs/core/element/form/SelectField": {
-                        title: "SelectField",
-                    },
-                    "/docs/core/element/form/TextAreaField": {
-                        title: "TextAreaField",
-                    },
-                    "/docs/core/element/form/TextField": {
-                        title: "TextField",
-                    },
                 },
             },
             "/docs/core/element/special": {
-                title: "Special Elements",
+                title: "Special elements",
                 items: {
-                    "/docs/core/element/special/BootstrapElement": {
-                        title: "BootstrapElement",
-                    },
                     "/docs/core/element/special/Count": {
                         title: "Count",
                     },
@@ -267,7 +232,7 @@ export const docsPageNavigation = {
                 },
             },
             "/docs/core/dataMapping": {
-                title: "Data Mapping",
+                title: "Data mapping",
                 items: {
                     "/docs/core/dataMapping/index": {
                         title: "Overview",
@@ -283,32 +248,95 @@ export const docsPageNavigation = {
                     "/docs/core/example/html": {
                         title: "HTML",
                     },
-                    "/docs/core/example/accordion": {
-                        title: "Accordion",
+                },
+            },
+        },
+    },
+    "/docs/integration": {
+        title: "3rd party integrations",
+        items: {
+            "/docs/integration/bootstrap": {
+                title: "Bootstrap",
+                items: {
+                    "/docs/integration/bootstrap/overview": {
+                        title: "Overview",
                     },
-                    "/docs/core/example/dynamic-content": {
-                        title: "Dynamic content",
+                    "/docs/integration/bootstrap/element/form": {
+                        title: "Form elements",
+                        items: {
+                            "/docs/integration/bootstrap/element/form/CheckBoxField": {
+                                title: "CheckBoxField",
+                            },
+                            "/docs/integration/bootstrap/element/form/DateField": {
+                                title: "DateField",
+                            },
+                            "/docs/integration/bootstrap/element/form/NumberField": {
+                                title: "NumberField",
+                            },
+                            "/docs/integration/bootstrap/element/form/SelectField": {
+                                title: "SelectField",
+                            },
+                            "/docs/integration/bootstrap/element/form/TextAreaField": {
+                                title: "TextAreaField",
+                            },
+                            "/docs/integration/bootstrap/element/form/TextField": {
+                                title: "TextField",
+                            },
+                        },
                     },
-                    "/docs/core/example/website": {
-                        title: "Website example",
+                    "/docs/integration/bootstrap/element/html": {
+                        title: "HTML elements",
+                        items: {
+                            "/docs/integration/bootstrap/element/html/AccordionItem": {
+                                title: "AccordionItem",
+                            },
+                            "/docs/integration/bootstrap/element/html/Modal": {
+                                title: "Modal",
+                            },
+                            "/docs/integration/bootstrap/element/html/Tabs": {
+                                title: "Tabs",
+                            },
+                        },
+                    },
+                    "/docs/integration/bootstrap/element/special": {
+                        title: "Special elements",
+                        items: {
+                            "/docs/integration/bootstrap/element/special/BootstrapElement": {
+                                title: "BootstrapElement",
+                            },
+                        },
+                    },
+                    "/docs/integration/bootstrap/example": {
+                        title: "Examples",
+                        items: {
+                            "/docs/integration/bootstrap/example/accordion": {
+                                title: "Accordion",
+                            },
+                            "/docs/integration/bootstrap/example/dynamic-content": {
+                                title: "Dynamic content",
+                            },
+                            "/docs/integration/bootstrap/example/website": {
+                                title: "Website example",
+                            },
+                        },
+                    },
+                },
+            },
+            "/docs/integration/chartjs": {
+                title: "Chart.js",
+                items: {
+                    "/docs/integration/chartjs/overview": {
+                        title: "Overview",
+                    },
+                    "/docs/integration/chartjs/components": {
+                        title: "Chart.js components",
                     },
                 },
             },
         },
     },
-    "/docs/chartjs": {
-        title: "Chart.js integration",
-        items: {
-            "/docs/chartjs/overview": {
-                title: "Overview",
-            },
-            "/docs/chartjs/components": {
-                title: "Chart.js components",
-            },
-        },
-    },
     "/docs/docs-components": {
-        title: "Documentation Components",
+        title: "Documentation components",
         items: {
             "/docs/docs-components/index": {
                 title: "Overview",
