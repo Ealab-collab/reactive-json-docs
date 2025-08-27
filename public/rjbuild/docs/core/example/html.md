@@ -39,7 +39,7 @@ HTML attributes are supported through the `attributes` property. Each attribute 
 > When using inline styles, you must use a specific structure:
 > - Use an object with CSS properties as keys
 > - Use camelCase for property names instead of hyphen-based CSS casing
-> - For example, use `backgroundColor` instead of `background-color`
+> - For example, use `borderRadius` instead of `border-radius`
 
 ### Example with Attributes and Styles
 ```yaml
@@ -48,7 +48,7 @@ renderView:
     attributes:
       data-attr: Hello!
       style:
-        backgroundColor: rgb(250,242,0)
+        border: "2px solid rgb(250,242,0)"
         padding: 0.5em
     content:
       - "This is a "

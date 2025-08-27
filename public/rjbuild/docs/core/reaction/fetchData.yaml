@@ -205,12 +205,22 @@ renderView:
           content:
             - type: div
               attributes:
-                class: "col-md-6"
+                style:
+                  width: "48%"
+                  display: "inline-block"
+                  verticalAlign: "top"
+                  marginRight: "2%"
               content:
                 - type: BsButton
                   content: "Complete Data Replacement"
                   attributes:
-                    class: "btn btn-primary mb-2 w-100"
+                    style:
+                      padding: "8px 16px"
+                      margin: "8px 0"
+                      border: "1px solid #007bff"
+                      borderRadius: "4px"
+                      cursor: "pointer"
+                      width: "100%"
                   actions:
                     - what: fetchData
                       on: click
@@ -226,12 +236,22 @@ renderView:
             
             - type: div
               attributes:
-                class: "col-md-6"
+                style:
+                  width: "48%"
+                  display: "inline-block"
+                  verticalAlign: "top"
+                  marginRight: "2%"
               content:
                 - type: BsButton
                   content: "Targeted Data Update"
                   attributes:
-                    class: "btn btn-secondary mb-2 w-100"
+                    style:
+                      padding: "8px 16px"
+                      margin: "8px 0"
+                      border: "1px solid #6c757d"
+                      borderRadius: "4px"
+                      cursor: "pointer"
+                      width: "100%"
                   actions:
                     - what: fetchData
                       on: click
@@ -253,7 +273,11 @@ renderView:
             - type: BsButton
               content: "🔄 Reset to Initial Data"
               attributes:
-                class: "btn btn-secondary"
+                style:
+                  padding: "8px 16px"
+                  border: "1px solid #6c757d"
+                  borderRadius: "4px"
+                  cursor: "pointer"
               actions:
                 - what: fetchData
                   on: click
@@ -269,7 +293,11 @@ renderView:
           content:
             - type: div
               attributes:
-                class: "col-md-4"
+                style:
+                  width: "32%"
+                  display: "inline-block"
+                  verticalAlign: "top"
+                  marginRight: "1%"
               content:
                 - type: h6
                   content: "👤 User Profile"
@@ -295,7 +323,11 @@ renderView:
             
             - type: div
               attributes:
-                class: "col-md-4"
+                style:
+                  width: "32%"
+                  display: "inline-block"
+                  verticalAlign: "top"
+                  marginRight: "1%"
               content:
                 - type: h6
                   content: "⚙️ Settings"
@@ -321,7 +353,11 @@ renderView:
             
             - type: div
               attributes:
-                class: "col-md-4"
+                style:
+                  width: "32%"
+                  display: "inline-block"
+                  verticalAlign: "top"
+                  marginRight: "1%"
               content:
                 - type: h6
                   content: "📊 Status"

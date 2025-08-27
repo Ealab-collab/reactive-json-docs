@@ -1,0 +1,87 @@
+renderView:
+  - type: h1
+    content: Bootstrap integration overview
+
+  - type: Markdown
+    content: |
+      Reactive-JSON has Bootstrap integration through the `@ea-lab/reactive-json-bootstrap` plugin.
+      
+      The Bootstrap integration adds form components, HTML elements, and actions such as: `TextField`, `SelectField`, `CheckBoxField`, `DateField`, `NumberField`, `TextAreaField`, `Modal`, `Tabs`, `AccordionItem`, `Tooltip`, `Popover`, and the versatile `BootstrapElement` wrapper.
+      
+      The Bootstrap components are designed to work seamlessly with Bootstrap's CSS framework and provide pre-styled, accessible form controls and UI elements.
+      
+      ## Install
+      
+      The demo website you currently look at has already this integration installed and ready.
+      
+      To enable the integration on your own project that uses Reactive-JSON, make sure
+      that the integration is installed and loaded.
+
+      Bootstrap support is available through the `@ea-lab/reactive-json-bootstrap` plugin. To get it:
+
+      ```shell
+      npm i @ea-lab/reactive-json-bootstrap bootstrap react-bootstrap
+      ```
+
+      Then make it available to ReactiveJsonRoot:
+
+      ```js
+      import {ReactiveJsonRoot} from "@ea-lab/reactive-json";
+      import {mergeComponentCollections} from "@ea-lab/reactive-json";
+      import {bootstrapComponents} from "@ea-lab/reactive-json-bootstrap";
+
+      export const YourComponent = () => {
+
+        const rjRootProps = {
+          // Set your own props to rjRootProps such as rjBuildUrl.
+          // ...
+        };
+
+        // Set the plugins prop by merging the component collections.
+        // Here, we only have a single plugin, but you can add your own of course.
+        rjRootProps.plugins = mergeComponentCollections([bootstrapComponents]);
+      
+        return <ReactiveJsonRoot {...rjRootProps} />;
+      }
+      ```
+
+      Don't forget to import Bootstrap CSS in your application:
+
+      ```js
+      import 'bootstrap/dist/css/bootstrap.min.css'
+      ```
+
+      ## Component Categories
+
+      ### Form Elements
+      - **TextField**: Text input with Bootstrap styling
+      - **SelectField**: Dropdown select with options
+      - **CheckBoxField**: Checkbox input with labels
+      - **DateField**: Date input (limited support)
+      - **NumberField**: Numeric input with validation
+      - **TextAreaField**: Multi-line text input
+
+      ### HTML Elements
+      - **Modal**: Bootstrap modal dialogs
+      - **Tabs**: Tabbed interface component
+      - **AccordionItem**: Collapsible content panels
+
+      ### Actions
+      - **Tooltip**: Bootstrap tooltips on hover
+      - **Popover**: Bootstrap popovers on click/hover
+
+      ### Special Components
+      - **BootstrapElement**: Generic wrapper for any React-Bootstrap component
+
+      ## Features
+
+      - **Consistent Styling**: All components follow Bootstrap design patterns
+      - **Form Integration**: Seamless data binding with Reactive-JSON's form system
+      - **Accessibility**: Built-in accessibility features from React-Bootstrap
+      - **Responsive**: Mobile-first responsive design
+      - **Validation**: Form validation support with Bootstrap styling
+      - **Actions Support**: Full compatibility with Reactive-JSON's action system
+
+templates:
+
+data: { }

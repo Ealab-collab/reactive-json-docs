@@ -134,10 +134,15 @@ renderView:
                   version: "v1.2.3"
                 status: "success"
 
-        - type: BsButton
+        - type: button
           content: "Simulate API Call with Data Mapping"
           attributes:
-            class: "btn btn-primary mb-3"
+            style:
+              padding: "8px 16px"
+              margin: "8px 0"
+              border: "1px solid #007bff"
+              borderRadius: "4px"
+              cursor: "pointer"
           actions:
             - what: fetchData
               on: click
@@ -250,10 +255,15 @@ renderView:
                 
                 The mapping below tries to extract `user.name` and `user.email` which don't exist in this response, triggering the `onErrorMap` fallback values.
 
-        - type: BsButton
+        - type: button
           content: "Test Missing Data Handling"
           attributes:
-            class: "btn btn-warning mb-3"
+            style:
+              padding: "8px 16px"
+              margin: "8px 0"
+              border: "1px solid #ffc107"
+              borderRadius: "4px"
+              cursor: "pointer"
           actions:
             - what: fetchData
               on: click

@@ -18,5 +18,5 @@ renderView:
 ```
 
 ## Limitation
-- Requires Bootstrap CSS.
+- Requires the Bootstrap integration plugin (`@ea-lab/reactive-json-bootstrap`).
 - The child component must be able to accept a React reference. 

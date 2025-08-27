@@ -69,9 +69,23 @@ data:
 ### Adding with Dynamic Values
 ```yaml
 renderView:
-  - type: TextField
-    label: "New Item"
-    dataLocation: ~.new_item
+  - type: label
+    content: "New Item:"
+  - type: input
+    attributes:
+      type: "text"
+      value: ~.new_item
+      style:
+        padding: "8px"
+        margin: "8px 0"
+        border: "1px solid #ccc"
+        borderRadius: "4px"
+        width: "200px"
+    actions:
+      - what: setData
+        on: input
+        path: ~.new_item
+        value: "<reactive-json:event-new-value>"
   - type: button
     content: Add
     actions:

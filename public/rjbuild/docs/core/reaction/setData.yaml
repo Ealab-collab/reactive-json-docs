@@ -73,10 +73,24 @@ renderView:
     description: "This example shows how to use conditions with `setData` to only execute when certain criteria are met."
     toDescribe:
       renderView:
-        - type: TextField
-          dataLocation: ~.username
-          label: "Username:"
-          placeholder: "Enter username"
+        - type: label
+          content: "Username:"
+        - type: input
+          attributes:
+            type: "text"
+            value: ~.username
+            placeholder: "Enter username"
+            style:
+              padding: "8px"
+              margin: "8px 0"
+              border: "1px solid #ccc"
+              borderRadius: "4px"
+              width: "200px"
+          actions:
+            - what: setData
+              on: input
+              path: ~.username
+              value: "<reactive-json:event-new-value>"
         - type: button
           content: "Set Welcome Message"
           actions:

@@ -115,7 +115,11 @@ renderView:
               content:
                 - type: div
                   attributes:
-                    class: "col-md-6"
+                    style:
+                      width: "48%"
+                      display: "inline-block"
+                      verticalAlign: "top"
+                      marginRight: "2%"
                   content:
                     - type: div
                       attributes:
@@ -143,7 +147,11 @@ renderView:
                                   load: item
                 - type: div
                   attributes:
-                    class: "col-md-6"
+                    style:
+                      width: "48%"
+                      display: "inline-block"
+                      verticalAlign: "top"
+                      marginRight: "2%"
                   content:
                     - type: div
                       attributes:
@@ -203,7 +211,8 @@ renderView:
               content:
                 - type: div
                   attributes:
-                    class: "col-12"
+                    style:
+                      width: "100%"
                   content:
                     - type: div
                       attributes:
@@ -228,70 +237,140 @@ renderView:
                               content:
                                 - type: div
                                   attributes:
-                                    class: "col-md-4"
+                                    style:
+                                      width: "32%"
+                                      display: "inline-block"
+                                      verticalAlign: "top"
+                                      marginRight: "1%"
                                   content:
-                                    - type: TextField
-                                      placeholder: "Search..."
-                                      dataLocation: ~~._filters.search
+                                    - type: input
+                                      attributes:
+                                        type: "text"
+                                        placeholder: "Search..."
+                                        value: ~~._filters.search
+                                        style:
+                                          padding: "8px"
+                                          border: "1px solid #ccc"
+                                          borderRadius: "4px"
+                                          width: "100%"
+                                      actions:
+                                        - what: setData
+                                          on: input
+                                          path: ~~._filters.search
+                                          value: "<reactive-json:event-new-value>"
                                 - type: div
                                   attributes:
-                                    class: "col-md-4"
+                                    style:
+                                      width: "32%"
+                                      display: "inline-block"
+                                      verticalAlign: "top"
+                                      marginRight: "1%"
                                   content:
-                                    - # TODO: replace this by the DateField when DateField will support type="date".
-                                      type: TextField
-                                      inputType: date
-                                      dataLocation: ~~._filters.since
+                                    - type: input
+                                      attributes:
+                                        type: "date"
+                                        value: ~~._filters.since
+                                        style:
+                                          padding: "8px"
+                                          border: "1px solid #ccc"
+                                          borderRadius: "4px"
+                                      actions:
+                                        - what: setData
+                                          on: input
+                                          path: ~~._filters.since
+                                          value: "<reactive-json:event-new-value>"
                                 - type: div
                                   attributes:
-                                    class: "col-md-4"
+                                    style:
+                                      width: "32%"
+                                      display: "inline-block"
+                                      verticalAlign: "top"
+                                      marginRight: "1%"
                                   content:
-                                    - type: SelectField
-                                      dataLocation: ~~._filters.status
-                                      options:
-                                        - label: "All"
-                                          value: all
-                                        - label: "Active only"
-                                          value: active_only
+                                    - type: select
+                                      attributes:
+                                        value: ~~._filters.status
+                                        style:
+                                          padding: "8px"
+                                          border: "1px solid #ccc"
+                                          borderRadius: "4px"
+                                          width: "100%"
+                                      content:
+                                        - type: option
+                                          attributes:
+                                            value: "all"
+                                          content: "All"
+                                        - type: option
+                                          attributes:
+                                            value: "active_only"
+                                          content: "Active only"
+                                      actions:
+                                        - what: setData
+                                          on: change
+                                          path: ~~._filters.status
+                                          value: "<reactive-json:event-new-value>"
 
       templates:
         item:
           type: div
           attributes:
-            class: "list-group-item d-flex justify-content-between align-items-center border-start-0 border-end-0 py-3"
+            style:
+              display: "flex"
+              justifyContent: "space-between"
+              alignItems: "center"
+              padding: "16px 0"
+              borderTop: "1px solid #ddd"
+              borderBottom: "1px solid #ddd"
           content:
             - type: div
               attributes:
-                class: "d-flex align-items-center gap-3"
+                style:
+                  display: "flex"
+                  alignItems: "center"
+                  gap: "12px"
               content:
-                - type: CheckBoxField
+                - type: input
                   attributes:
-                    class: "form-check"
-                  options:
-                    - value: true
-                      label: ""
-                  dataLocation: ~.item.isSelected
+                    type: "checkbox"
+                    checked: ~.item.isSelected
+                    style:
+                      margin: "0 8px 0 0"
+                  actions:
+                    - what: setData
+                      on: change
+                      path: ~.item.isSelected
+                      value: "<reactive-json:event-new-value>"
                 - type: div
                   attributes:
-                    class: "d-flex flex-column"
+                    style:
+                      display: "flex"
+                      flexDirection: "column"
                   content:
                     - type: div
                       attributes:
-                        class: "fw-bold mb-1"
+                        style:
+                          fontWeight: "bold"
+                          marginBottom: "4px"
                       content: ~.item.searchableContent
                     - type: div
                       attributes:
-                        class: "text-muted small"
+                        style:
+                          color: "#6c757d"
+                          fontSize: "0.875rem"
                       content: ~.item.creationDate
             - type: div
               attributes:
-                class: "d-flex gap-2"
+                style:
+                  display: "flex"
+                  gap: "8px"
               content:
                 - type: span
                   attributes:
-                    class: "badge rounded-pill"
                     style:
-                      backgroundColor: "#198754"
-                      color: "white"
+                      border: "1px solid #198754"
+                      padding: "4px 8px"
+                      borderRadius: "12px"
+                      fontSize: "0.75rem"
                   content: ~.item.status
                   actions:
                     - what: hide
@@ -299,10 +378,11 @@ renderView:
                       isNot: active
                 - type: span
                   attributes:
-                    class: "badge rounded-pill"
                     style:
-                      backgroundColor: "#dc3545"
-                      color: "white"
+                      border: "1px solid #dc3545"
+                      padding: "4px 8px"
+                      borderRadius: "12px"
+                      fontSize: "0.75rem"
                   content: ~.item.status
                   actions:
                     - what: hide

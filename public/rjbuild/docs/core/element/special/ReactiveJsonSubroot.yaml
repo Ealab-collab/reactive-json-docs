@@ -212,7 +212,7 @@ renderView:
       renderView:
         - type: ReactiveJsonSubroot
           rjOptions:
-            maybeRawAppRjBuild: '{"data":{"userName":"Alice","messageCount":3},"renderView":[{"type":"div","attributes":{"style":{"padding":"1rem","border":"1px solid #ddd","borderRadius":"8px","backgroundColor":"#f9f9f9"}},"content":[{"type":"h3","content":"~~.userName"},{"type":"p","content":["You have ","~~.messageCount"," new messages."]},{"type":"button","content":"Mark as read","attributes":{"style":{"backgroundColor":"#007bff","color":"white","border":"none","padding":"0.5rem 1rem","borderRadius":"4px"}}}]}]}'
+            maybeRawAppRjBuild: '{"data":{"userName":"Alice","messageCount":3},"renderView":[{"type":"div","attributes":{"style":{"padding":"1rem","border":"1px solid #ddd","borderRadius":"8px"}},"content":[{"type":"h3","content":"~~.userName"},{"type":"p","content":["You have ","~~.messageCount"," new messages."]},{"type":"button","content":"Mark as read","attributes":{"style":{"border":"1px solid #007bff","padding":"0.5rem 1rem","borderRadius":"4px"}}}]}]}'
 
         - type: hr
 
@@ -266,12 +266,30 @@ renderView:
                   content:
                     - type: h4
                       content: "Subroot Editor (with sharedUpdates)"
-                    - type: TextField
-                      label: "Name"
-                      dataLocation: ~.name
-                    - type: TextField
-                      label: "Email"
-                      dataLocation: ~.email
+                    - type: label
+                      content: "Name"
+                    - type: input
+                      attributes:
+                        type: text
+                        value: ~.name
+                        placeholder: "Name"
+                      actions:
+                        - what: setData
+                          on: change
+                          path: ~.name
+                          value: "<reactive-json:event-new-value>"
+                    - type: label
+                      content: "Email"
+                    - type: input
+                      attributes:
+                        type: email
+                        value: ~.email
+                        placeholder: "Email"
+                      actions:
+                        - what: setData
+                          on: change
+                          path: ~.email
+                          value: "<reactive-json:event-new-value>"
                     - type: p
                       attributes:
                         style:
@@ -352,22 +370,58 @@ renderView:
                     content:
                       - type: h5
                         content: "Edit Profile"
-                      - type: TextField
-                        label: "Name"
-                        dataLocation: ~.userProfile.name
-                      - type: NumberField
-                        label: "Age"
-                        dataLocation: ~.userProfile.age
+                      - type: label
+                        content: "Name"
+                      - type: input
+                        attributes:
+                          type: text
+                          value: ~.userProfile.name
+                          placeholder: "Name"
+                        actions:
+                          - what: setData
+                            on: change
+                            path: ~.userProfile.name
+                            value: "<reactive-json:event-new-value>"
+                      - type: label
+                        content: "Age"
+                      - type: input
+                        attributes:
+                          type: number
+                          value: ~.userProfile.age
+                          placeholder: "Age"
+                        actions:
+                          - what: setData
+                            on: change
+                            path: ~.userProfile.age
+                            value: "<reactive-json:event-new-value>"
                   - type: div
                     content:
                       - type: h5
                         content: "Edit Settings"
-                      - type: TextField
-                        label: "Theme"
-                        dataLocation: ~.userSettings.theme
-                      - type: TextField
-                        label: "Language"
-                        dataLocation: ~.userSettings.language
+                      - type: label
+                        content: "Theme"
+                      - type: input
+                        attributes:
+                          type: text
+                          value: ~.userSettings.theme
+                          placeholder: "Theme"
+                        actions:
+                          - what: setData
+                            on: change
+                            path: ~.userSettings.theme
+                            value: "<reactive-json:event-new-value>"
+                      - type: label
+                        content: "Language"
+                      - type: input
+                        attributes:
+                          type: text
+                          value: ~.userSettings.language
+                          placeholder: "Language"
+                        actions:
+                          - what: setData
+                            on: change
+                            path: ~.userSettings.language
+                            value: "<reactive-json:event-new-value>"
 
   - type: RjBuildDescriber
     title: Example with Array References
@@ -391,9 +445,41 @@ renderView:
             - type: h4
               content: "Parent Items Display"
             - type: p
-              content: ["Item 1: ", ~~.items.0.title, " (", ~~.items.0.completed, ")"]
-            - type: p
-              content: ["Item 2: ", ~~.items.1.title, " (", ~~.items.1.completed, ")"]
+              content:
+                - "Item 1: "
+                - ~~.items.0.title
+                - " (completed: "
+                - type: span
+                  content: "Yes"
+                  actions:
+                    - what: hide
+                      when: ~~.items.0.completed
+                      is: false
+                - type: span
+                  content: "No"
+                  actions:
+                    - what: hide
+                      when: ~~.items.0.completed
+                      is: true
+                - ")"
+            - type: p  
+              content:
+                - "Item 2: "
+                - ~~.items.1.title
+                - " (completed: "
+                - type: span
+                  content: "Yes"
+                  actions:
+                    - what: hide
+                      when: ~~.items.1.completed
+                      is: false
+                - type: span
+                  content: "No"
+                  actions:
+                    - what: hide
+                      when: ~~.items.1.completed
+                      is: true
+                - ")"
         
         - type: ReactiveJsonSubroot
           sharedUpdates: true
@@ -416,22 +502,56 @@ renderView:
                       content:
                         - type: h5
                           content: "First Item"
-                        - type: TextField
-                          label: "Title"
-                          dataLocation: ~.0.title
-                        - type: CheckBoxField
-                          label: "Completed"
-                          dataLocation: ~.0.completed
+                        - type: label
+                          content: "Title"
+                        - type: input
+                          attributes:
+                            type: text
+                            value: ~.0.title
+                            placeholder: "Title"
+                          actions:
+                            - what: setData
+                              on: change
+                              path: ~.0.title
+                              value: "<reactive-json:event-new-value>"
+                        - type: label
+                          content: "Completed"
+                        - type: input
+                          attributes:
+                            type: checkbox
+                            checked: ~.0.completed
+                          actions:
+                            - what: setData
+                              on: change
+                              path: ~.0.completed
+                              value: "<reactive-json:event-new-value>"
                     - type: div
                       content:
                         - type: h5
                           content: "Second Item"
-                        - type: TextField
-                          label: "Title"
-                          dataLocation: ~.1.title
-                        - type: CheckBoxField
-                          label: "Completed"
-                          dataLocation: ~.1.completed
+                        - type: label
+                          content: "Title"
+                        - type: input
+                          attributes:
+                            type: text
+                            value: ~.1.title
+                            placeholder: "Title"
+                          actions:
+                            - what: setData
+                              on: change
+                              path: ~.1.title
+                              value: "<reactive-json:event-new-value>"
+                        - type: label
+                          content: "Completed"
+                        - type: input
+                          attributes:
+                            type: checkbox
+                            checked: ~.1.completed
+                          actions:
+                            - what: setData
+                              on: change
+                              path: ~.1.completed
+                              value: "<reactive-json:event-new-value>"
 
   - type: Markdown
     content: |

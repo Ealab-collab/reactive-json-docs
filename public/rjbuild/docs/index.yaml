@@ -16,7 +16,7 @@ renderView:
       - **🎯 Declarative**: Define your UI structure and behavior in JSON/YAML
       - **⚡ Reactive**: Automatic state management and data binding
       - **🔧 Extensible**: Rich set of built-in components and actions
-      - **📱 Bootstrap Ready**: Seamlessly integrates with Bootstrap styling
+      - **🧩 Plugin System**: Modular architecture with specialized integrations
       - **🎨 Flexible**: Support for custom components and styling
       - **📊 Data-Driven**: Built-in data operations and API integration
 
@@ -52,6 +52,7 @@ renderView:
 
       ### Integrations
 
+      - **Bootstrap Integration** - Form fields, styled components, and UI elements
       - **Chart.js Integration** - Create interactive charts and visualizations
 
   - type: Markdown

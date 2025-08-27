@@ -165,7 +165,7 @@ ls -la
 
 ```bash
 npm install
-npm install @ea-lab/reactive-json bootstrap react-bootstrap axios clsx dnd-kit-sortable-tree html-react-parser js-yaml jsonpath lodash
+npm install @ea-lab/reactive-json axios clsx dnd-kit-sortable-tree html-react-parser js-yaml jsonpath lodash
 ```
 
 ---
@@ -218,8 +218,7 @@ These rules contain all the necessary directives to work effectively with reacti
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-// Import Bootstrap styles for reactive-json
-import 'bootstrap/dist/css/bootstrap.min.css'
+// Import global CSS here if needed
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <App />
@@ -240,7 +239,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 ```javascript
 import { ReactiveJsonRoot } from '@ea-lab/reactive-json'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   return <ReactiveJsonRoot rjBuildUrl="/config.yaml" rjBuildFetchMethod="GET" />
@@ -335,7 +333,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ReactiveJsonRoot } from '@ea-lab/reactive-json'
 import { routeMapping } from './config/routes'
 import Navigation from './components/Navigation'
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   return (

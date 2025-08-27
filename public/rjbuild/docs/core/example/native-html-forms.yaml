@@ -1,0 +1,393 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Native HTML Forms with Reactive-JSON
+
+      This guide explains how to use native HTML form elements (`input`, `select`, `textarea`) with Reactive-JSON's reaction system to create interactive forms with proper data synchronization.
+
+      ## Core Concept: Reactions for Data Synchronization
+
+      Native HTML elements require explicit **reactions** to synchronize user input with your data. This is done using the `setData` reaction triggered by user events.
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Basic Structure"
+    content: |
+      - type: input
+        attributes:
+          type: "text"
+          value: ~.fieldName           # Display current data value
+        actions:
+          - what: setData              # Reaction to update data
+            on: input                  # Event that triggers the reaction
+            path: ~.fieldName          # Data path to update
+            value: "<reactive-json:event-new-value>"  # Value from the event
+
+  - type: Markdown
+    content: |
+      ## Event Value Patterns
+
+      ### Forward Update Pattern (Recommended)
+
+      Use `<reactive-json:event-new-value>` for automatic value detection:
+
+      - **Auto-detects the correct property**: `event.target.value` for inputs, `event.target.checked` for checkboxes
+      - **Simplifies configuration**: No need to specify which property to access
+      - **Works for all form elements**: text, number, checkbox, select, textarea, etc.
+
+      ### Alternative Explicit Syntax
+
+      For specific control, you can explicitly access event properties:
+
+      - `<reactive-json:event>.target.value` - Direct access to input value
+      - `<reactive-json:event>.target.checked` - Direct access to checkbox state
+      - `<reactive-json:event>.target.selectedIndex` - Access to select index
+
+      ## Event Types for Different Use Cases
+
+      - **`on: input`** - Real-time updates as user types (immediate feedback)
+      - **`on: change`** - Updates when user commits the change (varies by element type):
+        - Text inputs: when value changes AND field loses focus
+        - Checkboxes/Radio: immediately when checked/unchecked
+        - Select: immediately when option is selected
+      - **`on: blur`** - Updates when user leaves the field (regardless of value change)
+      - **`on: focus`** - Triggered when user enters the field
+
+  - type: RjBuildDescriber
+    title: "Text Input Example"
+    description: |
+      Basic text input with real-time data synchronization using the setData reaction.
+    toDescribe:
+      renderView:
+        - type: label
+          content: "Name:"
+        - type: input
+          attributes:
+            type: "text"
+            value: ~.name
+            placeholder: "Enter your name"
+          actions:
+            - what: setData
+              on: input
+              path: ~.name
+              value: "<reactive-json:event-new-value>"
+        - type: div
+          content: ["Current value: ", ~.name]
+      data:
+        name: ""
+
+  - type: RjBuildDescriber
+    title: "Checkbox Example"
+    description: |
+      Checkbox with data synchronization using the change event for boolean values.
+    toDescribe:
+      renderView:
+        - type: label
+          content:
+            - type: input
+              attributes:
+                type: "checkbox"
+                checked: ~.isSelected
+              actions:
+                - what: setData
+                  on: change
+                  path: ~.isSelected
+                  value: "<reactive-json:event-new-value>"
+            - " Accept terms and conditions"
+        - type: div
+          content:
+            - "Status: "
+            - type: LabelFromValue
+              dataLocation: ~.isSelected
+              options:
+                - label: "Accepté"
+                  value: true
+                - label: "Non accepté"
+                  value: false
+      data:
+        isSelected: false
+
+  - type: RjBuildDescriber
+    title: "Select Dropdown Example"
+    description: |
+      Select dropdown with options and change event handling.
+    toDescribe:
+      renderView:
+        - type: label
+          content: "Choose option:"
+        - type: select
+          attributes:
+            value: ~.selectedOption
+          content:
+            - type: option
+              attributes:
+                value: ""
+              content: "Select an option..."
+            - type: option
+              attributes:
+                value: "option1"
+              content: "Option 1"
+            - type: option
+              attributes:
+                value: "option2"
+              content: "Option 2"
+            - type: option
+              attributes:
+                value: "option3"
+              content: "Option 3"
+          actions:
+            - what: setData
+              on: change
+              path: ~.selectedOption
+              value: "<reactive-json:event-new-value>"
+        - type: div
+          content: ["Selected: ", ~.selectedOption]
+      data:
+        selectedOption: ""
+
+  - type: RjBuildDescriber
+    title: "Textarea Example"
+    description: |
+      Multi-line text input with real-time updates.
+    toDescribe:
+      renderView:
+        - type: label
+          content: "Description:"
+        - type: textarea
+          attributes:
+            value: ~.description
+            placeholder: "Enter description..."
+            rows: 4
+          actions:
+            - what: setData
+              on: input
+              path: ~.description
+              value: "<reactive-json:event-new-value>"
+        - type: div
+          content: ["Current text: ", ~.description]
+      data:
+        description: ""
+
+  - type: RjBuildDescriber
+    title: "Range Input Example"
+    description: |
+      Range input with min/max constraints and validation.
+    toDescribe:
+      renderView:
+        - type: label
+          content: "Quantity (0-100):"
+        - type: input
+          attributes:
+            type: "range"
+            value: ~.quantity
+            min: 0
+            max: 100
+          actions:
+            - what: setData
+              on: input
+              path: ~.quantity
+              value: "<reactive-json:event-new-value>"
+        - type: div
+          content: ["Current quantity: ", ~.quantity]
+      data:
+        quantity: "20"
+
+  - type: RjBuildDescriber
+    title: "Radio Buttons Example"
+    description: |
+      Radio button group with exclusive selection.
+    toDescribe:
+      renderView:
+        - type: VariablesDebug
+        - type: div
+          content: "Choose size:"
+        - type: label
+          content:
+            - type: input
+              attributes:
+                type: "radio"
+                name: "size"
+                value: "small"
+                checked: ~.sizeState.small
+              actions:
+                - what: SetAttributeValue
+                  name: checked
+                  value: "checked"
+                  when: ~.selectedSize
+                  is: "small"
+                - what: setData
+                  on: change
+                  path: ~.selectedSize
+                  value: "small"
+                - what: setData
+                  on: change
+                  path: ~.sizeState.small
+                  value: true
+                - what: setData
+                  on: change
+                  path: ~.sizeState.medium
+                  value: false
+                - what: setData
+                  on: change
+                  path: ~.sizeState.large
+                  value: false
+            - " Small"
+        - type: label
+          content:
+            - type: input
+              attributes:
+                type: "radio"
+                name: "size"
+                value: "medium"
+                checked: ~.sizeState.medium
+              actions:
+                - what: SetAttributeValue
+                  name: checked
+                  value: "checked"
+                  when: ~.selectedSize
+                  is: "medium"
+                - what: setData
+                  on: change
+                  path: ~.selectedSize
+                  value: "medium"
+                - what: setData
+                  on: change
+                  path: ~.sizeState.small
+                  value: false
+                - what: setData
+                  on: change
+                  path: ~.sizeState.medium
+                  value: true
+                - what: setData
+                  on: change
+                  path: ~.sizeState.large
+                  value: false
+            - " Medium"
+        - type: label
+          content:
+            - type: input
+              attributes:
+                type: "radio"
+                name: "size"
+                value: "large"
+                checked: ~.sizeState.large
+              actions:
+                - what: SetAttributeValue
+                  name: checked
+                  value: "checked"
+                  when: ~.selectedSize
+                  is: "large"
+                - what: setData
+                  on: change
+                  path: ~.selectedSize
+                  value: "large"
+                - what: setData
+                  on: change
+                  path: ~.sizeState.small
+                  value: false
+                - what: setData
+                  on: change
+                  path: ~.sizeState.medium
+                  value: false
+                - what: setData
+                  on: change
+                  path: ~.sizeState.large
+                  value: true
+            - " Large"
+        - type: div
+          content: ["Selected size: ", ~.selectedSize]
+      data:
+        selectedSize: "medium"
+        sizeState:
+          small: false
+          medium: true
+          large: false
+
+  - type: Markdown
+    content: |
+      ## Advanced Patterns
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Form Validation with Conditional Actions"
+    content: |
+      - type: input
+        attributes:
+          type: "email"
+          value: ~.email
+        actions:
+          - what: setData
+            on: input
+            path: ~.email
+            value: "<reactive-json:event-new-value>"
+          - what: setData
+            on: blur
+            path: ~.emailValid
+            value: "<reactive-json:event>.target.validity.valid"
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Multiple Field Updates"
+    content: |
+      - type: input
+        attributes:
+          type: "text"
+          value: ~.firstName
+        actions:
+          - what: setData
+            on: input
+            path: ~.firstName
+            value: "<reactive-json:event-new-value>"
+          - what: setData
+            on: input
+            path: ~.fullName
+            value: ["<reactive-json:event-new-value>", " ", ~.lastName]
+
+  - type: Markdown
+    content: |
+      ## Simplification Alternatives
+
+      For simpler configuration and built-in styling, consider using pre-built form components:
+
+      - **Reactive-JSON Bootstrap**: `TextField`, `SelectField`, `CheckBoxField`, etc. with automatic data synchronization
+      - **Custom component libraries**: Create your own reusable form components with embedded reactions
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Comparison: Bootstrap vs Native"
+    content: |
+      # Simpler alternative using reactive-json-bootstrap
+      - type: TextField
+        label: "Username:"
+        dataLocation: ~.username  # Automatic synchronization
+
+      # Equivalent native implementation
+      - type: label
+        content: "Username:"
+      - type: input
+        attributes:
+          type: "text"
+          value: ~.username
+        actions:
+          - what: setData
+            on: input
+            path: ~.username
+            value: "<reactive-json:event-new-value>"
+
+  - type: Markdown
+    content: |
+      ## Best Practices
+
+      1. **Always include `setData` reactions** for interactive elements
+      2. **Choose appropriate events**: `input` for real-time updates, `change` for committed changes
+      3. **Use `<reactive-json:event-new-value>`** for automatic value detection
+      4. **Consider pre-built components** for complex forms to reduce configuration
+      5. **Test data flow** to ensure changes are properly synchronized
+
+      ## Key Takeaways
+
+      - Native HTML elements provide full control but require explicit reactions
+      - The `setData` reaction is essential for data synchronization
+      - Use `<reactive-json:event-new-value>` for automatic value detection
+      - Different events (`input`, `change`, `blur`) serve different use cases
+      - Pre-built components can simplify complex forms while maintaining flexibility

@@ -60,15 +60,14 @@ renderView:
             specify an object with the CSS property as the key, and CSS value as the value.
             Each key must be using **camelCase** instead of the usual hyphen-based CSS casing.
             
-            In the following example, `backgroundColor` is used for the `background-color`
-            CSS property.
+            In the following example, `border` is used to add visual styling.
     toDescribe:
       renderView:
         - type: div
           attributes:
             data-attr: Hello!
             style:
-              backgroundColor: rgb(250,242,0)
+              border: "2px solid rgb(250,242,0)"
               padding: 0.5em
           content:
             - "This is a "

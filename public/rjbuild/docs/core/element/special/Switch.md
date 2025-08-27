@@ -148,7 +148,7 @@ renderView:
         type: div
         attributes:
           style:
-            border: "1px solid #ccc"
+            border: "1px solid currentColor"
             borderRadius: 8px
             padding: 1rem
         content:
@@ -190,7 +190,7 @@ renderView:
             flex: "1 1 200px"
             margin: 0.5rem
             padding: 1rem
-            backgroundColor: "#f0f0f0"
+            border: "1px solid currentColor"
         content: ~.text
 data:
   items:
@@ -214,21 +214,21 @@ renderView:
           display: grid
           gridTemplateColumns: ~.gridColumns
           gap: ~.spacing
-          backgroundColor: ~.theme.backgroundColor
+          border: ~.theme.border
     templates:
       imageItem:
         type: div
         attributes:
           style:
             padding: 1rem
-            border: "1px solid #ddd"
+            border: "1px solid currentColor"
         content: ~.title
 data:
   layoutClass: "photo-gallery"
   gridColumns: "repeat(3, 1fr)"
   spacing: "2rem"
   theme:
-    backgroundColor: "#f5f5f5"
+    border: "1px solid currentColor"
   galleries:
     - title: "Photo 1"
     - title: "Photo 2"

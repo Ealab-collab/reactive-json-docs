@@ -227,7 +227,7 @@ renderView:
                 gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))"
                 gap: 1rem
                 padding: 1rem
-                backgroundColor: "#f8f9fa"
+                border: "1px solid currentColor"
                 borderRadius: 8px
           before:
             type: h3
@@ -238,31 +238,28 @@ renderView:
               style:
                 textAlign: center
                 marginTop: 1rem
-                color: "#666"
             content: "End of product list"
       templates:
         productCard:
           type: div
           attributes:
             style:
-              border: "1px solid #ddd"
+              border: "1px solid currentColor"
               borderRadius: 8px
               padding: 1rem
-              backgroundColor: white
               textAlign: center
           content:
             - type: h4
               attributes:
                 style:
                   margin: "0 0 0.5rem 0"
-                  color: "#333"
               content: ~.name
             - type: p
               attributes:
                 style:
                   margin: 0
-                  color: "#666"
                   fontSize: "0.9rem"
+                  opacity: 0.8
               content: ~.description
       data:
         products:
@@ -298,7 +295,7 @@ renderView:
                 gap: 1rem
                 justifyContent: center
                 padding: 1rem
-                border: "2px dashed #ccc"
+                border: "2px dashed currentColor"
                 borderRadius: 8px
           after:
             type: PageControls
@@ -309,10 +306,9 @@ renderView:
             style:
               flex: "0 1 150px"
               padding: 1rem
-              backgroundColor: "#e3f2fd"
+              border: "1px solid currentColor"
               borderRadius: 8px
               textAlign: center
-              border: "1px solid #90caf9"
           content: ~.title
       data:
         cards:
@@ -343,15 +339,14 @@ renderView:
                 gridTemplateColumns: ~.wrapperConfig.columns
                 gap: ~.wrapperConfig.spacing
                 padding: ~.wrapperConfig.padding
-                backgroundColor: ~.theme.background
                 border: ~.theme.border
                 borderRadius: ~.theme.borderRadius
           before:
             type: h3
             attributes:
               style:
-                color: ~.theme.titleColor
                 textAlign: center
+                fontWeight: bold
             content: ~.title
       templates:
         dynamicCard:
@@ -359,10 +354,10 @@ renderView:
           attributes:
             style:
               padding: 1rem
-              backgroundColor: ~.theme.cardBackground
+              border: ~.theme.cardBorder
               borderRadius: 6px
               textAlign: center
-              color: ~.theme.textColor
+
           content: ~.name
       data:
         title: "Dynamic Gallery"
@@ -372,12 +367,8 @@ renderView:
           spacing: "1.5rem"
           padding: "2rem"
         theme:
-          background: "#e8f4fd"
-          border: "2px solid #2196f3"
+          border: "2px solid currentColor"
           borderRadius: "12px"
-          titleColor: "#1976d2"
-          cardBackground: "#ffffff"
-          textColor: "#333333"
         items:
           - name: "Element A"
           - name: "Element B"

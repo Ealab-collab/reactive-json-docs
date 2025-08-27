@@ -55,15 +55,23 @@ renderView:
       renderView:
         - type: div
           attributes:
-            class: "container-fluid"
+            style:
+              width: "100%"
+              padding: "0 16px"
           content:
             - type: div
               attributes:
-                class: "row mb-4"
+                style:
+                  display: "flex"
+                  marginBottom: "16px"
               content:
                 - type: div
                   attributes:
-                    class: "col-md-6"
+                    style:
+                      width: "48%"
+                      display: "inline-block"
+                      verticalAlign: "top"
+                      marginRight: "2%"
                   content:
                     - type: div
                       attributes:
@@ -131,7 +139,11 @@ renderView:
                                     jsonPathPattern: "$.users[?(@.role == 'admin')]"
                 - type: div
                   attributes:
-                    class: "col-md-6"
+                    style:
+                      width: "48%"
+                      display: "inline-block"
+                      verticalAlign: "top"
+                      marginRight: "2%"
                   content:
                     - type: div
                       attributes:
@@ -153,37 +165,86 @@ renderView:
                               attributes:
                                 class: "mb-3"
                               content:
-                                - type: TextField
-                                  label: "Name:"
-                                  dataLocation: ~.newUser.name
-                                  placeholder: "Enter user name"
+                                - type: label
+                                  content: "Name:"
+                                - type: input
+                                  attributes:
+                                    type: "text"
+                                    value: ~.newUser.name
+                                    placeholder: "Enter user name"
+                                    style:
+                                      padding: "8px"
+                                      border: "1px solid #ccc"
+                                      borderRadius: "4px"
+                                      width: "100%"
+                                  actions:
+                                    - what: setData
+                                      on: input
+                                      path: ~.newUser.name
+                                      value: "<reactive-json:event-new-value>"
                             - type: div
                               attributes:
                                 class: "mb-3"
                               content:
-                                - type: SelectField
-                                  label: "Status:"
-                                  dataLocation: ~.newUser.status
-                                  options:
-                                    - label: "Active"
-                                      value: "active"
-                                    - label: "Inactive"
-                                      value: "inactive"
+                                - type: label
+                                  content: "Status:"
+                                - type: select
+                                  attributes:
+                                    value: ~.newUser.status
+                                    style:
+                                      padding: "8px"
+                                      border: "1px solid #ccc"
+                                      borderRadius: "4px"
+                                      width: "100%"
+                                  content:
+                                    - type: option
+                                      attributes:
+                                        value: "active"
+                                      content: "Active"
+                                    - type: option
+                                      attributes:
+                                        value: "inactive"
+                                      content: "Inactive"
+                                  actions:
+                                    - what: setData
+                                      on: change
+                                      path: ~.newUser.status
+                                      value: "<reactive-json:event-new-value>"
                             - type: div
                               attributes:
                                 class: "mb-3"
                               content:
-                                - type: SelectField
-                                  label: "Role:"
-                                  dataLocation: ~.newUser.role
-                                  options:
-                                    - label: "User"
-                                      value: "user"
-                                    - label: "Admin"
-                                      value: "admin"
+                                - type: label
+                                  content: "Role:"
+                                - type: select
+                                  attributes:
+                                    value: ~.newUser.role
+                                    style:
+                                      padding: "8px"
+                                      border: "1px solid #ccc"
+                                      borderRadius: "4px"
+                                      width: "100%"
+                                  content:
+                                    - type: option
+                                      attributes:
+                                        value: "user"
+                                      content: "User"
+                                    - type: option
+                                      attributes:
+                                        value: "admin"
+                                      content: "Admin"
+                                  actions:
+                                    - what: setData
+                                      on: change
+                                      path: ~.newUser.role
+                                      value: "<reactive-json:event-new-value>"
                             - type: button
                               attributes:
-                                class: "btn btn-primary"
+                                style:
+                                  padding: "8px 16px"
+                                  border: "1px solid #007bff"
+                                  borderRadius: "4px"
+                                  cursor: "pointer"
                               content: "Add User"
                               actions:
                                 - what: addData
@@ -247,8 +308,7 @@ renderView:
                   attributes:
                     class: "ms-2 badge rounded-pill"
                     style:
-                      backgroundColor: "#198754"
-                      color: "white"
+                      border: "1px solid #198754"
                   content: ~.status
                   actions:
                     - what: hide
@@ -258,8 +318,7 @@ renderView:
                   attributes:
                     class: "ms-2 badge rounded-pill"
                     style:
-                      backgroundColor: "#ffc107"
-                      color: "black"
+                      border: "1px solid #ffc107"
                   content: ~.status
                   actions:
                     - what: hide
@@ -277,7 +336,12 @@ renderView:
               content:
                 - type: button
                   attributes:
-                    class: "btn btn-sm btn-outline-primary me-2"
+                    style:
+                      padding: "4px 8px"
+                      border: "1px solid #007bff"
+                      borderRadius: "4px"
+                      cursor: "pointer"
+                      marginRight: "8px"
                   content: "Toggle Status"
                   actions:
                     - what: setData
@@ -294,7 +358,11 @@ renderView:
                       is: "inactive"
                 - type: button
                   attributes:
-                    class: "btn btn-sm btn-outline-danger"
+                    style:
+                      padding: "4px 8px"
+                      border: "1px solid #dc3545"
+                      borderRadius: "4px"
+                      cursor: "pointer"
                   content: "Remove"
                   actions:
                     - what: removeData

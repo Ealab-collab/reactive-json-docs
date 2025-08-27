@@ -271,7 +271,7 @@ Actions support the following conditional operators when using the `when` proper
 3. **Synchronous evaluation**: All conditions and actions are evaluated synchronously.
 4. **Data scope**: Actions can only access data from the current template context and global context.
 5. **No side effects**: Actions cannot directly modify global state or trigger reactions.
-6. **External dependencies**: Some actions (tooltip, popover) require React Bootstrap components.
+6. **External dependencies**: Some actions may require specific plugin integrations (e.g., tooltips and popovers are available through the Bootstrap integration).
 
 ## Best Practices
 

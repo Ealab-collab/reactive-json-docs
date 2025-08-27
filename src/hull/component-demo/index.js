@@ -119,18 +119,14 @@ export const docsPageNavigation = {
                     "/docs/core/action/MessageListener": {
                         title: "MessageListener",
                     },
-                    "/docs/core/action/Popover": {
-                        title: "Popover",
-                    },
+
                     "/docs/core/action/ReactOnEvent": {
                         title: "ReactOnEvent",
                     },
                     "/docs/core/action/Redirect": {
                         title: "Redirect",
                     },
-                    "/docs/core/action/Tooltip": {
-                        title: "Tooltip",
-                    },
+
                     "/docs/core/action/VisuallyHide": {
                         title: "VisuallyHide",
                     },
@@ -248,6 +244,9 @@ export const docsPageNavigation = {
                     "/docs/core/example/html": {
                         title: "HTML",
                     },
+                    "/docs/core/example/native-html-forms": {
+                        title: "Native HTML Forms",
+                    },
                 },
             },
         },
@@ -260,6 +259,20 @@ export const docsPageNavigation = {
                 items: {
                     "/docs/integration/bootstrap/overview": {
                         title: "Overview",
+                    },
+                    "/docs/integration/bootstrap/action": {
+                        title: "Actions",
+                        items: {
+                            "/docs/integration/bootstrap/action/index": {
+                                title: "Index",
+                            },
+                            "/docs/integration/bootstrap/action/Popover": {
+                                title: "Popover",
+                            },
+                            "/docs/integration/bootstrap/action/Tooltip": {
+                                title: "Tooltip",
+                            },
+                        },
                     },
                     "/docs/integration/bootstrap/element/form": {
                         title: "Form elements",
