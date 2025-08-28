@@ -2,6 +2,21 @@
 
 The `Input` component provides a native HTML input field with automatic data synchronization, combining the simplicity of native HTML with the convenience of automatic data binding.
 
+> **About specialized input components**
+>
+> For common input types, you can use specialized wrapper components that pre-set the `inputType`:
+>
+> - `TextField` (text), `EmailField` (email), `PasswordField` (password)
+> - `UrlField` (url), `SearchField` (search), `TelField` (tel)
+> - `NumberField` (number), `RangeField` (range)
+> - `DateField` (date), `TimeField` (time), `DateTimeField` (datetime-local)
+> - `MonthField` (month), `WeekField` (week)
+> - `ColorField` (color), `FileField` (file), `HiddenField` (hidden)
+>
+> All these components use the same properties as `Input` but with a predefined input type.
+>
+> Using convenience components makes it easier to override specific component types through reactive-json's [plugin system](/docs/advanced-concepts/plugins/plugin-system). For example, you can replace all `EmailField` components with a custom implementation while leaving other input types unchanged.
+
 ## Basic Syntax
 
 ```yaml
@@ -16,21 +31,6 @@ The `Input` component provides a native HTML input field with automatic data syn
     style:
       marginBottom: "10px"
 ```
-
-## Convenience Components
-
-For common input types, you can use specialized wrapper components that pre-set the `inputType`:
-
-- `TextField` (text), `EmailField` (email), `PasswordField` (password)
-- `UrlField` (url), `SearchField` (search), `TelField` (tel)
-- `NumberField` (number), `RangeField` (range)
-- `DateField` (date), `TimeField` (time), `DateTimeField` (datetime-local)
-- `MonthField` (month), `WeekField` (week)
-- `ColorField` (color), `FileField` (file), `HiddenField` (hidden)
-
-All these components use the same properties as `Input` but with a predefined input type.
-
-Using convenience components makes it easier to override specific component types through reactive-json's [plugin system](/docs/advanced-concepts/plugins/plugin-system). For example, you can replace all `EmailField` components with a custom implementation while leaving other input types unchanged.
 
 ## Properties
 

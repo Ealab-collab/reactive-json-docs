@@ -5,6 +5,97 @@ renderView:
 
       The `Input` component provides a native HTML input field with automatic data synchronization, combining the simplicity of native HTML with the convenience of automatic data binding.
 
+  - type: blockquote
+    content:
+      - type: Markdown
+        content: |
+          **About specialized input components**
+
+          For common input types, you can use specialized wrapper components that pre-set the `inputType`:
+
+          - `TextField` (text), `EmailField` (email), `PasswordField` (password)
+          - `UrlField` (url), `SearchField` (search), `TelField` (tel)
+          - `NumberField` (number), `RangeField` (range)
+          - `DateField` (date), `TimeField` (time), `DateTimeField` (datetime-local)
+          - `MonthField` (month), `WeekField` (week)
+          - `ColorField` (color), `FileField` (file), `HiddenField` (hidden)
+
+          All these components use the same properties as `Input` but with a predefined input type.
+
+          Using convenience components makes it easier to override specific component types through reactive-json's [plugin system](/docs/advanced-concepts/plugins/plugin-system). For example, you can replace all `EmailField` components with a custom implementation while leaving other input types unchanged.
+
+      - type: button
+        attributes:
+          class: "btn btn-primary"
+          style:
+            marginTop: "10px"
+        content: "Show the convenience components override graph"
+        actions:
+          - what: setData
+            on: click
+            path: ~._showConvenienceComponentsOverride
+            value: true
+
+      - type: Modal
+        attributes:
+          class: "modal-xl"
+        showBoolPath: ~._showConvenienceComponentsOverride
+        headerTitle: "Convenience Components Override"
+        body:
+          - type: Mermaid
+            content: |
+              graph TB
+                subgraph "Convenience Components Override"
+                    direction TB
+                    
+                    subgraph "Application YAML"
+                        AppYAML["Application YAML<br/>- type: EmailField<br/>- type: TextField<br/>- type: PasswordField"]
+                    end
+                    
+                    subgraph "Plugin Override Options"
+                        direction TB
+                        
+                        subgraph "Option 1: Override Specific Type"
+                            CustomEmail["Custom EmailField<br/>• Enhanced validation<br/>• Company branding<br/>• Special features"]
+                            DefaultText["Default TextField<br/>• Unchanged"]
+                            DefaultPassword["Default PasswordField<br/>• Unchanged"]
+                        end
+                        
+                        subgraph "Option 2: Override Base Input"
+                            CustomInput["Custom Input<br/>• Affects ALL types<br/>• Global changes"]
+                        end
+                    end
+                    
+                    subgraph "Result"
+                        direction TB
+                        GranularControl["Granular Control<br/>Override only EmailField<br/>while keeping others default"]
+                        GlobalControl["Global Control<br/>Override Input affects<br/>all convenience components"]
+                    end
+                    
+                    AppYAML --> CustomEmail
+                    AppYAML --> DefaultText
+                    AppYAML --> DefaultPassword
+                    AppYAML --> CustomInput
+                    
+                    CustomEmail --> GranularControl
+                    DefaultText --> GranularControl
+                    DefaultPassword --> GranularControl
+                    
+                    CustomInput --> GlobalControl
+                end
+                
+                subgraph "Plugin System Benefits"
+                    Flexibility["Flexibility<br/>Target specific<br/>component types"]
+                    Maintainability["Maintainability<br/>Override without<br/>changing YAML"]
+                    Reusability["Reusability<br/>Share custom<br/>implementations"]
+                end
+                
+                GranularControl --> Flexibility
+                GranularControl --> Maintainability
+                GranularControl --> Reusability
+
+  - type: Markdown
+    content: |
       ## Basic Syntax
 
       ```yaml
@@ -19,21 +110,6 @@ renderView:
           style:
             marginBottom: "10px"
       ```
-
-      ## Convenience Components
-
-      For common input types, you can use specialized wrapper components that pre-set the `inputType`:
-
-      - `TextField` (text), `EmailField` (email), `PasswordField` (password)
-      - `UrlField` (url), `SearchField` (search), `TelField` (tel)
-      - `NumberField` (number), `RangeField` (range)
-      - `DateField` (date), `TimeField` (time), `DateTimeField` (datetime-local)
-      - `MonthField` (month), `WeekField` (week)
-      - `ColorField` (color), `FileField` (file), `HiddenField` (hidden)
-
-      All these components use the same properties as `Input` but with a predefined input type.
-
-      Using convenience components makes it easier to override specific component types through reactive-json's [plugin system](/docs/advanced-concepts/plugins/plugin-system). For example, you can replace all `EmailField` components with a custom implementation while leaving other input types unchanged.
 
       ## Properties
 
@@ -114,6 +190,65 @@ renderView:
       ### Attribute Merging
       When a wrapper is present, the `attributes` are applied to the div container and `inputAttributes` are applied to the input element. When no wrapper is present, both `attributes` and `inputAttributes` are merged and applied to the input element.
 
+  - type: button
+    attributes:
+      class: "btn btn-primary"
+    content: "Show the wrapper logic graph"
+    actions:
+      - what: setData
+        on: click
+        path: ~._showWrapperLogic
+        value: true
+
+  - type: Modal
+    attributes:
+      class: "modal-lg"
+    showBoolPath: ~._showWrapperLogic
+    headerTitle: "Wrapper Logic: Decision Tree for div Container Usage"
+    body:
+      - type: Mermaid
+        mermaidConfig:
+          themeVariables:
+            primaryColor: "transparent"
+            primaryBorderColor: "#666"
+            primaryTextColor: "#333"
+            lineColor: "#666"
+            secondaryColor: "transparent"
+            tertiaryColor: "transparent"
+          flowchart:
+            htmlLabels: true
+            nodeSpacing: 60
+            rankSpacing: 90
+            curve: basis
+        content: |
+          flowchart TD
+              A["⚙️ Input Component"] --> B{"🔧 forceWrapper<br/>specified?"}
+              B -->|✅ Yes| C{"🔧 forceWrapper<br/>=== true?"}
+              B -->|❌ No| D{"🏷️ Has label?"}
+              
+              C -->|✅ Yes| E["📦 Use Wrapper<br/>= TRUE"]
+              C -->|❌ No| F["🚫 Use Wrapper<br/>= FALSE"]
+              
+              D -->|✅ Yes| E
+              D -->|❌ No| F
+              
+              E --> G["📦 Render with<br/>wrapper div"]
+              F --> H["🎯 Render without<br/>wrapper"]
+              
+                             G --> I["📦 attributes → div<br/>📝 inputAttributes → input"]
+               H --> J["🔄 Merge attributes<br/>with inputAttributes<br/>📝 All applied to input"]
+               
+               I --> O{"🏷️ Has label?"}
+               O -->|✅ Yes| K["📄 HTML: div > label + input"]
+               O -->|❌ No| P["📄 HTML: div > input"]
+               
+               J --> M{"🏷️ Has label?"}
+               M -->|✅ Yes| L["📄 HTML: label + input"]
+               M -->|❌ No| N["📄 HTML: input"]
+
+  - type: Markdown
+    content: |
+
       ### HTML Output Examples
 
       **With label (automatic wrapper):**
@@ -158,6 +293,7 @@ renderView:
       ```
 
       **Advantages**: Simple, automatic accessibility (htmlFor)
+      
       **Limitations**: No conditional actions, limited styling
 
       ### Separated Label (full control)
@@ -226,14 +362,13 @@ renderView:
           label: "Age:"
           inputType: "number"
           inputAttributes:
-            min: 0
-            max: 120
+            min: "0"
+            max: "120"
         - type: div
           attributes:
             style:
               marginTop: "20px"
               padding: "10px"
-              backgroundColor: "#f8f9fa"
               borderRadius: "5px"
           content:
             - type: strong
@@ -283,8 +418,6 @@ renderView:
             pattern: "[A-Z]{3}-[0-9]{3}"
             title: "Format: ABC-123 (3 letters, dash, 3 numbers)"
             maxLength: 7
-            style:
-              textTransform: "uppercase"
           attributes:
             style:
               marginBottom: "10px"
@@ -322,7 +455,6 @@ renderView:
             style:
               marginBottom: "10px"
               padding: "5px"
-              backgroundColor: "#f9f9f9"
         
         - type: Markdown
           content: |
@@ -356,7 +488,6 @@ renderView:
             style:
               marginTop: "20px"
               padding: "10px"
-              backgroundColor: "#e9ecef"
               borderRadius: "5px"
           content:
             - type: strong
@@ -375,7 +506,7 @@ renderView:
                 - ~.forceWrapper
             - type: div
               content:
-                - "No forced wrapper: "
+                - "Forced no wrapper: "
                 - ~.noWrapperForced
       data:
         noWrapper: ""
