@@ -1,0 +1,441 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Input
+
+      The `Input` component provides a native HTML input field with automatic data synchronization, combining the simplicity of native HTML with the convenience of automatic data binding.
+
+      ## Basic Syntax
+
+      ```yaml
+      - type: Input
+        dataLocation: ~.fieldName
+        label: "Field Label:"
+        placeholder: "Enter value..."
+        inputType: "text"
+        inputAttributes:
+          required: true
+        attributes:
+          style:
+            marginBottom: "10px"
+      ```
+
+      ## Convenience Components
+
+      For common input types, you can use specialized wrapper components that pre-set the `inputType`:
+
+      - `TextField` (text), `EmailField` (email), `PasswordField` (password)
+      - `UrlField` (url), `SearchField` (search), `TelField` (tel)
+      - `NumberField` (number), `RangeField` (range)
+      - `DateField` (date), `TimeField` (time), `DateTimeField` (datetime-local)
+      - `MonthField` (month), `WeekField` (week)
+      - `ColorField` (color), `FileField` (file), `HiddenField` (hidden)
+
+      All these components use the same properties as `Input` but with a predefined input type.
+
+      Using convenience components makes it easier to override specific component types through reactive-json's [plugin system](/docs/advanced-concepts/plugins/plugin-system). For example, you can replace all `EmailField` components with a custom implementation while leaving other input types unchanged.
+
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: dataLocation
+          after: "(string, optional)"
+        details: "Path to bind the field value in the data context."
+      - term:
+          code: defaultFieldValue
+          after: "(string, optional)"
+        details: "Default value when no data is present."
+      - term:
+          code: label
+          after: "(string, optional)"
+        details: "Field label text (supports template evaluation)."
+      - term:
+          code: placeholder
+          after: "(string, optional)"
+        details: "Placeholder text (supports template evaluation)."
+      - term:
+          code: inputType
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "HTML input type (default: \"text\", supports template evaluation)."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Attributes applied to the container div (or merged with inputAttributes if no wrapper)."
+      - term:
+          code: inputAttributes
+          after: "(object, optional)"
+        details: "Attributes applied directly to the input element."
+      - term:
+          code: labelAttributes
+          after: "(object, optional)"
+        details: "Attributes applied to the label (htmlFor is automatically managed)."
+      - term:
+          code: forceWrapper
+          after: "(boolean, optional)"
+        details: "Forces the presence (true) or absence (false) of the wrapper div. If omitted, wrapper is automatic only if label is present."
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details: "Actions to execute based on field state."
+
+  - type: Markdown
+    content: |
+      ## Data Management
+
+      The component automatically synchronizes its value with the global data context. When `dataLocation` is used, the value is stored at the specified path. Without `dataLocation`, the value is stored in the template context using the component's `datafield`.
+
+      ## Input Types
+
+      The `inputType` property supports all HTML5 input types:
+      - `text` (default): Standard text input
+      - `email`: Email validation
+      - `password`: Masked password input
+      - `url`: URL validation
+      - `tel`: Telephone number input
+      - `search`: Search input with clear button
+      - `number`: Numeric input
+      - `date`: Date picker
+      - And all other HTML5 types
+
+      ## Wrapper Control
+
+      The component uses a flexible wrapper system that adapts based on the presence of a label and the `forceWrapper` property.
+
+      ### Default Behavior
+      When no `forceWrapper` is specified, the component automatically determines whether to use a wrapper div. If a label is present, the component wraps both the label and input in a div container. If no label is present, the input is rendered directly without a wrapper.
+
+      ### Explicit Control with `forceWrapper`
+      You can override the default behavior using the `forceWrapper` property. Setting `forceWrapper: true` will always create a wrapper div, even without a label. Setting `forceWrapper: false` will never create a wrapper, even when a label is present.
+
+      ### Attribute Merging
+      When a wrapper is present, the `attributes` are applied to the div container and `inputAttributes` are applied to the input element. When no wrapper is present, both `attributes` and `inputAttributes` are merged and applied to the input element.
+
+      ### HTML Output Examples
+
+      **With label (automatic wrapper):**
+
+  - type: SyntaxHighlighter
+    language: "html"
+    content: |
+      <div>
+        <label htmlFor="input-abc123">Field Label:</label>
+        <input id="input-abc123" type="text" value="" />
+      </div>
+
+  - type: Markdown
+    content: |
+      **Without label (no wrapper):**
+
+  - type: SyntaxHighlighter
+    language: "html"
+    content: |
+      <input id="input-xyz789" type="text" value="" />
+
+  - type: Markdown
+    content: |
+      **Force wrapper without label:**
+
+  - type: SyntaxHighlighter
+    language: "html"
+    content: |
+      <div>
+        <input id="input-def456" type="text" value="" />
+      </div>
+
+  - type: Markdown
+    content: |
+      ## Integrated vs Separated Labels
+
+      ### Integrated Label (convenience)
+      ```yaml
+      - type: Input
+        label: "My field:"
+        dataLocation: ~.value
+      ```
+
+      **Advantages**: Simple, automatic accessibility (htmlFor)
+      **Limitations**: No conditional actions, limited styling
+
+      ### Separated Label (full control)
+      ```yaml
+      - type: label
+        content: "My field:"
+        attributes:
+          htmlFor: "my-input-id"
+        actions:
+          - what: setAttributeValue
+            when: ~.hasError
+            is: true
+            attribute: style.color
+            value: "red"
+      - type: Input
+        dataLocation: ~.value
+        forceWrapper: false
+        inputAttributes:
+          id: "my-input-id"
+      ```
+
+      **Advantages**: Conditional actions, advanced styling, full control
+      **Disadvantages**: More verbose, manual accessibility management
+
+      **Recommendation**: Use the integrated label for most cases. Opt for separated label only if you need conditional actions or advanced styling.
+
+  - type: RjBuildDescriber
+    title: "Basic Example"
+    description: "Simple input with label and placeholder"
+    toDescribe:
+      renderView:
+        - type: Input
+          dataLocation: ~.username
+          label: "Username:"
+          placeholder: "Enter your username"
+        - type: div
+          content:
+            - "Current value: "
+            - type: strong
+              content: ~.username
+      data:
+        username: ""
+
+  - type: RjBuildDescriber
+    title: "Different Input Types"
+    description: "Input with various HTML5 types"
+    toDescribe:
+      renderView:
+        - type: Input
+          dataLocation: ~.email
+          label: "Email:"
+          placeholder: "user@example.com"
+          inputType: "email"
+        - type: Input
+          dataLocation: ~.password
+          label: "Password:"
+          placeholder: "Enter password"
+          inputType: "password"
+        - type: Input
+          dataLocation: ~.website
+          label: "Website:"
+          placeholder: "https://example.com"
+          inputType: "url"
+        - type: Input
+          dataLocation: ~.age
+          label: "Age:"
+          inputType: "number"
+          inputAttributes:
+            min: 0
+            max: 120
+        - type: div
+          attributes:
+            style:
+              marginTop: "20px"
+              padding: "10px"
+              backgroundColor: "#f8f9fa"
+              borderRadius: "5px"
+          content:
+            - type: strong
+              content: "Current Values:"
+            - type: div
+              content:
+                - "Email: "
+                - ~.email
+            - type: div
+              content:
+                - "Password: "
+                - ~.password
+            - type: div
+              content:
+                - "Website: "
+                - ~.website
+            - type: div
+              content:
+                - "Age: "
+                - ~.age
+      data:
+        email: ""
+        password: ""
+        website: ""
+        age: ""
+
+  - type: RjBuildDescriber
+    title: "Custom Attributes"
+    description: "Input with custom attributes and pattern validation (format: ABC-123)"
+    toDescribe:
+      renderView:
+        - type: style
+          content: |
+            input[pattern]:valid {
+              border-color: #28a745;
+              box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+            }
+            input[pattern]:invalid {
+              border-color: #dc3545;
+              box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+            }
+        - type: Input
+          dataLocation: ~.productCode
+          label: "Product Code:"
+          placeholder: "ABC-123"
+          inputAttributes:
+            pattern: "[A-Z]{3}-[0-9]{3}"
+            title: "Format: ABC-123 (3 letters, dash, 3 numbers)"
+            maxLength: 7
+            style:
+              textTransform: "uppercase"
+          attributes:
+            style:
+              marginBottom: "10px"
+        - type: div
+          content:
+            - "Product Code: "
+            - ~.productCode
+      data:
+        productCode: ""
+
+  - type: RjBuildDescriber
+    title: "Wrapper Control"
+    description: "Demonstration of different wrapper modes"
+    toDescribe:
+      renderView:
+        - type: Markdown
+          content: |
+            **1. No label → no wrapper automatically:**
+        - type: Input
+          dataLocation: ~.noWrapper
+          placeholder: "Input without wrapper"
+          attributes:
+            style:
+              border: "1px solid green"
+              marginBottom: "10px"
+        
+        - type: Markdown
+          content: |
+            **2. With label → automatic wrapper:**
+        - type: Input
+          dataLocation: ~.autoWrapper
+          label: "With automatic wrapper:"
+          placeholder: "Input with wrapper"
+          attributes:
+            style:
+              marginBottom: "10px"
+              padding: "5px"
+              backgroundColor: "#f9f9f9"
+        
+        - type: Markdown
+          content: |
+            **3. Force wrapper even without label:**
+        - type: Input
+          dataLocation: ~.forceWrapper
+          placeholder: "Forced wrapper"
+          forceWrapper: true
+          attributes:
+            style:
+              border: "2px solid blue"
+              padding: "10px"
+              marginBottom: "10px"
+              borderRadius: "8px"
+        
+        - type: Markdown
+          content: |
+            **4. No wrapper even with label:**
+        - type: Input
+          dataLocation: ~.noWrapperForced
+          label: "Label without wrapper:"
+          placeholder: "Input without forced wrapper"
+          forceWrapper: false
+          attributes:
+            style:
+              border: "2px solid red"
+              marginBottom: "10px"
+        
+        - type: div
+          attributes:
+            style:
+              marginTop: "20px"
+              padding: "10px"
+              backgroundColor: "#e9ecef"
+              borderRadius: "5px"
+          content:
+            - type: strong
+              content: "Values:"
+            - type: div
+              content:
+                - "No wrapper: "
+                - ~.noWrapper
+            - type: div
+              content:
+                - "Auto wrapper: "
+                - ~.autoWrapper
+            - type: div
+              content:
+                - "Forced wrapper: "
+                - ~.forceWrapper
+            - type: div
+              content:
+                - "No forced wrapper: "
+                - ~.noWrapperForced
+      data:
+        noWrapper: ""
+        autoWrapper: ""
+        forceWrapper: ""
+        noWrapperForced: ""
+
+  - type: RjBuildDescriber
+    title: "Custom Label Attributes"
+    description: "Customizing label styling"
+    toDescribe:
+      renderView:
+        - type: Input
+          dataLocation: ~.customLabel1
+          label: "Blue and bold label:"
+          placeholder: "Input with styled label"
+          labelAttributes:
+            style:
+              color: "blue"
+              fontWeight: "bold"
+              fontSize: "16px"
+        - type: Input
+          dataLocation: ~.customLabel2
+          label: "Label with CSS class:"
+          placeholder: "Input with class"
+          labelAttributes:
+            className: "custom-label"
+            style:
+              color: "#28a745"
+              textDecoration: "underline"
+        - type: div
+          content:
+            - "Value 1: "
+            - ~.customLabel1
+            - " | Value 2: "
+            - ~.customLabel2
+      data:
+        customLabel1: ""
+        customLabel2: ""
+
+  - type: Markdown
+    content: |
+      ## Advantages
+
+      - **No external dependencies**: Works without any CSS framework
+      - **Full control**: Custom styling and behavior
+      - **Performance**: Lighter than component libraries
+      - **Accessibility**: Direct control over ARIA attributes, automatic htmlFor
+      - **Automatic synchronization**: Unlike raw HTML elements that require manual setData actions
+      - **Flexible wrapper**: Avoids unnecessary HTML when not needed
+      - **Flexibility**: Integrated label for convenience, separated for advanced control
+
+      ## Limitations
+
+      - No built-in validation beyond HTML5 input type validation
+      - No support for input masking or formatting
+      - No built-in error message display
+      - Styling must be provided via external CSS or style attributes
+      - Template evaluation for `inputType` should return valid HTML input types
+      - Integrated label is limited: for conditional actions, prefer separated label
+
+templates: {}
+data: {}

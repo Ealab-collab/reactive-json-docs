@@ -170,6 +170,14 @@ export const docsPageNavigation = {
                     },
                 },
             },
+            "/docs/core/element/form": {
+                title: "Form elements",
+                items: {
+                    "/docs/core/element/form/Input": {
+                        title: "Input",
+                    },
+                },
+            },
             "/docs/core/element/html": {
                 title: "HTML elements",
                 items: {

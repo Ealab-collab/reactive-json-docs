@@ -109,6 +109,51 @@ const App = () => {
 };
 ```
 
+### Component Override Behavior
+
+When using `mergeComponentCollections` with multiple plugins, **the last component with a given name takes precedence**. This allows you to override default components with custom implementations.
+
+```jsx
+import { ReactiveJsonRoot, mergeComponentCollections } from "@ea-lab/reactive-json";
+import { defaultComponents } from "@ea-lab/reactive-json";
+import { customComponents } from "./plugins/customComponents.js";
+
+const plugins = mergeComponentCollections([
+    defaultComponents,    // Contains a "Button" component
+    customComponents      // Also contains a "Button" component - this one will be used
+]);
+```
+
+This override mechanism is particularly useful for:
+
+- **Customizing default components**: Replace built-in components with your own implementations
+- **Theme customization**: Override components to match your design system
+- **Feature enhancement**: Add functionality to existing components
+- **Third-party integration**: Replace components with versions from external libraries
+
+**Example: Overriding a Default Button**
+
+```jsx
+// Default plugin has a basic Button
+const defaultPlugin = {
+    element: {
+        Button: BasicButton  // Simple button implementation
+    }
+};
+
+// Your custom plugin overrides it
+const customPlugin = {
+    element: {
+        Button: EnhancedButton  // Button with animations and custom styling
+    }
+};
+
+// EnhancedButton will be used everywhere "Button" is referenced
+const plugins = mergeComponentCollections([defaultPlugin, customPlugin]);
+```
+
+**⚠️ Important**: Component names must match exactly (case-sensitive) for the override to work. The order in the `mergeComponentCollections` array determines precedence.
+
 ### Custom ReactiveJsonRoot Wrapper
 
 Creating a custom wrapper allows you to **centralize plugin inclusion** across your entire application. Instead of manually importing and merging plugins in every component that uses Reactive-JSON, you define them once in a wrapper component.
@@ -172,4 +217,5 @@ export const ReportPage = () => {
 2. **Use descriptive names** for components and plugins
 3. **Document component props** and usage patterns
 4. **Provide examples** for complex components
-5. **Choose non-conflicting names** with existing components
+5. **Be intentional with component names** - use unique names unless you specifically want to override existing components
+6. **Document overrides** when replacing default components to help other developers understand the customization
