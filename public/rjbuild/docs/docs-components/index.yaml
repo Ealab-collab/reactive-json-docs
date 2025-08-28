@@ -26,6 +26,7 @@ renderView:
 
       ## Component List
 
+      - **[Mermaid](Mermaid)**: Create beautiful diagrams and flowcharts with automatic dark mode support
       - **[SyntaxHighlighter](SyntaxHighlighter)**: Advanced syntax highlighting with dark mode support
 
 templates:

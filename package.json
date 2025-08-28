@@ -78,6 +78,7 @@
   },
   "dependencies": {
     "@ea-lab/reactive-json-bootstrap": "^0.0.2",
+    "mermaid": "^11.10.1",
     "remark-gfm": "^4.0.1"
   }
 }

@@ -9,6 +9,7 @@
 import { DefinitionList } from "./element/DefinitionList.jsx";
 import { DemoContentMapper } from "./element/DemoContentMapper.jsx";
 import { Markdown } from "./element/Markdown.jsx";
+import { Mermaid } from "./element/Mermaid.jsx";
 import { RjBuildDescriber } from "./element/RjBuildDescriber.jsx";
 import { Sidebar } from "./element/Sidebar.jsx";
 import { SyntaxHighlighter } from "./element/SyntaxHighlighter.jsx";
@@ -19,6 +20,7 @@ export const demoPlugins = {
         DefinitionList,
         DemoContentMapper,
         Markdown,
+        Mermaid,
         RjBuildDescriber,
         Sidebar,
         SyntaxHighlighter,
@@ -361,6 +363,9 @@ export const docsPageNavigation = {
         items: {
             "/docs/docs-components/index": {
                 title: "Overview",
+            },
+            "/docs/docs-components/Mermaid": {
+                title: "Mermaid",
             },
             "/docs/docs-components/SyntaxHighlighter": {
                 title: "SyntaxHighlighter",
