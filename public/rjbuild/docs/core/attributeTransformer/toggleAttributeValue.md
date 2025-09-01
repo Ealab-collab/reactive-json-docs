@@ -1,27 +1,27 @@
-# ToggleAttributeValue
+# toggleAttributeValue
 
-> **Alternative**: For pre-render attribute modification, see the [toggleAttributeValue transformer](../../attributeTransformer/toggleAttributeValue.md).
+> **Alternative**: For post-render DOM modification, see the [ToggleAttributeValue action](../action/Attribute/ToggleAttributeValue.md).
 
-Toggles the presence of a specific value in an HTML attribute. Supports both simple on-off toggles and cyclic toggling through multiple values.
+Toggles the presence of a specific value in an HTML attribute. Supports both simple on-off toggles and cyclic toggling through multiple values. This attribute transformer allows you to conditionally toggle values before rendering.
 
 ## Important Notes
 
-### Action-Based Behavior
-`ToggleAttributeValue` is an **action component** that operates based on data state changes, not direct event triggers. It requires a state variable in your data to activate the toggle behavior. This means you cannot directly use `on: click` with `ToggleAttributeValue` - instead, you must use `setData` with `on: click` to change a state variable, then use `when/is` conditions on the toggle action to respond to that state change.
+### Pre-render Behavior
+`toggleAttributeValue` is an **attribute transformer** that operates during the attribute evaluation phase, before the component renders. It works based on data state and conditional evaluation, allowing you to toggle attribute values based on current data.
 
 ### Base Attribute Detection
-`ToggleAttributeValue` determines what to toggle by examining the **original attributes** defined in your component's props, not the current DOM state. This means:
+`toggleAttributeValue` determines what to toggle by examining the **current attributes** being processed in the evaluation pipeline. This means:
 
-- ✅ **Stable behavior**: The toggle always works relative to the initial attribute values
-- ✅ **No infinite loops**: Changes don't trigger recursive re-evaluation
-- ⚠️ **Limitation**: The toggle cannot detect or work with values that were dynamically added by other attribute actions (`SetAttributeValue`, `UnsetAttributeValue`)
+- ✅ **Predictable behavior**: The toggle always works relative to the current attribute state in the pipeline
+- ✅ **No DOM dependencies**: Changes are applied before rendering, affecting child components
+- ✅ **Integration**: Can work with other attribute transformers applied before it in the pipeline
 
-**Example**: If your component initially has `class="base"` and another action adds `"dynamic"`, the toggle will only work with `"base"` and won't see `"dynamic"`.
+**Example**: If your component has `class="base"` and a previous transformer adds `"dynamic"`, the toggle will work with the current state `"base dynamic"`.
 
 ## Basic Syntax
 
 ```yaml
-actions:
+attributeTransforms:
   # Toggle CSS class.
   - what: toggleAttributeValue
     name: "class"

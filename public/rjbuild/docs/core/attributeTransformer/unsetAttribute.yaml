@@ -1,9 +1,9 @@
 renderView:
   - type: Markdown
     content: |
-      # UnsetAttribute
+      # unsetAttribute
 
-      > **Alternative**: For pre-render attribute modification, see the [unsetAttribute transformer](../../attributeTransformer/unsetAttribute).
+      > **Alternative**: For post-render DOM modification, see the [UnsetAttribute action](../action/Attribute/UnsetAttribute).
 
       Completely removes an HTML attribute from an element.
 
@@ -11,7 +11,7 @@ renderView:
 
   - type: TabbedSerializer
     yamlSerializedContent: |
-      actions:
+      attributeTransforms:
         # Remove entire attribute
         - what: unsetAttribute
           name: "class"
@@ -99,11 +99,12 @@ renderView:
               margin: "10px 0"
               width: "300px"
               display: "block"
-          actions:
+          attributeTransforms:
             - what: unsetAttribute
               name: "readonly"
               when: ~.makeEditable
               is: true
+          actions:
             - what: setData
               on: change
               path: ~.input_value

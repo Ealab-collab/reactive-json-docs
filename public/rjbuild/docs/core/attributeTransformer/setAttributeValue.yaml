@@ -1,9 +1,9 @@
 renderView:
   - type: Markdown
     content: |
-      # SetAttributeValue
+      # setAttributeValue
 
-      > **Alternative**: For pre-render attribute modification, see the [setAttributeValue transformer](../../attributeTransformer/setAttributeValue).
+      > **Alternative**: For post-render DOM modification, see the [SetAttributeValue action](../action/Attribute/SetAttributeValue).
 
       Dynamically sets or modifies the value of an HTML attribute on an element.
 
@@ -11,7 +11,7 @@ renderView:
 
   - type: TabbedSerializer
     yamlSerializedContent: |
-      actions:
+      attributeTransforms:
         # Add CSS class
         - what: setAttributeValue
           name: "class"
@@ -113,6 +113,7 @@ renderView:
               on: change
               path: ~.input_data
               value: <reactive-json:event-new-value>
+          attributeTransforms:
             - what: setAttributeValue
               name: "class"
               value: "sav-highlighted"

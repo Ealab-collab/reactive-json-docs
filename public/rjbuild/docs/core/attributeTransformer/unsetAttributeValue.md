@@ -1,13 +1,13 @@
-# UnsetAttributeValue
+# unsetAttributeValue
 
-> **Alternative**: For pre-render attribute modification, see the [unsetAttributeValue transformer](../../attributeTransformer/unsetAttributeValue.md).
+> **Alternative**: For post-render DOM modification, see the [UnsetAttributeValue action](../action/Attribute/UnsetAttributeValue.md).
 
-Removes a specific value from an HTML attribute while preserving other values.
+Removes a specific value from an HTML attribute while preserving other values. This attribute transformer allows you to conditionally remove specific values from space-separated attributes before rendering.
 
 ## Basic Syntax
 
 ```yaml
-actions:
+attributeTransforms:
   # Remove CSS class
   - what: unsetAttributeValue
     name: "class"
@@ -105,7 +105,7 @@ renderView:
         margin: "10px 0"
         width: "300px"
         display: "block"
-    actions:
+    attributeTransforms:
       - what: unsetAttributeValue
         name: "class"
         value: "uav-highlighted"
@@ -130,8 +130,11 @@ data:
 
 ## Notes
 
-- Only removes exact matches of the specified value.
-- Maintains the integrity of other attribute values.
-- Works with any space-separated attribute values.
-- Safe to use even if the value doesn't exist in the attribute.
-- The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
+- **Pre-render execution**: This transformer removes attribute values before the component renders, ensuring child components receive the transformed attributes.
+- **Selective removal**: Only removes exact matches of the specified value.
+- **Value preservation**: Maintains the integrity of other attribute values.
+- **Separator support**: Works with any space-separated attribute values.
+- **Safe operation**: Safe to use even if the value doesn't exist in the attribute.
+- **Template evaluation**: The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
+- **Count control**: Advanced removal patterns with `unsetCount` and `unsetAllOccurrences` for precise control.
+- **Conditional execution**: Supports the same condition system as actions (`when`, `is`, `isEmpty`, `isNotEmpty`, etc.).

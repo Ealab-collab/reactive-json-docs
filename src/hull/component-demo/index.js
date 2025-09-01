@@ -98,6 +98,9 @@ export const docsPageNavigation = {
                     "/docs/core/action/Attribute": {
                         title: "Attribute",
                         items: {
+                            "/docs/core/action/Attribute/index": {
+                                title: "Index",
+                            },
                             "/docs/core/action/Attribute/SetAttributeValue": {
                                 title: "SetAttributeValue",
                             },
@@ -169,6 +172,40 @@ export const docsPageNavigation = {
                     },
                     "/docs/core/reaction/triggerEvent": {
                         title: "triggerEvent",
+                    },
+                },
+            },
+            "/docs/core/attributeTransformer": {
+                title: "Attribute transformers",
+                items: {
+                    "/docs/core/attributeTransformer/index": {
+                        title: "Index",
+                    },
+                    "/docs/core/attributeTransformer/setAttributeValue": {
+                        title: "setAttributeValue",
+                    },
+                    "/docs/core/attributeTransformer/unsetAttribute": {
+                        title: "unsetAttribute",
+                    },
+                    "/docs/core/attributeTransformer/unsetAttributeValue": {
+                        title: "unsetAttributeValue",
+                    },
+                    "/docs/core/attributeTransformer/toggleAttributeValue": {
+                        title: "toggleAttributeValue",
+                    },
+                },
+            },
+            "/docs/core/hook": {
+                title: "Hooks",
+                items: {
+                    "/docs/core/hook/index": {
+                        title: "Index",
+                    },
+                    "/docs/core/hook/usePagination": {
+                        title: "usePagination",
+                    },
+                    "/docs/core/hook/useTransformedAttributes": {
+                        title: "useTransformedAttributes",
                     },
                 },
             },

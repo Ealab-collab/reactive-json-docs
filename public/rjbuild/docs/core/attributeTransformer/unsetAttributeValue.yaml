@@ -1,9 +1,9 @@
 renderView:
   - type: Markdown
     content: |
-      # UnsetAttributeValue
+      # unsetAttributeValue
 
-      > **Alternative**: For pre-render attribute modification, see the [unsetAttributeValue transformer](../../attributeTransformer/unsetAttributeValue).
+      > **Alternative**: For post-render DOM modification, see the [UnsetAttributeValue action](../action/Attribute/UnsetAttributeValue).
 
       Removes a specific value from an HTML attribute while preserving other values.
 
@@ -11,7 +11,7 @@ renderView:
 
   - type: TabbedSerializer
     yamlSerializedContent: |
-      actions:
+      attributeTransforms:
         # Remove CSS class
         - what: unsetAttributeValue
           name: "class"
@@ -154,7 +154,7 @@ renderView:
               margin: "10px 0"
               width: "300px"
               display: "block"
-          actions:
+          attributeTransforms:
             - what: unsetAttributeValue
               name: "class"
               value: "uav-highlighted"

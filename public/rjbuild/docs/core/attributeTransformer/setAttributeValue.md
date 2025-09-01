@@ -1,13 +1,13 @@
-# SetAttributeValue
+# setAttributeValue
 
-> **Alternative**: For pre-render attribute modification, see the [setAttributeValue transformer](../../attributeTransformer/setAttributeValue.md).
+> **Alternative**: For post-render DOM modification, see the [SetAttributeValue action](../action/Attribute/SetAttributeValue.md).
 
-Dynamically sets or modifies the value of an HTML attribute on an element.
+Dynamically sets or modifies the value of an HTML attribute before rendering. This attribute transformer allows you to conditionally modify attributes based on data state during the evaluation phase.
 
 ## Basic Syntax
 
 ```yaml
-actions:
+attributeTransforms:
   # Add CSS class
   - what: setAttributeValue
     name: "class"
@@ -50,8 +50,8 @@ renderView:
   - type: input
     attributes:
       type: "text"
-      placeholder: "Start typing to see the highlighting..."
-      class: "sav-demo-input"
+      placeholder: "Type to see conditional styling..."
+      class: "base-input"
       value: ~.input_data
       style:
         padding: "10px"
@@ -61,23 +61,27 @@ renderView:
         margin: "10px 0"
         width: "300px"
         display: "block"
+    attributeTransforms:
+      - what: setAttributeValue
+        name: "class"
+        value: "highlighted"
+        when: ~.input_data
+        isNotEmpty:
     actions:
       - what: setData
         on: change
         path: ~.input_data
         value: <reactive-json:event-new-value>
-      - what: setAttributeValue
-        name: "class"
-        value: "sav-highlighted"
-        when: ~.input_data
-        isNotEmpty:
 
   - type: div
-    content: ~.input_data
+    content: ["Current value: ", ~.input_data]
 
   - type: style
     content: |
-      .sav-highlighted {
+      .base-input {
+        transition: border-color 0.3s ease;
+      }
+      .highlighted {
         border-color: #28a745 !important;
         outline: 2px solid #28a745 !important;
         outline-offset: 2px !important;
@@ -89,7 +93,9 @@ data:
 
 ## Notes
 
-- The action respects existing attribute values when using append mode.
-- Use replace mode when you need complete control over the attribute value.
-- Duplicate prevention only applies to append mode.
-- The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
+- **Pre-render execution**: This transformer modifies attributes before the component renders, ensuring child components receive the transformed attributes.
+- **Append mode behavior**: Respects existing attribute values when using append mode.
+- **Replace mode**: Use when you need complete control over the attribute value.
+- **Duplicate prevention**: Only applies to append mode.
+- **Template evaluation**: The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
+- **Conditional execution**: Supports the same condition system as actions (`when`, `is`, `isEmpty`, `isNotEmpty`, etc.).

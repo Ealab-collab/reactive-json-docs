@@ -1,13 +1,11 @@
-# UnsetAttribute
+# unsetAttribute
 
-> **Alternative**: For pre-render attribute modification, see the [unsetAttribute transformer](../../attributeTransformer/unsetAttribute.md).
-
-Completely removes an HTML attribute from an element.
+Completely removes an HTML attribute from an element before rendering. This attribute transformer allows you to conditionally remove entire attributes based on data state during the evaluation phase.
 
 ## Basic Syntax
 
 ```yaml
-actions:
+attributeTransforms:
   # Remove entire attribute
   - what: unsetAttribute
     name: "class"
@@ -41,29 +39,29 @@ actions:
 ```yaml
 renderView:
   - type: button
-    content: "Remove readonly attribute"
+    content: "Toggle editable state"
     actions:
       - what: setData
         on: click
         path: ~.makeEditable
         value: true
+        when: ~.makeEditable
+        is: false
         stopPropagation: true
-
-  - type: button
-    content: "Reset"
-    actions:
       - what: setData
         on: click
         path: ~.makeEditable
         value: false
+        when: ~.makeEditable
+        is: true
         stopPropagation: true
 
   - type: input
     attributes:
       type: "text"
       value: ~.input_value
-      placeholder: "Try typing here when readonly is removed..."
-      class: "ua-demo-input"
+      placeholder: "Input field with conditional readonly..."
+      class: "demo-input"
       readonly: "readonly"
       style:
         padding: "10px"
@@ -73,24 +71,28 @@ renderView:
         margin: "10px 0"
         width: "300px"
         display: "block"
-    actions:
+    attributeTransforms:
       - what: unsetAttribute
         name: "readonly"
         when: ~.makeEditable
         is: true
+    actions:
       - what: setData
         on: change
         path: ~.input_value
         value: <reactive-json:event-new-value>
 
+  - type: div
+    content: ["Editable: ", ~.makeEditable, ", Value: ", ~.input_value]
+
   - type: style
     content: |
-      .ua-demo-input[readonly] {
+      .demo-input[readonly] {
         cursor: not-allowed !important;
         opacity: 0.7 !important;
         border-color: #6c757d !important;
       }
-      .ua-demo-input:not([readonly]) {
+      .demo-input:not([readonly]) {
         border-color: #28a745 !important;
         outline: 2px solid #28a745 !important;
         outline-offset: 2px !important;
@@ -103,8 +105,10 @@ data:
 
 ## Notes
 
-- This action **completely removes the entire attribute**, not just specific values.
-- Use `UnsetAttributeValue` if you only want to remove specific values.
-- The attribute can be restored using `SetAttributeValue` if needed.
-- **Important**: To set an empty attribute (not remove it), use `SetAttributeValue` with an empty string value.
-- Useful for conditional attribute presence rather than conditional values.
+- **Pre-render execution**: This transformer removes attributes before the component renders, ensuring child components receive the transformed attributes.
+- **Complete removal**: This transformer **completely removes the entire attribute**, not just specific values.
+- **Alternative transformers**: Use `unsetAttributeValue` if you only want to remove specific values.
+- **Restoration**: The attribute can be restored using `setAttributeValue` if needed.
+- **Empty attributes**: To set an empty attribute (not remove it), use `setAttributeValue` with an empty string value.
+- **Use case**: Useful for conditional attribute presence rather than conditional values.
+- **Conditional execution**: Supports the same condition system as actions (`when`, `is`, `isEmpty`, `isNotEmpty`, etc.).
