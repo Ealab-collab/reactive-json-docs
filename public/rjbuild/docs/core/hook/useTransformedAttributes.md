@@ -1,0 +1,130 @@
+# useTransformedAttributes
+
+Applies attribute transformations based on configured transformers in plugins. This hook allows conditional modification of component attributes by applying a series of defined transformations.
+
+## Hook Signature
+
+```javascript
+const transformedAttributes = useTransformedAttributes(attrsToTransform, transformProps)
+```
+
+## Parameters
+
+- `attrsToTransform` (object): Raw attributes to transform
+- `transformProps` (array, optional): Array of transformation definitions to apply
+
+## Return Value
+
+- `transformedAttributes` (object): Final attributes after applying transformations (spread on target element/component)
+
+## How It Works
+
+The hook follows this logic:
+
+1. **Validation Check**: If `transformProps` is `undefined`, returns original attributes
+2. **Transformer Retrieval**: Accesses transformers via `globalDataContext.plugins.attributeTransformer`
+3. **Sequential Application**: Applies each transformation in defined order
+4. **Conditional Validation**: Each transformation is validated before application via `isValid()`
+5. **Accumulation**: Transformations are applied cumulatively
+
+## Supported Transformer Types
+
+The following transformers are available in the system:
+
+### setAttributeValue
+Sets an attribute value conditionally.
+
+### toggleAttributeValue
+Toggles between two values for an attribute.
+
+### unsetAttribute
+Completely removes an attribute.
+
+### unsetAttributeValue
+Removes an attribute value (sets to `undefined`).
+
+## Example Usage
+
+```jsx
+import { useTransformedAttributes } from '@ea-lab/reactive-json';
+
+const MyComponent = ({ props }) => {
+    const baseAttributes = {
+        className: "btn btn-primary",
+        disabled: false,
+        title: "Click me"
+    };
+
+    const transformedAttributes = useTransformedAttributes(
+        baseAttributes,
+        props.attributeTransforms
+    );
+
+    return <button {...transformedAttributes}>Submit</button>;
+};
+```
+
+## Transformation Configuration
+
+```yaml
+# Example configuration in RjBuild
+- type: MyComponent
+  attributeTransforms:
+    - what: setAttributeValue
+      when: ~~.form.isSubmitting
+      is: true
+      attributeName: disabled
+      value: true
+    
+    - what: toggleAttributeValue
+      when: ~~.theme
+      is: "dark"
+      attributeName: className
+      value1: "btn btn-primary"
+      value2: "btn btn-primary btn-dark"
+    
+    - what: unsetAttribute
+      when: ~~.user.role
+      is: "guest"
+      attributeName: title
+```
+
+## Context Integration
+
+The hook automatically uses:
+
+- **GlobalDataContext**: For accessing plugins and global data
+- **TemplateContext**: For condition evaluation in templates
+
+## Transformation Validation
+
+Each transformation is validated via the `isValid()` function which checks:
+
+- The `when` condition against the `is` value
+- Supported comparison operators
+- Data availability in contexts
+
+## Error Handling
+
+The hook is designed to be resilient:
+
+- **Missing Transformer**: Silently ignores the transformation
+- **Failed Validation**: Ignores invalid transformation
+- **Missing Plugins**: Returns original attributes
+- **Missing Data**: Ignores transformations that cannot be evaluated
+
+## Performance
+
+- **Sequential Application**: Transformations applied in order with accumulation
+- **Optimized Validation**: Invalid transformations ignored quickly
+- **Reusability**: Hook can be called multiple times without performance impact
+
+## Relationship with Transformers
+
+This hook is closely related to the attributeTransformer system:
+
+- Uses transformers registered in plugins
+- Respects transformer syntax (`what`, `when`, `is` properties)
+- Integrates with global validation system
+
+For details on individual transformers, see [attributeTransformer documentation](../attributeTransformer/index.md).

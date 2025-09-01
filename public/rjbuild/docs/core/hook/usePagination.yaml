@@ -1,0 +1,319 @@
+renderView:
+  - type: Markdown
+    content: |
+      # usePagination
+
+      Creates customizable pagination systems with configurable components and advanced navigation logic.
+
+      ## Hook Signature
+
+  - type: SyntaxHighlighter
+    language: "javascript"
+    content: |
+      const {
+          firstShownItemIndex,
+          getPageCountForContent,
+          maxShownItemIndexExcluded,
+          PageControls,
+          pageMaxItemCount,
+          sliceVisibleContent,
+      } = usePagination({
+          customComponents = {},
+          containerProps = {},
+          dataToPaginate = [],
+          forcePaginationDisplay = false,
+          itemProps = {},
+          maxPageButtonsCount = 5,
+          pageMaxItemCount = 10,
+      })
+
+  - type: Markdown
+    content: |
+      ## Parameters
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: customComponents
+          after: "(object, optional)"
+        details: "Custom components to override defaults (Container, First, Prev, Item, Ellipsis, Next, Last)"
+      - term:
+          code: containerProps
+          after: "(object, optional)"
+        details: "Additional props passed to container component"
+      - term:
+          code: dataToPaginate
+          after: "(array, optional)"
+        details: "Complete data to paginate (used for page count calculation)"
+      - term:
+          code: forcePaginationDisplay
+          after: "(boolean, optional)"
+        details: "Force pagination display even with less than 2 pages"
+      - term:
+          code: itemProps
+          after: "(object, optional)"
+        details: "Additional props passed to page buttons"
+      - term:
+          code: maxPageButtonsCount
+          after: "(number, optional)"
+        details: "Maximum number of page buttons to display (default: 5)"
+      - term:
+          code: pageMaxItemCount
+          after: "(number, optional)"
+        details: "Maximum items per page (default: 10)"
+
+  - type: Markdown
+    content: |
+      ## Return Values
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: firstShownItemIndex
+          after: "(number)"
+        details: "Index of first item displayed for active page (for slice())"
+      - term:
+          code: getPageCountForContent
+          after: "(function)"
+        details: "Function to calculate page count for given content"
+      - term:
+          code: maxShownItemIndexExcluded
+          after: "(number)"
+        details: "Exclusive index of last displayed item (for slice())"
+      - term:
+          code: PageControls
+          after: "(function)"
+        details: "React component containing pagination controls"
+      - term:
+          code: pageMaxItemCount
+          after: "(number)"
+        details: "Maximum items per page (same as parameter)"
+      - term:
+          code: sliceVisibleContent
+          after: "(function)"
+        details: "Function to slice array according to active page"
+
+  - type: Markdown
+    content: |
+      ## Component Override System
+
+      The `usePagination` hook uses a sophisticated component override system that allows you to customize pagination appearance and behavior at three different levels.
+
+      ### Resolution Priority
+
+      The hook resolves components using this priority order:
+
+      1. **Custom Components** (highest priority): Components passed via `customComponents` parameter
+      2. **Plugin Components** (medium priority): Components from `globalDataContext.plugins.pagination`
+      3. **Default Components** (fallback): Built-in components with basic styling
+
+  - type: SyntaxHighlighter
+    language: "javascript"
+    content: |
+      const PaginationContainer = customComponents.Container ?? pluginComponents.Container ?? DefaultPaginationContainer;
+      const PaginationFirst = customComponents.First ?? pluginComponents.First ?? DefaultPaginationFirst;
+      const PaginationPrev = customComponents.Prev ?? pluginComponents.Prev ?? DefaultPaginationPrev;
+      const PaginationItem = customComponents.Item ?? pluginComponents.Item ?? DefaultPaginationItem;
+      const PaginationEllipsis = customComponents.Ellipsis ?? pluginComponents.Ellipsis ?? DefaultPaginationEllipsis;
+      const PaginationNext = customComponents.Next ?? pluginComponents.Next ?? DefaultPaginationNext;
+      const PaginationLast = customComponents.Last ?? pluginComponents.Last ?? DefaultPaginationLast;
+
+  - type: Markdown
+    content: |
+      ### Available Component Slots
+
+      Each component receives specific props automatically from the hook:
+
+      #### Container
+      - **Purpose**: Wraps the entire pagination
+      - **Props**: `{ children, ...containerProps }`
+
+      #### First & Last  
+      - **Purpose**: Navigate to first/last page
+      - **Props**: `{ disabled, onClick, children, ...props }`
+
+      #### Prev & Next
+      - **Purpose**: Navigate to previous/next page  
+      - **Props**: `{ disabled, onClick, children, ...props }`
+
+      #### Item (Page Numbers)
+      - **Purpose**: Individual page number buttons
+      - **Props**: `{ active, disabled, onClick, children, ...itemProps }`
+
+      #### Ellipsis
+      - **Purpose**: Indicates hidden pages
+      - **Props**: `{ children, ...props }`
+
+      ### Override Scenarios
+
+      #### 1. Custom Components (Per-Hook Override)
+
+  - type: SyntaxHighlighter
+    language: "javascript"
+    content: |
+      const { PageControls } = usePagination({
+          customComponents: {
+              // Override specific components for this hook instance
+              Item: ({ active, disabled, onClick, children, ...props }) => (
+                  <button 
+                      className={`my-page-btn ${active ? 'active' : ''}`}
+                      disabled={disabled}
+                      onClick={onClick}
+                      {...props}
+                  >
+                      Page {children}
+                  </button>
+              )
+          }
+      });
+
+  - type: Markdown
+    content: |
+      #### 2. Plugin Components (Global Override)
+
+  - type: SyntaxHighlighter
+    language: "javascript"
+    content: |
+      // In your plugin configuration
+      const myPaginationPlugin = {
+          pagination: {
+              // These components will be used by ALL usePagination hooks
+              Container: MyCustomContainer,
+              Item: MyCustomPageButton,
+              Next: MyCustomNextButton
+          }
+      };
+
+      const plugins = mergeComponentCollections([myPaginationPlugin]);
+
+  - type: Markdown
+    content: |
+      #### 3. Mixed Override Strategy
+
+  - type: SyntaxHighlighter
+    language: "javascript"
+    content: |
+      // Plugin provides base customization
+      const plugins = mergeComponentCollections([bootstrapPaginationPlugin]);
+
+      // Specific hook overrides just the container
+      const { PageControls } = usePagination({
+          customComponents: {
+              Container: ({ children, ...props }) => (
+                  <nav className="special-nav" {...props}>
+                      <div className="custom-wrapper">{children}</div>
+                  </nav>
+              )
+              // Item, Prev, Next, etc. will use plugin components
+          }
+      });
+
+  - type: Markdown
+    content: |
+      ## Page Button Logic
+
+      The hook uses intelligent logic for button display:
+
+      - **Pages 1, 2, 3**: `[1,2,3,4,5]`
+      - **Page 4**: `[2,3,4,5,6]`
+      - **Page 5**: `[3,4,5,6,7]`
+      - **Final pages**: `[6,7,8,9,10]`
+
+      Smart ellipses (`...`) appear automatically when pages are hidden between visible buttons and extremes.
+
+  - type: Markdown
+    content: |
+      ## Example Usage
+
+  - type: SyntaxHighlighter
+    language: "jsx"
+    content: |
+      import { usePagination } from '@ea-lab/reactive-json';
+
+      const MyPaginatedList = ({ items }) => {
+          const {
+              PageControls,
+              sliceVisibleContent,
+          } = usePagination({
+              dataToPaginate: items,
+              pageMaxItemCount: 20,
+              maxPageButtonsCount: 7,
+              customComponents: {
+                  Container: ({ children, ...props }) => (
+                      <nav className="custom-pagination" {...props}>
+                          <div className="pagination-wrapper">{children}</div>
+                      </nav>
+                  ),
+                  Item: ({ active, disabled, onClick, children, ...props }) => (
+                      <button
+                          className={`custom-page-btn ${active ? 'active' : ''}`}
+                          disabled={disabled}
+                          onClick={onClick}
+                          {...props}
+                      >
+                          {children}
+                      </button>
+                  ),
+                  Prev: ({ disabled, onClick, children, ...props }) => (
+                      <button
+                          className="custom-prev-btn"
+                          disabled={disabled}
+                          onClick={onClick}
+                          {...props}
+                      >
+                          {children ?? 'Previous'}
+                      </button>
+                  )
+              }
+          });
+
+          const visibleItems = sliceVisibleContent(items);
+
+          return (
+              <div>
+                  <div className="items-list">
+                      {visibleItems.map(item => (
+                          <div key={item.id}>{item.name}</div>
+                      ))}
+                  </div>
+                  <PageControls />
+              </div>
+          );
+      };
+
+  - type: Markdown
+    content: |
+      ## Plugin Integration
+
+  - type: SyntaxHighlighter
+    language: "javascript"
+    content: |
+      // Plugin with custom pagination components
+      const paginationPlugin = {
+          pagination: {
+              Container: BootstrapPaginationContainer,
+              Item: BootstrapPaginationItem,
+              Next: BootstrapPaginationNext,
+              Prev: BootstrapPaginationPrev,
+          }
+      };
+
+      // Hook will automatically use these components
+      const plugins = mergeComponentCollections([paginationPlugin]);
+
+  - type: Markdown
+    content: |
+      ## Performance Notes
+
+      - Hook maintains active page state internally
+      - Page calculations optimized to avoid unnecessary re-calculations
+      - `sliceVisibleContent` useful for complete in-memory collections
+      - For very large collections, prefer server-side pagination
+
+      ## Known Limitations
+
+      - Pagination doesn't automatically update when data filters change (`currentData`)
+      - Future version: support for synchronization with external data changes
+
+templates: {}
+data: {}

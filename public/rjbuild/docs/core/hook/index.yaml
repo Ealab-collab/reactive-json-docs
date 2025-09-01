@@ -1,0 +1,44 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Hooks
+
+      > **Developer-Focused Section**: This documentation is primarily intended for developers who want to understand the internal hook system and extend Reactive-JSON with custom functionality.
+
+      Hooks in Reactive-JSON are reusable React functions that encapsulate common component logic. They follow React hook conventions and provide code factorization for complex functionalities.
+
+      ## Available Hook Components
+
+      ### Pagination
+      - **[usePagination](./usePagination)**: Creates customizable pagination systems with configurable components
+
+      ### Attribute Processing
+      - **[useTransformedAttributes](./useTransformedAttributes)**: Applies attribute transformations based on configured transformers
+
+      ## Architecture
+
+      Reactive-JSON hooks follow these core principles:
+
+      - **Context Integration**: Access to `GlobalDataContext` and `TemplateContext`
+      - **Reusability**: Extracted business logic for reuse across components
+      - **Customization**: Support for custom components and configurations
+      - **Performance**: Built-in optimizations to avoid unnecessary re-calculations
+
+      ## Plugin Integration
+
+      Hooks can be integrated into the Reactive-JSON plugin system. This is actually how the core hooks (`usePagination`, `useTransformedAttributes`) are made available to the system - they are registered through the plugin architecture.
+
+      ```javascript
+      const customPlugins = {
+          hook: {
+              usePagination,
+              useTransformedAttributes,
+              // Your custom hooks
+          }
+      };
+      ```
+
+      The core Reactive-JSON library uses this same mechanism internally to provide its built-in hooks, ensuring consistency between core functionality and custom extensions.
+
+templates: {}
+data: {}
