@@ -61,14 +61,17 @@ export const docsPageNavigation = {
             "/docs/advanced-concepts/index": {
                 title: "Overview",
             },
+            "/docs/advanced-concepts/attribute-transformers": {
+                title: "Attribute transformers",
+            },
             "/docs/advanced-concepts/data-processors": {
-                title: "Data Processors",
+                title: "Data processors",
             },
             "/docs/advanced-concepts/data-mapping": {
                 title: "Data mapping",
             },
             "/docs/advanced-concepts/forward-update": {
-                title: "Forward Update",
+                title: "Forward update",
             },
             "/docs/advanced-concepts/plugins": {
                 title: "Extending Reactive-JSON",
@@ -77,10 +80,10 @@ export const docsPageNavigation = {
                         title: "Introduction",
                     },
                     "/docs/advanced-concepts/plugins/component-development": {
-                        title: "Component Development",
+                        title: "Component development guide",
                     },
                     "/docs/advanced-concepts/plugins/plugin-system": {
-                        title: "Plugin System",
+                        title: "Plugin system guide",
                     },
                 },
             },

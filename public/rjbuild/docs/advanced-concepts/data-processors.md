@@ -1,10 +1,10 @@
-# Data Processors
+# Data processors
 
-Data Processors are a powerful feature in Reactive-JSON that allow you to intercept and modify data received via `fetchData`, `submitData`, and `additionalDataSources`. This enables you to implement data transformation, validation, security filtering, and other data processing logic in a centralized and reusable way.
+Data processors are a powerful feature in Reactive-JSON that allow you to intercept and modify data received via `fetchData`, `submitData`, and `additionalDataSources`. This enables you to implement data transformation, validation, security filtering, and other data processing logic in a centralized and reusable way.
 
-## How Data Processors Work
+## How Data processors Work
 
-When Reactive-JSON receives data from HTTP requests, it automatically passes the data through all registered Data Processors in order. Each processor:
+When Reactive-JSON receives data from HTTP requests, it automatically passes the data through all registered Data processors in order. Each processor:
 
 1. **Examines the request and response context** (URL, method, headers, status, etc.)
 2. **Receives the current data** being processed
@@ -54,14 +54,14 @@ Information about the HTTP response:
 - `data`: Raw response data
 
 ### dataToProcess
-The data currently being processed. This may have been modified by previous Data Processors in the chain.
+The data currently being processed. This may have been modified by previous Data processors in the chain.
 
 ### originalDataToProcess
 The original data before any processing, useful for comparison or logging.
 
 ## Plugin Registration
 
-Data Processors are registered through the plugin system:
+Data processors are registered through the plugin system:
 
 ```javascript
 import { mergeComponentCollections } from "@ea-lab/reactive-json";
@@ -222,7 +222,7 @@ additionalDataSource:
 ## Best Practices
 
 ### Always Return Data
-Data Processors **must always return data**. To skip processing, return the original data:
+Data processors **must always return data**. To skip processing, return the original data:
 
 ```javascript
 const myProcessor = ({ requestContext, responseContext, dataToProcess, originalDataToProcess }) => {

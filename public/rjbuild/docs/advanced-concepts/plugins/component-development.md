@@ -1,4 +1,4 @@
-# Component Development Guide
+# Component development guide
 
 ## Overview
 

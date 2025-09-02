@@ -1,7 +1,7 @@
 renderView:
   - type: Markdown
     content: |
-      # Component Development Guide
+      # Component development guide
 
       ## Overview
 

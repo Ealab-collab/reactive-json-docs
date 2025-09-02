@@ -1,4 +1,4 @@
-# Plugin System Guide
+# Plugin system guide
 
 ## Overview
 

@@ -4,6 +4,7 @@ This section covers advanced features and concepts in Reactive-JSON that enable 
 
 ## Topics
 
+- **[Attribute Transformers](attribute-transformers.md)**: Details on how element attributes can be modified by the app state.
 - **[Data Mapping](data-mapping.md)**: Learn how to selectively dispatch and transform response data using the Data Mapping system
 - **[Data Processors](data-processors.md)**: Learn how to intercept and modify data from HTTP requests using the DataProcessor system
 - **[Forward Update](forward-update.md)**: Implementation details about the retrieval of event values.

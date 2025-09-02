@@ -1,18 +1,18 @@
 renderView:
   - type: Markdown
     content: |
-      # Data Mapping System
+      # Data mapping
 
-      Data Mapping is a powerful, extensible system in Reactive-JSON that allows you to selectively dispatch and transform response data from HTTP requests to specific locations in your application state. This system provides fine-grained control over how incoming data is processed and stored after HTTP operations.
+      Data mapping is a powerful, extensible system in Reactive-JSON that allows you to selectively dispatch and transform response data from HTTP requests to specific locations in your application state. This system provides fine-grained control over how incoming data is processed and stored after HTTP operations.
 
       Data mapping occurs after the [Data Processors](data-processors) have processed the response.
 
       ## System Architecture
 
-      The Data Mapping system processes HTTP response data to selectively dispatch it to application state:
+      The Data mapping system processes HTTP response data to selectively dispatch it to application state:
 
       1. **HTTP Request** → Server responds with data
-      2. **Data Mapping** → Selectively dispatch response data to application state
+      2. **Data mapping** → Selectively dispatch response data to application state
       3. **Application State** → Updated with mapped data
 
       ## Core Components
@@ -30,7 +30,7 @@ renderView:
 
       ## Custom Data Mappers
 
-      The Data Mapping system is extensible through custom mapper plugins. You can create specialized mappers for complex transformation logic, integration with external libraries, or domain-specific processing needs.
+      The Data mapping system is extensible through custom mapper plugins. You can create specialized mappers for complex transformation logic, integration with external libraries, or domain-specific processing needs.
 
       ### Creating Custom Mappers
 
@@ -68,7 +68,7 @@ renderView:
 
       ## Usage Context
 
-      Data Mapping can be used with all HTTP-based data operations in Reactive-JSON:
+      Data mapping can be used with all HTTP-based data operations in Reactive-JSON:
 
   - type: Markdown
     content: |
@@ -100,7 +100,7 @@ renderView:
 
       ## Plugin System Integration
 
-      The Data Mapping system integrates with Reactive-JSON's plugin architecture:
+      The Data mapping system integrates with Reactive-JSON's plugin architecture:
 
       ```javascript
       import { mergeComponentCollections, ReactiveJsonRoot } from "@ea-lab/reactive-json";

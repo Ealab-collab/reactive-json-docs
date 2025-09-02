@@ -1,10 +1,10 @@
-# Forward Update Pattern (Event Placeholders)
+# Forward update
 
 Added in **reactive-json@0.0.43**.
 
 > Use the special placeholder `<reactive-json:event>` to reference values coming directly from the DOM or the custom event that triggered a reaction.
 
-The **Forward Update** pattern lets you use the special placeholder `<reactive-json:event>` inside any reaction arguments. It is primarily useful with `setData`, but can be applied to any reaction. Instead of reading a value *after* the global data has been updated, you can forward the fresh value carried by the event itself.
+The **Forward update** pattern lets you use the special placeholder `<reactive-json:event>` inside any reaction arguments. It is primarily useful with `setData`, but can be applied to any reaction. Instead of reading a value *after* the global data has been updated, you can forward the fresh value carried by the event itself.
 
 ## Syntax
 
