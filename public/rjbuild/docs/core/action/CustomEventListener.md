@@ -14,7 +14,7 @@ When using custom event names in actions, you can specify:
 
 - `what` (required): Name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`, etc.).
 - `on` (required): Name of the custom event to listen for (e.g., `"response"`, `"customUpdate"`, etc.).
-- All other properties are passed as arguments to the reaction function and support [forward update placeholders](../../../advanced-concepts/forward-update.md).
+- All other properties are passed as arguments to the reaction function and support [forward update placeholders](../../advanced-concepts/forward-update.md).
 
 ## Behavior
 
@@ -24,7 +24,7 @@ When you use a custom event name in an action (like `on: "response"`):
 2. It attaches an event listener directly on the element that triggered the action
 3. When the custom event is dispatched on that element:
    - Receives the event object with its custom data
-   - Processes any [event placeholders](../../../advanced-concepts/forward-update.md) in the action properties
+   - Processes any [event placeholders](../../advanced-concepts/forward-update.md) in the action properties
    - Executes the reaction function specified in `what`
 
 ## How Custom Events Are Triggered
@@ -95,7 +95,7 @@ renderView:
 
 ## Event Data Access
 
-CustomEventListener provides full access to the custom event data through the [forward update system](../../../advanced-concepts/forward-update.md):
+CustomEventListener provides full access to the custom event data through the [forward update system](../../advanced-concepts/forward-update.md):
 
 - `<reactive-json:event-new-value>` - Accesses `event.detail.value` for CustomEvent objects
 - `<reactive-json:event>.detail.someProperty` - Direct access to event details
@@ -138,7 +138,7 @@ Some reactions automatically dispatch custom events:
 
 - Automatically instantiated by the Actions system when custom event names are used
 - Uses `addEventListener` directly on DOM elements (not React's event system)
-- Supports the full [forward update system](../../../advanced-concepts/forward-update.md) for event data access
+- Supports the full [forward update system](../../advanced-concepts/forward-update.md) for event data access
 - Properly cleans up event listeners when component unmounts
 - Integrates with the plugin system to execute available reaction functions
 
@@ -146,5 +146,5 @@ Some reactions automatically dispatch custom events:
 
 - **[ReactOnEvent](ReactOnEvent.md)**: Handles standard DOM events (`click`, `change`, etc.)
 - **[MessageListener](MessageListener.md)**: Handles `on: "message"` events
-- **[Forward Update System](../../../advanced-concepts/forward-update.md)**: Event data access patterns
+- **[Forward Update System](../../advanced-concepts/forward-update.md)**: Event data access patterns
 - **[Reactions System](../../getting-started/reactions.md)**: The actual reaction functions that CustomEventListener executes
