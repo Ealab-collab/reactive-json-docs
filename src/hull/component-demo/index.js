@@ -118,6 +118,9 @@ export const docsPageNavigation = {
                             },
                         },
                     },
+                    "/docs/core/action/CustomEventListener": {
+                        title: "CustomEventListener",
+                    },
                     "/docs/core/action/HashChangeListener": {
                         title: "HashChangeListener",
                     },

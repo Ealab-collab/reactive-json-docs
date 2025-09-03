@@ -56,6 +56,34 @@ renderView:
       - Errors are only logged to the console
       - The triggering element is visually disabled during the request
 
+      ## Response Event
+
+      `fetchData` triggers a special `response` event when the HTTP request completes successfully. This allows you to process the response data immediately using other reactions.
+
+      You can use the `on: response` trigger with any reaction (like `setData`) to access the response data through the [forward update system](../../../advanced-concepts/forward-update):
+
+  - type: SyntaxHighlighter
+    language: yaml
+    content: |
+      actions:
+        - what: fetchData
+          on: click
+          url: "/api/user-profile.json"
+          updateOnlyData: true
+          updateDataAtLocation: ~~.userProfile
+        - what: setData
+          on: response  # Triggered when fetchData completes
+          path: ~~.userTheme
+          value: <reactive-json:event-new-value>.preferences.theme
+        - what: setData
+          on: response
+          path: ~~.lastFetchTime
+          value: <reactive-json:event-new-value>.metadata.timestamp
+
+  - type: Markdown
+    content: |
+      The response event provides access to the complete server response through `<reactive-json:event-new-value>`, allowing you to extract specific values and store them in different data locations.
+
   - type: RjBuildDescriber
     title: Basic Structure (GET - Default)
     description:
@@ -184,11 +212,11 @@ renderView:
     title:
       type: Markdown
       content: |
-        Data-Only Update Examples `@ea-lab/reactive-json@0.2.0`
+        Data-Only Update Examples
     description:
       - type: Markdown
         content: |
-          Properties `updateOnlyData` and `updateDataAtLocation` (added in @ea-lab/reactive-json@0.2.0) allow for more precise data management:
+          Properties `updateOnlyData` and `updateDataAtLocation` allow for more precise data management:
           
           - `updateOnlyData: true`: Only updates the data section, preserving templates and renderView
           - `updateDataAtLocation`: Specifies exactly where to place the response data

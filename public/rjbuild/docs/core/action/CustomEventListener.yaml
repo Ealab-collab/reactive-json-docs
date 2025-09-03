@@ -1,0 +1,158 @@
+renderView:
+  - type: Markdown
+    content: |
+      # CustomEventListener
+
+      Executes a reaction when receiving custom events dispatched on DOM elements. This is an internal action component that is automatically used when you specify custom event names (like `on: "response"`) in your actions.
+
+      ## Usage
+
+      CustomEventListener should **not** be used directly in the RjBuild. The Reactive-JSON engine will use it automatically when you specify custom event names (not standard DOM events) in any action. The system automatically adds this component to listen for custom events on the specific element that triggered the action.
+
+      > **Technical requirement**: The element component must provide an `attributesHolderRef` for the listener to attach its event handler to the DOM element.
+
+      ## Properties
+
+      When using custom event names in actions, you can specify:
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: what
+          after: "(required)"
+        details: "Name of the reaction function to execute (e.g., `setData`, `fetchData`, `submitData`, etc.)."
+      - term:
+          code: on
+          after: "(required)"
+        details: 'Name of the custom event to listen for (e.g., `"response"`, `"customUpdate"`, etc.).'
+      - term: "All other properties"
+        details:
+          type: Markdown
+          content: "Are passed as arguments to the reaction function and support [forward update placeholders](../../../advanced-concepts/forward-update)."
+
+  - type: Markdown
+    content: |
+      ## Behavior
+
+      When you use a custom event name in an action (like `on: "response"`):
+
+      1. The system automatically adds a CustomEventListener component
+      2. It attaches an event listener directly on the element that triggered the action
+      3. When the custom event is dispatched on that element:
+         - Receives the event object with its custom data
+         - Processes any [event placeholders](../../../advanced-concepts/forward-update) in the action properties
+         - Executes the reaction function specified in `what`
+
+      ## How Custom Events Are Triggered
+
+      Custom events are typically triggered by reactions like `fetchData` or `submitData`:
+
+  - type: SyntaxHighlighter
+    language: yaml
+    content: |
+      # fetchData automatically dispatches a "response" event when the request completes
+      actions:
+        - what: fetchData
+          on: click
+          url: "/api/data.json"
+          # When this completes, it dispatches a "response" event on the same element
+
+  - type: Markdown
+    content: |
+      ## Event Data Access
+
+      CustomEventListener provides full access to the custom event data through the [forward update system](../../../advanced-concepts/forward-update):
+
+      - `<reactive-json:event-new-value>` - Accesses `event.detail.value` for CustomEvent objects
+      - `<reactive-json:event>.detail.someProperty` - Direct access to event details
+      - `<reactive-json:event>.data.someValue` - For events with data property
+
+  - type: RjBuildDescriber
+    title: "Process HTTP Response Data"
+    description:
+      type: Markdown
+      content: |
+        This example shows how CustomEventListener automatically handles the `response` event from `fetchData`. The response data can be extracted and stored in different locations using event placeholders.
+    toDescribe:
+      renderView:
+        - type: button
+          content: "Load User Profile"
+          actions:
+            - what: fetchData
+              on: click
+              url: "/mockup-api/fetchData/example.json"
+              updateOnlyData: true
+              updateDataAtLocation: ~~.userProfile
+            - what: setData
+              on: response  # CustomEventListener handles this automatically
+              path: ~~.userTheme
+              value: <reactive-json:event-new-value>.preferences.theme
+            - what: setData
+              on: response
+              path: ~~.lastUpdateTime
+              value: <reactive-json:event-new-value>.metadata.timestamp
+        - type: div
+          content:
+            - "User Theme: "
+            - type: code
+              content: ~~.userTheme
+        - type: div
+          content:
+            - "Last Update: "
+            - type: code
+              content: ~~.lastUpdateTime
+      data:
+        userTheme: "not-loaded"
+        lastUpdateTime: "not-loaded"
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Custom Event Handling"
+    content: |
+      renderView:
+        - type: div
+          content: "Custom event handler"
+          actions:
+            - what: setData
+              on: customUpdate  # Any custom event name works
+              path: ~~.customData
+              value: <reactive-json:event-new-value>
+
+  - type: Markdown
+    content: |
+      ## Differences from Standard Events
+
+      | Aspect | Standard DOM Events | Custom Events |
+      |--------|-------------------|---------------|
+      | **Handler** | ReactOnEvent | CustomEventListener |
+      | **Event Names** | `click`, `change`, `submit`, etc. | `response`, `customUpdate`, etc. |
+      | **Target** | Element (via React event system) | Element (via DOM addEventListener) |
+      | **Event Data** | Standard DOM event properties | Custom data in `event.detail` |
+      | **Triggering** | User interactions | Programmatic dispatch |
+
+      ## Built-in Custom Events
+
+      Some reactions automatically dispatch custom events:
+
+      - **`response`**: Dispatched by `fetchData` and `submitData` when HTTP requests complete successfully
+      - **Custom events**: Can be triggered by `triggerEvent` reaction or external JavaScript
+
+      ## Limitations
+
+      - Only works with custom event names in actions (not as a standalone element)
+      - Requires the element component to provide an `attributesHolderRef` for DOM attachment
+      - Listens only on the specific element that triggered the original action
+      - Custom events must be dispatched on the correct element to be received
+      - Event data structure depends on how the custom event was created
+      - Automatic cleanup when the component unmounts
+
+      ## Related Components
+
+      - **[ReactOnEvent](ReactOnEvent)**: Handles standard DOM events (`click`, `change`, etc.)
+      - **[MessageListener](MessageListener)**: Handles `on: "message"` events
+      - **[Forward Update System](../../../advanced-concepts/forward-update)**: Event data access patterns
+      - **[Reactions System](../../getting-started/reactions)**: The actual reaction functions that CustomEventListener executes
+
+templates:
+
+data: {}

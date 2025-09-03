@@ -27,6 +27,31 @@
   - Without `updateDataAtLocation`: **completely replaces** the entire data object
   - With `updateDataAtLocation`: updates only the specified path in the data
 
+## Response Event
+
+`fetchData` triggers a special `response` event when the HTTP request completes successfully. This allows you to process the response data immediately using other reactions.
+
+You can use the `on: response` trigger with any reaction (like `setData`) to access the response data through the [forward update system](../../../advanced-concepts/forward-update.md):
+
+```yaml
+actions:
+  - what: fetchData
+    on: click
+    url: "/api/user-profile.json"
+    updateOnlyData: true
+    updateDataAtLocation: ~~.userProfile
+  - what: setData
+    on: response  # Triggered when fetchData completes
+    path: ~~.userTheme
+    value: <reactive-json:event-new-value>.preferences.theme
+  - what: setData
+    on: response
+    path: ~~.lastFetchTime
+    value: <reactive-json:event-new-value>.metadata.timestamp
+```
+
+The response event provides access to the complete server response through `<reactive-json:event-new-value>`, allowing you to extract specific values and store them in different data locations.
+
 > **⚠️ Important:** When using `updateOnlyData: true`, the server response must contain **data only**, not a complete RjBuild structure. The response should be the raw data object, not wrapped in `{data: {...}, renderView: [...], templates: {...}}`.
 
 ## Examples

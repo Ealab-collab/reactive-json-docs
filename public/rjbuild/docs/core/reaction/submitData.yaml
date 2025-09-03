@@ -64,6 +64,37 @@ renderView:
       - In case of an error, the submission is cancelled and logged to the console
       - Interface elements are visually disabled during submission (unless `submitSilently` is enabled)
 
+      ## Response Event
+
+      `submitData` triggers a special `response` event when the HTTP submission completes successfully. This allows you to process the response data immediately using other reactions.
+
+      You can use the `on: response` trigger with any reaction (like `setData`) to access the response data through the [forward update system](../../../advanced-concepts/forward-update):
+
+  - type: SyntaxHighlighter
+    language: yaml
+    content: |
+      actions:
+        - what: submitData
+          on: click
+          url: "/api/user/save"
+          data:
+            name: ~.form.name
+            email: ~.form.email
+          updateOnlyData: true
+          updateDataAtLocation: ~~.userProfile
+        - what: setData
+          on: response  # Triggered when submitData completes
+          path: ~~.lastSaveStatus
+          value: <reactive-json:event-new-value>.status
+        - what: setData
+          on: response
+          path: ~~.saveTimestamp
+          value: <reactive-json:event-new-value>.metadata.savedAt
+
+  - type: Markdown
+    content: |
+      The response event provides access to the complete server response through `<reactive-json:event-new-value>`, allowing you to extract specific values and store them in different data locations independently of the main data update process.
+
       ## Submission States & Styling
       The system uses a global locking mechanism to handle submissions:
       - Only one submission can be active at a time for all application roots
@@ -165,7 +196,7 @@ renderView:
       - Save progression state
       - Maintain consistency between client and server
 
-      ## Data-Only Update Examples (@ea-lab/reactive-json@0.2.0)
+      ## Data-Only Update Examples
       
       The properties `updateOnlyData` and `updateDataAtLocation` work identically for `submitData` and `fetchData`. 
        

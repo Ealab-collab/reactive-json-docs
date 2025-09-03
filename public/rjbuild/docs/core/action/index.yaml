@@ -33,7 +33,8 @@ renderView:
 
       As a user, you won't need to work with them directly.
 
+      - **[CustomEventListener](./CustomEventListener)**: Reacts to custom events
       - **[HashChangeListener](./HashChangeListener)**: Listens for URL hash changes
       - **[MessageListener](./MessageListener)**: Listens for window messages
-      - **[ReactOnEvent](./ReactOnEvent)**: Reacts to custom events
+      - **[ReactOnEvent](./ReactOnEvent)**: Reacts to DOM events
 

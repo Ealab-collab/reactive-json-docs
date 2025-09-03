@@ -7,7 +7,7 @@ renderView:
 
       ## Usage
 
-      MessageListener is **not** used directly as an element type. Instead, it is automatically triggered when you use `on: "message"` in any action. The system automatically adds this component to listen for messages globally on the window object.
+      MessageListener should **not** be used directly in the RjBuild. The Reactive-JSON engine will use it automatically when you use `on: "message"` in any action. The system automatically adds this component to listen for messages globally on the window object.
 
       ## Properties
 

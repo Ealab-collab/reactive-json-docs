@@ -30,6 +30,7 @@ when the user requests a [reaction](../../getting-started/reactions.md) on a giv
 
 As a user, you won't need to work with them directly.
 
+- **[CustomEventListener](./CustomEventListener.md)**: Reacts to custom events
 - **[HashChangeListener](./HashChangeListener.md)**: Listens for URL hash changes
 - **[MessageListener](./MessageListener.md)**: Listens for window messages
-- **[ReactOnEvent](./ReactOnEvent.md)**: Reacts to custom events
+- **[ReactOnEvent](./ReactOnEvent.md)**: Reacts to DOM events

@@ -4,7 +4,7 @@ Listens to hash changes (URL fragment) in the window and executes a reaction fun
 
 ## Usage
 
-HashChangeListener is **not** used directly as an element type. Instead, it is automatically triggered when you use `on: "hashchange"` in any action. The system automatically adds this component to listen for hash changes globally.
+HashChangeListener should **not** be used directly in the RjBuild. The Reactive-JSON engine will use it automatically when you use `on: "hashchange"` in any action. The system automatically adds this component to listen for hash changes globally.
 
 ## Properties
 

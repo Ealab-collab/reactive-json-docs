@@ -1,6 +1,6 @@
 # ReactOnEvent
 
-ReactOnEvent is an internal action component that is automatically instantiated by the Actions system when reactions with event handlers (`on: "eventName"`) are detected. It should **not** be used directly as an element type.
+ReactOnEvent is an internal action component that is automatically instantiated by the Actions system when reactions with event handlers (`on: "eventName"`) are detected. It should **not** be used directly in the RjBuild.
 
 > **Important**: It should **not** be used directly as an element type. The Reactive-JSON engine will automatically instantiate it when needed.
 
@@ -69,9 +69,9 @@ actions:
 
 ## Important Notes
 
-- **Never use `type: ReactOnEvent`** in your renderView - it's an internal component
+- **Never use `type: ReactOnEvent`** in your RjBuild - it's an internal component
 - **Use `actions` with `on: "eventName"`** - this is the correct way to handle events
-- **ReactOnEvent is automatically instantiated** by the Actions system when needed
+- **The Reactive-JSON engine will use ReactOnEvent automatically** when needed
 - **Event propagation is stopped by default** - use `stopPropagation: false` to change this
 
 ## Related Components

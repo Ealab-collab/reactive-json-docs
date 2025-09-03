@@ -1,10 +1,4 @@
 renderView:
-  # Version badge reusable component
-  - type: span
-    attributes:
-      class: "badge bg-secondary px-2 py-1"
-    content: "reactive-json@0.0.43"
-
   - type: Markdown
     content: |
       # Forward update
@@ -27,10 +21,31 @@ renderView:
 
   - type: Markdown
     content: |
-      `<reactive-json:event-new-value>` returns, in order of priority:
-      1. `event.target.checked` (checkboxes / toggle inputs)  
-      2. `event.target.value` (text inputs, selects, etc.)  
-      3. `undefined` if none of the above exists.
+      ## The `<reactive-json:event-new-value>` shortcut
+
+      `<reactive-json:event-new-value>` automatically detects and returns the most relevant value from different types of events. The extraction logic varies based on the event type and the target element.
+
+      ### Extraction Rules Reference
+
+      | Event Type | Target Element | Logic | Return Value | Example |
+      |------------|----------------|-------|--------------|---------|
+      | **CustomEvent** | Any | Returns `event.detail.value` | Any value from custom event payload | `<reactive-json:event-new-value>.preferences.theme` |
+      | **DOM Event** | `input[type="checkbox"]` | Returns `event.target.checked` | `true` or `false` | `<reactive-json:event-new-value>` → `true` |
+      | **DOM Event** | `input[type="radio"]` | Returns `event.target.value` if checked, otherwise `undefined` | String value or `undefined` | `<reactive-json:event-new-value>` → `"option1"` |
+      | **DOM Event** | `input[type="text"]`, `textarea`, `select` | Returns `event.target.value` | String value | `<reactive-json:event-new-value>` → `"user input"` |
+      | **DOM Event** | Element with `value` property | Returns `event.target.value` | Any value | `<reactive-json:event-new-value>` → `"42"` |
+      | **DOM Event** | Element with `checked` property (fallback) | Returns `event.target.checked` | `true` or `false` | `<reactive-json:event-new-value>` → `false` |
+      | **Any Event** | No applicable property | Returns `undefined` | `undefined` | `<reactive-json:event-new-value>` → `undefined` |
+
+      ### Processing Priority
+      For DOM events, the extraction follows this priority order:
+      1. **Checkbox**: `event.target.checked` (boolean)
+      2. **Radio button**: `event.target.value` only if checked, otherwise `undefined`
+      3. **General case**: `event.target.value` (if property exists)
+      4. **Fallback**: `event.target.checked` (if property exists)
+      5. **Default**: `undefined`
+
+      For CustomEvent objects (like `response` events from `fetchData`), it directly accesses `event.detail.value` and allows further property access with dot notation.
 
       **Good practice**
       - For standard form events (`change`, `input`, etc.), prefer the shortcut `<reactive-json:event-new-value>`.
@@ -43,10 +58,23 @@ renderView:
       
       You can access any nested property (`detail`, `key`, etc.).
 
+      ## Event Types
+
+      ### Standard DOM Events
+      The forward update system works with standard DOM events (`change`, `input`, `click`, etc.) from form elements and other HTML components.
+
+      ### Response Event
+      You can also use the special `response` event with reactions like `fetchData`. This event is triggered when an HTTP request completes successfully, allowing you to access the response data directly.
+
       Typical use-cases:
       - Real-time mirroring of form fields
       - "Select all" checkboxes
-      - Forward arbitrary values coming from events.
+      - Forward arbitrary values coming from events
+      - Process HTTP response data immediately after fetch operations
+
+  - type: Markdown
+    content: |
+      ## Examples
 
   # --- Interactive example: Synchronized CheckBoxes (use-case "Select all")
   - type: RjBuildDescriber
@@ -103,6 +131,48 @@ renderView:
       data:
         primary_text: ""
         secondary_text: ""
+
+  - type: Markdown
+    content: |
+      ### Response Event Processing
+
+      This example shows how to use the `response` event to process data returned by an HTTP request. When `fetchData` completes successfully, you can extract specific values from the response and store them in different locations using `<reactive-json:event-new-value>`.
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Response Event Processing"
+    content: |
+      renderView:
+        - type: button
+          content: "Load User Profile"
+          actions:
+            - what: fetchData
+              on: click
+              url: "/api/user-profile.json"
+              updateOnlyData: true
+              updateDataAtLocation: ~~.userProfile
+            - what: setData
+              on: response  # Triggered when fetchData completes
+              path: ~~.userTheme
+              value: <reactive-json:event-new-value>.preferences.theme
+            - what: setData
+              on: response
+              path: ~~.userName
+              value: <reactive-json:event-new-value>.name
+        - type: div
+          content:
+            - "User theme: "
+            - type: code
+              content: ~~.userTheme
+        - type: div
+          content:
+            - "User name: "
+            - type: strong
+              content: ~~.userName
+
+      data:
+        userTheme: "not-loaded"
+        userName: "not-loaded"
 
 templates:
 
