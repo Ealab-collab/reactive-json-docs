@@ -4,7 +4,7 @@
 
 ## ⚠️ Important Rules
 
-**NEVER SKIP STEPS** unless explicitly requested by the user. Each step is critical for the proper functioning of the project and must be executed in the defined chronological order.
+**NEVER SKIP STEPS** unless explicitly requested by the user or told by the assistant. Each step is critical for the proper functioning of the project and must be executed in the defined chronological order.
 
 When user feedback is required, wait for it and do not continue until this feedback is given.
 
@@ -16,14 +16,16 @@ Adapt commands according to the execution environment (Windows, Ubuntu, Mac...).
 2. [Collecting User Information](#collecting-user-information)
 3. [Documentation Repositories Setup](#documentation-repositories-setup)
 4. [Cursor Workspace Configuration](#cursor-workspace-configuration)
-5. [Vite Project Initialization](#vite-project-initialization)
-6. [Project Structure Verification](#project-structure-verification)
-7. [Dependencies Installation](#dependencies-installation)
-8. [Cursor Project Rules Creation](#cursor-project-rules-creation)
-9. [Generated Project Cleanup](#generated-project-cleanup)
-10. [Basic Configuration with ReactiveJsonRoot](#basic-configuration-with-reactivejsonroot)
-11. [Routing Configuration (Optional)](#routing-configuration-optional)
-12. [Final Verification](#final-verification)
+5. [Template Option (Tailwind)](#template-option-tailwind)
+   - 5a. [Template download and initialization (Tailwind)](#5a-template-download-and-initialization-tailwind)
+6. [Vite Project Initialization](#vite-project-initialization)
+7. [Project Structure Verification](#project-structure-verification)
+8. [Dependencies Installation](#dependencies-installation)
+9. [Cursor Project Rules Creation](#cursor-project-rules-creation)
+10. [Generated Project Cleanup](#generated-project-cleanup)
+11. [Basic Configuration with ReactiveJsonRoot](#basic-configuration-with-reactivejsonroot)
+12. [Routing Configuration (Optional)](#routing-configuration-optional)
+13. [Final Verification](#final-verification)
 
 ## Chronological Steps
 
@@ -55,14 +57,12 @@ be initialized, then ask for confirmation:
 
 **Action:** Ask the user for the following information:
 
-- **TypeScript**: Ask if the user wants to use TypeScript (yes/no)
 - **Documentation repositories location**: Absolute path where to clone reactive-json and reactive-json-docs repositories. When the user gives a relative path, convert it to absolute
 and ask for confirmation.
 
 **Important:** For documentation location, **NEVER** place them in the current project directory. Propose by default: `~/cursor-docs/` or let the user specify another location outside the current project.
 
 **Variables to remember:**
-- `<use_typescript>`: true/false based on the answer
 - `<docs_location>`: Absolute path for repositories (must be outside current directory)
 
 **Validation:** Verify that `<docs_location>` is not within the current project directory.
@@ -102,14 +102,63 @@ git clone https://github.com/Ealab-collab/reactive-json-docs.git
 > 1. Go to `File > Add Folder to Workspace`
 > 2. Add the folder `<docs_location>/reactive-json`
 > 3. Add the folder `<docs_location>/reactive-json-docs`
+> 4. Save the workspace file by going to `File > Save Workspace As...` and save it preferably outside the project directory (e.g., in your home directory or in the project directory ancestor)
 > 
 > **Confirm that this step is completed before continuing.**
 
 ---
 
-### Vite Project Initialization
+### Template Option (Tailwind)
+
+**Action:** Ask the user if they want to start from the official Tailwind project template prepared by the core team.
+
+- Show the user this info:
+  > Do you want to start from the official Tailwind project template prepared by the core team?
+  > 
+  > **Answer: Yes/No**
+
+**If YES:**
+- Go to the step 5a Template download and initialization (Tailwind)
+
+**If NO:**
+- Go to the step 6 Vite Project Initialization
+
+---
+
+### 5a. Template download and initialization (Tailwind)
+
+**Action:** Download the Tailwind project template and initialize it.
+
+- Commands to execute:
+  ```bash
+  curl -L -o template.zip https://github.com/Ealab-collab/reactive-json-project-template-tailwind/archive/refs/heads/main.zip
+  unzip template.zip
+  mv reactive-json-project-template-tailwind-main/* .
+  # Move hidden files (but not . and .. directories)
+  mv reactive-json-project-template-tailwind-main/.[!.]* . 2>/dev/null || true
+  rmdir reactive-json-project-template-tailwind-main
+  rm template.zip
+  npm install
+  npm run dev
+  ```
+
+**Instructions:**
+
+- If the server starts without errors and you see the expected message in your browser, the installation is successful. You can start developing your application with reactive-json.
+- If the server starts with errors, tell that the template had errors, then ask the user to contact the dev team or fix their project or restart the installation procedure with an empty project.
+- Then stop the installation procedure; this is an end of the installation procedure.
+
+---
+
+### 6. Vite Project Initialization
 
 **Action:** Create the project with Vite in the current directory
+
+**Before executing commands, ask the user:**
+- **TypeScript**: Ask if the user wants to use TypeScript (yes/no)
+
+**Variables to remember:**
+- `<use_typescript>`: true/false based on the answer
 
 **Commands to execute:**
 
@@ -126,7 +175,7 @@ npm create vite@latest . -- --template react
 
 ---
 
-### Project Structure Verification
+### 7. Project Structure Verification
 
 **Action:** Verify the project structure is correct
 
@@ -157,7 +206,7 @@ ls -la
 
 ---
 
-### Dependencies Installation
+### 8. Dependencies Installation
 
 **Action:** Install required packages
 
@@ -170,7 +219,7 @@ npm install @ea-lab/reactive-json axios clsx dnd-kit-sortable-tree html-react-pa
 
 ---
 
-### Cursor Project Rules Creation
+### 9. Cursor Project Rules Creation
 
 **Action:** Copy Cursor rules from documentation repositories
 
@@ -200,7 +249,7 @@ These rules contain all the necessary directives to work effectively with reacti
 
 ---
 
-### Generated Project Cleanup
+### 10. Generated Project Cleanup
 
 **Action:** Remove/clean files generated by Vite
 
@@ -229,7 +278,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 ---
 
-### Basic Configuration with ReactiveJsonRoot
+### 11. Basic Configuration with ReactiveJsonRoot
 
 **Action:** Configure the base component with an external YAML file
 
@@ -257,7 +306,7 @@ renderView:
 
 ---
 
-### Routing Configuration (Optional)
+### 12. Routing Configuration (Optional)
 
 **Action:** Ask the user if they want to add routing for application organization
 
@@ -378,11 +427,11 @@ renderView:
     content: "Your routing is now configured with a navigation bar. You can add more pages in src/pages/ and routes in the App component."
 ```
 
-**If NO, keep the simple configuration from step 10.**
+**If NO, keep the simple configuration from step 11.**
 
 ---
 
-### Final Verification
+### 13. Final Verification
 
 **Action:** Launch development server
 

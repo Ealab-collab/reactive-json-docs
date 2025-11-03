@@ -24,11 +24,12 @@ renderView:
 
       1. [Project Setup](#project-setup)
       2. [Documentation Setup](#documentation-setup)
-      3. [Vite Project Creation](#vite-project-creation)
-      4. [Dependencies Installation](#dependencies-installation)
-      5. [Configuration](#configuration)
-      6. [Optional Routing](#optional-routing)
-      7. [Verification](#verification)
+      3. [Template Option (Tailwind)](#template-option-tailwind)
+      4. [Vite Project Creation](#vite-project-creation)
+      5. [Dependencies Installation](#dependencies-installation)
+      6. [Configuration](#configuration)
+      7. [Optional Routing](#optional-routing)
+      8. [Verification](#verification)
 
       ---
 
@@ -57,15 +58,6 @@ renderView:
 
       > **⚠️ Important**: This directory will become your project root. All project files will be created here.
 
-      ### Step 2: Choose Your Setup
-
-      Decide on your project configuration:
-
-      - **TypeScript**: Do you want to use TypeScript? (Recommended for better development experience)
-      - **Documentation location**: Choose where to store documentation repositories (outside your project directory)
-
-      **Recommended documentation location**: `~/cursor-docs/`
-
       ---
 
   - type: h2
@@ -75,7 +67,7 @@ renderView:
 
   - type: Markdown
     content: |
-      ### Step 3: Clone Documentation Repositories
+      ### Step 2: Clone Documentation Repositories
 
       Clone the required documentation repositories for Cursor IDE integration:
 
@@ -94,7 +86,7 @@ renderView:
     content: |
       > **ℹ️ Note**: These repositories are for Cursor IDE documentation indexing only. They won't be included in your final project.
 
-      ### Step 4: Add to Cursor Workspace
+      ### Step 3: Add to Cursor Workspace
 
       **Manual Action Required**: Add the cloned folders to your Cursor workspace:
 
@@ -102,6 +94,7 @@ renderView:
       2. Go to `File > Add Folder to Workspace`
       3. Add `~/cursor-docs/reactive-json`
       4. Add `~/cursor-docs/reactive-json-docs`
+      5. Save the workspace file by going to `File > Save Workspace As...` and save it preferably outside the project directory (e.g., in your home directory or in the project directory ancestor)
 
   - type: img
     attributes:
@@ -119,15 +112,76 @@ renderView:
       ---
 
   - type: h2
+    content: "Template Option (Tailwind)"
+    attributes:
+      id: "template-option-tailwind"
+
+  - type: Markdown
+    content: |
+      ### Step 4: Choose Template Option
+
+      You can start your project in two ways:
+
+      **Option A: Use the official Tailwind template** (Recommended for beginners)
+      - A pre-configured project template with Tailwind CSS setup
+      - Includes all necessary configurations
+      - Faster setup process
+      - If you choose this option, follow [**Step 4a**](#step-4a-download-and-initialize-tailwind-template-optional) below
+
+      **Option B: Start from scratch with Vite**
+      - Manual Vite project creation
+      - More control over initial configuration
+      - If you choose this option, skip to [**Step 5: Create Vite Project from Scratch**](#vite-project-creation)
+
+      > **💡 Pro Tip**: If you're new to Reactive-JSON, we recommend starting with the Tailwind template.
+
+  - type: h3
+    content: "Step 4a: Download and Initialize Tailwind Template (Optional)"
+    attributes:
+      id: "step-4a-download-and-initialize-tailwind-template-optional"
+
+  - type: Markdown
+    content: |
+      If you chose to use the Tailwind template, download and initialize it now:
+
+  - type: SyntaxHighlighter
+    language: bash
+    content: |
+      curl -L -o template.zip https://github.com/Ealab-collab/reactive-json-project-template-tailwind/archive/refs/heads/main.zip
+      unzip template.zip
+      mv reactive-json-project-template-tailwind-main/* .
+      # Move hidden files (but not . and .. directories)
+      mv reactive-json-project-template-tailwind-main/.[!.]* . 2>/dev/null || true
+      rmdir reactive-json-project-template-tailwind-main
+      rm template.zip
+      npm install
+      npm run dev
+
+  - type: Markdown
+    content: |
+      **Expected result:**
+      - The development server should start without errors
+      - You should see a success message in your browser
+      - Your Reactive-JSON application is ready!
+
+      **If you encounter errors:**
+      - The template may have issues - contact the development team for support
+      - Or restart the installation with an empty project directory
+
+      > **✅ Success**: If everything works, your project is ready to use! You can start developing your Reactive-JSON application right away.
+
+      ---
+
+  - type: h2
     content: "Vite Project Creation"
     attributes:
       id: "vite-project-creation"
 
   - type: Markdown
     content: |
-      ### Step 5: Initialize Vite Project
+      ### Step 5: Create Vite Project from Scratch
 
-      Create a new Vite project with React:
+      If you're not using the template, create a new Vite project:
 
   - type: SyntaxHighlighter
     language: bash
@@ -480,7 +534,7 @@ templates:
 
           ## ⚠️ Important Rules
 
-          **NEVER SKIP STEPS** unless explicitly requested by the user. Each step is critical for the proper functioning of the project and must be executed in the defined chronological order.
+          **NEVER SKIP STEPS** unless explicitly requested by the user or told by the assistant. Each step is critical for the proper functioning of the project and must be executed in the defined chronological order.
 
           When user feedback is required, wait for it and do not continue until this feedback is given.
 
@@ -492,14 +546,16 @@ templates:
           2. [Collecting User Information](#2-collecting-user-information)
           3. [Documentation Repositories Setup](#3-documentation-repositories-setup)
           4. [Cursor Workspace Configuration](#4-cursor-workspace-configuration)
-          5. [Vite Project Initialization](#5-vite-project-initialization)
-          6. [Project Structure Verification](#6-project-structure-verification)
-          7. [Dependencies Installation](#7-dependencies-installation)
-          8. [Cursor Project Rules Creation](#8-cursor-project-rules-creation)
-          9. [Generated Project Cleanup](#9-generated-project-cleanup)
-          10. [Basic Configuration with ReactiveJsonRoot](#10-basic-configuration-with-reactivejsonroot)
-          11. [Routing Configuration (Optional)](#11-routing-configuration-optional)
-          12. [Final Verification](#12-final-verification)
+          5. [Template Option (Tailwind)](#5-template-option-tailwind)
+             - 5a. [Template download and initialization (Tailwind)](#5a-template-download-and-initialization-tailwind)
+          6. [Vite Project Initialization](#6-vite-project-initialization)
+          7. [Project Structure Verification](#7-project-structure-verification)
+          8. [Dependencies Installation](#8-dependencies-installation)
+          9. [Cursor Project Rules Creation](#9-cursor-project-rules-creation)
+          10. [Generated Project Cleanup](#10-generated-project-cleanup)
+          11. [Basic Configuration with ReactiveJsonRoot](#11-basic-configuration-with-reactivejsonroot)
+          12. [Routing Configuration (Optional)](#12-routing-configuration-optional)
+          13. [Final Verification](#13-final-verification)
 
           ## Chronological Steps
 
@@ -531,14 +587,12 @@ templates:
 
           **Action:** Ask the user for the following information:
 
-          - **TypeScript**: Ask if the user wants to use TypeScript (yes/no)
           - **Documentation repositories location**: Absolute path where to clone reactive-json and reactive-json-docs repositories. When the user gives a relative path, convert it to absolute
           and ask for confirmation.
 
           **Important:** For documentation location, **NEVER** place them in the current project directory. Propose by default: `~/cursor-docs/` or let the user specify another location outside the current project.
 
           **Variables to remember:**
-          - `<use_typescript>`: true/false based on the answer
           - `<docs_location>`: Absolute path for repositories (must be outside current directory)
 
           **Validation:** Verify that `<docs_location>` is not within the current project directory.
@@ -578,14 +632,63 @@ templates:
           > 1. Go to `File > Add Folder to Workspace`
           > 2. Add the folder `<docs_location>/reactive-json`
           > 3. Add the folder `<docs_location>/reactive-json-docs`
+          > 4. Save the workspace file by going to `File > Save Workspace As...` and save it preferably outside the project directory (e.g., in your home directory or in the project directory ancestor)
           > 
           > **Confirm that this step is completed before continuing.**
 
           ---
 
-          ### 5. Vite Project Initialization
+          ### 5. Template Option (Tailwind)
+
+          **Action:** Ask the user if they want to start from the official Tailwind project template prepared by the core team.
+          
+          - Show the user this info:
+            > Do you want to start from the official Tailwind project template prepared by the core team?
+            > 
+            > **Answer: Yes/No**
+
+          **If YES:**
+          - Go to the step 5a Template download and initialization (Tailwind)
+
+          **If NO:**
+          - Go to the step 6 Vite Project Initialization
+
+          ---
+
+          ### 5a. Template download and initialization (Tailwind)
+
+          **Action:** Download the Tailwind project template and initialize it.
+
+          - Commands to execute:
+            ```bash
+            curl -L -o template.zip https://github.com/Ealab-collab/reactive-json-project-template-tailwind/archive/refs/heads/main.zip
+            unzip template.zip
+            mv reactive-json-project-template-tailwind-main/* .
+            # Move hidden files (but not . and .. directories)
+            mv reactive-json-project-template-tailwind-main/.[!.]* . 2>/dev/null || true
+            rmdir reactive-json-project-template-tailwind-main
+            rm template.zip
+            npm install
+            npm run dev
+            ```
+
+          **Instructions:**
+
+          - If the server starts without errors and you see the expected message in your browser, the installation is successful. You can start developing your application with reactive-json.
+          - If the server starts with errors, tell that the template had errors, then ask the user to contact the dev team or fix their project or restart the installation procedure with an empty project.
+          - Then stop the installation procedure; this is an end of the installation procedure.
+
+          ---
+
+          ### 6. Vite Project Initialization
 
           **Action:** Create the project with Vite in the current directory
+
+          **Before executing commands, ask the user:**
+          - **TypeScript**: Ask if the user wants to use TypeScript (yes/no)
+
+          **Variables to remember:**
+          - `<use_typescript>`: true/false based on the answer
 
           **Commands to execute:**
 
@@ -602,7 +705,7 @@ templates:
 
           ---
 
-          ### 6. Project Structure Verification
+          ### 7. Project Structure Verification
 
           **Action:** Verify the project structure is correct
 
@@ -633,7 +736,7 @@ templates:
 
           ---
 
-          ### 7. Dependencies Installation
+          ### 8. Dependencies Installation
 
           **Action:** Install required packages
 
@@ -646,7 +749,7 @@ templates:
 
           ---
 
-          ### 8. Cursor Project Rules Creation
+          ### 9. Cursor Project Rules Creation
 
           **Action:** Copy Cursor rules from documentation repositories
 
@@ -676,7 +779,7 @@ templates:
 
           ---
 
-          ### 9. Generated Project Cleanup
+          ### 10. Generated Project Cleanup
 
           **Action:** Remove/clean files generated by Vite
 
@@ -705,7 +808,7 @@ templates:
 
           ---
 
-          ### 10. Basic Configuration with ReactiveJsonRoot
+          ### 11. Basic Configuration with ReactiveJsonRoot
 
           **Action:** Configure the base component with an external YAML file
 
@@ -733,7 +836,7 @@ templates:
 
           ---
 
-          ### 11. Routing Configuration (Optional)
+          ### 12. Routing Configuration (Optional)
 
           **Action:** Ask the user if they want to add routing for application organization
 
@@ -854,11 +957,11 @@ templates:
               content: "Your routing is now configured with a navigation bar. You can add more pages in src/pages/ and routes in the App component."
           ```
 
-          **If NO, keep the simple configuration from step 10.**
+          **If NO, keep the simple configuration from step 11.**
 
           ---
 
-          ### 12. Final Verification
+          ### 13. Final Verification
 
           **Action:** Launch development server
 
