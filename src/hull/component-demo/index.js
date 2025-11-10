@@ -218,8 +218,17 @@ export const docsPageNavigation = {
             "/docs/core/element/form": {
                 title: "Form elements",
                 items: {
+                    "/docs/core/element/form/CheckBoxField": {
+                        title: "CheckBoxField",
+                    },
                     "/docs/core/element/form/Input": {
                         title: "Input",
+                    },
+                    "/docs/core/element/form/SelectField": {
+                        title: "SelectField",
+                    },
+                    "/docs/core/element/form/TextAreaField": {
+                        title: "TextAreaField",
                     },
                 },
             },

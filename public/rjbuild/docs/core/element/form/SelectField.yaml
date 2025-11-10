@@ -1,0 +1,252 @@
+renderView:
+  - type: Markdown
+    content: |
+      # SelectField
+
+      The `SelectField` component provides a native HTML select dropdown with automatic data synchronization, intelligent value type handling, and support for dynamic options. It combines the simplicity of native HTML with the convenience of automatic data binding.
+
+  - type: Markdown
+    content: |
+      ## Basic Syntax
+
+      ```yaml
+      - type: SelectField
+        dataLocation: ~.category
+        label: "Select category:"
+        options:
+          - label: "Choose category..."
+            value: ""
+          - label: "Technology"
+            value: "tech"
+          - label: "Sports"
+            value: "sports"
+      ```
+
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: dataLocation
+          after: "(string, optional)"
+        details: "Path to bind the field value in the data context."
+      - term:
+          code: defaultFieldValue
+          after: "(any, optional)"
+        details: "Default value when no data is present."
+      - term:
+          code: label
+          after: "(string or View props, optional)"
+        details: "Field label text (supports template evaluation and View component rendering)."
+      - term:
+          code: options
+          after: "(array, optional)"
+        details:
+          type: Markdown
+          content: "Static array of option objects with `label` and `value` properties."
+      - term:
+          code: dynamicOptions
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Template path to dynamic options array (e.g., `~.availableCategories`). Takes precedence over `options` if both are provided."
+      - term:
+          code: allowEmptyStringAsValue
+          after: "(boolean, optional)"
+        details: "Preserve empty strings as `\"\"` instead of converting to `undefined` (default: `false`)."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Attributes applied to the container div (or merged with inputAttributes if no wrapper)."
+      - term:
+          code: inputAttributes
+          after: "(object, optional)"
+        details: "Attributes applied directly to the select element."
+      - term:
+          code: labelAttributes
+          after: "(object, optional)"
+        details: "Attributes applied to the label (htmlFor is automatically managed)."
+      - term:
+          code: forceWrapper
+          after: "(boolean, optional)"
+        details: "Forces the presence (true) or absence (false) of the wrapper div. If omitted, wrapper is automatic only if label is present."
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details: "Actions to execute based on field state."
+
+  - type: Markdown
+    content: |
+      ## Data Management
+
+      The component automatically synchronizes its value with the global data context. It handles different value types intelligently:
+
+      ### Value Type Conversion
+
+      - **Empty strings**: Become `undefined` by default, or preserved as `""` if `allowEmptyStringAsValue: true`
+      - **Boolean strings**: `"true"` becomes boolean `true`, `"false"` becomes boolean `false`
+      - **Null string**: `"null"` becomes `null`
+      - **Other values**: Stored as strings and matched by string comparison
+
+      ### Empty String Handling
+
+      SelectField makes an important distinction between "no selection made" and "explicit selection of empty value":
+
+      - **Default behavior**: `value: ""` → stored as `undefined`
+        - Useful for validation and conditional logic
+        - Indicates "no selection made"
+      - **With `allowEmptyStringAsValue: true`**: `value: ""` → stored as `""`
+        - Semantic meaning: "User explicitly selected the empty option"
+        - Useful when empty string is a legitimate business value
+
+      This distinction is crucial for validation logic and conditional actions in reactive-json.
+
+  - type: RjBuildDescriber
+    title: "Basic SelectField"
+    description: "Simple dropdown selection"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.priority
+          label: "Priority:"
+          options:
+            - label: "Select priority"
+              value: ""
+            - label: "Low"
+              value: "low"
+            - label: "Medium"
+              value: "medium"
+            - label: "High"
+              value: "high"
+        - type: div
+          attributes:
+            class: "mt-5 p-2.5 rounded border border-gray-300 dark:border-gray-600"
+          content:
+            - type: strong
+              content: "Selected priority: "
+            - ~.priority
+      data:
+        priority: ""
+
+  - type: RjBuildDescriber
+    title: "Boolean and Special Values"
+    description: "Handling boolean and null values"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.isActive
+          label: "Status:"
+          options:
+            - label: "Select status"
+              value: ""
+            - label: "Active"
+              value: "true"
+            - label: "Inactive"
+              value: "false"
+            - label: "Not set"
+              value: "null"
+        - type: div
+          attributes:
+            class: "mt-5 p-2.5 rounded border border-gray-300 dark:border-gray-600"
+          content:
+            - type: strong
+              content: "Status value: "
+            - ~.isActive
+            - type: div
+              attributes:
+                class: "mt-1 text-xs text-gray-600 dark:text-gray-400"
+              content:
+                - "Type: "
+                - type: Code
+                  content: ~.isActive
+      data:
+        isActive: ""
+
+  - type: RjBuildDescriber
+    title: "Empty String as Value"
+    description: "Preserving empty strings as legitimate values"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.description
+          label: "Description:"
+          allowEmptyStringAsValue: true
+          options:
+            - label: "No description"
+              value: ""
+            - label: "Brief description"
+              value: "brief"
+            - label: "Detailed description"
+              value: "detailed"
+        - type: div
+          attributes:
+            class: "mt-5 p-2.5 rounded border border-gray-300 dark:border-gray-600"
+          content:
+            - type: strong
+              content: "Selected description: "
+            - type: Code
+              content: ~.description
+            - type: div
+              attributes:
+                class: "mt-1 text-xs text-gray-600 dark:text-gray-400"
+              content:
+                - "Note: Empty string is preserved as \"\" (not undefined)"
+      data:
+        description: ""
+
+  - type: RjBuildDescriber
+    title: "Dynamic Options"
+    description: "Options provided via template evaluation using dynamicOptions"
+    toDescribe:
+      renderView:
+        - type: SelectField
+          dataLocation: ~.selectedCategory
+          label: "Category:"
+          dynamicOptions: ~.availableCategories
+        - type: div
+          attributes:
+            class: "mt-5 p-2.5 rounded border border-gray-300 dark:border-gray-600"
+          content:
+            - type: strong
+              content: "Selected category: "
+            - ~.selectedCategory
+      data:
+        availableCategories:
+          - label: "Technology"
+            value: "tech"
+          - label: "Sports"
+            value: "sports"
+          - label: "Music"
+            value: "music"
+          - label: "Science"
+            value: "science"
+        selectedCategory: ""
+
+
+  - type: Markdown
+    content: |
+      ## Advantages
+
+      - **No external dependencies**: Works without any CSS framework
+      - **Full control**: Custom styling and behavior
+      - **Performance**: Lighter than component libraries
+      - **Accessibility**: Direct control over ARIA attributes, automatic htmlFor
+      - **Automatic synchronization**: Unlike raw HTML elements that require manual setData actions
+      - **Flexible wrapper**: Avoids unnecessary HTML when not needed
+      - **Intelligent value handling**: Automatic conversion of boolean and null strings
+      - **Dynamic options**: Options can be provided via template evaluation using `dynamicOptions`
+      - **Label flexibility**: Supports both simple strings and View component rendering
+      - **Empty state handling**: Gracefully handles empty options
+
+      ## Limitations
+
+      - No built-in validation beyond HTML5 select validation
+      - No support for option grouping (use multiple SelectField components or custom styling)
+      - Styling must be provided via external CSS or style attributes
+      - Multiple selection via `multiple` attribute has limited UX (consider CheckBoxField for better multiple selection)
+      - Template evaluation for option labels should return strings or arrays of strings
+      - Empty string handling requires explicit `allowEmptyStringAsValue` for semantic distinction
+
+templates: {}
+data: {}
+

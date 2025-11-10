@@ -22,5 +22,8 @@ export const DemoContentMapper = () => {
         finalRjBuildUrl += subpath + ".yaml";
     }
 
-    return <CustomReactiveJsonRoot rjBuildUrl={finalRjBuildUrl} />;
+    // Detect if we're on a core documentation page.
+    const isCorePage = subpath.startsWith("core/");
+
+    return <CustomReactiveJsonRoot rjBuildUrl={finalRjBuildUrl} useCoreComponents={isCorePage} />;
 };

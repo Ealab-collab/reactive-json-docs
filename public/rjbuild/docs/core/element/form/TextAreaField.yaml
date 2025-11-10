@@ -1,0 +1,139 @@
+renderView:
+  - type: Markdown
+    content: |
+      # TextAreaField
+
+      The `TextAreaField` component provides a native HTML textarea element with automatic data synchronization, combining the simplicity of native HTML with the convenience of automatic data binding. It's ideal for multi-line text input such as comments, descriptions, or longer form fields.
+
+  - type: Markdown
+    content: |
+      ## Basic Syntax
+
+      ```yaml
+      - type: TextAreaField
+        dataLocation: ~.description
+        label: "Description:"
+        placeholder: "Enter your description..."
+        rows: 5
+      ```
+
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: dataLocation
+          after: "(string, optional)"
+        details: "Path to bind the field value in the data context."
+      - term:
+          code: defaultFieldValue
+          after: "(string, optional)"
+        details: "Default value when no data is present."
+      - term:
+          code: label
+          after: "(string or View props, optional)"
+        details: "Field label text (supports template evaluation and View component rendering)."
+      - term:
+          code: placeholder
+          after: "(string, optional)"
+        details: "Placeholder text (supports template evaluation)."
+      - term:
+          code: rows
+          after: "(number, optional)"
+        details: "Number of visible text lines (default: `3`, supports template evaluation)."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Attributes applied to the container div (or merged with inputAttributes if no wrapper)."
+      - term:
+          code: inputAttributes
+          after: "(object, optional)"
+        details: "Attributes applied directly to the textarea element."
+      - term:
+          code: labelAttributes
+          after: "(object, optional)"
+        details: "Attributes applied to the label (htmlFor is automatically managed)."
+      - term:
+          code: forceWrapper
+          after: "(boolean, optional)"
+        details: "Forces the presence (true) or absence (false) of the wrapper div. If omitted, wrapper is automatic only if label is present."
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details: "Actions to execute based on field state."
+
+  - type: Markdown
+    content: |
+      ## Data Management
+
+      The component automatically synchronizes its value with the global data context. When `dataLocation` is used, the value is stored at the specified path. Without `dataLocation`, the value is stored in the template context using the component's `datafield`.
+
+      The textarea value is always stored as a string, preserving line breaks (`\n`) and whitespace.
+
+      ## Wrapper Control
+
+      The component uses a flexible wrapper system similar to `Input`, adapting based on the presence of a label and the `forceWrapper` property.
+
+      ### Default Behavior
+
+      When no `forceWrapper` is specified, the component automatically determines whether to use a wrapper div. If a label is present, the component wraps both the label and textarea in a div container. If no label is present, the textarea is rendered directly without a wrapper.
+
+      ### Explicit Control with `forceWrapper`
+
+      You can override the default behavior using the `forceWrapper` property. Setting `forceWrapper: true` will always create a wrapper div, even without a label. Setting `forceWrapper: false` will never create a wrapper, even when a label is present.
+
+      ### Attribute Merging
+
+      When a wrapper is present, the `attributes` are applied to the div container and `inputAttributes` are applied to the textarea element. When no wrapper is present, both `attributes` and `inputAttributes` are merged and applied to the textarea element.
+
+  - type: RjBuildDescriber
+    title: "Basic TextAreaField"
+    description: "Simple multi-line text input"
+    toDescribe:
+      renderView:
+        - type: TextAreaField
+          dataLocation: ~.description
+          label: "Description:"
+          placeholder: "Enter a description..."
+      data:
+        description: ""
+
+  - type: RjBuildDescriber
+    title: "Custom Rows"
+    description: "Textarea with custom row count"
+    toDescribe:
+      renderView:
+        - type: TextAreaField
+          dataLocation: ~.comments
+          label: "Comments:"
+          rows: 10
+          placeholder: "Enter your comments here..."
+      data:
+        comments: ""
+
+  - type: Markdown
+    content: |
+      ## Advantages
+
+      - **No external dependencies**: Works without any CSS framework
+      - **Full control**: Custom styling and behavior
+      - **Performance**: Lighter than component libraries
+      - **Accessibility**: Direct control over ARIA attributes, automatic htmlFor
+      - **Automatic synchronization**: Unlike raw HTML elements that require manual setData actions
+      - **Flexible wrapper**: Avoids unnecessary HTML when not needed
+      - **Multi-line support**: Native support for multi-line text input with line break preservation
+      - **Dynamic rows**: Row count can be controlled via template evaluation
+      - **Label flexibility**: Supports both simple strings and View component rendering
+
+      ## Limitations
+
+      - No built-in validation beyond HTML5 textarea validation
+      - No support for rich text editing (use a specialized rich text editor component)
+      - No built-in character counter (can be added via actions)
+      - Styling must be provided via external CSS or style attributes
+      - Line breaks are preserved as `\n` characters; display formatting requires CSS (`white-space: pre-wrap` or similar)
+      - Template evaluation for `rows` should return a number
+
+templates: {}
+data: {}
+
