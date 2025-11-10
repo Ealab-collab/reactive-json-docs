@@ -106,6 +106,32 @@ renderView:
 
   - type: Markdown
     content: |
+      ### Arrays in Content vs. Attributes
+
+      - Arrays are supported in `content` to render multiple text nodes or elements in sequence (they are not string concatenations).
+      - Do not use arrays inside HTML attributes (e.g., `href`, `class`, `id`). Attributes expect a single value. If you need a composed value, compute it beforehand and pass the final string.
+
+      Example (valid):
+      ```yaml
+      content: ["Go to ", ~.sectionName]
+      ```
+
+      Example (invalid in attributes):
+      ```yaml
+      # ❌ Do not do this
+      attributes:
+        href: ["#", ~.id]
+      ```
+
+      Instead, prepare the value upstream:
+      ```yaml
+      # ✅ Provide a ready-to-use attribute value
+      attributes:
+        href: ~.href  # where href is a string like "#section-3"
+      ```
+
+  - type: Markdown
+    content: |
 
       ## Section `data` (Optional)
 

@@ -309,6 +309,12 @@ export const docsPageNavigation = {
                     "/docs/core/example/native-html-forms": {
                         title: "Native HTML Forms",
                     },
+                    "/docs/core/example/bulk-actions": {
+                        title: "Bulk Actions",
+                    },
+                    "/docs/core/example/editable-modal-in-row": {
+                        title: "Editable Modal in Row",
+                    },
                 },
             },
         },

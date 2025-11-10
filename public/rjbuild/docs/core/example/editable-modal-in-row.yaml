@@ -1,0 +1,415 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Editable Modal in Row Template
+
+      This guide demonstrates a pattern for creating editable modals within row templates, allowing users to edit individual items in a list without complex state management or custom handlers.
+
+      ## Core Concept
+
+      By placing a modal inside a row template (using `Switch`), each row gets its own modal instance with direct access to the row's data via the `~.` notation. This simplifies data flow and eliminates the need for complex index tracking or custom save handlers.
+
+  - type: Markdown
+    content: |
+      ## Key Benefits
+
+      1. **Simplified data access**: Modal has direct access to row data via `~.` notation
+      2. **No index tracking**: No need to find array indices or store file IDs
+      3. **Automatic isolation**: Each row's modal is isolated from others
+      4. **Simple save pattern**: Use basic `setData` reactions to copy editable values back to originals
+
+  - type: Markdown
+    content: |
+      ## Prerequisites
+
+      Before implementing this pattern, you need:
+
+      1. **A Reactive-JSON Modal component**: This pattern requires a Modal component implementation that supports:
+         - `showBoolPath` property (or equivalent) to control visibility via data path
+         - `headerTitle` property for the modal header
+         - `body` property for the modal content
+         - Integration with Reactive-JSON's action system
+      
+      You can use a custom Modal component or one from an integration package (like `@ea-lab/reactive-json-bootstrap`), but it must be compatible with Reactive-JSON's component system.
+
+  - type: Markdown
+    content: |
+      ## Pattern Structure
+
+      ### 1. Modal Inside Row Template
+
+      Place the modal component inside your row template so each rendered row has its own modal instance.
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Modal Inside Row Template"
+    content: |
+      templates:
+        itemRow:
+          - type: tr
+            content:
+              # Row content (cells, buttons, etc.)
+              - type: button
+                content: "Edit"
+                actions:
+                  - what: setData
+                    on: click
+                    path: ~.showModal
+                    value: true
+              
+              # Modal inside the row
+              - type: ReactiveJsonSubroot
+                sharedUpdates: true
+                rjOptions:
+                  rjBuildUrl: "/components/EditModal.yaml"
+                  dataOverride:
+                    showModal: ~.showModal
+                    # ... other data
+
+  - type: Markdown
+    content: |
+      ### 2. Separate Editable Values
+
+      Use separate fields for editable copies and original values.
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Data Override Structure"
+    content: |
+      dataOverride:
+        # Original values (read-only display)
+        id: ~.id
+        name: ~.name
+        
+        # Editable copies (for form fields)
+        editable_name: ~.editable.name
+        editable_description: ~.editable.description
+        
+        # Original values (for saving back)
+        name: ~.name
+        description: ~.description
+
+  - type: Markdown
+    content: |
+      ### 3. Initialize Editable Values
+
+      When opening the modal, copy original values to editable fields.
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Initialize Editable Values"
+    content: |
+      - type: button
+        content: "Edit"
+        actions:
+          - what: setData
+            on: click
+            path: ~.editable.name
+            value: ~.name
+          - what: setData
+            on: click
+            path: ~.editable.description
+            value: ~.description
+          - what: setData
+            on: click
+            path: ~.showModal
+            value: true
+
+  - type: Markdown
+    content: |
+      ### 4. Save Pattern
+
+      Use simple `setData` reactions to copy editable values back to originals.
+
+  - type: SyntaxHighlighter
+    language: yaml
+    title: "Save Button Actions"
+    content: |
+      - type: button
+        content: "Save"
+        actions:
+          - what: setData
+            on: click
+            path: ~.name
+            value: ~.editable_name
+          - what: setData
+            on: click
+            path: ~.description
+            value: ~.editable_description
+          - what: setData
+            on: click
+            path: ~.showModal
+            value: false
+
+  - type: RjBuildDescriber
+    title: "Complete Example: Editable Item List"
+    description: |
+      A complete example showing a table with editable rows. Each row has an "Edit" button that opens a modal. The modal allows editing the item's name and description, with Save and Cancel buttons.
+    toDescribe:
+      renderView:
+        - type: div
+          attributes:
+            class: "p-4"
+          content:
+            - type: h2
+              attributes:
+                class: "text-2xl font-bold mb-4"
+              content: "Items List"
+            - type: table
+              attributes:
+                class: "w-full border-collapse border border-gray-300"
+              content:
+                - type: thead
+                  content:
+                    - type: tr
+                      content:
+                        - type: th
+                          attributes:
+                            class: "border border-gray-300 p-2 bg-gray-100"
+                          content: "ID"
+                        - type: th
+                          attributes:
+                            class: "border border-gray-300 p-2 bg-gray-100"
+                          content: "Name"
+                        - type: th
+                          attributes:
+                            class: "border border-gray-300 p-2 bg-gray-100"
+                          content: "Description"
+                        - type: th
+                          attributes:
+                            class: "border border-gray-300 p-2 bg-gray-100"
+                          content: "Actions"
+                - type: tbody
+                  content:
+                    - type: Switch
+                      content: ~~.items
+                      singleOption:
+                        load: itemRow
+            - type: div
+              attributes:
+                class: "mt-4 p-2 bg-gray-100 rounded"
+              content:
+                - type: strong
+                  content: "Debug - First item name: "
+                - type: span
+                  content: ~~.items.0.name
+
+      templates:
+        itemRow:
+          - type: tr
+            content:
+              - type: td
+                attributes:
+                  class: "border border-gray-300 p-2"
+                content: ~.id
+              - type: td
+                attributes:
+                  class: "border border-gray-300 p-2"
+                content: ~.name
+              - type: td
+                attributes:
+                  class: "border border-gray-300 p-2"
+                content: ~.description
+              - type: td
+                attributes:
+                  class: "border border-gray-300 p-2"
+                content:
+                  - type: button
+                    attributes:
+                      class: "bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                    content: "Edit"
+                    actions:
+                      - what: setData
+                        on: click
+                        path: ~.editable.name
+                        value: ~.name
+                      - what: setData
+                        on: click
+                        path: ~.editable.description
+                        value: ~.description
+                      - what: setData
+                        on: click
+                        path: ~.showModal
+                        value: true
+              
+              # Modal inside the row
+              - type: ReactiveJsonSubroot
+                sharedUpdates: true
+                rjOptions:
+                  maybeRawAppRjBuild:
+                    renderView:
+                      - type: Modal
+                        showBoolPath: ~.showModal
+                        headerTitle:
+                          type: h3
+                          attributes:
+                            class: "text-xl font-semibold"
+                          content: "Edit Item"
+                        body:
+                          - type: div
+                            attributes:
+                              class: "space-y-4"
+                            content:
+                              - type: div
+                                content:
+                                  - type: label
+                                    attributes:
+                                      class: "block text-sm font-medium mb-1"
+                                    content: "ID (read-only):"
+                                  - type: div
+                                    attributes:
+                                      class: "p-2 bg-gray-100 rounded"
+                                    content: ~.id
+                              - type: div
+                                content:
+                                  - type: label
+                                    attributes:
+                                      class: "block text-sm font-medium mb-1"
+                                    content: "Name:"
+                                  - type: TextField
+                                    dataLocation: ~.editable_name
+                                    forceWrapper: false
+                                    inputAttributes:
+                                      class: "w-full p-2 border border-gray-300 rounded"
+                              - type: div
+                                content:
+                                  - type: label
+                                    attributes:
+                                      class: "block text-sm font-medium mb-1"
+                                    content: "Description:"
+                                  - type: TextAreaField
+                                    dataLocation: ~.editable_description
+                                    forceWrapper: false
+                                    rows: 3
+                                    inputAttributes:
+                                      class: "w-full p-2 border border-gray-300 rounded"
+                              - type: div
+                                attributes:
+                                  class: "flex justify-end gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700"
+                                content:
+                                  - type: button
+                                    attributes:
+                                      class: "px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                                    content: "Cancel"
+                                    actions:
+                                      - what: setData
+                                        on: click
+                                        path: ~.showModal
+                                        value: false
+                                  - type: button
+                                    attributes:
+                                      class: "px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                    content: "Save"
+                                    actions:
+                                      - what: setData
+                                        on: click
+                                        path: ~.name
+                                        value: ~.editable_name
+                                      - what: setData
+                                        on: click
+                                        path: ~.description
+                                        value: ~.editable_description
+                                      - what: setData
+                                        on: click
+                                        path: ~.showModal
+                                        value: false
+                    data:
+                      showModal: false
+                      id: ""
+                      name: ""
+                      editable_name: ""
+                      editable_description: ""
+                      description: ""
+                  dataOverride:
+                    showModal: ~.showModal
+                    id: ~.id
+                    name: ~.name
+                    editable_name: ~.editable.name
+                    editable_description: ~.editable.description
+                    description: ~.description
+
+      data:
+        items:
+          - id: 1
+            name: "First Item"
+            description: "This is the first item's description"
+            showModal: false
+            editable:
+              name: ""
+              description: ""
+          - id: 2
+            name: "Second Item"
+            description: "This is the second item's description"
+            showModal: false
+            editable:
+              name: ""
+              description: ""
+          - id: 3
+            name: "Third Item"
+            description: "This is the third item's description"
+            showModal: false
+            editable:
+              name: ""
+              description: ""
+
+  - type: Markdown
+    content: |
+      ## How It Works
+
+      1. **Row Context**: Each row rendered by `Switch` has its own template context, accessible via `~.`
+      2. **Modal Access**: The modal inside the row inherits this context, so `~.name` refers to the current row's name
+      3. **Editable Copies**: Form fields bind to `~.editable_name` (or `~.editable.name`), keeping edits separate from originals
+      4. **Save Action**: When saving, `setData` with `path: ~.name` and `value: ~.editable_name` copies the edited value back to the original
+      5. **Shared Updates**: With `sharedUpdates: true`, changes to `~.name` in the modal propagate back to the row's data
+
+  - type: Markdown
+    content: |
+      ## Advantages Over Alternative Approaches
+
+      ### ❌ Complex Approach (Not Recommended)
+      - Store file index globally
+      - Use custom handlers to find and update array items
+      - Requires complex path construction with array indices
+
+      ### ✅ Simple Approach (This Pattern)
+      - Modal is in row context - direct access via `~.`
+      - No index tracking needed
+      - Simple `setData` actions copy values back
+      - Works seamlessly with `sharedUpdates`
+
+  - type: Markdown
+    content: |
+      ## Best Practices
+
+      1. **Use `sharedUpdates: true`**: Enables automatic data synchronization between modal and row
+      2. **Separate editable fields**: Keep editable copies separate from originals for clean cancel behavior
+      3. **Initialize on open**: Copy original values to editable fields when opening the modal
+      4. **Simple save pattern**: Use straightforward `setData` actions to copy editable values back
+      5. **Row-scoped modals**: Place modals inside row templates to leverage template context
+
+  - type: Markdown
+    content: |
+      ## Use Cases
+
+      - **Data tables**: Edit individual rows without affecting others
+      - **List items**: Modify properties of items in a list
+      - **Card grids**: Edit cards in a grid layout
+      - **Nested data**: Edit nested objects within arrays
+
+  - type: Markdown
+    content: |
+      ## Limitations
+
+      - Each row renders its own modal instance (may impact performance with very large lists)
+      - Modal state is tied to row data (if row is removed, modal state is lost)
+      - Not suitable for modals that need to persist across row re-renders
+
+  - type: Markdown
+    content: |
+      ## Related Patterns
+
+      - **ReactiveJsonSubroot**: Component used to embed the modal
+      - **Switch**: Component used to render rows with templates
+      - **setData**: Reaction used to save edited values
+      - **sharedUpdates**: Feature enabling bidirectional data sync
+
