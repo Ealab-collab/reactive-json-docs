@@ -256,7 +256,7 @@ renderView:
         fileRow:
           - type: tr
             attributes:
-              class: "bg-white border-b"
+              class: "border-b"
             actions:
               - what: setAttributeValue
                 name: "data-selected"
@@ -416,7 +416,7 @@ renderView:
     content: |
       - type: tr
         attributes:
-          class: "bg-white border-b"
+          class: "border-b"
         actions:
           - what: setAttributeValue
             name: "class"
