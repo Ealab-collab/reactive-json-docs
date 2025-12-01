@@ -12,16 +12,23 @@ renderView:
   - type: TabbedSerializer
     yamlSerializedContent: |
       attributeTransforms:
-        # Add CSS class
+        # Add CSS class (string mode)
         - what: setAttributeValue
           name: "class"
           value: "active"
           
-        # Replace attribute value
+        # Replace attribute value (string mode)
         - what: setAttributeValue
           name: "data-status"
           mode: "replace"
           value: ~.currentStatus
+          
+        # Merge style object (object mode)
+        - what: setAttributeValue
+          name: "style"
+          value:
+            borderColor: "#3b82f6"
+            backgroundColor: "#ffffff"
 
   - type: Markdown
     content: |
@@ -44,8 +51,14 @@ renderView:
             - `"replace"`: Completely replaces the existing attribute value
       - term:
           code: value
-          after: "(string, required)"
-        details: The value to set or append. Supports template evaluation (e.g., `~.dynamicValue`, `~~.globalValue`). Automatically converted to string if not already. Special characters are handled safely.
+          after: "(string | object, required)"
+        details:
+          type: Markdown
+          content: |
+            The value to set or append. Supports template evaluation (e.g., `~.dynamicValue`, `~~.globalValue`).
+            
+            - **String mode**: When `value` is a string, operates in string mode for simple attributes like `class`, `data-*`, etc.
+            - **Object mode**: When `value` is an object, operates in object mode for complex attributes like `style`. In append mode, merges properties property by property.
       - term:
           code: preventDuplicateValues
           after: "(boolean, optional)"
@@ -65,16 +78,36 @@ renderView:
 
       ## Behavior
 
+      The transformer operates in two distinct modes based on the `value` type:
+
+      ### String Mode (when `value` is a string)
+
       - **Append mode**: Adds the new value to the existing attribute, separated by the specified separator.
       - **Replace mode**: Completely overwrites the existing attribute value.
       - **Duplicate prevention**: In append mode, prevents adding duplicate values when enabled.
 
+      ### Object Mode (when `value` is an object)
+
+      - **Replace mode**: Completely replaces the entire object attribute.
+      - **Append mode**: Merges properties property by property:
+        - Starts from the current object attribute
+        - For each property in `value`, applies the same logic as string mode:
+          - If both current and new values are strings: appends them (respecting `preventDuplicateValues`)
+          - Otherwise: replaces the property with the new value (new value has precedence)
+        - Handles nested objects recursively
+        - Works on a copy to avoid mutation issues
+
+      ### Undefined Values
+
+      - **Append mode**: `undefined` values are ignored, keeping the current attribute unchanged.
+      - **Replace mode**: `undefined` is assigned to the attribute.
+
       ## Common Use Cases
 
-      - **Dynamic CSS classes**: Adding/removing CSS classes based on state.
-      - **Data attributes**: Setting data-* attributes for JavaScript integration.
-      - **ARIA attributes**: Dynamically updating accessibility attributes.
-      - **Style attributes**: Modifying inline styles conditionally.
+      - **Dynamic CSS classes**: Adding/removing CSS classes based on state (string mode).
+      - **Data attributes**: Setting data-* attributes for JavaScript integration (string mode).
+      - **ARIA attributes**: Dynamically updating accessibility attributes (string mode).
+      - **Style attributes**: Modifying inline styles conditionally (object mode). Merge style properties without losing existing ones.
 
   - type: RjBuildDescriber
     title: "SetAttributeValue Action Examples"
@@ -134,11 +167,90 @@ renderView:
       data:
         input_data: ""
 
+  - type: RjBuildDescriber
+    title: "Object Mode Example - Style Merging"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates how to use `setAttributeValue` in object mode to merge style properties without losing existing ones.
+          
+          **Expected behavior:**
+          - The div has initial styles (padding, border, borderRadius)
+          - When `isHighlighted` is true, additional style properties are merged
+          - The original styles are preserved, and new properties are added
+          - Try toggling the highlight to see the style merge in action
+
+    toDescribe:
+      renderView:
+        - type: div
+          attributes:
+            style:
+              padding: "10px"
+              border: "2px solid #007bff"
+              borderRadius: "4px"
+          attributeTransforms:
+            # Merge additional style properties without losing existing ones
+            - what: setAttributeValue
+              name: "style"
+              value:
+                borderColor: "#3b82f6"
+                backgroundColor: "#f0f0f0"
+              when: ~.isHighlighted
+              is: true
+          content: "Click to toggle highlight"
+
+        - type: button
+          content: "Toggle Highlight"
+          actions:
+            - what: setData
+              on: click
+              path: ~.isHighlighted
+              value: <reactive-json:not>~~.isHighlighted</reactive-json:not>
+
+      data:
+        isHighlighted: false
+
+  - type: RjBuildDescriber
+    title: "Object Mode Replace Example"
+    description:
+      - type: Markdown
+        content: |
+          This example demonstrates how to completely replace a style object using `mode: "replace"`.
+          
+          **Expected behavior:**
+          - The div has initial styles (padding, border)
+          - When replace mode is used, the entire style object is replaced
+          - Original styles are lost, only the new styles remain
+
+    toDescribe:
+      renderView:
+        - type: div
+          attributes:
+            style:
+              padding: "10px"
+              border: "2px solid #007bff"
+          attributeTransforms:
+            # Completely replace the style object
+            - what: setAttributeValue
+              name: "style"
+              mode: "replace"
+              value:
+                backgroundColor: "#ffffff"
+                color: "#000000"
+          content: "This div's style was completely replaced"
+
   - type: Markdown
     content: |
       ## Notes
 
-      - The action respects existing attribute values when using append mode.
-      - Use replace mode when you need complete control over the attribute value.
-      - Duplicate prevention only applies to append mode.
-      - The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
+      - **Pre-render execution**: This transformer modifies attributes before the component renders, ensuring child components receive the transformed attributes.
+      - **Mode detection**: The transformer automatically detects whether to use string mode or object mode based on the `value` type after template evaluation.
+      - **Append mode behavior**: 
+        - **String mode**: Respects existing attribute values, adding new values separated by the specified separator.
+        - **Object mode**: Merges properties property by property, applying string append logic where both values are strings, otherwise replacing with the new value.
+      - **Replace mode**: Use when you need complete control over the attribute value. In object mode, completely replaces the entire object.
+      - **Duplicate prevention**: Only applies to append mode, and works for string values in both string mode and object mode.
+      - **Object merging**: In object mode append, nested objects are merged recursively. Properties that don't match the expected format for append are replaced (new value has precedence).
+      - **Template evaluation**: The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
+      - **Conditional execution**: Supports the same condition system as actions (`when`, `is`, `isEmpty`, `isNotEmpty`, etc.).
+      - **Undefined handling**: `undefined` values are ignored in append mode but assigned in replace mode.
