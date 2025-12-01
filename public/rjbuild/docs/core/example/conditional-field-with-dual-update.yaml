@@ -1,0 +1,74 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Conditional Field with Dual Data Update Pattern
+
+      This example demonstrates a pattern where a `SelectField` controls both its own value and another field's value, while a `TextAreaField` conditionally appears and changes its `readonly` state based on the selection.
+
+  - type: RjBuildDescriber
+    title: "Dual Update Pattern"
+    description: "SelectField updates two data paths, TextAreaField conditionally appears"
+    toDescribe:
+      renderView:
+        # SelectField that controls both its value and another field
+        - type: SelectField
+          dataLocation: ~~.formData.instructionType
+          defaultFieldValue: "_"
+          dynamicOptions: ~~.instructionOptions
+          label: "Instructions"
+          actions:
+            # Hide if prerequisite condition not met
+            - isEmpty: true
+              when: ~~.formData.sheet
+              what: hide
+            # Update the dependent field's value (direct copy)
+            - what: setData
+              on: change
+              path: ~~.formData.instruction
+              value: <reactive-json:event-new-value>
+            # Update its own value (redundant but explicit)
+            - what: setData
+              on: change
+              path: ~~.formData.instructionType
+              value: <reactive-json:event-new-value>
+
+        # TextAreaField that conditionally appears and changes readonly state
+        - type: TextAreaField
+          dataLocation: ~~.formData.instruction
+          defaultFieldValue: ""
+          label: "Custom Instructions"
+          inputAttributes:
+            readonly: "readonly"
+          rows: 5
+          actions:
+            # Hide if prerequisite condition not met
+            - isEmpty: true
+              when: ~~.formData.sheet
+              what: hide
+            # Hide if a predefined option is selected (not empty and not custom)
+            - what: hide
+              when: ~~.formData.instructionType
+              isNot: ""
+            # Remove readonly when custom is selected (empty string)
+            - what: unsetAttribute
+              name: "readonly"
+              when: ~~.formData.instructionType
+              is: ""
+
+      data:
+        formData:
+          instructionType: "_"
+          instruction: ""
+          sheet: "ExampleSheet"
+        instructionOptions:
+          - label: "- Select an instruction -"
+            value: "_"
+          - label: "Predefined Option 1"
+            value: "This is a predefined instruction text for option 1"
+          - label: "Predefined Option 2"
+            value: "This is a predefined instruction text for option 2"
+          - label: "Custom Instruction"
+            value: ""
+
+templates:
+

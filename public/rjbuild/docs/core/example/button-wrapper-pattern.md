@@ -1,0 +1,99 @@
+# Adding Behaviors to Reusable Components via Wrapper Pattern
+
+This pattern demonstrates how to add behaviors (actions, event handlers, conditional logic) to reusable components loaded via `ReactiveJsonSubroot` without modifying the component itself. This is particularly useful when you need to attach context-specific behaviors to shared components.
+
+## Why Use This Pattern?
+
+When working with reusable components loaded via `ReactiveJsonSubroot`, you might encounter situations where:
+
+- **The component is shared**: You can't modify it directly because it's used in multiple places
+- **Context-specific behavior needed**: Different instances need different behaviors (click handlers, data updates, conditional logic)
+- **Separation of concerns**: You want to keep the component generic and add behavior at the usage site
+
+The wrapper pattern solves this by wrapping the component in an element that can handle events and execute actions, while the component itself remains unchanged.
+
+## How It Works
+
+The pattern works by leveraging **event propagation** in the DOM:
+
+1. **Wrapper element**: A DOM element (like `div`) wraps the component and has actions attached
+2. **Component inside**: The reusable component is loaded via `ReactiveJsonSubroot` inside the wrapper
+3. **Event bubbling**: When a user interacts with the component (e.g., clicks a button), the event bubbles up to the wrapper
+4. **Action execution**: The wrapper's actions execute, allowing you to add behavior without modifying the component
+
+**Important**: This works because DOM events naturally bubble up from child elements to parent elements. The wrapper captures these events and executes its actions.
+
+## Example: Adding Click Behavior to a Button Component
+
+In this example, we have a reusable button component that we want to use in multiple places. Instead of modifying the button component itself, we wrap it and add the behavior we need:
+
+```yaml
+renderView:
+  - type: div
+    actions:
+      - what: setData
+        on: click
+        path: ~~.lastAction
+        value: "Button was clicked!"
+    content:
+      - type: ReactiveJsonSubroot
+        rjOptions:
+          maybeRawAppRjBuild:
+            renderView:
+              - type: button
+                attributes:
+                  style: ~~.buttonStyle
+                content: ~~.content
+          dataOverride:
+            content: "Click me"
+            buttonStyle:
+              color: "white"
+              backgroundColor: "#2563eb"
+              padding: "8px 16px"
+              border: "none"
+              borderRadius: "4px"
+              cursor: "pointer"
+
+data:
+  lastAction: "No action yet"
+```
+
+## Key Concepts
+
+### Event Propagation
+
+When a user interacts with the button (clicks it), the click event bubbles up through the DOM hierarchy. The wrapper `div` captures this event and executes its actions. This is why the wrapper pattern works - it leverages the natural behavior of DOM events.
+
+### Component Independence
+
+The button component inside the wrapper doesn't need to know about the wrapper's actions. It remains a generic, reusable component. The behavior is added at the usage site, not in the component definition.
+
+### DataOverride for Customization
+
+Use `dataOverride` to pass different props to the component for different instances. This allows the same component to be customized without modification.
+
+## When to Use This Pattern
+
+This pattern is ideal when:
+
+- ✅ You have reusable components that need different behaviors in different contexts
+- ✅ You want to add event handlers without modifying the component
+- ✅ You need to attach conditional logic or data updates to shared components
+- ✅ You want to keep components generic and add behavior at the usage site
+
+**Not suitable when**:
+- ❌ The component itself needs to handle the event (attach actions directly to the component)
+- ❌ You need to prevent event propagation (use `stopPropagation` in actions if needed)
+- ❌ You're using `Phantom` wrapper for DOM events (it doesn't render DOM, so events can't bubble to it)
+
+**Note about Phantom**: While `Phantom` cannot handle DOM events, it can still be useful for other purposes like passing values via `dataOverride`, applying non-event actions (tooltips, conditional logic), or when you only need to customize component appearance without event handling.
+
+## Limitations and Considerations
+
+- **DOM element required for events**: The wrapper must be a DOM element (like `div`) for DOM events to bubble. `Phantom` won't work for DOM events since it doesn't render anything in the DOM. However, `Phantom` can still be useful in other scenarios:
+  - **Passing values**: When you only need to pass data via `dataOverride` without event handling
+  - **Styling/esthetics**: When you want to apply actions that don't require DOM events (like tooltips, conditional logic, or data manipulations)
+  - **Non-event actions**: For actions that don't rely on DOM event listeners
+- **Event propagation**: Events bubble up naturally. If you need to stop propagation, you can use `stopPropagation: true` in your actions.
+- **No sharedUpdates needed**: If the component doesn't need to update parent data, `sharedUpdates` is optional. Only use it if the component needs to modify data that the parent is watching.
+

@@ -1,0 +1,323 @@
+renderView:
+  - type: Markdown
+    content: |
+      # DataFilter Example: Filtering Direct Array Items
+
+      This example demonstrates how to use `DataFilter` with arrays where each item is a direct object (not wrapped in a namespace property). This is useful when working with data from APIs that return arrays of objects directly.
+
+      ## Use Case
+
+      When your data structure is a direct array of objects like:
+      ```yaml
+      data:
+        rows:
+          - id: 1
+            label: "Operation 1"
+            done: "done"
+            operation: "create"
+          - id: 2
+            label: "Operation 2"
+            done: "pending"
+            operation: "update"
+      ```
+
+      Instead of:
+      ```yaml
+      data:
+        rows:
+          - item:
+              id: 1
+              label: "Operation 1"
+      ```
+
+      ## Solution
+
+      Use an existing property that is present in all items (like `id`) as the `subjectsWithProperty` namespace. In `whenFilterableData`, reference properties directly without the namespace prefix.
+
+      **Important**: When using string values for filtering (like status), use a special value like `"all"` to represent "no filter" instead of an empty string, as empty strings can cause issues with select elements.
+
+  - type: RjBuildDescriber
+    title: Complete Example
+    description: |
+      Example showing how to filter a direct array using DataFilter with string-based select filters and text search filters.
+    toDescribe:
+      renderView:
+        - type: div
+          attributes:
+            class: "mb-3"
+          content:
+            - type: div
+              attributes:
+                class: "mb-2"
+              content:
+                - type: label
+                  attributes:
+                    style:
+                      display: "block"
+                      marginBottom: "4px"
+                  content: "Filter by Status:"
+                - type: select
+                  attributes:
+                    value: ~~._filters.done
+                    style:
+                      padding: "4px 8px"
+                      border: "1px solid #ccc"
+                      borderRadius: "4px"
+                  content:
+                    - type: option
+                      attributes:
+                        value: "all"
+                      content: "All"
+                    - type: option
+                      attributes:
+                        value: "done"
+                      content: "Done"
+                    - type: option
+                      attributes:
+                        value: "pending"
+                      content: "Pending"
+                  actions:
+                    - what: setData
+                      on: change
+                      path: ~~._filters.done
+                      value: <reactive-json:event-new-value>
+            - type: div
+              attributes:
+                class: "mb-2"
+              content:
+                - type: label
+                  attributes:
+                    style:
+                      display: "block"
+                      marginBottom: "4px"
+                  content: "Filter by Operation:"
+                - type: input
+                  attributes:
+                    type: "text"
+                    value: ~~._filters.operation
+                    placeholder: "Enter operation type"
+                    style:
+                      padding: "4px 8px"
+                      border: "1px solid #ccc"
+                      borderRadius: "4px"
+                      width: "100%"
+                  actions:
+                    - what: setData
+                      on: input
+                      path: ~~._filters.operation
+                      value: <reactive-json:event-new-value>
+            - type: div
+              attributes:
+                class: "mb-2"
+              content:
+                - type: label
+                  attributes:
+                    style:
+                      display: "block"
+                      marginBottom: "4px"
+                  content: "Search Label:"
+                - type: input
+                  attributes:
+                    type: "text"
+                    value: ~~._filters.label
+                    placeholder: "Search in labels"
+                    style:
+                      padding: "4px 8px"
+                      border: "1px solid #ccc"
+                      borderRadius: "4px"
+                      width: "100%"
+                  actions:
+                    - what: setData
+                      on: input
+                      path: ~~._filters.label
+                      value: <reactive-json:event-new-value>
+        - type: table
+          attributes:
+            class: "table table-striped"
+          content:
+            - type: thead
+              content:
+                - type: tr
+                  content:
+                    - type: th
+                      content: "ID"
+                    - type: th
+                      content: "Label"
+                    - type: th
+                      content: "Status"
+                    - type: th
+                      content: "Operation"
+            - type: tbody
+              content:
+                - type: DataFilter
+                  context: global
+                  filters:
+                    - subjectsWithProperty: id
+                      andConditions:
+                        # Filter by status (string)
+                        - orConditions:
+                            - when: ~~._filters.done
+                              is: "all"
+                            - whenFilterableData: done
+                              is: ~~._filters.done
+                        
+                        # Filter by operation type (text search with contains)
+                        - orConditions:
+                            - when: ~~._filters.operation
+                              is: ""
+                            - andConditions:
+                                - whenFilterableData: operation
+                                  isNotEmpty: true
+                                - when: ~~._filters.operation
+                                  isNotEmpty: true
+                                - whenFilterableData: operation
+                                  contains: ~~._filters.operation
+                        
+                        # Filter by label (text search with contains)
+                        - orConditions:
+                            - when: ~~._filters.label
+                              is: ""
+                            - andConditions:
+                                - whenFilterableData: label
+                                  isNotEmpty: true
+                                - when: ~~._filters.label
+                                  isNotEmpty: true
+                                - whenFilterableData: label
+                                  contains: ~~._filters.label
+                  content:
+                    - type: Switch
+                      content: ~~.rows
+                      singleOption:
+                        load: operationRow
+
+      templates:
+        operationRow:
+          - type: tr
+            content:
+              - type: td
+                content: ~.id
+              - type: td
+                content: ~.label
+              - type: td
+                content:
+                  - type: span
+                    attributes:
+                      class: "badge"
+                      style:
+                        backgroundColor: "#28a745"
+                        color: "white"
+                        padding: "4px 8px"
+                        borderRadius: "4px"
+                    content: "Done"
+                    actions:
+                      - what: hide
+                        when: ~.done
+                        isNot: "done"
+                  - type: span
+                    attributes:
+                      class: "badge"
+                      style:
+                        backgroundColor: "#ffc107"
+                        color: "white"
+                        padding: "4px 8px"
+                        borderRadius: "4px"
+                    content: "Pending"
+                    actions:
+                      - what: hide
+                        when: ~.done
+                        isNot: "pending"
+              - type: td
+                content: ~.operation
+
+      data:
+        rows:
+          - id: 1
+            label: "Operation 1"
+            done: "done"
+            operation: "create"
+          - id: 2
+            label: "Operation 2"
+            done: "pending"
+            operation: "update"
+          - id: 3
+            label: "Operation 3"
+            done: "done"
+            operation: "create"
+        _filters:
+          done: "all"
+          label: ""
+          operation: ""
+
+  - type: Markdown
+    content: |
+      ## Key Points
+
+      1. **Namespace Selection**: Choose a property that exists in all items (e.g., `id`, `name`, `key`). This property acts as the identifier for DataFilter to recognize filterable items.
+
+      2. **Direct Property Access**: In `whenFilterableData`, reference properties directly:
+         - ✅ `whenFilterableData: label` (correct)
+         - ❌ `whenFilterableData: id.label` (incorrect - don't use namespace prefix)
+
+      3. **String-based Filtering**: When using select elements for filtering, use a special value like `"all"` to represent "no filter" instead of an empty string:
+         ```yaml
+         - orConditions:
+             - when: ~~._filters.done
+               is: "all"  # Shows all items
+             - whenFilterableData: done
+               is: ~~._filters.done  # Filters by exact match
+         ```
+         This avoids issues where select elements might not properly handle empty string values.
+
+      4. **Text Search**: For text search with `contains`, ensure both the filter value and the data property are not empty:
+         ```yaml
+         - orConditions:
+             - when: ~~._filters.label
+               is: ""  # Shows all when empty
+             - andConditions:
+                 - whenFilterableData: label
+                   isNotEmpty: true
+                 - when: ~~._filters.label
+                   isNotEmpty: true
+                 - whenFilterableData: label
+                   contains: ~~._filters.label
+         ```
+         The `andConditions` wrapper ensures that both the data property and filter value are not empty before attempting the `contains` comparison.
+
+      5. **Template Access**: In templates, access properties directly without namespace:
+         - ✅ `~.label`, `~.done`, `~.operation`
+         - ❌ `~.id.label` (incorrect)
+
+      ## Filter Types Demonstrated
+
+      - **Select Filter with "All" option**: Using `is: "all"` to show all items when a special "all" value is selected
+      - **Exact String Match**: Using `is` for exact string matching (e.g., status filtering)
+      - **Text Search**: Using `contains` for substring matching (case-insensitive) with proper empty checks
+
+      ## Additional Template Techniques
+
+      **Conditional Display in Templates**: The example uses `hide` actions to conditionally display badges based on data values. This is a common pattern for showing different UI elements based on data state, but it's not part of the DataFilter pattern itself - it's just a way to enhance the visual display of filtered data:
+
+      ```yaml
+      - type: span
+        content: "Done"
+        actions:
+          - what: hide
+            when: ~.done
+            isNot: "done"  # Hide if status is not "done"
+      - type: span
+        content: "Pending"
+        actions:
+          - what: hide
+            when: ~.done
+            isNot: "pending"  # Hide if status is not "pending"
+      ```
+
+      ## Notes
+
+      - The `subjectsWithProperty` value (`id` in this example) must exist in every item of the array
+      - DataFilter filters the data before rendering, so no `hide` actions are needed in templates for filtering (but they can be used for conditional display within templates)
+      - All filter conditions use `orConditions` with an empty/"all" check first, allowing "show all" when filters are empty or set to "all"
+      - For select elements, prefer using a special value like `"all"` instead of empty strings to avoid UI issues
+      - For text inputs, empty strings (`""`) work fine for the "show all" condition
+      - When using `contains` for text search, always wrap the condition in `andConditions` with `isNotEmpty` checks to avoid errors with empty values
+

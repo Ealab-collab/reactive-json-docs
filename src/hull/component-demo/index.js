@@ -315,6 +315,15 @@ export const docsPageNavigation = {
                     "/docs/core/example/editable-modal-in-row": {
                         title: "Editable Modal in Row",
                     },
+                    "/docs/core/example/button-wrapper-pattern": {
+                        title: "Button Wrapper Pattern",
+                    },
+                    "/docs/core/example/conditional-field-with-dual-update": {
+                        title: "Conditional Field with Dual Update",
+                    },
+                    "/docs/core/example/DataFilter-example-direct-array": {
+                        title: "DataFilter: Direct Array",
+                    },
                 },
             },
         },
