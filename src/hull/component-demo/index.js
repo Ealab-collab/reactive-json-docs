@@ -73,6 +73,9 @@ export const docsPageNavigation = {
             "/docs/advanced-concepts/forward-update": {
                 title: "Forward update",
             },
+            "/docs/advanced-concepts/styling-strategy": {
+                title: "Styling strategy",
+            },
             "/docs/advanced-concepts/plugins": {
                 title: "Extending Reactive-JSON",
                 items: {
