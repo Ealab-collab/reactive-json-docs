@@ -28,7 +28,7 @@ renderView:
           name: "style"
           value:
             borderColor: "#3b82f6"
-            backgroundColor: "#ffffff"
+            backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
 
   - type: Markdown
     content: |
@@ -141,6 +141,8 @@ renderView:
               margin: "10px 0"
               width: "300px"
               display: "block"
+              backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
+              color: "#212529"
           actions:
             - what: setData
               on: change
@@ -177,6 +179,7 @@ renderView:
           **Expected behavior:**
           - The div has initial styles (padding, border, borderRadius)
           - When `isHighlighted` is true, additional style properties are merged
+          - The modification changes the highlight color for vertical borders (left and right), as `borderColor` contains two colors
           - The original styles are preserved, and new properties are added
           - Try toggling the highlight to see the style merge in action
 
@@ -186,15 +189,18 @@ renderView:
           attributes:
             style:
               padding: "10px"
-              border: "2px solid #007bff"
+              borderWidth: "5px"
+              borderStyle: "solid"
+              borderColor: "black"
               borderRadius: "4px"
+              backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
+              color: "#212529"
           attributeTransforms:
             # Merge additional style properties without losing existing ones
             - what: setAttributeValue
               name: "style"
               value:
-                borderColor: "#3b82f6"
-                backgroundColor: "#f0f0f0"
+                borderColor: "var(--bs-primary, #3b82f6)"
               when: ~.isHighlighted
               is: true
           content: "Click to toggle highlight"
@@ -205,7 +211,15 @@ renderView:
             - what: setData
               on: click
               path: ~.isHighlighted
-              value: <reactive-json:not>~~.isHighlighted</reactive-json:not>
+              value: true
+              when: ~.isHighlighted
+              is: false
+            - what: setData
+              on: click
+              path: ~.isHighlighted
+              value: false
+              when: ~.isHighlighted
+              is: true
 
       data:
         isHighlighted: false
@@ -229,14 +243,19 @@ renderView:
             style:
               padding: "10px"
               border: "2px solid #007bff"
+              backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
+              color: "#212529"
           attributeTransforms:
             # Completely replace the style object
             - what: setAttributeValue
               name: "style"
               mode: "replace"
               value:
-                backgroundColor: "#ffffff"
-                color: "#000000"
+                backgroundColor: "var(--bs-primary-bg-subtle, #d4f0ec)"
+                color: "var(--bs-primary-text-emphasis, #2b6b5a)"
+                padding: "15px"
+                borderRadius: "8px"
+                border: "2px solid var(--bs-primary, #44a08d)"
           content: "This div's style was completely replaced"
 
   - type: Markdown
@@ -251,6 +270,7 @@ renderView:
       - **Replace mode**: Use when you need complete control over the attribute value. In object mode, completely replaces the entire object.
       - **Duplicate prevention**: Only applies to append mode, and works for string values in both string mode and object mode.
       - **Object merging**: In object mode append, nested objects are merged recursively. Properties that don't match the expected format for append are replaced (new value has precedence).
+      - **Extended properties vs shorthand**: When transformations are required, prefer using extended CSS properties (e.g., `borderWidth`, `borderStyle`, `borderColor`) instead of shorthand properties (e.g., `border`). This ensures the browser handles property modifications correctly. When you modify a single property like `borderColor` on an element that uses the shorthand `border`, the browser may decompose the shorthand into individual properties, which can lead to unexpected behavior. Using extended properties from the start avoids this issue.
       - **Template evaluation**: The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
       - **Conditional execution**: Supports the same condition system as actions (`when`, `is`, `isEmpty`, `isNotEmpty`, etc.).
       - **Undefined handling**: `undefined` values are ignored in append mode but assigned in replace mode.

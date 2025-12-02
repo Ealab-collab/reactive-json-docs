@@ -24,7 +24,7 @@ attributeTransforms:
     name: "style"
     value:
       borderColor: "#3b82f6"
-      backgroundColor: "#ffffff"
+      backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
 ```
 
 ## Properties
@@ -92,6 +92,8 @@ renderView:
         margin: "10px 0"
         width: "300px"
         display: "block"
+        backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
+        color: "#212529"
     attributeTransforms:
       - what: setAttributeValue
         name: "class"
@@ -129,26 +131,25 @@ renderView:
   - type: div
     attributes:
       style:
-        padding: "10px"
-        border: "2px solid #007bff"
+        padding: "20px"
+        borderWidth: "2px"
+        borderStyle: "solid"
+        borderColor: "#007bff #007bff"
         borderRadius: "4px"
+        backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
+        color: "#212529"
     attributeTransforms:
       # Merge additional style properties without losing existing ones
       - what: setAttributeValue
         name: "style"
         value:
-          borderColor: "#3b82f6"
-          backgroundColor: "#f0f0f0"
+          borderColor: "#007bff var(--bs-primary, #3b82f6)"
         when: ~.isHighlighted
         is: true
     # Result when isHighlighted is true:
-    # style: {
-    #   padding: "10px",
-    #   border: "2px solid #007bff",
-    #   borderRadius: "4px",
-    #   borderColor: "#3b82f6",
-    #   backgroundColor: "#f0f0f0"
-    # }
+    # The modification changes the highlight color for vertical borders (left and right)
+    # borderColor becomes: "#007bff var(--bs-primary, #3b82f6)"
+    # (horizontal borders stay #007bff, vertical borders change to primary color)
 
 data:
   isHighlighted: false
@@ -163,20 +164,28 @@ renderView:
       style:
         padding: "10px"
         border: "2px solid #007bff"
+        backgroundColor: "var(--bs-secondary-bg-subtle, rgba(0, 0, 0, 0.05))"
+        color: "#212529"
     attributeTransforms:
       # Completely replace the style object
       - what: setAttributeValue
         name: "style"
         mode: "replace"
         value:
-          backgroundColor: "#ffffff"
-          color: "#000000"
+          backgroundColor: "var(--bs-primary-bg-subtle, #d4f0ec)"
+          color: "var(--bs-primary-text-emphasis, #2b6b5a)"
+          padding: "15px"
+          borderRadius: "8px"
+          border: "2px solid var(--bs-primary, #44a08d)"
     # Result:
     # style: {
-    #   backgroundColor: "#ffffff",
-    #   color: "#000000"
+    #   backgroundColor: "var(--bs-primary-bg-subtle, #d4f0ec)",
+    #   color: "var(--bs-primary-text-emphasis, #2b6b5a)",
+    #   padding: "15px",
+    #   borderRadius: "8px",
+    #   border: "2px solid var(--bs-primary, #44a08d)"
     # }
-    # (original padding and border are lost)
+    # (original styles are completely replaced)
 ```
 
 ## Notes
@@ -189,6 +198,7 @@ renderView:
 - **Replace mode**: Use when you need complete control over the attribute value. In object mode, completely replaces the entire object.
 - **Duplicate prevention**: Only applies to append mode, and works for string values in both string mode and object mode.
 - **Object merging**: In object mode append, nested objects are merged recursively. Properties that don't match the expected format for append are replaced (new value has precedence).
+- **Extended properties vs shorthand**: When transformations are required, prefer using extended CSS properties (e.g., `borderWidth`, `borderStyle`, `borderColor`) instead of shorthand properties (e.g., `border`). This ensures the browser handles property modifications correctly. When you modify a single property like `borderColor` on an element that uses the shorthand `border`, the browser may decompose the shorthand into individual properties, which can lead to unexpected behavior. Using extended properties from the start avoids this issue.
 - **Template evaluation**: The value property supports full template evaluation including `~.localData`, `~~.globalData`, `~>nearestKey`, and `~~>globalKey` patterns.
 - **Conditional execution**: Supports the same condition system as actions (`when`, `is`, `isEmpty`, `isNotEmpty`, etc.).
 - **Undefined handling**: `undefined` values are ignored in append mode but assigned in replace mode.
