@@ -166,7 +166,7 @@ templates:
       - type: TextField
         dataLocation: ~.data.name
       - type: DataSync
-        path: ~
+        path: "~"
         mode: onIdle
         idleDelay: 1500
 
