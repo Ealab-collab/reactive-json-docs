@@ -264,6 +264,9 @@ export const docsPageNavigation = {
                     "/docs/core/element/special/DataFilter": {
                         title: "DataFilter",
                     },
+                    "/docs/core/element/special/DataSync": {
+                        title: "DataSync",
+                    },
                     "/docs/core/element/special/DelayedActions": {
                         title: "DelayedActions",
                     },
