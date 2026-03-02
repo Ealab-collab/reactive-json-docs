@@ -198,6 +198,52 @@ renderView:
         trigger: ~~.saveNow
       ```
 
+      ## Reacting to Sync Events
+
+      `DataSync` dispatches two custom DOM events that can be caught using `on:` in its `actions` array:
+
+      | Event | When it fires |
+      |---|---|
+      | `syncSuccess` | The server returned a 2xx response. |
+      | `syncError` | The request failed (any 4xx, 5xx, or network error). |
+
+      Both events expose their payload through the standard event placeholder system:
+
+      | Placeholder | Description |
+      |---|---|
+      | `<reactive-json:event-new-value>` | The response body (`event.detail.value`). On success, this is the full server response. On a structured error (see below), this is the error body returned by the server. |
+      | `<reactive-json:event>.detail.responseContext.status` | The HTTP status code (number), or `undefined` for pure network errors. |
+
+      ```yaml
+      - type: DataSync
+        path: ~~.userProfile
+        mode: onIdle
+        idleDelay: 2000
+        actions:
+          - what: setData
+            on: syncSuccess
+            path: ~~.lastSync.httpStatus
+            value: "<reactive-json:event>.detail.responseContext.status"
+          - what: setData
+            on: syncSuccess
+            path: ~~.lastSync.response
+            value: "<reactive-json:event-new-value>"
+          - what: setData
+            on: syncError
+            path: ~~.lastSync.httpStatus
+            value: "<reactive-json:event>.detail.responseContext.status"
+          - what: setData
+            on: syncError
+            path: ~~.lastSync.errorBody
+            value: "<reactive-json:event-new-value>"
+      ```
+
+      ### Structured vs. unstructured errors
+
+      When the server responds with a 4xx/5xx and the body contains a `status` field (matching the Syncable Object format), `DataSync` treats it as a **structured error**: the body replaces the local Syncable Object, `syncError` fires with `event.detail.value` set to that body, and the retry mechanism is not triggered.
+
+      For raw server or network errors (5xx without a structured body, or the browser being offline), `syncError` fires with `event.detail.value` set to `undefined`. In this case the component generates a local `status` object with `{ type: "error", message: "..." }` and may trigger retries according to `maxRetries`.
+
       ## Error Handling and Retries
 
       ### What triggers retries
