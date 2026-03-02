@@ -305,11 +305,54 @@ renderView:
     content: |
 
       ### Properties
-      - **`src`** (required): URL of the data source
+      - **`src`** (required): URL of the data source. Can be a **string** (used as-is) or an **array of segments** that are resolved and concatenated (see [Dynamic URLs](#dynamic-urls-with-src-as-array) below)
       - **`path`** (optional): Path where to place the data (template syntax)
       - **`method`** (optional): HTTP method (GET, POST, etc.)
       - **`dataMapping`** (optional): Configure selective data dispatch using mapping processors
       - **`blocking`** (optional): If `true`, waits for loading before displaying
+
+      ### Dynamic URLs with `src` as Array
+
+      When `src` is an array, each segment is resolved individually and then concatenated into the final URL. Segments starting with `~~.` are treated as references to the store data and are replaced with their resolved values.
+
+      This is particularly useful when an RjBuild is loaded inside a `ReactiveJsonSubroot` with `dataOverride`, where dynamic values (like entity IDs) are injected by the parent.
+
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      # Parent RjBuild passes taskId via dataOverride
+      renderView:
+        - type: ReactiveJsonSubroot
+          rjOptions:
+            rjBuildUrl: "/components/TimeLogManager.yaml"
+            dataOverride:
+              taskId: ~.task.id
+
+  - type: Markdown
+    content: |
+
+  - type: TabbedSerializer
+    yamlSerializedContent: |
+      # TimeLogManager.yaml — uses taskId in additionalDataSource
+      additionalDataSource:
+        - src:
+            - "/api/time-logs?filter[task]="
+            - ~~.taskId
+          path: ~~.timeLogs
+          blocking: true
+
+      data:
+        taskId: ""       # Will be overridden by dataOverride
+        timeLogs: []
+
+  - type: Markdown
+    content: |
+
+      In this example, if `taskId` is `"42"`, the resolved URL will be `/api/time-logs?filter[task]=42`.
+
+      **Rules:**
+      - Only `~~.` (global/root data) references are supported in `src` segments — `~.` (local template context) is not available during initialization
+      - If a `~~.` reference resolves to `null` or `undefined`, it is replaced with an empty string and a warning is logged
+      - When `src` is a plain string, it behaves exactly as before (full backward compatibility)
 
       ### Loading Modes
 
