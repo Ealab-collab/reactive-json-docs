@@ -1,0 +1,113 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Join
+
+      The `Join` component concatenates an array of values into a single string, with a configurable separator. It is useful for displaying lists of scalar values (IDs, labels, tags, etc.) inline.
+
+  - type: Markdown
+    content: |
+      ## Basic Syntax
+
+      ```yaml
+      - type: Join
+        content: ~~.myArray
+        separator: ", "
+      ```
+
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: content
+          after: "(array, required)"
+        details: "The array to join. Supports template references such as ~~.myArray or ~.items. Non-array values are coerced to string and displayed as-is."
+      - term:
+          code: separator
+          after: '(string, optional, default: ", ")'
+        details: "The string used between each element."
+      - term:
+          code: attributes
+          after: "(object, optional)"
+        details: "Additional attributes for the root element."
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details: "Actions to execute based on component state."
+
+  - type: RjBuildDescriber
+    title: "Basic join with default separator"
+    description: "Join an array of strings with the default comma-space separator."
+    toDescribe:
+      renderView:
+        - type: p
+          content:
+            - "Tags: "
+            - type: Join
+              content: ~~.tags
+      data:
+        tags:
+          - "react"
+          - "yaml"
+          - "json"
+
+  - type: RjBuildDescriber
+    title: "Custom separator"
+    description: "Use a pipe separator to display a list of IDs."
+    toDescribe:
+      renderView:
+        - type: p
+          content:
+            - "IDs: "
+            - type: Join
+              content: ~~.ids
+              separator: " | "
+        - type: div
+          attributes:
+            class: "mt-5 p-2.5 rounded border border-gray-300 dark:border-gray-600"
+          content:
+            - type: strong
+              content: "Raw array: "
+            - type: Code
+              content: ~~.ids
+      data:
+        ids:
+          - 42
+          - 7
+          - 15
+
+  - type: RjBuildDescriber
+    title: "Inside a sentence"
+    description: "Embed a Join inside a paragraph to display selected values inline."
+    toDescribe:
+      renderView:
+        - type: p
+          content:
+            - "Selected items: "
+            - type: strong
+              content:
+                type: Join
+                content: ~~.selectedIds
+                separator: ", "
+      data:
+        selectedIds:
+          - 42
+          - 7
+          - 15
+
+  - type: Markdown
+    content: |
+      ## Notes
+
+      - If `content` evaluates to a non-array value, it is rendered as a plain string (no separator applied).
+      - Null or undefined `content` renders nothing.
+      - Array elements are joined using JavaScript's native `.join()`, so objects will render as `[object Object]`. Use this component with arrays of primitives (strings, numbers).
+
+      ## Limitations
+
+      - No support for rendering rich content (HTML, components) between items — use `Switch` with a template for that.
+      - No per-item formatting; all elements are joined as plain strings.
+
+templates: {}
+data: {}

@@ -218,6 +218,9 @@ export const docsPageNavigation = {
             "/docs/core/element/form": {
                 title: "Form elements",
                 items: {
+                    "/docs/core/element/form/AutocompleteField": {
+                        title: "AutocompleteField",
+                    },
                     "/docs/core/element/form/CheckBoxField": {
                         title: "CheckBoxField",
                     },
@@ -243,6 +246,9 @@ export const docsPageNavigation = {
                     },
                     "/docs/core/element/html/Html": {
                         title: "Html",
+                    },
+                    "/docs/core/element/html/Join": {
+                        title: "Join",
                     },
                     "/docs/core/element/html/LabelFromValue": {
                         title: "LabelFromValue",
