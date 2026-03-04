@@ -266,15 +266,112 @@ additionalDataSource:
 ```
 
 ### Properties
-- **`src`** (required): URL of the data source. Can be a **string** (used as-is) or an **array of segments** that are resolved and concatenated (see [Dynamic URLs](#dynamic-urls-with-src-as-array) below)
-- **`path`** (optional): Path where to place the data (template syntax)
-- **`method`** (optional): HTTP method (GET, POST, etc.)
-- **`dataMapping`** (optional): Configure selective data dispatch using mapping processors
-- **`blocking`** (optional): If `true`, waits for loading before displaying
+- **`src`** (required): URL of the data source. Can be a **string** (used as-is) or an **array of segments** — see [Dynamic URLs](#dynamic-urls-with-src-as-array) below.
+- **`path`** (optional): Path where to place the data (template syntax).
+- **`method`** (optional): HTTP method (GET, POST, etc.).
+- **`dataMapping`** (optional): Configure selective data dispatch using mapping processors.
+- **`blocking`** (optional): If `true`, waits for loading before displaying.
+- **`fallbackDataSource`** (optional): An alternate source tried when the primary fails — see [Fallback Sources](#fallback-sources) below.
 
 ### Dynamic URLs with `src` as Array
 
-When `src` is an array, each segment is resolved individually and then concatenated into the final URL. Segments starting with `~~.` are treated as references to the store data and are replaced with their resolved values.
+When `src` is an array, each element is processed individually and the results are assembled into the final URL. The array can mix three kinds of elements:
+
+#### 1. Plain strings and store references
+
+A plain string is used as a literal. A string starting with `~~.` or `~.` is resolved from the root store data (both notations are equivalent in this context).
+
+```yaml
+additionalDataSource:
+  - src:
+      - "/api/items/"
+      - ~~.itemId        # resolved from root data
+      - "/details"
+    path: ~~.itemDetails
+    blocking: true
+```
+
+#### 2. Segment objects — `{ segment, required? }`
+
+A segment object resolves a dynamic value and inserts it as a path part.
+
+```yaml
+additionalDataSource:
+  - src:
+      - "/api/"
+      - segment: ~~.category    # resolved as a path segment
+      - "/items"
+    path: ~~.items
+    blocking: true
+```
+
+When `required: true` is set and the segment resolves to `null` or empty, the entire URL is aborted (returns `null`) instead of producing a broken URL. This triggers the `fallbackDataSource` if one is defined, otherwise the source is skipped with a warning.
+
+```yaml
+additionalDataSource:
+  - src:
+      - "/api/items/"
+      - segment: ~~.requiredId
+        required: true          # abort URL if null
+    fallbackDataSource:
+      src: "/api/items/default"
+      path: ~~.item
+    path: ~~.item
+    blocking: true
+```
+
+#### 3. Query param objects — `{ param, value, required? }`
+
+A param object adds a key-value pair to the URL query string. Both the key and the value accept store references.
+
+```yaml
+additionalDataSource:
+  - src:
+      - "/api/items"
+      - param: id
+        value: ~~.itemId          # ?id=<itemId>
+      - param: ~~.filterParamName
+        value: ~~.filterValue     # dynamic key and value
+    path: ~~.items
+    blocking: true
+```
+
+**Null handling for params:**
+- If either the key or the value resolves to `null`/empty and `required` is absent or `false`, the param is **silently omitted** from the URL.
+- If either resolves to `null`/empty and `required: true` is set, the entire URL is **aborted**, triggering `fallbackDataSource` if defined.
+
+```yaml
+additionalDataSource:
+  - src:
+      - "/api/search"
+      - param: q
+        value: ~~.searchQuery     # omitted if null
+      - param: type
+        value: ~~.filterType
+        required: true            # abort if null
+    path: ~~.results
+    blocking: true
+```
+
+#### Mixing all three types
+
+Path parts (plain strings, `~~.`/`~.` strings, and `segment` objects) are concatenated in order. All `param` objects are collected and appended as a query string after the path.
+
+```yaml
+additionalDataSource:
+  - src:
+      - "/api/"
+      - segment: ~~.category     # path: /api/electronics
+        required: true           # abort URL if category is null
+      - "/items"                 # path: /api/electronics/items
+      - param: id
+        value: ~~.itemId         # ?id=42
+      - param: ~~.extraKey
+        value: ~~.extraValue     # &q=hello
+    path: ~~.result
+    blocking: true
+# Resolved URL: /api/electronics/items?id=42&q=hello
+```
 
 This is particularly useful when an RjBuild is loaded inside a `ReactiveJsonSubroot` with `dataOverride`, where dynamic values (like entity IDs) are injected by the parent.
 
@@ -288,25 +385,54 @@ This is particularly useful when an RjBuild is loaded inside a `ReactiveJsonSubr
 ```
 
 ```yaml
-# TimeLogManager.yaml — uses taskId in additionalDataSource
+# TimeLogManager.yaml — uses taskId as a query param
 additionalDataSource:
   - src:
-      - "/api/time-logs?filter[task]="
-      - ~~.taskId
+      - "/api/time-logs"
+      - param: "filter[task]"
+        value: ~~.taskId
+        required: true
     path: ~~.timeLogs
     blocking: true
 
 data:
-  taskId: ""       # Will be overridden by dataOverride
+  taskId: ""    # Will be overridden by dataOverride
   timeLogs: []
 ```
 
-In this example, if `taskId` is `"42"`, the resolved URL will be `/api/time-logs?filter[task]=42`.
+### Fallback Sources
 
-**Rules:**
-- Only `~~.` (global/root data) references are supported in `src` segments — `~.` (local template context) is not available during initialization
-- If a `~~.` reference resolves to `null` or `undefined`, it is replaced with an empty string and a warning is logged
-- When `src` is a plain string, it behaves exactly as before (full backward compatibility)
+The `fallbackDataSource` property defines an alternate source that is tried automatically when the primary source cannot be used. It accepts the same structure as a regular `additionalDataSource` item, including its own `fallbackDataSource` for chaining.
+
+A fallback is triggered in two situations:
+
+1. **The URL cannot be resolved** — a segment or param marked `required: true` resolved to `null` or empty.
+2. **The HTTP request fails** — the server returns an error (4xx, 5xx, network failure, etc.).
+
+```yaml
+additionalDataSource:
+  # Fallback on missing required param
+  - src:
+      - "/api/items"
+      - param: id
+        value: ~~.selectedId
+        required: true
+    path: ~~.item
+    fallbackDataSource:
+      src: "/api/items/default"
+      path: ~~.item
+    blocking: true
+
+  # Fallback on HTTP error
+  - src: "/api/live-config"
+    path: ~~.config
+    fallbackDataSource:
+      src: "/api/config-cache"
+      path: ~~.config
+    blocking: true
+```
+
+When a fallback is triggered, a warning is logged in the console explaining the reason. If no fallback is defined and the primary fails, the source is skipped with a warning.
 
 ### Loading Modes
 
@@ -368,6 +494,40 @@ additionalDataSource:
 ### Complete Example
 
 ```yaml
+data:
+  userId: "42"
+  section: "reports"
+  formatParam: "json"
+  optionalFilter: null     # null → param silently omitted
+  fallbackSection: "home"
+
+additionalDataSource:
+  # Static URL — simple string form
+  - src: "/api/user-profile.json"
+    path: ~~.currentUser
+    blocking: true
+
+  # Dynamic path segment + query params
+  - src:
+      - "/api/"
+      - segment: ~~.section    # e.g. /api/reports
+      - param: userId
+        value: ~~.userId       # ?userId=42
+      - param: format
+        value: ~~.formatParam  # &format=json
+      - param: filter
+        value: ~~.optionalFilter  # null → omitted
+    path: ~~.sectionData
+    blocking: true
+
+  # Required param with fallback on failure or HTTP error
+  - src: "/api/system-config"
+    path: ~~.systemConfig
+    fallbackDataSource:
+      src: "/api/system-config-cache"
+      path: ~~.systemConfig
+    blocking: false
+
 renderView:
   - type: div
     content:
@@ -375,23 +535,6 @@ renderView:
         content: ["Hello ", ~~.currentUser.name]
       - type: p
         content: ["Version: ", ~~.systemConfig.version]
-
-data:
-  currentUser:
-    name: "Loading..."    # Temporary value
-  systemConfig:
-    version: "Loading..."
-
-additionalDataSource:
-  # Critical user data (blocking)
-  - src: "/api/user-profile.json"
-    path: ~~.currentUser
-    blocking: true
-    
-  # System configuration (non-blocking)
-  - src: "/api/system-config.json"
-    path: ~~.systemConfig
-    blocking: false
 ```
 
 ## Best Practices
