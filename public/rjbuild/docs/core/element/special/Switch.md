@@ -257,4 +257,106 @@ data:
     - name: "string2"
     - name: "string3"
 ```
+
+## Caveats — common pitfalls that fail silently
+
+These two patterns *look* correct, type-check, throw no error, and produce
+empty output. They're easy to miss and have cost real debugging time.
+
+### Caveat 1 — `content` must be a template reference, not an inline array
+
+Switch iterates whatever you put in `content`, but the per-item template
+context (i.e. what `~.field` resolves against) is fetched from the **reactive
+data store** at the iterated path. An inline array literal in `content` is
+never written to the store, so each iteration's `templateData` ends up
+`undefined` and every `~.field` resolves to nothing.
+
+```yaml
+# ❌ Silent failure — items render but ~.label is undefined
+renderView:
+  - type: Switch
+    content:
+      - {label: "Home"}
+      - {label: "About"}
+    singleOption:
+      load: navLink
+
+templates:
+  navLink:
+    type: a
+    content: ~.label
+```
+
+```yaml
+# ✅ Works — content points into the store
+data:
+  navItems:
+    - {label: "Home"}
+    - {label: "About"}
+
+renderView:
+  - type: Switch
+    content: ~~.navItems
+    singleOption:
+      load: navLink
+
+templates:
+  navLink:
+    type: a
+    content: ~.label
+```
+
+**Rule of thumb:** `Switch.content` is always a path reference (`~~.foo` for
+global, `~.foo` for local), never a literal. If your iteration data is
+"constant" from a page-data perspective, that's fine — just put it in the
+YAML's `data:` section. It will still be reachable via `~~.foo`.
+
+### Caveat 2 — `singleOption` must use `load:`, not an inline template
+
+The per-item `TemplateContext` that makes `~.field` resolve against the
+current item is set up by the `load` branch of the `View` engine. Writing
+`singleOption` as an inline `{type: ..., content: ...}` skips that setup —
+the iteration happens, but `~.field` inside the inline template resolves
+against the **outer** context (whatever was active where the Switch sits),
+not the per-item context.
+
+```yaml
+# ❌ ~.name resolves against the outer context, not each user
+renderView:
+  - type: Switch
+    content: ~~.users
+    singleOption:
+      type: div
+      content: ~.name
+```
+
+```yaml
+# ✅ Per-item context is correctly pushed
+renderView:
+  - type: Switch
+    content: ~~.users
+    singleOption:
+      load: userCard
+
+templates:
+  userCard:
+    type: div
+    content: ~.name
+```
+
+**Rule of thumb:** treat `singleOption` and `options.<key>` as
+`{load: <templateName>}` only. If you find yourself writing an inline
+template there, factor it into `templates:` and reference it.
+
+### Debugging checklist when an iteration renders empty
+
+1. Is `Switch.content` a `~~.path` (not an inline literal)?
+2. Does that path exist in the store? (Defaults in `data:` are merged in
+   unless the parent mounts with a `dataOverride` that omits the field.)
+3. Is `singleOption` / `options.<key>` a `{load: <name>}`?
+4. Is each item in the data an object (not a primitive)? Switch silently
+   skips non-object entries.
+5. Is the `usePagination` hook available? Switch returns `null` if not —
+   normally guaranteed by `ReactiveJsonRoot` auto-merging
+   `coreComponentsPlugin`, but worth checking on a stripped-down root.
  
