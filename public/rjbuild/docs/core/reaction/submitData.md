@@ -11,6 +11,8 @@
 - `httpMethod` (string, optional): The HTTP method to use (default: "post")
 - `data` (object, optional): The data to send. If not specified, data is sent in an object with the structure `{ data: globalDataContext.templateData }`. If `__state` exists in the context, it is automatically added.
 - `refreshAppOnResponse` (boolean, optional): If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`).
+- `allowConcurrent` (boolean, optional): When true, allows concurrent requests (bypasses the global lock). Default: false. Implicitly true when `requestKey` is set.
+- `requestKey` (string, optional): Identifier used to group requests that should cancel each other. When set, firing a new submission with the same key aborts the previous one client-side (via AbortController). Different keys are independent. Bypasses the global lock automatically. See the [Concurrency control section in `fetchData`](fetchData.md#concurrency-control--requestkey) — the semantics are identical.
 - `submitSilently` (boolean, optional): If true, doesn't apply visual disabling styles during submission
 - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
 - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.

@@ -36,6 +36,18 @@ renderView:
           type: Markdown
           content: "If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`)"
       - term:
+          code: allowConcurrent
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "When true, allows concurrent requests (bypasses the global lock). Default: false. Implicitly true when `requestKey` is set."
+      - term:
+          code: requestKey
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Identifier used to group requests that should cancel each other. When set, firing a new submission with the same key aborts the previous one client-side (via AbortController). Different keys are independent. Bypasses the global lock automatically. See [Concurrency control in `fetchData`](fetchData) — same semantics."
+      - term:
           code: submitSilently
           after: "(boolean, optional)"
         details: "If true, doesn't apply visual disabling styles during submission"

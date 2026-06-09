@@ -27,6 +27,18 @@ renderView:
           type: Markdown
           content: "If true (default), the response will update the application. If false, the response is ignored (webhook mode)"
       - term:
+          code: allowConcurrent
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "When true, allows concurrent requests (bypasses the global lock). Default: false. Implicitly true when `requestKey` is set."
+      - term:
+          code: requestKey
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "Identifier used to group requests that should cancel each other. When set, firing a new request with the same key aborts the previous one client-side (via AbortController). Different keys are independent. Bypasses the global lock automatically."
+      - term:
           code: updateDataAtLocation
           after: "(string, optional)"
         details:

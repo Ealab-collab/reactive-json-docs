@@ -10,6 +10,8 @@
 ## Properties
 - `httpMethod` (string, optional): The HTTP method to use (default: "get"). Supports: get, post, put, patch, delete, etc.
 - `refreshAppOnResponse` (boolean, optional): If true (default), the response will update the application. If false, the response is ignored (webhook mode).
+- `allowConcurrent` (boolean, optional): When true, allows concurrent requests (bypasses the global lock). Default: false. Implicitly true when `requestKey` is set.
+- `requestKey` (string, optional): Identifier used to group requests that should cancel each other. When set, firing a new request with the same key aborts the previous one client-side (via AbortController). Different keys are independent. Bypasses the global lock automatically. See [Concurrency control](#concurrency-control--requestkey) below.
 - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
 - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
 - `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
@@ -53,6 +55,40 @@ actions:
 The response event provides access to the complete server response through `<reactive-json:event-new-value>`, allowing you to extract specific values and store them in different data locations.
 
 > **⚠️ Important:** When using `updateOnlyData: true`, the server response must contain **data only**, not a complete RjBuild structure. The response should be the raw data object, not wrapped in `{data: {...}, renderView: [...], templates: {...}}`.
+
+## Concurrency control — `requestKey`
+
+By default, `fetchData` and `submitData` share a **global lock** at the document level: only one HTTP request can be active across the whole app at any time. A second call fired while the first is in flight is **silently dropped**. This is safe for most cases but bites when a user clicks rapidly through buckets in a filter UI, or hits two save buttons quickly — the second request's siblings (e.g. `setData` updating local UI state) still run, but the request itself never goes out, leaving UI and data out of sync.
+
+`requestKey` opts the call into per-key cancel-on-new semantics. The library keeps a registry of in-flight requests keyed by `requestKey` and, on each new call:
+
+1. Aborts the previous request with the same key (via `AbortController` on the underlying axios call).
+2. Replaces the registry entry with the new request.
+3. Lets the new request proceed.
+
+Aborted requests are silently swallowed: their `.catch` doesn't log an error, and their `.finally` skips the `response` event dispatch. The successor will fire its own `response` event normally.
+
+```yaml
+# Rapid clicks on bucket A then B share `facet-refresh` — A's request
+# is aborted as soon as B is fired, so only B's response lands in the
+# store. Without requestKey, B would silently no-op (global lock held
+# by A) and the UI would diverge from the data.
+actions:
+  - what: setData
+    on: click
+    path: ~~.selectedFilter
+    value: ~.key
+  - what: fetchData
+    on: click
+    requestKey: facet-refresh
+    url: ~~.endpoint
+    updateOnlyData: true
+    updateDataAtLocation: ~~.result
+```
+
+Different keys are independent: edit modals on multiple rows can each have their own `requestKey: 'save-row-42'` etc. and save simultaneously without interfering.
+
+`requestKey` implies `allowConcurrent: true` — the global lock is bypassed automatically when a key is provided, since per-key cancel-on-new already guarantees single-flight within the key.
 
 ## Examples
 
