@@ -66,6 +66,7 @@ The response completely replaces the local Syncable Object.
 | `trigger` | string | - | Path to a boolean value. When set to `true`, triggers an immediate sync and resets to `false`. Works in any mode. In `onIdle` mode, it cancels the pending idle timer. |
 | `maxRetries` | number | `0` | Number of additional retry attempts after a failed sync. `0` means one attempt with no retry. |
 | `retryDelay` | number | `5000` | Milliseconds between retry attempts. |
+| `mergeKey` | string | - | Path to a **stable identity** for the syncable (typically its `submission_url`). All `DataSync` instances resolving to the same value form a shared group: edits are mirrored live across them and persisted by a single owner. See [Shared Syncables](#shared-syncables-mergekey). |
 
 ## Synchronization Modes
 
@@ -199,6 +200,47 @@ For raw server or network errors (5xx without a structured body, or the browser 
 `DataSync` only triggers synchronization when the `data` field of the Syncable Object changes. Changes to `status`, `submission_url`, or other fields are ignored.
 
 This prevents feedback loops: when the component updates `status` to "syncing" or when the server response updates `status` to "success", these changes do not trigger a new sync cycle.
+
+## Shared Syncables (`mergeKey`)
+
+When the **same resource** is mounted in several places at once — the same record shown in two views, or one editable item embedded in multiple components — each `DataSync` would normally watch its own copy and POST independently. That causes duplicate writes and lets the copies drift apart.
+
+Set `mergeKey` to make those instances cooperate. It is a path resolving to a **stable identity** for the syncable (commonly its `submission_url`). Every `DataSync` that resolves to the same value forms a **group**:
+
+- **One writer (the owner).** The first instance to join is the group's owner, re-elected automatically if it unmounts. Only the owner sends requests.
+- **Live mirror.** When any member's `data` changes, that data is applied to every other member's store — with their own change-watcher suppressed, so they neither re-broadcast nor POST. All copies stay in sync on screen.
+- **Single, coalesced write.** Persistence is delegated to the owner, which (re)schedules its one debounced sync and reads the **latest** shared data when it fires. Rapid edits across different members collapse into a single request carrying the final value — no concurrent writers, no stale-data write, no revert.
+- **Server propagation.** On a successful sync, the owner broadcasts the (server-enriched) response `data` back to the group.
+
+```yaml
+data:
+  cardA:
+    submission_url: "/api/items/123"
+    data: { title: "Hello" }
+  cardB:
+    submission_url: "/api/items/123"   # SAME entity, second mount
+    data: { title: "Hello" }
+
+renderView:
+  - type: TextField
+    dataLocation: ~~.cardA.data.title
+  - type: DataSync
+    path: ~~.cardA
+    mergeKey: ~~.cardA.submission_url
+
+  - type: TextField
+    dataLocation: ~~.cardB.data.title
+  - type: DataSync
+    path: ~~.cardB
+    mergeKey: ~~.cardB.submission_url
+```
+
+Editing either field mirrors live to the other, and the whole group produces a single POST.
+
+**Notes**
+- The library stays agnostic about what makes two syncables "the same": you pick the identity by pointing `mergeKey` at whatever field is stable per resource (usually `submission_url`).
+- Leaving `mergeKey` unset keeps the default behavior — one independent sync per instance.
+- Known limitation: if the owner unmounts while a sync is still pending, that in-flight edit is not persisted (the new owner only writes on the next edit).
 
 ## Using with Templates
 
