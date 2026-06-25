@@ -242,6 +242,26 @@ Editing either field mirrors live to the other, and the whole group produces a s
 - Leaving `mergeKey` unset keeps the default behavior — one independent sync per instance.
 - Known limitation: if the owner unmounts while a sync is still pending, that in-flight edit is not persisted (the new owner only writes on the next edit).
 
+### Overriding the grouping (advanced)
+
+The group coordination — membership, owner election, and the live broadcast — is not hard-wired into `DataSync`. It is resolved from a **`utility` plugin** named `dataSyncGroups`, falling back to the core singleton registry when none is supplied. This lets an app swap *just* the grouping behavior (e.g. a registry scoped per tab, or one that bridges across iframes) without overriding the whole `DataSync` element.
+
+Register your own under `plugins.utility`:
+
+```js
+const myDataSyncGroups = {
+  joinSyncGroup(key, member) { /* … returns a leave() function */ },
+  broadcastToGroup(key, fromMember, data) { /* … */ },
+  getOwner(key) { /* … returns the current writer or null */ },
+};
+
+const plugins = mergeComponentCollections([
+  { utility: { dataSyncGroups: myDataSyncGroups } },
+]);
+```
+
+The registry must be a **shared singleton**: every `DataSync` that resolves the same `dataSyncGroups` object joins the same groups. Provide one instance, not one per render.
+
 ## Using with Templates
 
 `DataSync` supports `TemplateContext`, so it can be used inside templates to sync individual items in a list:

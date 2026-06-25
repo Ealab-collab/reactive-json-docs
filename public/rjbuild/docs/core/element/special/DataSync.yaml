@@ -138,6 +138,12 @@ renderView:
         details:
           type: Markdown
           content: "Milliseconds between retry attempts. Default: `5000`."
+      - term:
+          code: mergeKey
+          after: " (string, optional)"
+        details:
+          type: Markdown
+          content: "Path to a **stable identity** for the syncable (typically its `submission_url`). All `DataSync` instances resolving to the same value form a shared group: edits are mirrored live across them and persisted by a single owner. See **Shared Syncables** below."
 
   - type: Markdown
     content: |
@@ -267,6 +273,67 @@ renderView:
       ## Change Detection
 
       `DataSync` only triggers synchronization when the `data` field of the Syncable Object changes. Changes to `status`, `submission_url`, or other fields are ignored. This prevents feedback loops when the component updates the status or when the server response updates the object.
+
+      ## Shared Syncables (`mergeKey`)
+
+      When the **same resource** is mounted in several places at once — the same record shown in two views, or one editable item embedded in multiple components — each `DataSync` would normally watch its own copy and POST independently. That causes duplicate writes and lets the copies drift apart.
+
+      Set `mergeKey` to make those instances cooperate. It is a path resolving to a **stable identity** for the syncable (commonly its `submission_url`). Every `DataSync` that resolves to the same value forms a **group**:
+
+      - **One writer (the owner).** The first instance to join is the group's owner, re-elected automatically if it unmounts. Only the owner sends requests.
+      - **Live mirror.** When any member's `data` changes, that data is applied to every other member's store — with their own change-watcher suppressed, so they neither re-broadcast nor POST. All copies stay in sync on screen.
+      - **Single, coalesced write.** Persistence is delegated to the owner, which (re)schedules its one debounced sync and reads the **latest** shared data when it fires. Rapid edits across different members collapse into a single request carrying the final value — no concurrent writers, no stale-data write, no revert.
+      - **Server propagation.** On a successful sync, the owner broadcasts the (server-enriched) response `data` back to the group.
+
+      ```yaml
+      data:
+        cardA:
+          submission_url: "/api/items/123"
+          data: { title: "Hello" }
+        cardB:
+          submission_url: "/api/items/123"   # SAME entity, second mount
+          data: { title: "Hello" }
+
+      renderView:
+        - type: TextField
+          dataLocation: ~~.cardA.data.title
+        - type: DataSync
+          path: ~~.cardA
+          mergeKey: ~~.cardA.submission_url
+
+        - type: TextField
+          dataLocation: ~~.cardB.data.title
+        - type: DataSync
+          path: ~~.cardB
+          mergeKey: ~~.cardB.submission_url
+      ```
+
+      Editing either field mirrors live to the other, and the whole group produces a single POST.
+
+      **Notes**
+      - The library stays agnostic about what makes two syncables "the same": you pick the identity by pointing `mergeKey` at whatever field is stable per resource (usually `submission_url`).
+      - Leaving `mergeKey` unset keeps the default behavior — one independent sync per instance.
+      - Known limitation: if the owner unmounts while a sync is still pending, that in-flight edit is not persisted (the new owner only writes on the next edit).
+
+      ### Overriding the grouping (advanced)
+
+      The group coordination — membership, owner election, and the live broadcast — is not hard-wired into `DataSync`. It is resolved from a **`utility` plugin** named `dataSyncGroups`, falling back to the core singleton registry when none is supplied. This lets an app swap *just* the grouping behavior (e.g. a registry scoped per tab, or one that bridges across iframes) without overriding the whole `DataSync` element.
+
+      Register your own under `plugins.utility`:
+
+      ```js
+      const myDataSyncGroups = {
+        joinSyncGroup(key, member) { /* … returns a leave() function */ },
+        broadcastToGroup(key, fromMember, data) { /* … */ },
+        getOwner(key) { /* … returns the current writer or null */ },
+      };
+
+      const plugins = mergeComponentCollections([
+        { utility: { dataSyncGroups: myDataSyncGroups } },
+      ]);
+      ```
+
+      The registry must be a **shared singleton**: every `DataSync` that resolves the same `dataSyncGroups` object joins the same groups. Provide one instance, not one per render.
 
       ## Using with Templates
 
