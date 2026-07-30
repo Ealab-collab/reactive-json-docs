@@ -569,4 +569,4 @@ renderView:
       - Integrated label is limited: for conditional actions, prefer separated label
 
 templates: {}
-data: {}
+data:

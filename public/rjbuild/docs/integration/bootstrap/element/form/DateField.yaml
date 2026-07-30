@@ -283,4 +283,4 @@ renderView:
       - Template evaluation for label property
 
 templates: {}
-data: {} 
+data:

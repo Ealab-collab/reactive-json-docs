@@ -316,4 +316,4 @@ renderView:
       - Future version: support for synchronization with external data changes
 
 templates: {}
-data: {}
+data:

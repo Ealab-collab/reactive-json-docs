@@ -1,3 +1,11 @@
+# Servir les rjBuild YAML comme du texte UTF-8.
+# Sans ça, Apache renvoie "application/yaml" sans charset, et DevTools affiche
+# le corps de la réponse en base64 (artefact d'affichage, le contenu est correct).
+<IfModule mod_mime.c>
+  AddType text/yaml .yaml .yml
+  AddCharset UTF-8 .yaml .yml
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

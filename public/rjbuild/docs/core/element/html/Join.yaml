@@ -110,4 +110,4 @@ renderView:
       - No per-item formatting; all elements are joined as plain strings.
 
 templates: {}
-data: {}
+data:

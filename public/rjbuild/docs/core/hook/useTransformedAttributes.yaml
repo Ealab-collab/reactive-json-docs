@@ -161,4 +161,4 @@ renderView:
       For details on individual transformers, see [attributeTransformer documentation](../attributeTransformer/index).
 
 templates: {}
-data: {}
+data:

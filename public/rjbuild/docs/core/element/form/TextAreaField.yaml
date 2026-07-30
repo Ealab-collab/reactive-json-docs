@@ -135,5 +135,5 @@ renderView:
       - Template evaluation for `rows` should return a number
 
 templates: {}
-data: {}
+data:
 

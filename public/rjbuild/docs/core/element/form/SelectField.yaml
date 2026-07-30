@@ -248,5 +248,5 @@ renderView:
       - Empty string handling requires explicit `allowEmptyStringAsValue` for semantic distinction
 
 templates: {}
-data: {}
+data:
 

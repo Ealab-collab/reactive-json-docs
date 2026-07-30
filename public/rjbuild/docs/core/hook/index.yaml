@@ -41,4 +41,4 @@ renderView:
       The core Reactive-JSON library uses this same mechanism internally to provide its built-in hooks, ensuring consistency between core functionality and custom extensions.
 
 templates: {}
-data: {}
+data:

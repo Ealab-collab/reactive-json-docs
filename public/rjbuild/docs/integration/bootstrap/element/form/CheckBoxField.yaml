@@ -367,4 +367,4 @@ renderView:
       - Other strings remain as strings
 
 templates: {}
-data: {} 
+data:

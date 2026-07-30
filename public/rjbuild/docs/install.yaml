@@ -975,4 +975,4 @@ templates:
           - **Without routing:** "Ready to start!" message
           - **With routing:** "Welcome to your React + Reactive-JSON app!" message with a navigation bar at the top of the page allowing navigation between pages
 
-data: {} 
+data:

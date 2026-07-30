@@ -218,5 +218,5 @@ renderView:
       - For radio buttons, `multiple` is automatically set to `false` regardless of the `multiple` property
 
 templates: {}
-data: {}
+data:
 

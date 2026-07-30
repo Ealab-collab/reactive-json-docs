@@ -171,4 +171,4 @@ renderView:
       - No built-in spell checking configuration options
 
 templates: {}
-data: {} 
+data:
