@@ -1,0 +1,60 @@
+# DateTimeField
+
+The `DateTimeField` component is a thin convenience wrapper around [`Input`](Input.md) that renders an HTML `datetime-local` input (`<input type="datetime-local">`). It inherits every `Input` option and adds an optional `storageFormat` for binding to a fixed-format storage string.
+
+## Basic Syntax
+
+```yaml
+- type: DateTimeField
+  dataLocation: ~.meetingAt
+  label: "Meeting date and time:"
+```
+
+By default the raw value of the HTML `datetime-local` input (`YYYY-MM-DDTHH:MM`) is stored as-is.
+
+## Properties
+
+- `dataLocation` (string, optional): Path to bind the field value in the data context. Without it, the value is stored in the template context under the component's `datafield`.
+- `defaultFieldValue` (string, optional): Default value when no data is present.
+- `label` (string or View props, optional): Field label text (supports template evaluation and View rendering). A wrapper `<div>` is added automatically when a label is present.
+- `storageFormat` (string, optional): Binds the field to a fixed-format **storage string** instead of the raw input value. Accepts `"date"` or `"datetime"` (see [Storage format](#storage-format)). When omitted, the raw `YYYY-MM-DDTHH:MM` value is stored unchanged (original behavior).
+- `attributes` (object, optional): Attributes applied to the wrapper `<div>` (or to the input itself when there is no wrapper).
+- `inputAttributes` (object, optional): Attributes applied directly to the `<input>` element (e.g. `class`, `id`, `min`, `max`, `step`).
+- `labelAttributes` (object, optional): Attributes applied to the label (`htmlFor` is managed automatically).
+- `forceWrapper` (boolean, optional): Forces the presence (`true`) or absence (`false`) of the wrapper `<div>`. If omitted, the wrapper appears only when a label is present.
+- `actions` (array, optional): Actions and conditional reactions to execute based on field state.
+
+## Storage format
+
+An HTML `datetime-local` input reads and writes `YYYY-MM-DDTHH:MM` — **without seconds** (browsers omit the `:00` seconds unless a sub-minute `step` is set, and even then behavior varies). A backend datetime field that validates against a fixed format such as Drupal's `Y-m-d\TH:i:s` therefore rejects the raw value.
+
+Set `storageFormat` to bridge the two. It applies **two conversions**:
+
+- **On read** — the date + time part of the stored value is shown (a stored `2016-11-29T23:00:00` displays as `2016-11-29T23:00`).
+- **On write** — the value is re-serialized to the target storage format:
+  - `storageFormat: datetime` → `YYYY-MM-DDTHH:MM:SS` (seconds appended; `00` when the input has no time)
+  - `storageFormat: date` → `YYYY-MM-DD` (time dropped)
+
+An empty input stores an empty string (clears the field). When `storageFormat` is omitted, no conversion happens and the raw input value is stored — so existing usages are unaffected.
+
+## Example
+
+### `storageFormat: datetime`
+
+The `datetime-local` input drives a datetime storage string, with seconds:
+
+```yaml
+renderView:
+  - type: DateTimeField
+    dataLocation: ~.closeDate
+    label: "Close date and time:"
+    storageFormat: datetime
+  - type: div
+    content:
+      - type: strong
+        content: "Stored value: "
+      - ~.closeDate
+
+data:
+  closeDate: "2016-11-29T23:00:00"
+```

@@ -224,6 +224,12 @@ export const docsPageNavigation = {
                     "/docs/core/element/form/CheckBoxField": {
                         title: "CheckBoxField",
                     },
+                    "/docs/core/element/form/DateField": {
+                        title: "DateField",
+                    },
+                    "/docs/core/element/form/DateTimeField": {
+                        title: "DateTimeField",
+                    },
                     "/docs/core/element/form/Input": {
                         title: "Input",
                     },
