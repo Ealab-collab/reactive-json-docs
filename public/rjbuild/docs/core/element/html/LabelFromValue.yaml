@@ -3,7 +3,23 @@ renderView:
     content: |
       # LabelFromValue
 
-      The `LabelFromValue` component displays the label associated with a value, using an option-like structure. It is useful for showing the display label of a value selected in a SelectField or any value/label mapping.
+      The `LabelFromValue` component displays the **label** associated with a value, using an option-like structure as data source. It is the read-only counterpart of the form fields: the same `{label, value}` list feeding a [`SelectField`](/docs/core/element/form/SelectField) or a [`CheckBoxField`](/docs/core/element/form/CheckBoxField) can be reused to render the selected value as text.
+
+  - type: Markdown
+    content: |
+      ## Basic Syntax
+
+      ```yaml
+      - type: LabelFromValue
+        dataLocation: ~.status
+        options:
+          - label: "Active"
+            value: 1
+          - label: "Inactive"
+            value: 2
+      ```
+
+      With `status: 2` in the data, this renders `Inactive`.
 
       ## Properties
 
@@ -11,22 +27,38 @@ renderView:
     content:
       - term:
           code: dataLocation
-          after: "(string, required)"
-        details: "Path to the value."
+          after: "(string, optional)"
+        details: "Path to the value to resolve. Without it, the value is read from the template context under the component's `datafield`."
       - term:
           code: options
           after: "(array, optional)"
         details:
           type: Markdown
-          content: "Array of `{label, value}` objects."
+          content: "Array of `{label, value}` objects. Ignored when `dynamicOptions` is set."
       - term:
           code: dynamicOptions
           after: "(any, optional)"
-        details: "Template value for dynamic options."
+        details:
+          type: Markdown
+          content: "Template reference resolving to the options array (e.g. `~~.allStages`, typically options loaded from a backend). Takes precedence over `options`."
       - term:
           code: defaultFieldValue
           after: "(any, optional)"
-        details: "Default value if none is set."
+        details: "Value used when no data is present."
+      - term:
+          code: loose
+          after: "(boolean, optional)"
+        details:
+          type: Markdown
+          content: "Matches the options by `String()`-coerced equality instead of the default strict one. See [Loose matching](#loose-matching). Omitted or `false` = strict equality (original behavior)."
+      - term:
+          code: actions
+          after: "(array, optional)"
+        details: "Actions and conditional reactions to execute based on component state (hide, tooltip, …)."
+
+  - type: Markdown
+    content: |
+      The label is rendered through the `View` engine, so it can be a plain string or a full component structure (`{type: strong, content: …}`).
 
   - type: RjBuildDescriber
     title: "Interactive Example: Display label from value"
@@ -64,8 +96,123 @@ renderView:
 
   - type: Markdown
     content: |
+      ## Loose matching
+
+      By default an option matches the current value only on **strict** equality (`===`), so `1` (number) and `"1"` (string) are two different values and no label is found.
+
+      This bites when the JS type of the same identifier is not guaranteed across sources. A typical case is a decoupled backend that renders an entity reference id as a **string** when reading the entity, but echoes it back as a **number** in its save response: the label is correct on load, then disappears right after a save — until a full reload restores the original type.
+
+      Set `loose: true` to compare the values as strings instead:
+
+      ```yaml
+      - type: LabelFromValue
+        dataLocation: ~.stage
+        dynamicOptions: ~~.allStages
+        loose: true
+      ```
+
+      Nullish values are never coerced: an empty value (`null` / `undefined`) still matches nothing, so it cannot accidentally match an option whose value is the `"null"` string. `loose` is opt-in — omitted, the component behaves exactly as before.
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Loose matching"
+    description:
+      - type: Markdown
+        content: |
+          Both components read the same value, `"2"` (a **string**), against options whose values are **numbers**. Only the loose one finds the label.
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: strong
+              content: "Strict (default): "
+            - type: LabelFromValue
+              dataLocation: ~.status
+              options:
+                - label: "Active"
+                  value: 1
+                - label: "Inactive"
+                  value: 2
+                - label: "Pending"
+                  value: 3
+        - type: div
+          content:
+            - type: strong
+              content: "Loose: "
+            - type: LabelFromValue
+              dataLocation: ~.status
+              loose: true
+              options:
+                - label: "Active"
+                  value: 1
+                - label: "Inactive"
+                  value: 2
+                - label: "Pending"
+                  value: 3
+      data:
+        status: "2"
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Options loaded from a backend"
+    description:
+      - type: Markdown
+        content: |
+          `dynamicOptions` reads the options from the data (here `allStages`, as an `additionalDataSource` would provide them). The value is a **number** while the option values are **strings**, hence `loose: true`.
+    toDescribe:
+      renderView:
+        - type: div
+          content:
+            - type: strong
+              content: "Stage: "
+            - type: LabelFromValue
+              dataLocation: ~~.deal.data.stage
+              dynamicOptions: ~~.allStages
+              loose: true
+      data:
+        allStages:
+          - label: "Discovery"
+            value: "12"
+          - label: "Negotiation"
+            value: "13"
+          - label: "Closed won"
+            value: "14"
+        deal:
+          data:
+            stage: 13
+
+  - type: RjBuildDescriber
+    title: "Interactive Example: Inside a template, against global data"
+    description:
+      - type: Markdown
+        content: |
+          Within a template, `~~.` reaches the global data while `~.` would stay in the template scope.
+    toDescribe:
+      renderView:
+        - load: userCard
+      templates:
+        userCard:
+          type: div
+          content:
+            - "Admin: "
+            - type: LabelFromValue
+              dataLocation: ~~.isAdmin
+              options:
+                - label: "Yes"
+                  value: true
+                - label: "No"
+                  value: false
+      data:
+        isAdmin: true
+
+  - type: Markdown
+    content: |
+      ## Notes
+
+      - The first matching option wins; the options list is not deduplicated.
+      - When no option matches the value (or the matched option carries no `label`), nothing is displayed — the value itself is not used as a fallback label.
+      - An empty value (`null`, `undefined`, `""`) therefore renders nothing, unless an option explicitly declares that value.
+
       ## Limitations
-      - Only the first matching label is displayed; duplicate values in options are not supported.
-      - No support for grouped options or nested structures.
-      - No built-in formatting for the label (use a wrapper if needed).
-      - If no options are provided, the raw value is shown.
+
+      - No support for grouped options or nested option structures.
+      - No built-in formatting of the label (wrap the component if needed).
+      - Multi-value data (an array of values) is not supported: the whole array is compared to each option value.
