@@ -335,6 +335,46 @@ renderView:
 
       The registry must be a **shared singleton**: every `DataSync` that resolves the same `dataSyncGroups` object joins the same groups. Provide one instance, not one per render.
 
+      ## Host-controlled saving (`useDataSyncPolicy`)
+
+      Some hosts decide *when* the content is saved, instead of each `DataSync`: an editor with a global **Save** button, for example. The same RjBuild can then autosave in one host and wait for the Save button in another, without any change to its YAML.
+
+      Register a `useDataSyncPolicy` hook under `plugins.hook`. It is called on every render of every `DataSync`, with the resolved store path of the syncable (without the `data.` prefix) and the `DataSync` props, and returns the policy of this syncable:
+
+      | Key | Type | Description |
+      |-----|------|-------------|
+      | `manual` | boolean | `true` holds the user edits instead of saving them. Default: `false` (the `mode` of the `DataSync` applies). |
+      | `flushSignal` | any | In manual mode, a change of this value saves the held edits. Its value at mount does not save anything. |
+      | `onDirty` | function | Called on each held edit, e.g. to enable a Save button or a "leave the page?" guard. |
+      | `defaultMergeKey` | function(syncable) | The group identity used when the `DataSync` has no `mergeKey`, e.g. `(syncable) => syncable?.item_url`. Return `null` to leave the syncable alone. |
+
+      ```js
+      import { useContext } from "react";
+
+      const useDataSyncPolicy = ({ path, props }) => {
+        // The host state, e.g. from a React context provided by the editor.
+        const editor = useContext(EditorContext);
+
+        return {
+          manual: Boolean(editor?.editing) && path === "content",
+          flushSignal: editor?.saveCount,
+          onDirty: editor?.markDirty,
+          defaultMergeKey: (syncable) => syncable?.item_url,
+        };
+      };
+
+      const plugins = mergeComponentCollections([{ hook: { useDataSyncPolicy } }]);
+      ```
+
+      Behavior in manual mode:
+      - An edit is held and `onDirty` is called. The `trigger` property still saves immediately.
+      - When `flushSignal` changes, each `DataSync` holding edits saves them once. In a `mergeKey` group, only the owner writes, with the latest shared data.
+      - The edits are still mirrored live to the other members of the group, so that every mount shows the same content, and so that the owner writes the edits made on the other mounts.
+
+      Without the hook, every `DataSync` follows its own `mode`, and only an explicit `mergeKey` groups syncables. The hook is a plugin: it applies to the roots (and subroots) that receive it, so an app can restrict it to an editor.
+
+      **Limitation**: in manual mode, the live mirror follows each store change. In a form updated on each keystroke (`TextField`), each keystroke is mirrored to the other members of the group.
+
       ## Using with Templates
 
       `DataSync` supports `TemplateContext`, so it can be used inside templates to sync individual items in a list:
@@ -382,6 +422,6 @@ renderView:
       - Only one sync can be active at a time per `DataSync` instance. Concurrent changes while a sync is in flight are not queued.
       - The entire Syncable Object is sent in the POST body, not just the `data` field.
       - Only POST requests are supported for submission. Custom HTTP methods are not configurable.
-      - `item_url` and `delete_url` are part of the Syncable Object structure but are not used by the component itself. They are available for the backend or for other components to use.
+      - `delete_url` is part of the Syncable Object structure but is not used by the component itself. `item_url` is only used to recognize a syncable reloaded from the server (its data is then not posted back).
       - No built-in support for optimistic updates. The local data is replaced by the server response.
       - CORS errors are not retried (they are indistinguishable from network errors when the browser is online).

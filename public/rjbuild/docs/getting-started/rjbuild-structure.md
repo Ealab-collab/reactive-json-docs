@@ -336,9 +336,13 @@ additionalDataSource:
     blocking: true
 ```
 
+**Array values:** when the value resolves to an array, the param is repeated for each item: `{ param: "domains", value: ~~.domains }` with `domains: ["a.fr", "b.fr"]` gives `?domains=a.fr&domains=b.fr`. The empty items are skipped, and an empty array counts as an empty value. For a PHP backend, name the param with brackets (`domains[]`) to receive an array.
+
 **Null handling for params:**
 - If either the key or the value resolves to `null`/empty and `required` is absent or `false`, the param is **silently omitted** from the URL.
 - If either resolves to `null`/empty and `required: true` is set, the entire URL is **aborted**, triggering `fallbackDataSource` if defined.
+
+An aborted URL logs a warning naming the caller (`additionalDataSource`, `redirectNow`, `href attribute`...), the empty part and its position in the array.
 
 ```yaml
 additionalDataSource:
@@ -409,7 +413,7 @@ The segments format is also accepted by:
 - the URL attributes (`href`, `src`, `action`, `formAction`, `poster`) of any element: the attribute is omitted when a required segment is empty;
 - `parts` of the [joinData](../core/reaction/joinData.md) reaction, which writes the composed string in the data.
 
-There, the references are evaluated in the current template context: `~.slug` reads the current template data (e.g. the current `Switch` item), `~~.` the global data, `~>key` an ancestor. In `additionalDataSource.src`, both `~.` and `~~.` read the root data.
+There, the references are evaluated in the current template context: `~.slug` reads the current template data (e.g. the current `Switch` item), `~~.` the global data, `~>key` an ancestor. In `additionalDataSource.src`, both `~.` and `~~.` read the root data. In a reaction, the event placeholders also work in the parts, `required` included: `{ segment: "<reactive-json:event-new-value>.id", required: true }`.
 
 ```yaml
 - type: a

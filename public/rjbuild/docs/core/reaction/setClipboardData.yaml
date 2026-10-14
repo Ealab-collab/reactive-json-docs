@@ -29,7 +29,7 @@ renderView:
       - When triggered, the reaction evaluates the `value` property.
       - A string or a number is copied with the `navigator.clipboard.writeText()` API. Other values (objects, arrays) and empty values are ignored.
       - Outside a secure context (plain http on a host other than `localhost`), where the Clipboard API is not available, or when it fails, the copy falls back to the deprecated `copy` command on a temporary text field.
-      - An error is logged to the console if the copy fails, and `statusPath` receives `"failed"`.
+      - An error is logged to the console if the copy fails, and `statusPath` receives `"failed"`. A value that cannot be copied (empty, object, array) also reports `"failed"`.
 
       ## Limitations
 
