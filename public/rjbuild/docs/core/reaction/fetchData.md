@@ -14,7 +14,7 @@
 - `requestKey` (string, optional): Identifier used to group requests that should cancel each other. When set, firing a new request with the same key aborts the previous one client-side (via AbortController). Different keys are independent. Bypasses the global lock automatically. See [Concurrency control](#concurrency-control--requestkey) below.
 - `updateOnlyData` (boolean, optional): When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false.
 - `updateDataAtLocation` (string, optional): When `updateOnlyData` is true, specifies where to place the response data using template path syntax (e.g., "~~.userProfile", "~.config.settings"). If not specified, replaces the entire data object.
-- `url` (string, required): The URL to call (must be a static string, dynamic URLs are not supported)
+- `url` (string or array, required): The URL to call: a string or a template reference (`~~.endpoint`), or an array of segments built like the `src` of `additionalDataSource` (literal strings, references evaluated in the current template context, `{segment, required}`, `{param, value, required}`). No request is sent when the URL is empty, or when a required segment is empty. See [Dynamic URLs with `src` as Array](../../getting-started/rjbuild-structure.md#dynamic-urls-with-src-as-array).
 
 ## Behavior
 - Supports configurable HTTP methods (GET by default for backward compatibility)
@@ -231,6 +231,26 @@ actions:
     httpMethod: "delete"
     refreshAppOnResponse: false
 ```
+
+### URL built from the data
+
+```yaml
+- type: button
+  content: "Load"
+  actions:
+    - what: fetchData
+      on: click
+      url:
+        - "/api/items/"
+        - segment: ~.id
+          required: true
+        - param: display
+          value: ~~.display
+      updateOnlyData: true
+      updateDataAtLocation: ~~.details
+```
+
+Inside a `Switch` item, `~.id` reads the item: each button loads its own item. Nothing is fetched when the item has no `id`.
 
 ## Limitations
 - Only one request can be active at a time

@@ -11,6 +11,10 @@ Reactions in Reactive-JSON allow you to respond to user events and perform opera
 - **[addData](./addData.md)**: Adds new data to the specified path
 - **[removeData](./removeData.md)**: Removes data from the specified path
 - **[moveData](./moveData.md)**: Moves data from one path to another
+- **[toggleData](./toggleData.md)**: Adds a value to an array when absent, removes it when present
+- **[collectField](./collectField.md)**: Writes the values of a field of every item of a collection as an array
+- **[joinData](./joinData.md)**: Writes a string built from several parts (literals, references, segments)
+- **[stringifyData](./stringifyData.md)**: Writes the JSON representation of a value
 
 ### Network Operations
 - **[fetchData](./fetchData.md)**: Fetches data from a URL using GET requests
@@ -21,4 +25,5 @@ Reactions in Reactive-JSON allow you to respond to user events and perform opera
 - **[redirectNow](./redirectNow.md)**: Performs an immediate redirect
 - **[triggerEvent](./triggerEvent.md)**: Triggers a custom event
 - **[postMessage](./postMessage.md)**: Sends a message to another window/frame
+- **[printPage](./printPage.md)**: Opens the print dialog of the browser
 

@@ -146,13 +146,22 @@ Use the `for` attribute to associate labels with form elements for accessibility
 ```
 
 ### Radio Buttons
+
+Each radio must be checked only when the stored value is its own. `checked: ~.selectedSize` would check every radio as soon as a size is selected, so compare the value with an attribute transform:
+
 ```yaml
 - type: input
   attributes:
     type: "radio"
     name: "size"
     value: "small"
-    checked: ~.selectedSize
+  attributeTransforms:
+    - what: setAttributeValue
+      name: checked
+      mode: replace
+      value: true
+      when: ~.selectedSize
+      is: "small"
   actions:
     - what: setData
       on: change
@@ -164,13 +173,21 @@ Use the `for` attribute to associate labels with form elements for accessibility
     type: "radio"
     name: "size"
     value: "large"
-    checked: ~.selectedSize
+  attributeTransforms:
+    - what: setAttributeValue
+      name: checked
+      mode: replace
+      value: true
+      when: ~.selectedSize
+      is: "large"
   actions:
     - what: setData
       on: change
       path: ~.selectedSize
       value: "large"
 ```
+
+A checkbox or radio without a `checked` binding (attribute or attribute transform) is forced to unchecked and never shows a user's click. [CheckBoxField](../element/form/CheckBoxField.md) with `controlType: radio` handles all of this by itself.
 
 ## Advanced Patterns
 

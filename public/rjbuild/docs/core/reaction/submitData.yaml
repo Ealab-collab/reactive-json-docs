@@ -15,8 +15,10 @@ renderView:
     content:
       - term:
           code: url
-          after: "(string, required)"
-        details: "The destination URL for the request"
+          after: "(string or array, required)"
+        details:
+          type: Markdown
+          content: "The destination URL for the request: a string or a template reference, or an array of segments built like the `src` of `additionalDataSource` (references evaluated in the current template context). No request is sent when the URL is empty, or when a required segment is empty."
       - term:
           code: httpMethod
           after: "(string, optional)"

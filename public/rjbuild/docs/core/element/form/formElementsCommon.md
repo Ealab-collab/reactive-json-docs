@@ -95,6 +95,38 @@ const onChange = (e) => {
 
 This ensures consistent behavior across TextField, NumberField, SelectField, CheckBoxField, TextAreaField, and DateField components.
 
+## evaluateFieldOptions Function
+
+This utility returns the evaluated options of an option-based component (`SelectField`, `CheckBoxField`, `LabelFromValue`). Use it in a custom component that reads `options` / `dynamicOptions` / `optionMapping`, so that it supports the same option sources as the core components.
+
+### Parameters
+
+- `props` (object): The component props. The function reads `dynamicOptions`, `options` and `optionMapping`.
+- `globalDataContext` (object): The global data context object
+- `templateContext` (object): The template context object
+
+### Return Value
+
+An array of option objects with evaluated `label` and `value` (empty when the source is not an array):
+
+- The source is `props.dynamicOptions` (a template reference, takes precedence) or the static `props.options` array.
+- With `props.optionMapping`, the mapping is evaluated for each item, the item being the template context (`~`). The mapped keys override the item keys.
+- Without `props.optionMapping`, the `label` and `value` of each item are evaluated in the component's template context. A scalar item is used as both label and value.
+
+### Usage Example
+
+```javascript
+const options = evaluateFieldOptions({ props, globalDataContext, templateContext });
+
+return (
+    <ul>
+        {options.map((option, index) => (
+            <li key={index} data-value={option.value}>{option.label}</li>
+        ))}
+    </ul>
+);
+```
+
 ## Limitations
 
 - Template data modification may not be the ideal approach (noted in code comments)

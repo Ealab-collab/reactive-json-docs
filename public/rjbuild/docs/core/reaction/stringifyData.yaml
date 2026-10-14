@@ -1,0 +1,58 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Reaction: stringifyData
+
+      The `stringifyData` reaction writes the JSON representation of a value (`JSON.stringify`) at a location. Use it to send structured data (an array, an object) to an endpoint that expects a text field.
+
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: from
+          after: "(string, required)"
+        details: "The value to serialize (template syntax)."
+      - term:
+          code: path
+          after: "(string, required)"
+        details: "The location receiving the JSON string (template syntax)."
+
+  - type: Markdown
+    content: |
+      ## Behavior
+
+      - The JSON string is written synchronously, in the order of the actions list. Placed before a `submitData` of the same event, it guarantees that the submitted data holds the fresh JSON.
+      - An undefined value writes an empty string.
+      - The value is read from the complete data, even inside a `DataFilter`.
+
+  - type: RjBuildDescriber
+    title: "Serialize a list"
+    description: "The button writes the JSON of the widgets list in payload.layout."
+    toDescribe:
+      renderView:
+        - type: button
+          attributes:
+            type: button
+          content: "Serialize"
+          actions:
+            - what: stringifyData
+              on: click
+              from: ~~.widgets
+              path: ~~.payload.layout
+        - type: pre
+          content: ~~.payload.layout
+      data:
+        widgets:
+          - id: "sales"
+            width: 2
+          - id: "leads"
+            width: 1
+        payload:
+          layout: ""
+
+  - type: Markdown
+    content: |
+      ## Limitations
+
+      - The JSON is compact (no indentation).

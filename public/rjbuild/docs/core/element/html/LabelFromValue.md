@@ -19,8 +19,9 @@ With `status: 2` in the data, this renders `Inactive`.
 ## Properties
 
 - `dataLocation` (string, optional): Path to the value to resolve. Without it, the value is read from the template context under the component's `datafield`.
-- `options` (array, optional): Array of `{label, value}` objects. Ignored when `dynamicOptions` is set.
-- `dynamicOptions` (any, optional): Template reference resolving to the options array (e.g. `~~.allStages`, typically options loaded from a backend). Takes precedence over `options`.
+- `options` (array, optional): Array of `{label, value}` objects (both support template evaluation). Ignored when `dynamicOptions` is set.
+- `dynamicOptions` (any, optional): Template reference resolving to the options array (e.g. `~~.allStages`, typically options loaded from a backend). Takes precedence over `options`. The items can be `{label, value}` objects, scalars (each scalar is used as both label and value), or objects of any shape mapped with `optionMapping`.
+- `optionMapping` (object, optional): Builds each option from an item of the options list, exactly like in `SelectField` and `CheckBoxField`. It is evaluated once per item, **with the item as the template context** (`~.title` reads the item's `title`, `~~.` still reads the global data). The mapped keys override the item's keys.
 - `defaultFieldValue` (any, optional): Value used when no data is present.
 - `loose` (boolean, optional): Matches the options by `String()`-coerced equality instead of the default strict one (see [Loose matching](#loose-matching)). Omitted or `false` = strict equality (original behavior).
 - `actions` (array, optional): Actions and conditional reactions to execute based on component state (hide, tooltip, …).
@@ -98,6 +99,29 @@ data:
 ```
 
 The value is a number while the option values are strings: without `loose`, nothing would be displayed.
+
+### Options of any shape, with a mapping
+
+```yaml
+renderView:
+  - type: LabelFromValue
+    dataLocation: ~~.deal.stage
+    dynamicOptions: ~~.stages
+    optionMapping:
+      label: ~.title
+      value: ~.id
+
+data:
+  stages:
+    - id: "new"
+      title: "New"
+    - id: "won"
+      title: "Won"
+  deal:
+    stage: "won"
+```
+
+Renders: `Won`. Use the same `optionMapping` as the `SelectField` editing the value.
 
 ### Inside a template, against global data
 

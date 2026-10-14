@@ -7,7 +7,7 @@
 - The response can refresh the app (default) or be ignored.
 
 ## Properties
-- `url` (string, required): The destination URL for the request
+- `url` (string or array, required): The destination URL for the request: a string or a template reference, or an array of segments built like the `src` of `additionalDataSource` (references evaluated in the current template context). No request is sent when the URL is empty, or when a required segment is empty. See [Dynamic URLs with `src` as Array](../../getting-started/rjbuild-structure.md#dynamic-urls-with-src-as-array).
 - `httpMethod` (string, optional): The HTTP method to use (default: "post")
 - `data` (object, optional): The data to send. If not specified, data is sent in an object with the structure `{ data: globalDataContext.templateData }`. If `__state` exists in the context, it is automatically added.
 - `refreshAppOnResponse` (boolean, optional): If true (default), reloads the application with the server response. If false, the response is ignored and **no change is made to the application's state or display** (just like `fetchData`).

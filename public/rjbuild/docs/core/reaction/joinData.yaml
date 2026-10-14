@@ -1,0 +1,87 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Reaction: joinData
+
+      The `joinData` reaction writes a string built from several parts at a location: a URL that depends on the data, a label, a key. YAML has no string concatenation; `joinData` fills this gap.
+
+      ## Properties
+
+  - type: DefinitionList
+    content:
+      - term:
+          code: path
+          after: "(string, required)"
+        details: "The location receiving the string (template syntax)."
+      - term:
+          code: parts
+          after: "(array, required)"
+        details:
+          type: Markdown
+          content: |
+            The parts of the string, in the format of the `src` of `additionalDataSource` (see *Dynamic URLs with `src` as Array* in [RjBuild structure](../../getting-started/rjbuild-structure)):
+            - a literal string;
+            - a template reference (`~.slug`, `~~.id`, `~>item.id`), evaluated in the current template context;
+            - `{segment, required}`: a reference used as a path part;
+            - `{param, value, required}`: a query parameter, appended after the path (`?key=value`, or `&key=value` when the path already has a query string).
+
+  - type: Markdown
+    content: |
+      ## Behavior
+
+      - An empty reference adds an empty string.
+      - An empty `required` segment or parameter cancels the write: the location keeps its value. Mark the parts that must never be missing as required, to avoid writing a truncated URL.
+      - A non-required parameter whose key or value is empty is omitted.
+
+  - type: RjBuildDescriber
+    title: "Compose a URL per item"
+    description: "Each button writes the URL of its item; the required segment prevents a truncated URL."
+    toDescribe:
+      renderView:
+        - type: Switch
+          content: ~~.articles
+          singleOption:
+            load: article
+        - type: div
+          content:
+            - type: strong
+              content: "URL: "
+            - type: code
+              content: ~~.url
+      templates:
+        article:
+          type: button
+          attributes:
+            type: button
+            style:
+              marginRight: "0.5rem"
+          content: ~.title
+          actions:
+            - what: joinData
+              on: click
+              path: ~~.url
+              parts:
+                - "/article/"
+                - ~.year
+                - "/"
+                - segment: ~.slug
+                  required: true
+                - param: lang
+                  value: ~~.lang
+      data:
+        lang: "fr"
+        url: ""
+        articles:
+          - title: "With a slug"
+            year: 2026
+            slug: "hello"
+          - title: "Without a slug"
+            year: 2025
+
+  - type: Markdown
+    content: |
+      `fetchData`, `submitData` and `redirectNow` also accept the parts directly in `url` / `to`, and URL attributes (`href`, `src`...) accept them too: use `joinData` when the composed string must be stored, or shown.
+
+      ## Limitations
+
+      - The parts are joined as they are: path parts are not URL-encoded (only parameters are).

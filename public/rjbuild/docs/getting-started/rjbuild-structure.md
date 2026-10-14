@@ -355,7 +355,7 @@ additionalDataSource:
 
 #### Mixing all three types
 
-Path parts (plain strings, `~~.`/`~.` strings, and `segment` objects) are concatenated in order. All `param` objects are collected and appended as a query string after the path.
+Path parts (plain strings, `~~.`/`~.` strings, and `segment` objects) are concatenated in order. All `param` objects are collected and appended as a query string after the path. When the path already holds a query string (`/api/items?sort=asc`), the parameters continue it with `&`.
 
 ```yaml
 additionalDataSource:
@@ -398,6 +398,24 @@ additionalDataSource:
 data:
   taskId: ""    # Will be overridden by dataOverride
   timeLogs: []
+```
+
+#### The same format elsewhere
+
+The segments format is also accepted by:
+
+- `url` of the [fetchData](../core/reaction/fetchData.md) and [submitData](../core/reaction/submitData.md) reactions: no request is sent when a required segment is empty;
+- `to` of the [redirectNow](../core/reaction/redirectNow.md) reaction: no navigation when a required segment is empty;
+- the URL attributes (`href`, `src`, `action`, `formAction`, `poster`) of any element: the attribute is omitted when a required segment is empty;
+- `parts` of the [joinData](../core/reaction/joinData.md) reaction, which writes the composed string in the data.
+
+There, the references are evaluated in the current template context: `~.slug` reads the current template data (e.g. the current `Switch` item), `~~.` the global data, `~>key` an ancestor. In `additionalDataSource.src`, both `~.` and `~~.` read the root data.
+
+```yaml
+- type: a
+  attributes:
+    href: ["/article/", ~.year, "/", { segment: ~.slug, required: true }]
+  content: ~.title
 ```
 
 ### Fallback Sources

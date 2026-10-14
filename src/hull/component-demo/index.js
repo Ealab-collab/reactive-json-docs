@@ -152,14 +152,23 @@ export const docsPageNavigation = {
                     "/docs/core/reaction/addData": {
                         title: "addData",
                     },
+                    "/docs/core/reaction/collectField": {
+                        title: "collectField",
+                    },
                     "/docs/core/reaction/fetchData": {
                         title: "fetchData",
+                    },
+                    "/docs/core/reaction/joinData": {
+                        title: "joinData",
                     },
                     "/docs/core/reaction/moveData": {
                         title: "moveData",
                     },
                     "/docs/core/reaction/postMessage": {
                         title: "postMessage",
+                    },
+                    "/docs/core/reaction/printPage": {
+                        title: "printPage",
                     },
                     "/docs/core/reaction/redirectNow": {
                         title: "redirectNow",
@@ -173,8 +182,14 @@ export const docsPageNavigation = {
                     "/docs/core/reaction/setData": {
                         title: "setData",
                     },
+                    "/docs/core/reaction/stringifyData": {
+                        title: "stringifyData",
+                    },
                     "/docs/core/reaction/submitData": {
                         title: "submitData",
+                    },
+                    "/docs/core/reaction/toggleData": {
+                        title: "toggleData",
                     },
                     "/docs/core/reaction/triggerEvent": {
                         title: "triggerEvent",

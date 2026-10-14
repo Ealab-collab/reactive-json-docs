@@ -76,6 +76,53 @@ renderView:
 
   - type: Markdown
     content: |
+      ## URL attributes
+
+      The URL attributes (`href`, `src`, `action`, `formAction`, `poster`) accept an array of segments, in the format of the `src` of `additionalDataSource` (see *Dynamic URLs with `src` as Array* in [RjBuild structure](../../getting-started/rjbuild-structure)). The references are evaluated in the current template context, so each item of a `Switch` gets its own URL:
+
+      ```yaml
+      - type: a
+        attributes:
+          href:
+            - "/article/"
+            - ~.year
+            - "/"
+            - segment: ~.slug
+              required: true
+        content: ~.title
+      ```
+
+      When a required segment is empty, the attribute is omitted. An array in another attribute is evaluated as before (each item separately).
+
+  - type: Markdown
+    content: |
+      ## Form controls
+
+      `input`, `textarea` and `select` elements are rendered as **controlled** React elements: their `value` defaults to `""`.
+
+      A checkbox or radio `input` is controlled by its `checked` attribute, which defaults to `false`. Without a binding, the input never shows as checked, whatever its reactions do to the data. Bind it to the data:
+
+      - a boolean: `checked: ~.isSelected` (a falsy value leaves the input unchecked);
+      - a comparison or a list membership: an `attributeTransforms` entry setting `checked`, with a condition (`is`, `contains`...).
+
+      ```yaml
+      - type: input
+        attributes:
+          type: checkbox
+          value: ~.label
+        attributeTransforms:
+          - what: setAttributeValue
+            name: checked
+            mode: replace
+            value: true
+            when: ~~.lead.sessions
+            contains: ~.label
+      ```
+
+      A warning is logged when a checkbox or radio has event reactions (`on: change`...) but neither a `checked` attribute nor an attribute transform on `checked`. To store a value or a list of values, prefer [CheckBoxField](../form/CheckBoxField), which binds `checked` itself.
+
+  - type: Markdown
+    content: |
       ## Limitations
       - The `tag` property does not support template evaluation and must be a static string.
       - No validation of tag names; invalid tags may cause rendering errors.

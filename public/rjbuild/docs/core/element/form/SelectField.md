@@ -22,8 +22,9 @@ The `SelectField` component provides a native HTML select dropdown with automati
 - `dataLocation` (string, optional): Path to bind the field value in the data context.
 - `defaultFieldValue` (any, optional): Default value when no data is present.
 - `label` (string or View props, optional): Field label text (supports template evaluation and View component rendering).
-- `options` (array, optional): Static array of option objects with `label` and `value` properties.
-- `dynamicOptions` (string, optional): Template path to dynamic options array (e.g., `~.availableCategories`). Takes precedence over `options` if both are provided.
+- `options` (array, optional): Static array of option objects with `label` and `value` properties (both support template evaluation).
+- `dynamicOptions` (string, optional): Template path to dynamic options array (e.g., `~.availableCategories`). Takes precedence over `options` if both are provided. The items can be `{label, value}` objects, scalars (each scalar is used as both label and value), or objects of any shape mapped with `optionMapping`.
+- `optionMapping` (object, optional): Builds each option from an item of the options list. It is evaluated once per item, **with the item as the template context**: `~.title` reads the item's `title`, `~` is the whole item, `~~.` still reads the global data. The mapped keys (`label`, `value`) override the item's keys.
 - `allowEmptyStringAsValue` (boolean, optional): Preserve empty strings as `""` instead of converting to `undefined` (default: `false`).
 - `attributes` (object, optional): Attributes applied to the container div (or merged with inputAttributes if no wrapper).
 - `inputAttributes` (object, optional): Attributes applied directly to the select element.
@@ -109,19 +110,21 @@ The `label` property supports both simple strings and View component rendering, 
   dynamicOptions: ~.categories
 ```
 
-## Option Labels
+## Option Labels and Values
 
-Option labels support template evaluation, allowing dynamic content:
+The `label` and the `value` of each option support template evaluation: a string that is a whole template reference (`~.key`, `~~.key`, `~>key`...) is replaced by the referenced data. Text around a reference is not interpolated (`"Item: ~.itemName"` is displayed as is).
 
 ```yaml
 - type: SelectField
-  dataLocation: ~.item
+  dataLocation: ~.owner
   options:
-    - label: "Item: ~.itemName"
-      value: "item1"
-    - label: ["Count: ", ~.count]
-      value: "item2"
+    - label: "Nobody"
+      value: ""
+    - label: ~~.currentUser.name
+      value: ~~.currentUser.id
 ```
+
+Inside a template (a `Switch` item, for example), `~.` reads the item data, so each item can offer its own option.
 
 ## Empty Options Handling
 
@@ -209,6 +212,29 @@ data:
     - label: "Music"
       value: "music"
   selectedCategory: ""
+```
+
+### Dynamic Options with a Mapping
+
+Use `optionMapping` when the items of the list do not have `label` / `value` keys:
+
+```yaml
+renderView:
+  - type: SelectField
+    dataLocation: ~.stage
+    label: "Stage:"
+    dynamicOptions: ~.stages
+    optionMapping:
+      label: ~.title
+      value: ~.id
+
+data:
+  stages:
+    - id: "new"
+      title: "New"
+    - id: "won"
+      title: "Won"
+  stage: ""
 ```
 
 ### Custom Attributes
@@ -369,7 +395,7 @@ data:
 - **Automatic synchronization**: Unlike raw HTML elements that require manual setData actions
 - **Flexible wrapper**: Avoids unnecessary HTML when not needed
 - **Intelligent value handling**: Automatic conversion of boolean and null strings
-- **Dynamic options**: Options can be provided via template evaluation using `dynamicOptions`
+- **Dynamic options**: Options can be provided via template evaluation using `dynamicOptions`, from a list of any shape with `optionMapping`
 - **Label flexibility**: Supports both simple strings and View component rendering
 - **Empty state handling**: Gracefully handles empty options
 

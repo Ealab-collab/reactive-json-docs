@@ -52,10 +52,10 @@ renderView:
           content: "When true and `refreshAppOnResponse` is true, only updates the data section instead of replacing the entire RjBuild. Preserves templates and renderView. Default: false"
       - term:
           code: url
-          after: "(string, required)"
+          after: "(string or array, required)"
         details:
           type: Markdown
-          content: "The URL to call (must be a static string, dynamic URLs are not supported)"
+          content: "The URL to call: a string or a template reference (`~~.endpoint`), or an array of segments built like the `src` of `additionalDataSource` (literal strings, references evaluated in the current template context, `{segment, required}`, `{param, value, required}`). No request is sent when the URL is empty, or when a required segment is empty."
 
   - type: Markdown
     content: |

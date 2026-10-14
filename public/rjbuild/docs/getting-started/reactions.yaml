@@ -96,6 +96,10 @@ renderView:
       - **[addData](../core/reaction/addData)**: Adds new data to the specified path.
       - **[removeData](../core/reaction/removeData)**: Removes data from the specified path.
       - **[moveData](../core/reaction/moveData)**: Moves data from one path to another.
+      - **[toggleData](../core/reaction/toggleData)**: Adds a value to an array when absent, removes it when present.
+      - **[collectField](../core/reaction/collectField)**: Writes the values of a field of every item of a collection as an array.
+      - **[joinData](../core/reaction/joinData)**: Writes a string built from several parts.
+      - **[stringifyData](../core/reaction/stringifyData)**: Writes the JSON representation of a value.
 
       ### Network Operations
       - **[fetchData](../core/reaction/fetchData)**: Fetches data from a URL using GET requests.
@@ -106,6 +110,7 @@ renderView:
       - **[redirectNow](../core/reaction/redirectNow)**: Performs an immediate redirect.
       - **[triggerEvent](../core/reaction/triggerEvent)**: Triggers a custom event.
       - **[postMessage](../core/reaction/postMessage)**: Sends a message to another window/frame.
+      - **[printPage](../core/reaction/printPage)**: Opens the print dialog of the browser.
 
       For detailed documentation of each reaction, including properties and examples, see their respective documentation pages.
 

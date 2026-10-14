@@ -71,6 +71,10 @@ Reactive-JSON provides several built-in reactions:
 - **addData**: Adds new data to the specified path.
 - **removeData**: Removes data from the specified path.
 - **moveData**: Moves data from one path to another.
+- **toggleData**: Adds a value to an array when absent, removes it when present.
+- **collectField**: Writes the values of a field of every item of a collection as an array.
+- **joinData**: Writes a string built from several parts.
+- **stringifyData**: Writes the JSON representation of a value.
 
 ### Network Operations
 - **fetchData**: Fetches data from a URL using GET requests.
@@ -81,6 +85,7 @@ Reactive-JSON provides several built-in reactions:
 - **redirectNow**: Performs an immediate redirect.
 - **triggerEvent**: Triggers a custom event.
 - **postMessage**: Sends a message to another window/frame.
+- **printPage**: Opens the print dialog of the browser.
 
 For detailed documentation of each reaction, including properties and examples, see their respective documentation pages.
 

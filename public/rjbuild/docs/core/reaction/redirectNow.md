@@ -4,12 +4,14 @@ The `redirectNow` reaction performs an immediate browser redirection to a specif
 
 ## Properties
 
-- `to` (string, required): The URL to redirect to. This value is evaluated, so it can be a static URL or dynamically constructed from data.
+- `to` (string or array, required): The URL to redirect to: a string or a template reference, or an array of segments built like the `src` of `additionalDataSource` (literal strings, references evaluated in the current template context, `{segment, required}`, `{param, value, required}`). See [Dynamic URLs with `src` as Array](../../getting-started/rjbuild-structure.md#dynamic-urls-with-src-as-array).
+- `replace` (boolean, optional): When `true`, the current history entry is replaced instead of adding a new one (the back button does not come back to the current page). Default: `false`.
 
 ## Behavior
 
 - When triggered, the reaction evaluates the `to` property to get the target URL.
-- It then sets `window.location.href` to the resulting URL, causing the browser to navigate to the new page.
+- It then sets `window.location.href` to the resulting URL (or calls `window.location.replace()` with `replace: true`), causing the browser to navigate to the new page.
+- Nothing happens when the URL is empty, or when a required segment is empty: the user is never sent to a truncated URL.
 
 ## Example
 
@@ -25,6 +27,22 @@ renderView:
       - what: redirectNow
         on: click
         to: "https://github.com/reactive-json/reactive-json"
+```
+
+### Redirecting to a URL built from a response
+
+After a creation, the URL of the new item is only known from the response:
+
+```yaml
+- what: redirectNow
+  on: response
+  replace: true
+  to:
+    - "/dashboards/"
+    - segment: "<reactive-json:event-new-value>.id"
+      required: true
+    - param: edit
+      value: "1"
 ```
 
 ## Limitations

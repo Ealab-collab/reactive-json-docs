@@ -15,21 +15,26 @@ renderView:
         details:
           type: Markdown
           content: "The value to be copied to the clipboard. The value is evaluated, so it can be a literal string or a path to data"
+      - term:
+          code: statusPath
+          after: "(string, optional)"
+        details:
+          type: Markdown
+          content: "A location receiving `\"copied\"` or `\"failed\"` once the copy is done, so that the page can react to the outcome."
 
   - type: Markdown
     content: |
       ## Behavior
 
       - When triggered, the reaction evaluates the `value` property.
-      - If the evaluated value is a string, it uses the `navigator.clipboard.writeText()` API to copy it to the clipboard.
-      - If the evaluated value is not a string, the reaction does nothing.
-      - An error is logged to the console if the clipboard operation fails (e.g., due to browser permissions).
+      - A string or a number is copied with the `navigator.clipboard.writeText()` API. Other values (objects, arrays) and empty values are ignored.
+      - Outside a secure context (plain http on a host other than `localhost`), where the Clipboard API is not available, or when it fails, the copy falls back to the deprecated `copy` command on a temporary text field.
+      - An error is logged to the console if the copy fails, and `statusPath` receives `"failed"`.
 
       ## Limitations
 
-      - This reaction relies on the Clipboard API, which requires a secure context (HTTPS) to function in most modern browsers.
       - The user may be prompted for permission to access the clipboard, depending on browser settings.
-      - The reaction only supports copying string values. Numbers and other types will be converted to strings, but objects and arrays will not be copied.
+      - Only strings and numbers are copied: objects and arrays are ignored.
 
   - type: RjBuildDescriber
     title: "Copying text to the clipboard"
@@ -44,5 +49,12 @@ renderView:
             - what: setClipboardData
               on: click
               value: ~.shareable_code
+              statusPath: ~.copyStatus
+        - type: span
+          attributes:
+            style:
+              marginLeft: "0.5rem"
+          content: ["Status: ", ~.copyStatus]
       data:
-        shareable_code: "ABC-123-XYZ" 
+        shareable_code: "ABC-123-XYZ"
+        copyStatus: "" 

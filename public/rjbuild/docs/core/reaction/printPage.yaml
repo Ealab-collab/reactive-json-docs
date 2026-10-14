@@ -1,0 +1,29 @@
+renderView:
+  - type: Markdown
+    content: |
+      # Reaction: printPage
+
+      The `printPage` reaction opens the print dialog of the browser for the current page (`window.print()`).
+
+      ## Properties
+
+      This reaction has no specific property.
+
+  - type: RjBuildDescriber
+    title: "Print button"
+    description: "Clicking the button opens the print dialog."
+    toDescribe:
+      renderView:
+        - type: button
+          attributes:
+            type: button
+          content: "Print"
+          actions:
+            - what: printPage
+              on: click
+
+  - type: Markdown
+    content: |
+      ## Limitations
+
+      - The whole page is printed: use print CSS (`@media print`) to hide the parts that must not be printed.

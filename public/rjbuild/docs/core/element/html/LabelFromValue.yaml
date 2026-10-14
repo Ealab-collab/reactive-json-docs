@@ -34,13 +34,19 @@ renderView:
           after: "(array, optional)"
         details:
           type: Markdown
-          content: "Array of `{label, value}` objects. Ignored when `dynamicOptions` is set."
+          content: "Array of `{label, value}` objects (both support template evaluation). Ignored when `dynamicOptions` is set."
       - term:
           code: dynamicOptions
           after: "(any, optional)"
         details:
           type: Markdown
-          content: "Template reference resolving to the options array (e.g. `~~.allStages`, typically options loaded from a backend). Takes precedence over `options`."
+          content: "Template reference resolving to the options array (e.g. `~~.allStages`, typically options loaded from a backend). Takes precedence over `options`. The items can be `{label, value}` objects, scalars (each scalar is used as both label and value), or objects of any shape mapped with `optionMapping`."
+      - term:
+          code: optionMapping
+          after: "(object, optional)"
+        details:
+          type: Markdown
+          content: "Builds each option from an item of the options list, exactly like in `SelectField` and `CheckBoxField`. It is evaluated once per item, **with the item as the template context** (`~.title` reads the item's `title`, `~~.` still reads the global data). The mapped keys override the item's keys."
       - term:
           code: defaultFieldValue
           after: "(any, optional)"
