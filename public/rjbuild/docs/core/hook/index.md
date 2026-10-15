@@ -13,7 +13,7 @@ Hooks in Reactive-JSON are reusable React functions that encapsulate common comp
 - **[useTransformedAttributes](./useTransformedAttributes.md)**: Applies attribute transformations based on configured transformers
 
 ### Hooks provided by the application
-- **useDataSyncPolicy**: Decides how each `DataSync` saves (automatic or held until a flush signal) and how the syncables are grouped. The core has no default implementation: without it, every `DataSync` follows its own `mode`. See [DataSync: Host-controlled saving](../element/special/DataSync.md#host-controlled-saving-usedatasyncpolicy).
+- **useDataSyncPolicy**: Decides how each `DataSync` saves (automatic or held until a flush signal), how the syncables are grouped, and lets the host wait for the saves. The core has no default implementation: without it, every `DataSync` follows its own `mode`. See [DataSync: Host-controlled saving](../element/special/DataSync.md#host-controlled-saving-usedatasyncpolicy).
 
 ## Architecture
 

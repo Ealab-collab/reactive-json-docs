@@ -273,6 +273,7 @@ Register a `useDataSyncPolicy` hook under `plugins.hook`. It is called on every 
 | `manual` | boolean | `true` holds the user edits instead of saving them. Default: `false` (the `mode` of the `DataSync` applies). |
 | `flushSignal` | any | In manual mode, a change of this value saves the held edits. Its value at mount does not save anything. |
 | `onDirty` | function | Called on each held edit, e.g. to enable a Save button or a "leave the page?" guard. |
+| `onSyncStart` | function(promise) | Called when a save starts, whatever starts it (an edit, the flush signal, a trigger, a retry), synchronously and before the request is sent. The promise settles once the save is over, successful or not: it never rejects. See [Waiting for the saves](#waiting-for-the-saves). Since 2.12.0. |
 | `defaultMergeKey` | function(syncable) | The group identity used when the `DataSync` has no `mergeKey`, e.g. `(syncable) => syncable?.item_url`. Return `null` to leave the syncable alone. |
 
 ```js
@@ -286,6 +287,7 @@ const useDataSyncPolicy = ({ path, props }) => {
     manual: Boolean(editor?.editing) && path === "content",
     flushSignal: editor?.saveCount,
     onDirty: editor?.markDirty,
+    onSyncStart: editor?.trackSave,
     defaultMergeKey: (syncable) => syncable?.item_url,
   };
 };
@@ -301,6 +303,41 @@ Behavior in manual mode:
 Without the hook, every `DataSync` follows its own `mode`, and only an explicit `mergeKey` groups syncables. The hook is a plugin: it applies to the roots (and subroots) that receive it, so an app can restrict it to an editor.
 
 **Limitation**: in manual mode, the live mirror follows each store change. In a form updated on each keystroke (`TextField`), each keystroke is mirrored to the other members of the group.
+
+### Waiting for the saves
+
+A Save button often runs a follow-up once the content is stored: it reads a snapshot back, creates a version, or publishes. `onSyncStart` gives the promise of each save, so the host can wait for them.
+
+The saves of a flush start in the effects of the `DataSync` components, after the render that changes `flushSignal`. Wait for them from an effect of the component that holds `flushSignal` (the `DataSync` components being its descendants): React runs it after the effects of its children, once every save of the flush has been reported.
+
+```js
+const EditorProvider = ({ children }) => {
+  const [saveCount, setSaveCount] = useState(0);
+  const pendingSaves = useRef(new Set());
+  const saveWaiters = useRef([]);
+
+  const trackSave = useCallback((promise) => {
+    pendingSaves.current.add(promise);
+    promise.then(() => pendingSaves.current.delete(promise));
+  }, []);
+
+  // Resolves once the saves of this flush, and those already in flight, are over.
+  const save = useCallback(() => new Promise((resolve) => {
+    saveWaiters.current.push(resolve);
+    setSaveCount((count) => count + 1);
+  }), []);
+
+  useEffect(() => {
+    const waiters = saveWaiters.current.splice(0);
+    if (waiters.length === 0) return;
+    Promise.all([...pendingSaves.current]).then(() => waiters.forEach((resolve) => resolve()));
+  }, [saveCount]);
+
+  // Provide saveCount, trackSave and save (with editing and markDirty) through the EditorContext.
+};
+```
+
+Only the saves that start are reported: a held edit starts none, and while a save of a syncable is in flight, no other save of it starts. The outcome of each save is still reported by `syncSuccess` / `syncError` and the status of the syncable.
 
 ## Using with Templates
 
